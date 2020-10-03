@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for park in parks %}
+    <option value="{{ park.pk }}">{{ park.name_short }}</option>
+{% endfor %}

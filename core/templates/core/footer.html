@@ -1,0 +1,152 @@
+{% load class_tag %}
+<div class="">
+    <footer id="sticky-footer" class="py-4 bg-nav-footer text-white-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-md-3">
+                    <h1>
+                        Sitemap
+                    </h1>
+                    <a href="">
+                        Tour operators
+                    </a> <br>
+                    <a href="">
+                        Tour packages
+                    </a> <br>
+                    <a href="{% url 'guides' %}">
+                        Places
+                    </a> <br>
+                    <a href="{% url 'parks_rollup' %}">
+                        Parks & reserves
+                    </a> <br>
+                    <a href="{% url 'photos:index' %}">
+                        Photos
+                    </a> <br>
+                    <a href="{% url 'wildlife' %}">
+                        Wildlife
+                    </a> <br>
+                    <a href="{% url 'articles:index' %}">
+                        Blog
+                    </a>
+                    <br>
+                    <a href="{% url 'about-us' %}">
+                        About
+                    </a>
+                    <br>
+                    <div style="margin-top:2em">
+                        {% if not user.is_authenticated %}
+                        <a class="btn btn-outline-light text-nowrap" data-toggle="modal"
+                            data-target="#registrationModal">Join us</a>
+                        {% endif %}
+                        {% if user.is_authenticated and not user.profile.is_tour_operator %}
+                        <a class="btn btn-outline-light text-nowrap" target='_blank' href="{% url 'add-my-company' %}">
+                            Add my company to YAS
+                        </a>
+                        {% endif %}
+                    </div>
+
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <h1 class="">
+                        Countries
+                    </h1>
+                    <ul>
+                        {% for country in all_countries %}
+                        <li>
+                            <a href="{% url 'country_index' slug=country.slug %}">
+                                <img class="flag" src="{{ country.flag.url }}" alt="{{ country }}">
+                                {{ country }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <h1>
+                        Top destinations
+                    </h1>
+                    <ul class="footer-park">
+                        {% for park in parks_footer %}
+                        <li>
+                            <a href="{% url 'park' slug=park.slug %}">
+                                {{ park }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <h1>
+                        Latest blog posts
+                    </h1>
+                    <ul>
+                        {% for article in articles %}
+                        <li>
+                            <a href="{% url 'articles:view' slug=article.slug %}">
+                                {{ article.title_short }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <hr>
+                    <h1>
+                        Latest reviews
+                    </h1>
+                    <ul class="latest-reviews">
+                        {% for review in reviews %}
+                        <li>
+                            {% if review.is_tour_operator_review %}
+                            <a href="{% url 'tour_operator_review' slug=review.tour_operator.slug review=review.id %}">
+                                {{ review.title_short }}
+                            </a>
+                            {% else %}
+                            <a href="{% url 'park_review' slug=review.park.slug review_pk=review.pk %}">
+                                {{ review.title_short }}
+                            </a>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class=" footer-bottom">
+                <div class="row">
+                    <div class="col-md-4">
+                        <a href="{{ request.scheme }}://{{ request.get_host }}">
+                            <div class="footer-logo"></div>
+                        </a>
+
+                        &copy; {% now "Y" %} Your African Safari Ltd, All rights reserved.
+                    </div>
+                    <div class="col-md-5 text-center">
+                        {% for page in pages %}
+                        <a href="{% url page.slug %}">{{ page }}</a>
+                        {% if not forloop.last %}
+                        |
+                        {% endif %}
+                        {% endfor %}
+                        <p class="text-center">
+                        <p>Contact us at <a class="green"
+                                href="mailto:yas@yourafricansafari.com">yas@yourafricansafari.com</a></p>
+                        </p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <a target="_blank" href="https://www.facebook.com/yourafricansafari">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a target="_blank" href="https://twitter.com/safaricompanies">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a target="_blank" href="https://www.instagram.com/yourafricansafari/">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a target="_blank"
+                            href="https://www.linkedin.com/company/your-african-safari/?trk=biz-brand-tree-co-name">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>

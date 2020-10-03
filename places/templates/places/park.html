@@ -1,0 +1,237 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %} {{ object }} {% endblock %}
+
+{% block extrahead %}
+
+    {% include 'places/park_inserts/park_meta.html' %}
+
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}"></script>
+    <script src="{% static '@google/markerwithlabel/src/markerwithlabel_packed.js' %}"></script>
+    <link href="{% static 'places/css/parks.css' %}" type="text/css" media="all" rel="stylesheet">
+    <script src="{% static 'places/js/parks.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+    {% include 'places/park_inserts/image.html' %}
+
+    <div class="container-fluid px-lg-5 max-width mt-4 mx-auto ">
+        <div class="row px-md-5 px-2 justify-content-between">
+
+            {% include 'places/park_inserts/rating.html' %}
+
+            {% include 'places/park_inserts/park_social_media.html' %}
+
+            <div class="row justify-content-between mt-3 mx-0">
+                <div class="col-xl-8 pr-xl-5 col-lg-12">
+
+
+                    {% include 'places/park_inserts/suitability.html' %}
+
+                    {% include 'places/park_inserts/tabs_home.html' %}
+
+                    <div class="contentbg border-grey py-3 pl-3">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="pb-1 row align-items-center">
+                                    <i class="fas fa-map-signs col-1 mr-2"></i>
+                                    <span class="mr-2">Found in:
+                                        {% for country in countries %}
+                                            <a
+                                                    href="{% url 'country_index' slug=country.slug %}">{{ country }}{% include "places/park_inserts/comma.html" %}</a>
+                                        {% endfor %}
+                </span>
+                                </div>
+                                <div class="pb-1 row align-items-center">
+                                    <i class="fas fa-binoculars col-1 mr-2 "></i>
+                                    <span class="mr-2">Companies: </span>
+                                    <a href="{% url 'all_tour_operator_park' object.slug %}">{{ object.tour_operator_count }}</a>
+                                </div>
+                                <div class="pb-1 row align-items-center">
+                                    <i class="fas fa-map col-1 mr-2"></i>
+                                    <span class="mr-2">Tour packages:</span>
+                                    <a href="{% url 'all_tour_packages_park' object.slug %}">{{ object.itineraries.all.count }}</a>
+                                </div>
+                                <div class="pb-1 row align-items-center">
+                                    <i class="fas fa-paw col-1 mr-2"></i>
+                                    <span class="mr-2">Wildlife:</span>
+                                    <a href="{% url 'park_wildlife' object.slug %}">{{ object.animal_set.count }}
+                                        animals listed</a>
+                                </div>
+
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="pb-1 row align-items-center">
+                                    <i class="fas fa-globe-africa col-1 mr-2 pt-1"></i>
+                                    <span class="mr-2">Total area:</span>
+                                    <span href="#">{{ object.total_area }}</span>
+                                </div>
+
+                                {% if object.year_established %}
+                                    <div class="pb-1 row align-items-center">
+                                        <i class="far fa-clock col-1 mr-2"></i>
+                                        <span class="mr-2">Year established:</span>
+                                        <span href="#">{{ object.year_established }}</span>
+                                    </div>
+                                {% endif %}
+
+                                <div class="pb-1 row align-items-center">
+                                    <i class="fas fa-clinic-medical col-1 mr-2"></i>
+                                    <span class="mr-2">Anti-malarial:</span>
+                                    <span href="#">{{ object.get_anti_malaria_display }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% if object.park_reviews.count %}
+                            <hr class="mr-3 my-1">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4 class="text-dark-grey h4-sm pt-2">What YAS members think</h4>
+
+                                    <div class="row">
+                                        <div class="col-12 col-sm-6">
+                                            <div class=" d-flex  row">
+                    <span class="mr-xl-1 mr-lg-n4 mr-md-2 mr-sm-5 mr-2 col-5 col-sm-5 text-nowrap">Quality of
+                      wildlife:</span>
+
+                                                {% if object.wildlife_quality %}
+
+                                                    <div class="mt-1">
+                                                        {{ object.wildlife_quality | star_rating | safe }}
+                                                    </div>
+
+                                                {% else %}
+                                                    <div class="mt-1">
+                                                        Not reviewed
+                                                    </div>
+
+                                                {% endif %}
+
+                                            </div>
+                                            <div class="pt-2 d-flex  row">
+                                                <span class="mr-xl-1 mr-lg-n4 mr-md-2 mr-sm-5 mr-2 col-5 col-sm-5 text-nowrap">Crowdedness:</span>
+
+                                                {% if object.crowdness_rating %}
+
+                                                    <div class="mt-1">
+                                                        {{ object.crowdness_rating | star_rating | safe }}
+                                                    </div>
+
+                                                {% else %}
+                                                    <div class="mt-1">
+                                                        Not reviewed
+                                                    </div>
+
+                                                {% endif %}
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-6">
+                                            <div class="pt-2 pt-sm-0 d-flex  row">
+                    <span class="mr-xl-2 mr-lg-n4 mr-md-2 mr-sm-5 mr-2 col-5 col-sm-5 text-nowrap">Quality of
+                      lodging:</span>
+
+
+                                                {% if object.lodging_quality %}
+
+                                                    <div class="mt-1">
+                                                        {{ object.lodging_quality | star_rating | safe }}
+                                                    </div>
+
+
+                                                {% else %}
+                                                    <div class="mt-1">
+                                                        Not reviewed
+                                                    </div>
+
+                                                {% endif %}
+
+                                            </div>
+                                            <div class="pt-2 d-flex  row">
+                    <span class="mr-xl-2 mr-lg-n4 mr-md-2 mr-sm-5 mr-2 col-5 col-sm-5 text-nowrap">Most-visited
+                      month:</span>
+
+
+                                                {% if object.most_visited_month %}
+
+                                                    <div class="mt-0">
+                                                        {{ object.most_visited_month }}
+                                                    </div>
+
+                                                {% else %}
+                                                    <div class="mt-0">
+                                                        Not defined
+                                                    </div>
+                                                {% endif %}
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                <span class="font-11 mt-1 text-light-grey d-sm-inline-block d-none">* Crowded parks have a lower
+                  rating</span>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <hr class="mr-3 my-1">
+                        <div>
+                            <h4 class="text-dark-grey h4-sm pt-2 pb-2">Highlights</h4>
+                            <ul class="pl-2 align-middle">
+                                {% for highlight in object.highlights %}
+                                    {% if highlight|length %}
+                                        <li class="my-2 pl-2 pr-1">{{ highlight | safe }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <h2 class="h2-sm pt-4"><strong>About {{ object }}</strong></h2>
+                    <!--Object description needs to go here-->
+                    <div class="admin-content">
+                        {{ object.description | safe }}
+                    </div>
+
+                </div>
+
+                <!--RHC-->
+                {% include 'places/park_inserts/park_right_hand_sidebar.html' %}
+            </div>
+        </div>
+
+        <div class="dropdown-divider d-xl-none"></div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+{% endblock %}
+{% block afterfooter %}
+
+
+    <script>
+        $(".navbar-places").addClass("active");
+    </script>
+
+    <script>
+        $(function () {
+            $("[data-toggle=popover]").popover({
+                html: true,
+                content: function () {
+                    var content = $(this).attr("data-popover-content");
+                    return $(content).children(".popover-body").html();
+                },
+            });
+        });
+    </script>
+
+
+
+{% endblock %}

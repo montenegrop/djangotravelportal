@@ -1,0 +1,66 @@
+{% load static %}
+
+<!-- SIDEBAR -->
+<div class="sidebar" data-color="brown" data-image="{% static 'backend/img/cheetah.jpg' %}">
+  <!-- Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+          Tip 2: you can also add an image using data-image tag-->
+  <div class="sidebar-wrapper">
+    <ul class="nav mt-4 pt-3">
+      <li class="nav-item">
+        <a class="nav-link dashboard" href="{% url 'backend:tour_operator_dashboard' %}">
+          <i class="fas fa-chart-pie"></i>
+          <p>Dashboard</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link edit-profile" href="{% url 'backend:tour_operator_profile' %}">
+          <i class="fas fa-user"></i>
+          <p>Company profile</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link add-tour-package" href="{% url 'backend:tour_operator_packages' %}">
+          <i class="fas fa-map"></i>
+          <p>Tour packages <span class="font-10">({{ number_tour_packages }})</span></p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link client-reviews" href="{% url 'backend:tour_operator_client_review' %}">
+          <i class="far fa-comments"></i>
+          <p>Client reviews <span class="font-10">({{ new_pending_reviews }} new)</span></p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link photos" href="{% url 'backend:tour_operator_photos' %}">
+          <i class="fas fa-camera"></i>
+          <p>Photos <span class="font-10">(87)</span></p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link analytics" href="{% url 'backend:tour_operator_analytics' %}">
+          <i class="fas fa-chart-bar"></i>
+          <p>Analytics</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link quote-requests" href="{% url 'backend:tour_operator_quotes' %}">
+          <i class="far fa-envelope"></i>
+          <p>Quote requests <span class="font-10">({{new_quote_requests}})</span></p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link widgets" href="{% url 'backend:tour_operator_widgets' %}">
+          <i class="far fa-file-code"></i>
+          <p>Your YAS widgets</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'backend:tour_operator_advertise' %}">
+          <i class="fas fa-ad"></i>
+          <p>Advertise</p>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- END SIDEBAR -->

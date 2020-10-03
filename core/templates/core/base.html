@@ -1,0 +1,161 @@
+{% load static %}
+{% load cookielaw_tags %}
+<html>
+
+<head>
+    <!DOCTYPE HTML>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta itemprop="name" content="{% block meta_name %}Your African Safari{% endblock %}" />
+    <meta itemprop="description"
+        content="{% block meta_itemprop_description %}YAS is a comprehensive travel review site for anyone planning an African safari.{% endblock %}" />
+    <meta name="description"
+        content="{% block meta_description %}Compare 5217 safari tours. Read reviews & destination guides. Browse safari animal photos. See where & when to go on safari.{% endblock %}">
+
+    <meta property="og:image"
+        content="{% block meta_og_image %}https://www.yourafricansafari.com/images/logo/logo75x75.png{% endblock %}" />
+    <meta name="twitter:image" content="{% block meta_tw_image %}{% endblock %}" />
+
+    <meta name="title" content="{% block meta_title %}Your African Safari{% endblock %}">
+    <meta name="keywords"
+        content="{% block meta_keywords %}African safaris, Safari reviews, Safari tour operators, Safari game parks{% endblock %}">
+    <meta itemprop="url" content="https://www.yourafricansafari.com" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <link rel="icon" type="image/ico" href="{% static 'core/img/favicon.ico' %}">
+    <title>{% block title %}Your African Safari: Safari holidays, reviews, destinations | 2722 companies{% endblock %}
+    </title>
+    <link  rel="canonical" href="{% block link_canonical %}https://www.yourafricansafari.com/{% endblock %}" />
+    <link rel="apple-touch-icon" href="/images/touch/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72"
+        href="//static3.yourafricansafari.com/images/touch/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114"
+        href="//static3.yourafricansafari.com/images/touch/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="144x144"
+        href="//static3.yourafricansafari.com/images/touch/apple-touch-icon-144x144.png">
+    <link rel="alternate" href="https://www.yourafricansafari.com/rss/all"
+        title="Your African Safari: Safari holidays, reviews, destinations | 2722 companies  [RSS]"
+        type="application/rss+xml" />
+
+    <meta name="twitter:site" content="@safaricompanies">
+    <meta name="twitter:card" content="summary" />
+    <meta property="og:site_name" content="Your African Safari" />
+    <meta property="fb:app_id" content="343626969075192" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="address=no">
+    <!--js libraries -->
+    <script type="application/javascript"  src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+    <script  type="application/javascript" src="{% static 'core/js/popper.min.js' %}"></script>
+    <script type="application/javascript"  src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <!--  jQueryValidate  -->
+    <script type="application/javascript"  src="{% static 'backend/js/plugins/jquery.validate.min.js' %}?v=1.3"></script>
+
+    <!--Pablo javascript - includes Vue -->
+    <script type="text/javascript" src="{% static 'dist/js/yas.js' %}"></script>
+    <script type="application/javascript" src="{% static 'axios/dist/axios.min.js' %}"></script>
+    <script type="application/javascript" src="{% static 'vue-loading-overlay/dist/vue-loading.min.js' %}"></script>
+    <script type="application/javascript" src="{% static 'vue-carousel/dist/vue-carousel.min.js' %}"></script>
+    <script type="application/javascript" src="{% static 'vuejs-paginate/dist/index.js' %}"></script>
+    <script type="application/javascript" src="{% static 'vue-star-rating/dist/star-rating.min.js' %}"></script>
+    <script type="application/javascript" src="{% static 'vuelidate/dist/validators.min.js' %}"></script>
+    <script type="application/javascript" src="{% static 'vuelidate/dist/vuelidate.min.js' %}"></script>
+    <script type="application/javascript" src="{% static 'remarkable-bootstrap-notify/bootstrap-notify.min.js' %}?v=1.3"></script>
+    <script type="application/javascript" src="{% static 'core/bootstrap-maxlength-v1.10.0/bootstrap-maxlength.min.js' %}?v=1.1"></script>
+    <script type="application/javascript" src="{% static 'bootbox/dist/bootbox.all.min.js' %}?v=1.1"></script>
+    <script type="application/javascript" src="{% static 'select2/dist/js/select2.full.min.js' %}"></script>
+    <link type="text/css" rel="stylesheet" href="{% static 'select2/dist/css/select2.min.css' %}" />
+    <script defer type="application/javascript"  src="https://cdn.jsdelivr.net/npm/autonumeric@4.5.4"></script>
+    <script type="application/javascript"  src="{% static 'daterangepicker/daterangepicker.js' %}"></script>
+
+    <link type="text/css" rel="stylesheet" href="{% static 'daterangepicker/daterangepicker.css' %}" />
+
+
+    <!--css libraries -->
+    <link type="text/css" rel="stylesheet" href="{% static 'pretty-checkbox/dist/pretty-checkbox.min.css' %}" />
+    <link type="text/css" rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" />
+    <link type="text/css" rel="stylesheet" href="{% static '@fortawesome/fontawesome-free/css/all.min.css' %}" />
+
+    <link type="text/css" rel="stylesheet" href="{% static 'vue-loading-overlay/dist/vue-loading.css' %}" />
+    <link type="text/css" rel="stylesheet" href="{% static 'core/css/style.css' %}?v=1.6" />
+    <script src="{% static 'cookielaw/js/cookielaw.js' %}" type="text/javascript"></script>
+
+
+
+
+    <!--vue js variables -->
+    <script type='text/javascript'>
+        {% for vue_variable, vue_variable_value in vue_variables.items %}
+        {%  if vue_variable_value %}
+        var {{ vue_variable }} = {{ vue_variable_value | safe }};
+        {%  else  %}
+        var {{ vue_variable }} = '';
+        {% endif %}
+        {% endfor %}
+        {% for vue_variable, vue_variable_value in vue_strings.items %}
+        {%  if vue_variable_value %}
+        var {{ vue_variable }} = "{{ vue_variable_value | safe }}";
+        {%  else  %}
+        var {{ vue_variable }} = '';
+        {% endif %}
+        {% endfor %}
+        axios.defaults.xsrfCookieName = 'csrftoken';
+        axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+    </script>
+    <!--custom js -->
+
+    {% block extrahead %}
+    {% endblock %}
+</head>
+
+<body>
+    {% cookielaw_banner %}
+    {% include 'core/navbar.html' %}
+    {% include "core/is_su.html" %}
+    <div class="content" id="app">
+        {% block content %}
+        {% endblock%}
+        {% include 'core/login_modal.html' %}
+        {% include 'core/registration_modal.html' %}
+    </div>
+    <script type="application/javascript" src="{% static 'core/js/main.js' %}?v=1.8"></script>
+</body>
+
+
+<!--activates vue-tags -->
+<script> instanceVue() </script>
+
+{%if not disable_footer %}
+{% include 'core/footer.html' %}
+{% endif %}
+<script>
+    var RECAPTCHA_SITE_KEY = "{{ RECAPTCHA_SITE_KEY }}";
+</script>
+<script src="https://www.google.com/recaptcha/api.js?render={{ RECAPTCHA_SITE_KEY }}"></script>
+<script>
+</script>
+<script type="module" src="{% static 'users/js/registration.js' %}?v=1.2"></script>
+
+<script>
+    $(document).ready(function () {
+        {% if messages %}
+        {% for message in messages %}
+        $.notify({
+            // options
+            message: '{{ message|safe }}'
+        }, {
+            // settings
+            type: '{{ message.tags|growl_tags }}',
+            delay: 15000,
+            placement: {
+                from: "top",
+                align: "right"
+            },
+        });
+        {% endfor %}
+        {% endif %}
+    })
+</script>
+{% block afterfooter %}
+{% endblock%}
+
+</html>

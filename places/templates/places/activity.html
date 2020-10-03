@@ -1,0 +1,109 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %} African Safari Activities {% endblock %}
+
+
+{% block meta_name %}Your African Safari - {{ object.name }}{% endblock %}
+{% block meta_itemprop_description %}{{ object.description|striptags|safe }}{% endblock %}
+{% block meta_description %}{{ object.description|striptags|safe }}{% endblock %}
+{% block meta_title %}Your African Safari - {{ object.name }}{% endblock %}
+{% block meta_keywords %}Your African Safari, wildlife, {{ object.name }}{% endblock %}
+
+{% block extrahead %}
+    <script src="{% static '@robertorodriguez/yasfresco/dist/js/fresco.js' %}"></script>
+    <link rel="stylesheet" href="{% static '@robertorodriguez/yasfresco/dist/css/fresco.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid px-md-5 max-width wildlife-page-height">
+        <div class="row mt-5 px-md-5 px-2">
+            <div class="col-md col-sm-12 ">
+                <h1 class="h1-sm">
+                    <!--THIS NEEDS TO BE THE NAME OF EACH ACTIVITY-->
+                    <strong>{{ activity.name }}</strong>
+                    <!--END COMMENT-->
+                </h1>
+                <!--THIS NEEDS TO BE THE DESCRIPTION OF EACH ACTIVITY-->
+                <div class="contentbg text-left">
+                    {{ activity.description | safe }}
+                </div>
+                <!--END COMMENT-->
+                <h4 class="mt-4 text-dark-grey h4-sm ">Photos from our community ({{ photos.count }})</h4>
+
+
+                {% if photos.all %}
+                    <div class="mt-4">
+                        <div class="contentbg">
+                            <h2 class="dark-brown h2-sm">
+                                <strong>{{ activity.name }} photos</strong>
+                            </h2>
+                            <div id="gallery" class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+                                <div class="row">
+                                    <!--Maximum of 9 photos to be displayed-->
+                                    {% for photo in photos %}
+
+                                        {% if photo.image %}
+
+                                            <div class="col-lg-4 col-sm-6 col-12">
+                                                <figure itemprop="associatedMedia" itemscope
+                                                        itemtype="http://schema.org/ImageObject">
+                                                    <a data-width="{{ photo.image|width }}"
+                                                       data-height="{{ photo.image|height }}"
+                                                       class="gallery_a fresco" href="{{ photo.image.url }}"
+                                                       data-caption="{{ photo.get_description }}"
+                                                       data-index="{{ forloop.counter0 }}" class="gallery_a fresco"
+                                                       data-fresco-caption="{{ photo.get_description }}"
+                                                       data-fresco-id="{{ photo.id }}"
+                                                       data-fresco-photo-url="{{ photo.photo_url }}"
+                                                       data-fresco-title="{{ photo.title }}"
+                                                       data-fresco-kudu-count="{{ photo.kudu_count }}"
+                                                       data-fresco-options="ui: 'inside'"
+                                                       data-caption="{{ photo.get_description }}"
+                                                       data-index="{{ forloop.counter }}"
+                                                       data-fresco-group="unique_name">
+                                                        <div id="animal-img-wrapper">
+                                                            <div style="background-image: url('{{ photo.image|thumbnail_url_:'crop_250' }}');"
+                                                                 class="animal-photo img__wrap mx-auto"
+                                                                 data-href='{{ photo.image.url }}'
+                                                                 data-caption='{{ photo.get_description }}'>
+                                                                <div class="img__description">
+                                                                    {% if photo.get_caption_excerpt %}
+                                                                        <strong>{{ photo.get_caption_excerpt }} </strong>
+                                                                    {% endif %}
+                                                                    <p>
+                                                                        {% autoescape off %}
+                                                                            {{ photo.get_description }}
+                                                                        {% endautoescape %}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </figure>
+                                            </div>
+
+                                        {% endif %}
+
+                                    {% endfor %}
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    {#                    <div class="row pb-4">#}
+                    {#                        <a href="{% url 'photos:photos_animal' animal_slug=animal.slug %}" class="mx-auto lower">#}
+                    {#                            See all {{ animal.get_cased_name }} ({{ total_photos }}) photos#}
+                    {#                        </a>#}
+                    {#                    </div>#}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(".navbar-places").addClass("active");
+    </script>
+{% endblock %}
+

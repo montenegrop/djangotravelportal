@@ -1,0 +1,13 @@
+#/etc/systemd/system/gunicorn.service
+[Unit]
+Description=gunicorn service
+After=network.target
+   
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/home/juan/yas/
+ExecStart=/home/juan/yas/venv/bin/gunicorn --access-logfile - --workers 2 --bind unix:/home/juan/yas/yas.sock yas.wsgi:application
+   
+[Install]
+WantedBy=multi-user.target

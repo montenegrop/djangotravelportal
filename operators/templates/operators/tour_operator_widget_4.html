@@ -1,0 +1,34 @@
+{% load static %}
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'core/css/style.css' %}?v=1.6" />
+<link rel="stylesheet" href="{% static '@fortawesome/fontawesome-free/css/all.min.css' %}" />
+<link href="{% static 'operators/css/tour-operator-widget.css' %}" type="text/css" media="all" rel="stylesheet">
+{% endblock %}
+<body style="padding: 0; margin: 0;">
+<div class="widget_container_4">
+    <div class="logo_container_4">
+        <div><a target="_blank" href="{% url 'home' %}"><img src="{% static 'operators/img/widget/text.png' %}"></img></a></div>
+        <div class="tour_operator_name_4"><a target="_blank" href="{% url 'tour_operator' tour_operator.slug %}">{{ tour_operator }}</a></div>
+    </div>
+    <div class="review_items_4">
+        {% for review in reviews %}
+            <div class="small_review_item_4">
+                <a target="_blank" class="review_image_container_4" href="{% url 'tour_operator_review' slug=tour_operator.slug review=review.id %}">
+                    <img class="avatar_image_4" src="{{ review.user.profile.avatar }}" alt=""></img>
+                </a>
+                <div class="review_body_4">
+                    <div class="stars_4">
+                        <a target="_blank" href="{% url 'tour_operator_reviews' tour_operator.slug %}">{{ tour_operator.average_rating | star_rating | safe }}</a>
+                    </div>
+                    <a target="_blank" href="#">{{ review.title | truncatechars:38 }}</a>
+                </div>
+                    
+            </div>
+            <div class="clear"></div>
+        {% endfor %} 
+    </div>
+    <a class="write_a_review_4" target="_blank" href="{% url 'tour_operator' slug=tour_operator.slug %}">
+        Visit our page <span>➔</span>
+    </a>
+</div>
+</body>

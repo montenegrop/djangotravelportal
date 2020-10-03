@@ -1,0 +1,20 @@
+{% extends 'backend/tour_operator/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block extrahead %}
+{{ block.super }}
+<style>
+  .edit-photo {
+    bottom: 2px;
+    right: 3px;
+  }
+</style>
+{% endblock %}
+{% block backendcontent %}
+<yas-member-photos :url="`{% url 'photos:add_photos' %}`.concat(`?to=1`)" :photos-count="{{ photos_count }}"
+  :photos-json="{{ photos_json }}" :page-count="{{ page_count }}"></yas-member-photos>
+
+<script>
+  $(".nav-link.photos").addClass("active")
+</script>
+{% endblock %}

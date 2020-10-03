@@ -1,0 +1,31 @@
+<div class="row mt-5 pt-3">
+  {% if tour_reviews %}
+  <div class="col-lg-4 col-sm-5 col-8 row align-items-center mx-1">
+    <p class="m-0 pr-2 text-right">Sort by:</p>
+    <form action="ReviewSorting" method="post">
+      <select class="col custom-select pointer" id="sort-by" name="new-selected">
+        <option selected value="1">Most recent</option>
+        <option value="2">Oldest</option>
+      </select>
+    </form>
+  </div>
+  {% endif %}
+  <a id="review-btn" target="_blank" href="{% url 'reviews:tour_operator' tour.id %}"
+    class="btn btn-green-primary d-block mr-sm-3 ml-3 ml-sm-auto" role="button">Write a
+    review</a>
+</div>
+
+
+{% if tour_reviews %}
+<div id="reviewsSorted">
+  <div id="reviews-anchor">
+    {% include "operators/tour_operator_includes/tour_reviews_cards.html" %}
+  </div>
+</div>
+{% endif %}
+
+<!--THIS MUST LINK TO TOUR_OPERATOR_REVIEWS PAGE-->
+{% if tour_reviews_total > 10 %}
+<a class="d-flex justify-content-center" id="more-reviews" href="show-more">Show more</a>
+{% endif %}
+<!--END COMMENT-->

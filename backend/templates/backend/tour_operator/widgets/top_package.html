@@ -1,0 +1,35 @@
+<div class="col-lg col-sm-6 d-flex justify-content-center justify-content-lg-start">
+    <div class="card card-stats">
+        <div class="card-body ">
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="card-title pb-2">Top package</h4>
+                </div>
+                <div class="col-12">
+
+                    <div>
+                        {% if top_package %}
+                        <p class="card-category olive-green">{{top_package}}
+                            <span class="font-10">
+                                ({{top_package.visit_count}} visits)
+                            </span>
+                        </p>
+                        {% else %}
+                        <p class="card-category olive-green text-center">
+                            <a href="{% url 'backend:tour_operator_packages' %}">
+                                Add your first package
+                            </a>
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer ">
+            <hr>
+            {% if top_package %}
+            <a class="stats" href="#">See all</a>
+            {% endif %}
+        </div>
+    </div>
+</div>

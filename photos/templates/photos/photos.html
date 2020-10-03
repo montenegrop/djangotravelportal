@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+{% block title %}
+African Safari photos
+{% endblock %}
+{% block extrahead %}
+{#    <script src="{% static 'photos/js/photos.js' %}"></script>#}
+    <script src="{% static '@robertorodriguez/yasfresco/dist/js/fresco.js' %}?v=1.2"></script>
+    <link rel="stylesheet" href="{% static '@robertorodriguez/yasfresco/dist/css/fresco.css' %}?v=1.2"/>
+{% endblock %}
+{% block content %}
+
+<div class="container-fluid px-md-5 max-width contentbg" id="photos">
+  <div class="mt-md-5 px-2">
+    <div class="col-12">
+      <h1 class="h1-sm">
+        <strong>Safari wildlife & game drive photos </strong>
+      </h1>
+      (<span v-html="photos_count">[[{{ photos_count }}]]</span> photos)
+    </div>
+  </div>
+  <div class="container-fluid mt-2 px-4">
+    
+    <div class="row">
+      {% include 'photos/filters.html' %}
+      {% include 'photos/gallery.html' %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block afterfooter %}
+    <script src="{% static 'photos/js/photos.js' %}?v=1.2"></script>
+    <script>
+        $(".navbar-photos").addClass("active");
+    </script>
+{% endblock %}

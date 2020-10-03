@@ -1,0 +1,135 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %} African Wildlife {% endblock %}
+
+{% block extrahead %}
+
+{% include 'places/country_index_inserts/country_meta.html' %}
+
+<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}"></script>
+<script src="{% static '@google/markerwithlabel/src/markerwithlabel_packed.js' %}"></script>
+<link href="{% static 'places/css/country-index.css' %}" type="text/css" media="all" rel="stylesheet">
+<script src="{% static 'places/js/country-index.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+
+
+{% include 'places/country_index_inserts/header.html' %}
+
+<div class="container-fluid px-lg-5 max-width mt-4 mx-auto ">
+  <div class="row px-md-5 px-2 justify-content-between">
+    <div class="col-md col-sm-12">
+      <h1 class="h1-sm">
+        <strong>Getting to {{ object }}</strong>
+      </h1>
+    </div>
+
+    <div class="slide-social-wrapper mt-md-2 mt-2 d-flex justify-content-end ml-2">
+      <a class="slide-social-icon"
+        href="http://www.facebook.com/sharer/sharer.php?u=https://www.yourafricansafari.com{{ request.get_full_path|urlencode }}"
+        target="_blank">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a class="slide-social-icon"
+        href="//twitter.com/intent/tweet?text={{ object }}&url=https://www.yourafricansafari.com{{ request.get_full_path|urlencode }}&via=safaricompanies"
+        target="_blank">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a class="slide-social-icon"
+        href="http://www.linkedin.com/shareArticle?url=https://www.yourafricansafari.com{{ request.get_full_path|urlencode }}&title={{ object }}&summary={{ object.meta_description }}&source=https://www.yourafricansafari.com/"
+        target="_blank">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </div>
+
+    <div class="row justify-content-between mt-3 mx-0">
+      <div class="col-xl-8 pr-xl-5 col-lg-12">
+        <div class="tour-tab tab clearfix">
+          <ul class="tabs">
+            <a class="about" href="{% url 'country_index' object.slug %}">
+              <li>About</li>
+            </a>
+            <a class="parks" href="{% url 'country_index_parks' object.slug %}">
+              <li>Parks<em class="font-weight-light font-11"> ({{ object.parks.count }})</em></li>
+            </a>
+            <a class="touroperators" href="{% url 'country_index_getting_there' object.slug %}">
+              <li class="active">Getting there</li>
+            </a>
+          </ul>
+        </div>
+        <!--THIS NEEDS TO BE THE "GETTING TO" DESCRIPTION-->
+        <p class="my-0">{{ object.getting_there | safe }}</p>
+        <!--END COMMENT-->
+
+        {% if object.airlines.all %}
+        <h4 class="text-dark-grey h4-sm py-2"><strong>The following airlines travel
+            to {{ object }}</strong>
+        </h4>
+        {% endif %}
+
+        {% for airline in object.airlines.all %}
+        <div class="contentbg border-grey container-fluid mb-3">
+          <div class="d-flex justify-content-between my-1">
+            <!--THIS NEEDS TO BE EACH AIRLINES NAME-->
+            <h5 class="px-4 mt-2"><strong><a class="dark-brown" target="_blank"
+                  href="{{ airline.website }}">{{ airline.name }}</a></strong>
+            </h5>
+            <button class="btn btn-green-secondary mr-3" type="button" data-toggle="collapse"
+              data-target="#airline-collapse-{{ airline.id }}" aria-expanded="false"
+              aria-controls="airline-collapse-{{ airline.id }}">
+              +
+            </button>
+            <!--END COMMENT-->
+          </div>
+          <hr class="my-0">
+
+          <div class="row collapse" id="airline-collapse-{{ airline.id }}">
+            <a target="_blank" href="{{ airline.website }}" class="col-sm-3 col-12 mx-auto my-auto pt-2 pt-sm-0">
+              <img id="search-result-img" class="mx-auto d-block" src="{{ airline.image.url }}" alt="company logo"
+                id="operator-logo">
+            </a>
+            <div class="col-sm-8 col-12 mb-2 px-4 mt-2">
+              <!--THIS NEEDS TO BE TRUNCATED TO 4 OR 5 LINES ONLY-->
+              <p>{{ airline.description }}
+                <a class="olive-green" target="_blank" href="{{ airline.website }}">Visit
+                  website</a>
+              </p>
+              <!--END COMMENT-->
+              <div class="font-12">
+                <p class="mb-0 pr-2 d-inline">Also flies to:</p>
+                {% for country in airline.country_indexes.all %}
+                <img class="flag-small d-inline" src="{{ country.flag.url }}" alt="" data-toggle="tooltip"
+                  data-placement="top" title="{{ country.name }}">
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+
+      <!--RHC-->
+      {% include 'places/country_index_inserts/right_hand_sidebar.html' %}
+    </div>
+  </div>
+</div>
+</div>
+
+
+{% endblock %}
+{% block afterfooter %}
+
+<script>
+  $(".navbar-places").addClass("active");
+</script>
+
+<script>
+  $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+
+</script>
+{% endblock %}

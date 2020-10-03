@@ -1,0 +1,30 @@
+{% load static %}
+
+<!-- sidebar -->
+<div class="sidebar" data-color="brown" data-image="{% static 'backend/img/impala.jpg' %}">
+  <div class="sidebar-wrapper">
+
+    <ul class="nav mt-4 pt-3">
+      <li class="nav-item">
+        <a class="nav-link dashboard" href="{% url 'backend:member_profile' %}">
+          <i class="fas fa-user"></i>
+          <p>My profile</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dashboard" href="{% url 'backend:member_reviews' %}">
+          <i class="far fa-comments"></i>
+          <p>My reviews</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dashboard" href="{% url 'backend:member_photos' %}">
+          <i class="fas fa-camera"></i>
+          <p>My photos</p>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<!-- end sidebar -->

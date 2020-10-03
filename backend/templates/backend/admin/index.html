@@ -1,0 +1,83 @@
+{% extends 'backend/admin/base.html' %}
+{% load static %}
+{% block backendcontent %}
+<div class="row max-width-admin">
+  <div class="col-4">
+    <div class="card">
+      <div class="card-body">
+        <ul>
+          <li>
+            <a href="{% url 'backend:admin_tour_operator' %}">
+              Tour operators
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'backend:admin_quote_requests' %}">
+              Quote requests
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'backend:admin_articles' %}">
+              Articles
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'backend:admin_test_email' %}">
+              Test E-mails
+            </a>
+          </li>
+
+          <li>
+            <a href="{% url 'backend:admin_email_templates' %}">
+              E-mail templates
+            </a>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% include 'backend/admin/includes/pending_tour_operators.html' %}
+{% include 'backend/admin/includes/pending_reviews.html' %}
+
+<form action="" method='POST' id='form'>
+  {% csrf_token %}
+  <input type="hidden" name='reject_park_review'>
+  <input type="hidden" name='reject_tour_operator_review'>
+  <input type="hidden" name='reason'>
+</form>
+
+<script>
+
+  $(".to_reject").click(function () {
+    var ele = $(this)
+    bootbox.prompt("Please enter the reject reason", function (reason) {
+      if (reason === null) {
+        return
+      }
+      $("input[name=reject_tour_operator_review]").val(ele.data('pk'))
+      $("input[name=reason]").val(reason)
+      $('#form').submit()
+    });
+    return false
+  })
+
+
+  $(".park_reject").click(function () {
+    var ele = $(this)
+    bootbox.prompt("Please enter the reject reason", function (reason) {
+      if (reason === null) {
+        return
+      }
+      $("input[name=reject_park_review]").val(ele.data('pk'))
+      $("input[name=reason]").val(reason)
+      $('#form').submit()
+    });
+    return false
+  })
+
+
+  $(".nav-link.widgets").addClass("active")
+</script>
+{% endblock %}

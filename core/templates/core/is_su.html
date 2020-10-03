@@ -1,0 +1,18 @@
+{% load i18n %}
+{% if IS_SU %}
+<style>
+    #django-su-warning {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        color: white;
+        background-color: red;
+        text-align: center;
+        font-size: 25px;
+        z-index: 5000;
+    }
+</style>
+<div id="django-su-warning">
+    WARNING: You have assumed the identity of {{ user.profile }} ! <a href='{% url 'su_logout' %}'>go back</a>
+</div>
+{% endif %}

@@ -1,0 +1,133 @@
+<div class="col-xl-4 col-12">
+    <div class="contentbg rhc-wide-border px-3 parks-rhc-max-width">
+        <h5 class="pt-3 pb-2">
+            <strong>{{ object }} map</strong>
+        </h5>
+        <div class="container" style="padding-bottom: 15px">
+
+
+            <div id="map-canvas"></div>
+            <script>
+                var parks =  {{ parks_data|safe }};
+                var country = {{ country_data|safe }};
+
+                initMap()
+            </script>
+
+        </div>
+    </div>
+    <div class="dropdown-divider d-xl-none"></div>
+    <div class="contentbg rhc-wide-border px-3 mt-4 pb-2 parks-rhc-max-width">
+        <h5 class="pt-3 pb-2">
+            <strong>Parks and game reserves</strong>
+        </h5>
+        {% for park in object.parks.all %}
+            <div class="d-flex">
+                <a href="{% url 'park' slug=park.slug %}">{{ park.name_short }}</a>
+                {% if park.rating_float > 0 %}
+                    <div class="ml-auto mt-1 text-nowrap">
+                        {{ park.rating_float | star_rating | safe }}
+                    </div>
+                {% else %}
+                    <div class="ml-auto mt-0 font-12 text-light-grey font-weight-light text-nowrap">
+                        No reviews yet
+                    </div>
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+    </div>
+    <div class="dropdown-divider d-xl-none"></div>
+    <div class="contentbg rhc-wide-border px-3 mt-4 parks-rhc-max-width">
+        <h5 class="pt-3 pb-2">
+            <strong> Articles on {{ object }}</strong>
+        </h5>
+        <div class="articles">
+            {% for article in highlighted_articles %}
+                <a>
+                    <div class="card reviews mb-3 px-2 pt-2 pb-1">
+                        <div class="row no-gutters pb-2">
+                            <div class="col-4">
+                                <div class="photo-container-reviews">
+                                    <a href="{% url 'articles:view' article.slug %}">
+                                        <img src="{{ article.image|thumbnail_url_:'crop_150' }}"
+                                             alt="...">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div class="card-body pr-0">
+                                    <p class="card-title text-left text-truncate"><a
+                                            href="{% url 'articles:view' article.slug %}">{{ article.title_short }}</a>
+                                    </p>
+                                    <p class="mb-0 pt-2">
+                                        <small class="text-light-grey pb-4">When: {{ article.date_created|date:"N j, Y" }}</small>
+                                        <br>
+                                        <small class="text-light-grey">By: {{ article.user.profile.screen_name }}</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="dropdown-divider d-xl-none"></div>
+    <div class="contentbg rhc-wide-border px-3 mt-4 parks-rhc-max-width">
+        <h5 class="pt-3 pb-2">
+            <strong>Latest photos</strong>
+        </h5>
+        <img style="width:100%; max-width: 100% " src="{{ latest_photos.first.image.url }}"/>
+
+        <a class="my-2 d-block text-center" href="{% url 'photos:index' %}?country={{ object.slug }}">See all photos
+            ({{ latest_photos_count }})</a>
+    </div>
+    <div class="dropdown-divider d-xl-none"></div>
+    <div class="contentbg rhc-wide-border px-3 mt-4 parks-rhc-max-width">
+        <h5 class="pt-3 pb-2">
+            <strong>Animals you can find</strong>
+        </h5>
+        <div class="container col-12">            
+            <div class="row">
+                {% for animal in highlighted_animals %}
+                    <div class=" col-4  col text-center pb-2">
+                        <a class="text-dark-grey" title="{{ animal.name }}"
+                           href="{% url 'animal' animal.slug %}">
+                            <img class="rhc-small-images" src="{{ animal.image.url }}"
+                                 alt="{{ animal.name }}"/>
+                            <span>{{ animal.name }}</span>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <a href="{% url 'country_index_wildlife' object.slug %}" class="my-2 d-block text-center">
+            See all
+        </a>
+    </div>
+    <div class="dropdown-divider d-xl-none"></div>
+    <div class="contentbg rhc-wide-border px-3 mt-4 parks-rhc-max-width">
+        <h5 class="pt-3 pb-2">
+            <strong>Activities you can do</strong>
+        </h5>
+        <div class="container col-12">          
+            <div class="row">
+                {% for activity in highlighted_activities %}
+                    <div class=" col-4 text-center pb-2">
+                        <a class="text-dark-grey" title="{{ activity.name }}"
+                           href="{% url 'activity' activity.slug %}">
+                            <img class="rhc-small-images" src="{{ activity.image.url }}"
+                                 alt="{{ activity.name }}"/>
+                            <span>{{ activity.name_short }}</span>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <a href="{% url 'country_index_activities' object.slug %}" class="my-2 d-block text-center">
+            See all
+        </a>
+    </div>
+</div>

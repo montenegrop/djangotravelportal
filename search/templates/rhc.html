@@ -1,0 +1,98 @@
+<div class="col-xl-4 col-12 ">
+    
+    <div class="contentbg d-none px-sm-3 mt-4 rhc-wide-border parks-rhc-max-width">
+        <h5 class="pt-3 pb-2">
+            <strong> Articles on {{ object }}</strong>
+        </h5>
+        <div class="articles">
+            {% for article in object.highlighted_articles %}
+            <a>
+                <div class="card reviews mb-3 px-2 pt-2 pb-1">
+                    <div class="row no-gutters pb-2">
+                        <div class="col-4">
+                            <div class="photo-container-reviews">
+                                <a href="{% url 'articles:view' article.slug %}">
+                                    <img src="{{ article.image|thumbnail_url_:'crop_150' }}" alt="...">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body pr-0">
+                                <p class="card-title text-left text-truncate"><a
+                                        href="{% url 'articles:view' article.slug %}">{{ article.title_short }}</a></p>
+                                <p class="mb-0 pt-2">
+                                    <small class="text-light-grey pb-4">When:
+                                        {{ article.date_created|date:"N j, Y" }}</small>
+                                    <br>
+                                    <small class="text-light-grey">By: {{ article.categories_string }}</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="dropdown-divider d-xl-none"></div>
+    <div class="contentbg px-sm-3 mt-4 rhc-wide-border parks-rhc-max-width">
+        <h5 class="pt-3 pb-2">
+            <strong>Recent reviews</strong>
+        </h5>
+        <div class="articles">
+            {% for review in recent_reviews %}
+            {% if review.tour_operator %}
+            <a href="{% url 'reviews:tour_operator_review' slug=review.slug %}" class="dark-brown">
+            {% endif %}
+            {% if review.park %}
+            <a href="{% url 'reviews:park_review' slug=review.slug %}" class="dark-brown">
+            {% endif %}
+                <div class="card reviews mb-3 px-2 pt-2 pb-1">
+                    <div class="row no-gutters pb-2">
+                        <div class="col-4">
+                            <div class="photo-container-reviews">
+                                <img src="{{ review.user.profile.avatar|thumbnail_url_:'search_card' }}" alt="...">
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body pr-0">
+                                <p class="card-title text-left text-truncate">{{ review.title }}</p>
+                                <p class="mb-0 pt-2">
+                                    <small class="text-light-grey pb-4">When: {{ review.date_created }}</small>
+                                    <br>
+                                    <small class="text-light-grey">Where: {{ review }}</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <small class="text-light-grey">By: {{ review.user.profile }}</small>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="dropdown-divider d-xl-none"></div>
+    <!--THIS NEEDS TO BE REPLACED WITH THE LATEST TOUR OPERATORS THAT 
+    HAVE JOINED YAS. IT ALSO NEEDS TO ONLY BE TWO-->
+    <div class="contentbg px-sm-3 mt-4 rhc-wide-border parks-rhc-max-width">
+        <h5 class="pt-3 pb-2">
+            <strong>YAS welcomes</strong>
+        </h5>
+        <div class="">
+            {% for operator in featured_tour_operators %}
+            <a href="{% url 'tour_operator' slug=operator.slug %}">
+                <div class="card reviews mb-3 px-2 py-1">
+                    <div class="photo-container-welcomes">
+                        <img src="{{ operator.logo|thumbnail_url_:'search_card' }}" alt="...">
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>

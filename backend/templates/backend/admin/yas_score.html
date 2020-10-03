@@ -1,0 +1,376 @@
+{% extends 'backend/admin/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block backendcontent %}
+<style>
+
+</style>
+<div class="row max-width-admin">
+  <div class="col-4">
+    <h4>
+      YAS Score for
+      <i>
+        {{ operator }}
+      </i>
+    </h4>
+    <form action="" id="change_country" method="POST">
+      {% csrf_token %}
+      {{ form|crispy }}
+    </form>
+  </div>
+
+  <div class="offset-4  col-2">
+    <a class='btn btn-green-secondary' href="{% url 'backend:admin_tour_operator' %}">
+      Tour operators
+    </a>
+  </div>
+
+  <div class="col-12 mt-4">
+
+
+    <div class="table-responsive">
+
+      <table class='table table-striped  table-sm'>
+        <tr>
+          <th>
+            Metric
+          </th>
+          <th>
+            Value
+          </th>
+          <th>
+            Range
+          </th>
+          <th>
+            Description
+          </th>
+        </tr>
+        <tr>
+          <td>Initial</td>
+          <td>35</td>
+          <td>35</td>
+          <td>
+            Static value
+          </td>
+        </tr>
+        <tr>
+          <td>Not trading</td>
+          <td>{{ operator.yas_score_not_trading }}</td>
+          <td>
+            -35/0
+          </td>
+          <td>
+            If is_active field is true then 0 else -35
+          </td>
+        </tr>
+        <tr>
+          <td>Widget</td>
+          <td>{{ operator.yas_score_widget }}</td>
+          <td>
+            0/5
+          </td>
+          <td>
+            If widget_added field is true then +5 else 0
+          </td>
+        </tr>
+        <tr>
+          <td>Modifier</td>
+          <td>{{ operator.yas_score_modifier }}</td>
+          <td>
+            ?
+          </td>
+          <td>
+            Add or substract yas_modifier field value
+          </td>
+        </tr>
+        <tr>
+          <td>Packages</td>
+          <td>{{ operator.yas_score_packages }}</td>
+          <td>
+            0/1
+          </td>
+          <td>
+            if TO has itineraries then +1
+          </td>
+        </tr>
+        <tr>
+          <td>Vehicle description</td>
+          <td>{{ operator.yas_score_vehicle_description }}</td>
+          <td>
+            0/1
+          </td>
+          <td>
+            if TO has vehicle_description then +1
+          </td>
+        </tr>
+        <tr>
+          <td>Company age</td>
+          <td>{{ operator.yas_score_company_age }}</td>
+          <td>
+            0/2
+          </td>
+          <td>
+            Obtained from this formula: <br>
+            2 * (age_days / (1200 + age_days))
+          </td>
+        </tr>
+        <tr>
+          <td>Social media</td>
+          <td>{{ operator.yas_score_social_media }}</td>
+          <td>
+            0/1
+          </td>
+          <td>
+            if field facebook or twitter or pinterest or youtube then +1
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Photos age
+          </td>
+          <td>{{ operator.yas_score_photos_age }}</td>
+          <td>
+            0/4
+          </td>
+          <td>
+            search for last photo and use this formula: <br>
+            4 * ((185 - photo_days) / 185)
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Itinerary age
+          </td>
+          <td>{{ operator.yas_score_itinerary_age }}</td>
+          <td>
+            0/8
+          </td>
+          <td>
+            search for last modified itinerary and use this formula: <br>
+            8 * ((365 - itinerary_days) / 365),2)
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Quote requests
+          </td>
+          <td>{{ operator.yas_score_more_information }}</td>
+          <td>
+            0/3
+          </td>
+          <td>
+            Get all QR in the last 6 months. If there are more than 6 then +3
+            else: QR_count * 0.5
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Last 3 months
+          </td>
+          <td>{{ operator.yas_score_last_3_months }}</td>
+          <td>
+            0/8
+          </td>
+          <td>
+            Last seen in the last three months? Apply: <br>
+            8 * ((90 - delta.days) / 90)
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Park Reviews
+          </td>
+          <td>{{ operator.yas_score_parkreviews }}</td>
+          <td>
+            0/5
+          </td>
+          <td>
+            5 * (park_reviews_count / (5 + park_reviews_count))
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            Article count
+          </td>
+          <td>{{ operator.yas_score_articles_count }}</td>
+          <td>
+            0/3
+          </td>
+          <td>
+            3 * (articles_count / (5 + articles_count))
+          </td>
+        </tr>
+
+
+        <tr>
+          <td>
+            Itineraries
+          </td>
+          <td>{{ operator.yas_score_itineraries }}</td>
+          <td>
+            0/3
+          </td>
+          <td>
+            3 * (itineraries_count / (2 + itineraries_count)),2
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Review responses
+          </td>
+          <td>{{ operator.yas_score_review_responses }}</td>
+          <td>
+            0/2
+          </td>
+          <td>
+            2 * (tour_reviews_responses_count / tour_reviews_count)
+          </td>
+        </tr>
+
+
+        {% if not country %}
+        <tr>
+          <td>
+            Number of reviews (no country)
+          </td>
+          <td>
+            {{ operator.yas_score_number_of_reviews }}
+          <td>
+            0/15
+          </td>
+          <td>
+            10 * (tour_reviews_count / (5 + tour_reviews_count))
+          </td>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            Last review date (no country)
+          </td>
+          <td>
+            {{ operator.yas_score_last_review_date }}
+          <td>
+            0/5
+          </td>
+          <td>
+            5 * ((185 - last_review_days) / 185)
+          </td>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            Average score of reviews (no country)
+          </td>
+          <td>
+            {{ operator.yas_score_average_reviews }}
+          </td>
+          <td>
+            0/15
+          </td>
+          <td>
+            3 * tour_reviews_avg
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            One country (no country)
+          </td>
+          <td>
+            {{ operator.yas_score_one_country }}
+          </td>
+          <td>
+            -1/1
+          </td>
+          <td>
+            -1 if just one country, +1 if more than 5 countries
+          </td>
+        </tr>
+        {% endif %}
+
+        {% if country %}
+        <tr>
+          <td>
+            Per country reviews (per country)
+          </td>
+          <td>
+            {{ operator.yas_score_per_country_reviews }}
+          </td>
+          <td>
+            0/15
+          </td>
+          <td>
+
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Per country last review (per country)
+          </td>
+          <td>
+            {{ operator.yas_score_per_country_last_review }}
+          </td>
+          <td>
+            0/5
+          </td>
+          <td>
+
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            Operating in (per country)
+          </td>
+          <td>
+            {{ operator.yas_score_per_country_operating_in }}
+          </td>
+          <td>
+            1/2
+          </td>
+          <td>
+
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Per country reviews rating (per country)
+          </td>
+          <td>
+            {{ operator.yas_score_per_country_reviews_rating }}
+          </td>
+          <td>
+            0/15
+          </td>
+          <td>
+
+          </td>
+        </tr>
+        {% endif %}
+        <tr>
+          <td>
+            <b>
+              Grand total
+            </b>
+          </td>
+          <td>
+            <b>
+              {{ operator.update_yas_score }}
+            </b>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(" .nav-link.tour_operators").addClass("active")
+  $("select[id=id_country]").change(function (e) {
+    $("#change_country").submit()
+  });
+</script>
+{% endblock %}

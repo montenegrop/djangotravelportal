@@ -1,0 +1,55 @@
+{% extends 'core/base.html' %}
+
+{% block meta_itemprop_description %}
+Best places on safari to see lions, leopards, rhinos, elephants, buffalo, cheetah, the big five
+{% endblock %}
+{% block meta_description %}
+Best places on safari to see lions, leopards, rhinos, elephants, buffalo, cheetah, the big five
+{% endblock %}
+{% block meta_keywords %}
+Your African Safari, wildlife
+{% endblock %}
+
+{% block meta_tw_image %}
+{{header_image}}
+{% endblock %}
+
+{% block meta_og_image %}
+{{header_image}}
+{% endblock %}
+
+{% block title %} African Wildlife {% endblock %}
+{% block content %}
+<div class="container-fluid px-md-5 max-width wildlife-page-height">
+  <div class="row mt-5 px-md-5 px-2">
+    <div class="col-md col-sm-12 ">         
+      <h1 class="h1-sm">
+        <strong>African wildlife</strong>
+      </h1>
+      <div class="contentbg text-left">
+          The big five—buffalo, elephant, leopard, lion and rhino—are only part of the amazing, and often endangered, animals seen on safari. Cheetah, wild dogs, hyena, oryx and bat-eared fox are sheer delights to spot on a game drive.  Read more about these fascinating animals.  
+      </div>
+      <div class="row mt-4">
+        {% for animal in animals %}
+        <!--start animal-->
+        <div class="col-lg-3 col-sm-6 col-xs-12 ">
+          <a href="{% url 'animal' slug=animal.slug %}">
+            <figure class="effect-sadie card animal mb-4 box-shadow">
+              <img src="{{ animal.image.url }}" alt="{{ animal }}">
+              <figcaption>
+                <h2>{{ animal }}</h2>
+                <p>{{ animal.mini_description | safe }}</p>
+              </figcaption>
+            </figure>
+          </a>
+        </div>
+        <!--end animal-->
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(".navbar-wildlife").addClass("active");
+</script>
+{% endblock %}

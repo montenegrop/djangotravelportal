@@ -1,0 +1,328 @@
+{% extends 'backend/tour_operator/base.html' %}
+{% load static %}
+{% block backendcontent %}
+<style>
+  .chartist-tooltip {
+    position: absolute;
+    display: inline-block;
+    opacity: 0;
+    min-width: 5em;
+    padding: .5em;
+    background: #F1EFD8;
+    color: #494946;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    pointer-events: none;
+    z-index: 1;
+    -webkit-transition: opacity .2s linear;
+    -moz-transition: opacity .2s linear;
+    -o-transition: opacity .2s linear;
+    transition: opacity .2s linear;
+    border-radius: 4px;
+  }
+
+  .chartist-tooltip::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -15px;
+    border: 15px solid transparent;
+    border-top-color: #F1EFD8;
+  }
+
+  .countries-scroll {
+    max-height: 300px;
+    overflow-y: scroll;
+  }
+</style>
+
+<script type="application/javascript"  src="{% static 'daterangepicker/moment.min.js' %}"></script>
+
+<div class="row max-width-admin">
+  <div class="col-lg col-sm-6 d-flex justify-content-center justify-content-md-between">
+    <a class="stats" href="#top-county-anchor">
+    <div class="card card-stats">
+      <div class="card-body ">
+        <div class="row">
+          <div class="col-12">
+            <h4 class="card-title pb-2">Top country</h4>
+          </div>
+          <div class="col-12">
+            <div>
+              {% if top_country %}
+              <p>{{ top_country.0.name }}
+                <span class="font-10">({{ top_country.1.1 }} visits)</span></p>
+              {% else %}
+              <p>No data</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </a>
+  </div>
+  <div class="col-lg col-sm-6 d-flex justify-content-center justify-content-md-between">
+    <a class="stats" href="#review-anchor">
+    <div class="card card-stats">
+      <div class="card-body ">
+        <div class="row">
+          <div class="col-12">
+            <h4 class="card-title pb-2">Most popular review</h4>
+          </div>
+          <div class="col-12">
+            <div>
+              {% if top_review %}
+              <p>    
+                  {{ top_review.title }}     
+                <span class="font-10">({{ top_review.kudu_count }} kudus)</span></p>
+              {% else %}
+              <p>No data</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>    
+    </div>
+  </a>
+  </div>
+  <div class="col-lg col-sm-6 d-flex justify-content-center justify-content-md-between">
+    <a class="stats" href="#top-package-anchor">
+    <div class="card card-stats">
+      <div class="card-body ">
+        <div class="row">
+          <div class="col-12">
+            <h4 class="card-title pb-2">Top package</h4>
+          </div>
+          <div class="col-12">
+            <div>
+              {% if top_package %}
+              <p>              
+                  {{ top_package.title_short }}
+                <span class="font-10">({{ top_package.visit_count }} visits)</span></p>
+              {% else %}
+              <p>No data</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>     
+    </div>
+  </a>
+  </div>
+</div>
+
+
+<form method="POST" action='.'>
+  {% csrf_token %}
+  <div class="row max-width-admin">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-12">
+          <p class="title">Dates: <span class="font-weight-light font-10">(You can view two-week intervals)</span></p>
+        </div>
+        <div class="col-12">         
+          <div class="form-group d-inline-block date-picker">
+            <input name='date_range' type="text" class="daterange form-control" value="{{ date_range }}" />
+          </div>
+          <div class="mt-auto mb-3 ml-3 d-inline">
+            <button type="submit" class="btn btn-green-secondary mr-2">Show results</button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="row max-width-admin">
+  <div class="col-12">
+    <div class="card ">
+      <div class="card-header ">
+        <h4 class="card-title">Page views</h4>
+        <p class="card-category">{{ total_views }} Total visits</p>
+      </div>
+      <div class="card-body" style="height: 400px">
+        <div class="chart-container">
+
+          <div class="ct-chart ct-minor-seventh"></div>
+
+        </div>
+      </div>
+      <div class="card-footer ">
+        <div class="legend">
+          <i class="fa fa-circle graph-green"></i> All pages
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% if worldtable %}
+<div class="row max-width-admin">
+  <div class="col-12" id="top-county-anchor">
+    <div class="card ">
+      <div class="card-header ">
+        <h4 class="card-title">Geographic breakdown</h4>
+      </div>
+      <div class="card-body ">
+        <div class="row">
+          <div class="col-md-6 countries-scroll">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <th colspan="2">Country</th>
+                  <th class="text-right">Views</th>
+                  <th class="text-right">Percentage</th>
+                </thead>
+                <tbody>
+
+                  {% for country in worldtable %}
+                  <tr>
+                    <td class="py-1">
+                      <div>
+                        <img class="flag-big" src="{{ country.0.flag.url }}">
+                      </div>
+                    </td>
+                    <td class="text-nowrap py-1">{{ country.0.name }}</td>
+                    <td class="text-right py-1">
+                      {{ country.1.1 }}
+                    </td>
+                    <td class="text-right py-1">
+                      {{ country.1.0|floatformat:0 }}%
+                    </td>
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>             
+            </div>
+          </div>
+          <div class="col-md-6 ml-auto mr-auto">
+            <div id="worldMap" style="height: 300px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+<div class="row max-width-admin" id="top-package-anchor">
+  <div class="col-md-6">
+    <div class="card table-striped">
+      <div class="card-header ">
+        <h4 class="card-title">Most popular tour packages</h4>
+      </div>
+      <div class="card-body table-full-width table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <th>Tour package</th>
+            <th class="text-right">Views</th>
+          </thead>
+          <tbody>
+
+            {% for package in top_packages %}
+            <tr>
+              <td>{{ package.title_short }}</td>
+              {% if package.visit_count %}
+              <td class="text-right">{{ package.visit_count }}</td>
+              {% else %}
+              <td class="text-right">0</td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+        <a href="{% url 'backend:tour_operator_packages' %}" class="d-flex justify-content-end">View more</a>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-6" id="review-anchor">
+    <div class="card table-striped">
+      <div class="card-header ">
+        <h4 class="card-title">Most popular reviews</h4>
+      </div>
+      <div class="card-body table-full-width table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <th>Review</th>
+            <th class="text-right">Kudus</th>
+          </thead>
+          <tbody>
+
+            {% for review in top_reviews %}
+            <tr>
+              <td>{{ review.title }}</td>
+              {% if review.kudu_count %}
+              <td class="text-right">{{ review.kudu_count }}</td>
+              {% else %}
+              <td class="text-right">0</td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <a href="{% url 'backend:tour_operator_client_review' %}" class="d-flex justify-content-end">View more</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(".nav-link.analytics").addClass("active")
+</script>
+<script>
+  $(document).ready(function () {
+    $('.daterange').daterangepicker({
+      "autoApply": true,
+      locale: {
+        format: 'DD/MM/YYYY'
+      },
+      "maxSpan": {
+        "days": 15
+      },
+      ranges: {
+        //'Today': [moment(), moment().add(1, 'days')],
+        //'Yesterday': [moment().subtract(1, 'days'), moment()],
+        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+        'Last 15 Days': [moment().subtract(14, 'days'), moment()],
+        //'This Month': [moment().startOf('month'), moment().endOf('month')],
+        //'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+      },
+      "alwaysShowCalendars": true,
+
+    });
+    new Chartist.Line('.ct-chart', {
+      labels: labels,
+      series: [series]
+    }, {
+      axisY: {
+        onlyInteger: true,
+      },
+      axisX: {
+        showGrid: false,
+        labelInterpolationFnc: function skipLabels(value, index) {
+          return index % 3 === 0 ? value : null;
+        },
+      },
+      height: '350px',
+      fullWidth: true,
+      chartPadding: {
+        right: 50
+      },
+      plugins: [
+        Chartist.plugins.tooltip()
+      ]
+    });
+  })
+</script>
+<script>
+  var worldmap = {{ worldmap| safe }}
+</script>
+<script src="{% static 'backend/js/tour_operator/dashboard.js' %}?v=1"></script>
+{% endblock %}

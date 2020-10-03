@@ -1,0 +1,47 @@
+<div class="contentbg rhc-wide-border px-0 px-sm-3  mt-4 parks-rhc-max-width">
+  <div class="dropdown-divider d-xl-none"></div>
+    <h5 class="pt-3 pb-2">
+        <strong>Latest photos </strong><span class="font-10 font-weight-light">({{ tour_photos_count }})</span> 
+    </h5>
+
+    {% for photo in tour_photos %}
+    
+        <div>
+                <figure class="{% if forloop.counter > 1 %}d-none{% endif %}" itemprop="associatedMedia" itemscope
+                        itemtype="http://schema.org/ImageObject">
+                    <a data-width="{{ photo.image|width }}" data-height="{{ photo.image|height }}"
+                       class="gallery_a fresco" href="{{ photo.image.url }}"
+                       data-caption="{{ photo.get_description }}"
+                       data-index="{{ forloop.counter0 }}" class="gallery_a fresco"
+                       data-fresco-caption="{{ photo.get_description }}" data-fresco-id="{{ photo.id }}"
+                       data-fresco-photo-url="{{ photo.photo_url }}"
+                       data-fresco-title="{{ photo.title }}"
+                       data-fresco-kudu-count="{{ photo.kudu_count }}"
+                       data-fresco-options="ui: 'inside'"
+                       data-caption="{{ photo.get_description }}" data-index="{{ forloop.counter }}"
+                       data-fresco-group="unique_name">
+                        <div id="animal-img-wrapper">
+                            <div style="background-image: url('{{ photo.image.url }}');"
+                                 class="animal-photo img__wrap mx-auto"
+                                 data-href='{{ photo.image.url }}'
+                                 data-caption='{{ photo.get_description }}'>
+                                <div class="img__description">
+                                    {% if photo.get_caption_excerpt %}
+                                        <strong>{{ photo.get_caption_excerpt }} </strong>
+                                    {% endif %}
+                                    <p>
+                                        {% autoescape off %}
+                                            {{ photo.get_description }}
+                                        {% endautoescape %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </figure>
+        </div>
+
+    {% endfor %}
+   
+
+</div>

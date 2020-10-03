@@ -1,0 +1,38 @@
+<!-- day by day body begin -->
+<div class='card card-body pb-4 day day_{{ i }} {% if i != 1%}d-none{% endif %}'>
+    <div class="row">
+        <div class="col-12 mb-4 col-sm-4">
+            <div id="div_id_content" class="">
+                <div class="row mb-0">
+                    <div class="col-12">
+                        <input type="text" maxlength="35" placeholder='Day {{ i|template_num2words }} title'
+                            class="maxlen form-control" name='day_{{i}}_title'>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-8">
+            <div id="div_id_content" class="">
+                <div class="">
+                    <select placeholder='' name='day_{{i}}_parks' class="form-control select2_parks" multiple >
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12">
+            <textarea name='day_{{i}}_description' cols="40" rows="4" placeholder='Description'
+                class="maxlen textarea form-control" maxlength="300" required="" ></textarea>
+        </div>
+
+        <div class="col-12 mt-4">
+            <div id="div_id_content" class="mb-0">
+                <div class="">
+                    <input type="text" maxlength="50" placeholder='Lodges used'
+                        class="maxlen form-control" name='day_{{ d.day_number }}_lodges'>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

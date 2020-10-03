@@ -1,0 +1,215 @@
+<div class="col-xl-4 col-12">
+  <div class="contentbg rhc-wide-border px-3 parks-rhc-max-width">
+    <h5 class="pt-3 pb-2">
+      <strong>{{ object }} map</strong>
+    </h5>
+    <div class="container" style="padding-bottom: 15px">
+
+
+      <div id="map-canvas"></div>
+      <script>
+        var parks = {{ sidebar.all_parks| safe }};
+        var country = {{ sidebar.main_park| safe }}; {#country is the selected park# }
+
+
+        initMap()
+      </script>
+
+    </div>
+  </div>
+  <div class="dropdown-divider d-xl-none"></div>
+  {#    <div class="d-flex justify-content-xl-center mt-4 mb-2 mb-md-0 ml-3 ml-xlq-0">#}
+  {#        <button class="btn btn-green-primary text-center py-2" type="button">Get this parks widget</button>#}
+  {#    </div>#}
+  {# <div class="dropdown-divider d-xl-none"></div>#}
+  <div class="contentbg rhc-wide-border px-3 mt-4 pb-2 parks-rhc-max-width">
+    <h5 class="pt-3 pb-2">
+      <strong>Nearby parks and game reserves</strong>
+    </h5>
+
+    {% for park in sidebar.nearby_parks %}
+    <div class="d-flex">
+      <a href="{% url 'park' slug=park.slug %}">{{ park.name_short }}</a>
+      {% if park.rating_float %}
+
+      <div class="ml-auto mt-1 text-nowrap">
+        {{ park.rating_float | star_rating | safe }}
+      </div>
+
+      {% else %}
+
+      <div class="ml-auto mt-0 font-12 text-light-grey font-weight-light text-nowrap">
+        No reviews yet
+      </div>
+
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  <div class="dropdown-divider d-xl-none"></div>
+  <div class="contentbg rhc-wide-border px-3 mt-4 parks-rhc-max-width">
+    <h5 class="pt-3 pb-2">
+      <strong> Articles on {{ country }}</strong>
+    </h5>
+    <div class="articles">
+      {% for article in sidebar.articles %}
+      <a>
+        <div class="card reviews mb-3 px-2 pt-2 pb-1">
+          <div class="row no-gutters pb-2">
+            <div class="col-4">
+              <div class="photo-container-reviews">
+                <a href="{% url 'articles:view' article.slug %}">
+                  <img src="{{ article.image|thumbnail_url_:'crop_150' }}" alt="...">
+                </a>
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="card-body pr-0">
+                <p class="card-title text-left text-truncate"><a
+                    href="{% url 'articles:view' article.slug %}">{{ article.title_short }}</a></p>
+                <p class="mb-0 pt-2">
+                  <small class="text-light-grey pb-4">When: {{ article.date_created|date:"N j, Y" }}</small>
+                  <br>
+                  <small class="text-light-grey">By:
+                    <a href="{% url 'member' pk=article.user.pk  %}" target="_blank">
+                      {{ article.user.profile.screen_name }}
+                    </a>
+
+                  </small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% if countries|length > 1 %}
+    <h5 class="pt-3 pb-2">
+      <strong> Articles on {{ country2 }}</strong>
+    </h5>
+    <div class="articles">
+      {% for article in sidebar.articles2 %}
+      <a>
+        <div class="card reviews mb-3 px-2 pt-2 pb-1">
+          <div class="row no-gutters pb-2">
+            <div class="col-4">
+              <div class="photo-container-reviews">
+                <a href="{% url 'articles:view' article.slug %}">
+                  <img src="{{ article.image|thumbnail_url_:'crop_150' }}" alt="...">
+                </a>
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="card-body pr-0">
+                <p class="card-title text-left text-truncate"><a
+                    href="{% url 'articles:view' article.slug %}">{{ article.title_short }}</a>
+                </p>
+                <p class="mb-0 pt-2">
+                  <small class="text-light-grey pb-4">When: {{ article.date_created|date:"N j, Y" }}</small>
+                  <br>
+                  <small class="text-light-grey">By: {{ article.user.profile.screen_name }}</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+    {% if countries|length > 2 %}
+    <h5 class="pt-3 pb-2">
+      <strong> Articles on {{ country3 }}</strong>
+    </h5>
+    <div class="articles">
+      {% for article in sidebar.articles3 %}
+      <a>
+        <div class="card reviews mb-3 px-2 pt-2 pb-1">
+          <div class="row no-gutters pb-2">
+            <div class="col-4">
+              <div class="photo-container-reviews">
+                <a href="{% url 'articles:view' article.slug %}">
+                  <img src="{{ article.image|thumbnail_url_:'crop_150' }}" alt="...">
+                </a>
+              </div>
+            </div>
+            <div class="col-8">
+              <div class="card-body pr-0">
+                <p class="card-title text-left text-truncate"><a
+                    href="{% url 'articles:view' article.slug %}">{{ article.title_short }}</a>
+                </p>
+                <p class="mb-0 pt-2">
+                  <small class="text-light-grey pb-4">When: {{ article.date_created|date:"N j, Y" }}</small>
+                  <br>
+                  <small class="text-light-grey">By: {{ article.user.profile.screen_name }}</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+  </div>
+  <div class="dropdown-divider d-xl-none"></div>
+  {% if sidebar.latest_photo.image %}
+  <div class="contentbg rhc-wide-border px-3 mt-4 parks-rhc-max-width">
+    <h5 class="pt-3 pb-2">
+      <strong>Latest photos</strong>
+    </h5>
+    <img style="width:100%; max-width: 100% " src="{{ sidebar.latest_photo.image.url }}" />
+
+    <a class="my-2 d-block text-center" href="{% url 'photos:index' %}?park={{ object.slug }}">See all photos
+      ({{ sidebar.photos_count }})</a>
+  </div>
+  {% endif %}
+  <div class="dropdown-divider d-xl-none"></div>
+  <div class="contentbg rhc-wide-border px-3 mt-4 parks-rhc-max-width">
+    <h5 class="pt-3 pb-2">
+      <strong>Animals you can find</strong>
+    </h5>
+    <div class="container col-12">
+      <div class="row">
+        {% for animal in sidebar.animals %}
+        <div class=" col-4  col text-center pb-2">
+          <a class="text-dark-grey" title="{{ animal.name }}" href="{% url 'animal' animal.slug %}">
+            <img class="rhc-small-images" src="{{ animal.image.url }}" alt="{{ animal.name }}" />
+            <span>{{ animal.name }}</span>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <a href="{% url 'park_wildlife' object.slug %}" class="my-2 d-block text-center">
+      See all (displaying 1 - {{ sidebar.animals|length }} of {{ sidebar.animal_count }})
+    </a>
+  </div>
+  <div class="dropdown-divider d-xl-none"></div>
+
+  {% if sidebar.activities %}
+  <div class="contentbg rhc-wide-border px-3 mt-4 parks-rhc-max-width">
+    <h5 class="pt-3 pb-2">
+      <strong>Activities you can do</strong>
+    </h5>
+    <div class="container col-12">
+      <div class="row">
+        {% for activity in sidebar.activities %}
+        <div class=" col-4 text-center pb-2">
+          <a class="text-dark-grey" title="{{ activity.name }}" href="{% url 'activity' activity.slug %}">
+            <img class="rhc-small-images" src="{{ activity.image|thumbnail_url_:'crop_300' }}"
+              alt="{{ activity.name }}" />
+            <span>{{ activity.name_short }}</span>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <a href="{% url 'park_activities' object.slug %}" class="my-2 d-block text-center">
+      See all (displaying 1 - {{ sidebar.activities|length }} of {{ sidebar.activity_count }})
+    </a>
+  </div>
+  {% endif %}
+</div>

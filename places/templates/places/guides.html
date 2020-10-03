@@ -1,0 +1,201 @@
+{% extends 'core/base.html' %}
+{% load cache %}
+{% block title %}Top African safari countries & parks{% endblock %}
+{% block content %}
+</head>
+<div class="container-fluid px-lg-5 max-width guides-page-height mx-auto">
+  <div class="row px-md-5 px-2 justify-content-between">
+    <div class="col-md col-sm-12 ">
+      <p></p>
+      <h1 class="h1-sm">
+        <strong>Africa safari guide</strong>
+      </h1>
+      <div class="row justify-content-between">
+        <div class="col-xl-8 pr-xl-5 col-lg-12">
+
+
+          <!-- TOP -->
+          <div class=" border-grey px-4 p-2 contentbg">
+            <div class="row">
+              <div class="col-12 col-sm-4">
+                {% for country in countries_1 %}
+                <img class="list-flag" src="{{ country.flag.url }}" alt="{{ country }}">
+                <a href="{% url 'country_index' slug=country.slug %}">
+                  {{ country }}
+                  ({{ parks_by_country_count|hash:country.pk }} parks) 
+                </a>
+                <br>
+                {% endfor %}
+              </div>
+              <div class="col-12 col-sm-4">
+                {% for country in countries_2 %}
+                <img class="list-flag" src="{{ country.flag.url }}" alt="{{ country }}">
+                <a href="{% url 'country_index' slug=country.slug %}">
+                  {{ country }}
+                  ({{ parks_by_country_count|hash:country.pk }} parks)
+                </a>
+                <br>
+                {% endfor %}
+              </div>
+              <div class="col-12 col-sm-4">
+                {% for country in countries_3 %}
+                <img class="list-flag" src="{{ country.flag.url }}" alt="{{ country }}">
+                <a href="{% url 'country_index' slug=country.slug %}">
+                  {{ country }}
+                  ({{ parks_by_country_count|hash:country.pk }} parks)
+                </a>
+                <br>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <!-- END TOP -->
+
+          <div class="contentbg mt-4 border-grey px-4 pt-2 ">
+            {% for country in countries %}
+            <div>
+              <div class="row">
+
+
+                <div class="col-md-8 col-sm">
+                  <a href="{% url 'country_index' slug=country.slug %}">
+                    <h3 class="dark-brown">
+                      <img class="flag-big" src="{{ country.flag.url }}" alt="{{ country }}">
+                      <strong>{{ country }}</strong>
+                    </h3>
+                  </a>
+                </div>
+                <div
+                  class="col-md-4 col-sm font-12 text-light-grey text-nowrap d-flex align-items-center justify-content-md-center justify-content-sm-end justify-content-start ml-5 ml-sm-0">
+                  ({{ parks_by_country_count|hash:country.pk }} parks / game reserves listed)
+                </div>
+              </div>
+              <div class="park-list pl-4">
+                <ul class='no-bullets'>
+                  {% for park in parks_by_country|hash:country.pk %}
+                  <li class="spaced">
+                    <div class="row pl-3">
+                      <div class="col-sm-6 col-md-5 col-12 text-nowrap font-12">
+                        <a href="{% url 'park' slug=park.slug %}">
+                          {{ park }}
+                        </a>
+                      </div>
+                      <div class="col-md-2 col-sm-2 col-5 text-nowrap font-11 d-flex align-items-center justify-content-sm-end">
+                        {{ park.average_rating | star_rating | safe }}
+                      </div>
+                      <div class="col-md-2 col-sm-2 col-5 text-nowrap font-11">
+                        <a href="{% url 'park_reviews' slug=park.slug %}">
+                          {{ park.reviews_count }} review{{ park.reviews_count|pluralize }}
+                        </a>
+                      </div>
+                      <div
+                        class="col-md-3 col-sm-4 col-7 d-flex pl-xl-2 pl-lg-4 text-nowrap justify-content-sm-start font-12 text-light-grey">
+                        Safari suitability: {{ park.safari_suitability }}/10
+                      </div>
+                    </div>
+                    <hr class="park-divider-light d-sm-none">
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+            {% if not forloop.last %}
+            <hr class="park-divider">
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="col-xl-4 col-12">
+          <div class="contentbg guides-icon rhc-wide-border px-4 pt-3 pb-2">
+            <i class="fas fa-binoculars"></i> Tour operators: <em>{{ tour_operators_count }} </em><br>
+            <i class="fas fa-map"></i> Tour packages: <em>{{ tour_packages_count }} </em><br>
+            <i class="fas fa-globe-africa"></i> Countries: <em>{{ countries_count }} </em><br>
+            <i class="fas fa-tree"></i> Parks: <em>{{ parks_count }} </em><br>
+            <i class="far fa-comments"></i> Reviews: <em>{{ reviews_count }} </em><br>
+            <i class="fas fa-users"></i> Members: <em>{{ users_count }} </em><br>
+            <i class="fas fa-camera"></i> Photos: <em>{{ photos_count }} </em><br>
+            <i class="fas fa-paw"></i> Wildlife: <em>{{ wildlife_count }} </em><br>
+          </div>
+          <div class="dropdown-divider d-xl-none"></div>
+          <!--This needs to be replaced with the latest tour operators that 
+          have joined YAS. It also needs to only be three, not four-->
+          <div class="contentbg rhc-wide-border px-3 mt-4 max-width-396">
+            <h5 class="pt-3 pb-2 pl-2">
+              <strong>YAS welcomes</strong>
+            </h5>
+            <div class="">
+              {% for operator in operators %}
+              {% if operator.slug %}
+              <a href="{% url 'tour_operator' slug=operator.slug %}">
+                <div class="card reviews mb-3 px-2 py-1">
+                  <div class="photo-container-welcomes">
+                    <img src="{{ operator.logo.url }}" alt="...">
+                  </div>
+                </div>
+              </a>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          <div class="dropdown-divider d-xl-none"></div>
+
+          <div class="contentbg rhc-wide-border px-3 mt-4 max-width-396">
+            <h5 class="pt-3 pb-2 pl-2">
+              <strong>Recent reviews</strong>
+            </h5>
+            <div class="articles">
+              {% for review in reviews %}
+              <a href="{% url 'reviews:index' slug=review.slug %}">
+                <div class="card reviews mb-3 px-2 pt-2 pb-1">
+                  <div class="row no-gutters pb-2">
+                    <div class="col-4">
+                      <div class="photo-container-reviews">
+                        <img src="{{ review.user.profile.avatar.url }}" alt="...">
+                      </div>
+                    </div>
+                    <div class="col-8">
+                      <div class="card-body pr-0">
+                        <p class="card-title text-left text-truncate text-dark-grey">{{ review.title }}</p>
+                        <p class="mb-0 pt-2">
+                          <small class="text-light-grey pb-4">When: {{ review.date_created }}</small>
+                          <br>
+                          <small class="text-light-grey">Where: {{ review }}</small>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <small class="text-light-grey">By: {{ review.user.profile }}</small>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="dropdown-divider d-xl-none"></div>
+          <div class="contentbg rhc-wide-border px-3 mt-4 max-width-396">
+            <h5 class="pt-3 pb-2 pl-2">
+              <strong>Find tours operators in</strong>
+            </h5>
+            <div class="guides_countries pl-2 pb-2">
+              {% for country in countries %}
+              <a href="{% url 'all_tour_operator_country' country=country.slug %}">
+                <img class="flag-small" src="{{ country.flag.url }}" alt="{{ country }}">
+                {{ country }} ({{ operators_by_country_count|hash:country.pk }})
+              </a>
+              <br>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(".navbar-places").addClass("active");
+</script>
+{% endblock %}

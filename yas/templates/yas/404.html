@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% block title %} {{object}} - African Wildlife - Your African Safari  {% endblock %}
+{% block content %}
+<div class="container-fluid px-lg-5 max-width mt-4 mx-auto">
+    <div class="row px-md-5 px-2 justify-content-between">
+      <div class="col-md-6">
+        <h1>We’re looking everywhere, but we can’t find it</h1>
+        <h5>Whoops—404 page not found</h5>
+        <p class="pt-3 mb-1">Maybe we can help you find the page you were looking for:</p>
+        <ul>
+          <li><a href="{% url 'home' %}">Back to home page</a></li>
+          <li><a href="{% url 'articles:index' %}">Check out our latest blog</a></li>
+          <li><a href="{% url 'all_tour_operator' %}">Find a tour operator</a></li>
+          <li><a href="{% url 'all_tour_packages' %}">Find a tour package  </a></li>
+        </ul>
+      </div>
+      <div class="col-md-6">
+        <div class="img-container-404">
+          <img src="{% static 'core/img/meerkats.png' %}" alt="Meerkats">
+        </div>          
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% load thumbnail %}
+<div class="col-lg col-sm-6 d-flex justify-content-center justify-content-lg-start">
+    <div class="card card-stats">
+        <div class="card-body ">
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="card-title pb-2">Top photo</h4>
+                </div>
+                <div class="col-12">
+                    <div class="text-center">
+                        {% if top_photo %}
+                        <img id="top-photo" src="{{ top_photo.image.url|thumbnail_url:'crop_150' }}"
+                            alt="Top photo">
+                            {% else %}
+                            <p class="card-category olive-green">
+                                <a href="{% url 'backend:tour_operator_photos' %}">
+                                    Add your first photo
+                                </a>
+                            </p>
+                            {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

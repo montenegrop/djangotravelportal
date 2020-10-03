@@ -1,0 +1,32 @@
+<div class="col-md-6">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <th colspan="2">Country</th>
+          <th class="text-right">Views</th>
+          <th class="text-right">Percentage</th>
+        </thead>
+        <tbody>
+          {%for country,value in worldtable.items %}
+          <tr>
+            <td>
+              <div>
+                <img class="flag-big" src="{{ country.flag.url }}">
+              </div>
+            </td>
+            <td>
+              {{ country.name_short }}
+            </td>
+            <td class="text-right">
+              {{ value.1 }}
+            </td>
+            <td class="text-right">
+              {{ value.0|floatformat:0 }}%
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <a href="#" class="d-flex justify-content-end">View all your analytics</a>
+    </div>
+  </div>

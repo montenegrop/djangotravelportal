@@ -1,0 +1,17 @@
+<div class="slide-social-wrapper mt-md-2 mt-2 d-flex justify-content-end ml-2">
+    <a class="slide-social-icon"
+       href="http://www.facebook.com/sharer/sharer.php?u=https://www.yourafricansafari.com{{ request.get_full_path|urlencode }}"
+       target="_blank">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+    <a class="slide-social-icon"
+       href="//twitter.com/intent/tweet?text={{ object }}&url=https://www.yourafricansafari.com{{ request.get_full_path|urlencode }}&via=safaricompanies"
+       target="_blank">
+        <i class="fab fa-twitter"></i>
+    </a>
+    <a class="slide-social-icon"
+       href="http://www.linkedin.com/shareArticle?url=https://www.yourafricansafari.com{{ request.get_full_path|urlencode }}&title={{ object }}&summary={{ object.meta_description }}&source=https://www.yourafricansafari.com/"
+       target="_blank">
+        <i class="fab fa-linkedin-in"></i>
+    </a>
+</div>

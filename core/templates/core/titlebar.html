@@ -1,0 +1,25 @@
+    <div class="park-title pt-national-park">
+        <div class="wrap">
+            <div class="pt-left">
+                <div class="pt-height">
+                    <h1>{{ main_text }}</h1>
+                    {% if  secondary_text %}
+                    <p class="mt-5">{{ secondary_text }}</p>
+                    {% endif %}
+                    {% if review_count and not secondary_text %}
+                    <div class="ob-rating">
+		      {% with rating=review_rating %}
+		      {% include 'core/star_rating.html' %}
+		      {% endwith %}
+                        <p><span>{{ review_count }}</span>  review{{ review_count|pluralize }}</p>
+                    </div>
+                    {% endif %}
+                </div><!-- /.pt-height -->
+            </div><!-- /.pt-left -->
+            <aside class="sidebar">
+
+
+            </aside>
+        </div><!-- /.wrap -->
+    </div><!-- /.park-title -->
+    

@@ -1,0 +1,15 @@
+rsync -avzh  yas@149.56.30.190:/opt/YAS/root/images/member/avatar/ root/images/member/avatar
+rsync -avzh  yas@149.56.30.190:/opt/YAS/root/images/pagesponsor/ root/images/pagesponsor
+
+# lets grab the processed photos and not the src, because it's a lot of space
+rsync -avzh  yas@149.56.30.190:/opt/YAS/root/images/photo/ root/images/photo  --include "*_*.jpg" --exclude "*"
+
+rsync -avzh  yas@149.56.30.190:/opt/YAS/root/images/touroperator/logo/ root/images/touroperator/logo
+rsync -avzh  yas@149.56.30.190:/opt/YAS/root/images/article/ root/images/article
+rsync -avzh  yas@149.56.30.190:/opt/YAS/root/images/pages/ root/images/pages
+rsync -avzh  yas@149.56.30.190:/opt/YAS/root/images/animal/ root/images/animal
+rsync -avzh  yas@149.56.30.190:/opt/YAS/root/images/activity/ root/images/activity
+rsync -avzh  yas@149.56.30.190:/opt/YAS/root/images/park/ root/images/park
+rsync -avzh  yas@149.56.30.190:/opt/YAS/root/images/countries/ root/images/countries
+rsync -avzh  yas@149.56.30.190:/opt/YAS/root/images/advertisement/ root/images/advertisement
+rsync -avzh  yas@149.56.30.190:/opt/YAS/root/images/airline/ root/images/airline

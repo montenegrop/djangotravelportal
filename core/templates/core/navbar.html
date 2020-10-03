@@ -1,0 +1,321 @@
+{% load static %}
+
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static 'core/css/navbar.css' %}">
+</head>
+<header class="fixed-top navbar-white">
+  <!-- SEARCH INPUT START -->
+  <nav class="navbar w-100 max-width navbar-expand navbar-white d-none search-toggle search-show">
+    <form action="" class="search-form w-100">
+      <div class="input-group  w-100">
+        <input autocomplete="off" type="text" class="form-control w-90 search-text mr-sm-2"
+          placeholder="Let's go! Search by country, park or operator" aria-label="Search"
+          aria-describedby="basic-addon2" id="top-search">
+        <div class="input-group-append">
+          <button class="btn btn-close-search" type="button">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </nav>
+  <!-- SEARCH INPUT END -->
+  <nav class=" navbar max-width navbar-expand navbar-white search-toggle search-hide">
+    <a class="navbar-brand" href="#">
+      <div class="d-none d-sm-block ml-n3 ml-md-3 ml-xl-0">
+        <a class="navbar-brand" href="{% url 'home' %}">    
+          <span class="d-inline-block">   
+            <object type="image/svg+xml" data="{% static 'core/img/logo_color.svg' %}" id="yas-logo">
+              Your African Safari logo
+              <img src="{% static 'core/img/logo_color.png' %}" alt="Your African Safari logo" id="yas-logo">
+            </object> 
+          </span>   
+        </a>
+      </div>
+      <div class="d-block d-sm-none">
+        <a class="navbar-brand" href="{% url 'home' %}">
+          <span class="d-inline-block">   
+            <object type="image/svg+xml" data="{% static 'core/img/logo_no_text_color.svg' %}" id="yas-logo">
+              Your African Safari logo
+              <img src="{% static 'core/img/logo_no_text_color.png' %}" alt="Your African Safari logo" id="yas-logo">
+            </object>  
+          </span>         
+        </a>
+      </div>
+    </a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+
+      </ul>
+      <form class="form-inline form-search my-2 my-lg-0 mr-md-4">
+        <ul class="navbar-nav mr-auto">
+          <li>
+            <a href="{% url 'shortlist' %}">
+              <span class="nobullet fa-stack fa-2x fa-lg mr-n1 fav">
+                <i class="far fa-heart fa-nav-heart fa-stack-2x" id="heart-nav"></i>
+                <i class="fas fa-heart fa-stack-2x" id="heart-nav"></i>
+                {% if favs_count %}
+                <i class="far fa-triangle fa-stack-1x counter fav-counter fa-inverse">{{ favs_count }}</i>
+                {% else %}
+                <i class="far fa-triangle fa-stack-1x counter fav-counter fa-inverse"></i>
+                {% endif %}
+              </span>
+            </a>
+          </li>
+        </ul>
+        <button class="btn top-search-button pl-0 my-2 my-sm-0">
+          <i class="fa fa-search search-icon" aria-hidden="true">&nbsp;</i>
+        </button>
+      </form>
+    </div>
+  </nav>
+  <nav class="navbar navbar-expand-md navbar-dark bg-nav-footer">
+    <div class="d-flex container-fluid max-width">
+      <div class="d-md-flex text-nowrap container-fluid align-items-center remove-flex">
+        <div class="navbar-header d-flex pl-0 container-fluid order-sm-2 align-items-center">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar"
+            onclick="lockScroll();">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="dropdown ml-auto mr-n2 mr-md-0">
+            <!-- Not logged in-->
+            <!-- Logged in-->
+            {% if user.is_authenticated %}
+
+            <a class="text-white" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Welcome, {{ user.profile }}!
+            </a>
+            <div class="dropdown-menu dropdown-menu-right font-14" aria-labelledby="dropdownMenuLink">
+              <div class="accordion" id="accordionLoginArea">
+                <a href="{% url 'backend:member_profile' %}" class="dropdown-toggle dropdown-item menu-link"
+                  role="button" data-toggle="" data-target="#collapseMember" aria-expanded="true"
+                  aria-controls="collapseMember">
+                  My member area
+                  {% if user.profile.avatar %}
+                  <img id="avatar" src="{{user.profile.avatar|thumbnail_url_:'crop_150'}}">
+                  {% endif %}
+                </a>
+              </div>
+              <div class="dropdown-divider"></div>
+
+              {% if user.profile.is_tour_operator %}
+              <div class="accordion" id="accordionLoginArea">
+                <a href="{% url 'backend:tour_operator_dashboard' %}" class="  dropdown-item menu-link">
+                  My company area
+                  {% if user.profile.tour_operator.logo %}
+                  <img id="avatar" src="{{user.profile.tour_operator.logo|thumbnail_url_:'crop_150'}}">
+                  {% endif %}
+                </a>
+              </div>
+              <div class="dropdown-divider"></div>
+              {% endif %}
+              <div id="collapseMember" class="menu-link" data-parent="#accordionLoginArea">
+                <a class="dropdown-item" href="{% url 'reviews:create' %}">Write a review</a>
+              </div>
+
+              {% if user.is_staff %}
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item menu-link" href="{% url 'backend:admin' %}">Admin</a>
+              {% endif %}
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item menu-link" href="{% url 'logout_view' %}">Logout</a>
+            </div>
+            {% else %}
+            <!-- Not logged in-->
+            <a class="text-white mr-4 border border-white rounded px-2 py-1" href="#" data-target="#loginModal"
+              data-toggle="modal" aria-haspopup="true" aria-expanded="false">
+              Login
+            </a>
+            {% endif %}
+          </div>
+        </div>
+
+
+
+        <div class="collapse mobile-menu navbar-collapse order-sm-1 mt-md-0 mt-2" id="collapsibleNavbar">
+          <ul class="navbar-nav mr-auto pt-2 pt-md-0 mt-2 mt-md-0">
+
+            <!-- TOUR OPERATORS -->
+            <li class="nav-item px-4 px-md-2 dropdown">
+              <!--THE LINK BELOW AS WELL AS THE "SEE ALL" LINK NEED TO BE LINKED TO ALL TOUR OPERATORS-->
+              <a class="nav-link navbar-link navbar-tour-operators d-none d-md-flex" role="button" aria-haspopup="true"
+                aria-expanded="false" href="{% url 'all_tour_operator' %}">Tour operators</a>
+
+
+              <a class="nav-link navbar-link navbar-tour-operators d-md-none" id="navbarDropdown" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tour operators</a>
+
+              <ul class="dropdown-menu drop-down-height border-navmenu font-14">
+                <form>
+                  <a class="dropdown-item d-md-none menu-link" id="dropdownMenuLink" aria-haspopup="true"
+                    href="{% url 'all_tour_operator' %}" aria-expanded="false">See all</a>
+                  <div class="dropdown-divider d-md-none"></div>
+
+                  {% for country in all_countries %}
+                  <li class="dropdown-submenu {{ country.name }}">
+                    <a class="dropdown-item carat-hover menu-link py-2"
+                      href="{% url 'all_tour_operator_country' country=country.slug %}">
+                      {{ country }}
+                    </a>
+                    <div class="dropdown-menu dropdown-border-hide font-14 text-wrap menu-link"
+                      aria-labelledby="dropdownMenuLink">
+                      <a class="dropdown-item dark-brown" id="submenu-title-link"
+                        href="{% url 'all_tour_operator_country' country=country.slug %}">
+                        Find a tour operator
+                      </a>
+                      <p class="px-4 text-light-grey font-11">Take your first steps in planning your ultimate
+                        safari
+                      </p>
+                      {% for park in country.parks.all %}
+                      <a class="dropdown-item font-12 dark-brown py-2"
+                        href="{% url 'all_tour_operator_park' park=park.slug %}">{{ park }}</a>
+                      {% endfor %}
+                    </div>
+                  </li>
+                  <div class="dropdown-divider d-md-none"></div>
+                  {% endfor %}
+                </form>
+              </ul>
+            </li>
+
+            <div class="mobilemenu-divider mx-3 d-md-none"></div>
+
+            <!-- TOUR PACKAGES -->
+            <li class="nav-item px-4 px-md-2 dropdown">
+              <!--THE LINK BELOW AS WELL AS THE "SEE ALL" LINK NEED TO BE LINKED TO ALL TOUR PACKAGES-->
+              <a class="nav-link navbar-link navbar-tour-packages d-none d-md-flex" role="button" aria-haspopup="true"
+                aria-expanded="false" href="{% url 'all_tour_packages' %}">Tour packages</a>
+              <a class="nav-link navbar-link navbar-tour-packages d-md-none" id="navbarDropdown" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tour packages</a>
+              <ul class="dropdown-menu drop-down-height border-navmenu font-14">
+                <form>
+                  <a class="dropdown-item d-md-none menu-link" id="dropdownMenuLink" aria-haspopup="true"
+                    href="{% url 'all_tour_packages' %}" aria-expanded="false">See all</a>
+                  <div class="dropdown-divider d-md-none"></div>
+
+                  {% for country in all_countries %}
+                  <li class="dropdown-submenu {{ country.name }}">
+                    <a class="dropdown-item carat-hover menu-link py-2"
+                      href="{% url 'all_tour_packages_country' country=country.slug %}">
+                      {{ country }}
+                    </a>
+                    <div class="dropdown-menu dropdown-border-hide font-14 text-wrap menu-link"
+                      aria-labelledby="dropdownMenuLink">
+                      <a class="dropdown-item dark-brown" id="submenu-title-link"
+                        href="{% url 'all_tour_packages_country' country=country.slug %}">Find a tour package</a>
+                      <p class="px-4 text-light-grey font-11">Narrow your search by park or game reserve</p>
+                      {% for park in country.parks.all %}
+                      <a class="dropdown-item font-12 dark-brown py-2"
+                        href="{% url 'all_tour_packages_park' park=park.slug %}">
+                        {{ park }}
+                      </a>
+                      {% endfor %}
+                    </div>
+                  </li>
+                  <div class="dropdown-divider d-md-none"></div>
+                  {% endfor %}
+                </form>
+              </ul>
+            </li>
+
+            <div class="mobilemenu-divider mx-3 d-md-none"></div>
+
+            <!-- PLACES -->
+            <li class="nav-item px-4 px-md-2 dropdown">
+
+              <a class="nav-link navbar-link navbar-places  d-none d-md-flex" role="button" aria-haspopup="true"
+                aria-expanded="false" href="{% url 'guides' %}">Places</a>
+              <a class="nav-link navbar-link navbar-places d-md-none" id="navbarDropdown" role="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Places</a>
+              <ul class="dropdown-menu drop-down-height border-navmenu font-14">
+                <form>
+                  <a class="dropdown-item d-md-none menu-link" id="" href="{% url 'guides' %}" aria-expanded="false">See
+                    all</a>
+                  <div class="dropdown-divider d-md-none"></div>
+                  {% for country in all_countries %}
+                  <li class="dropdown-submenu">
+                    <a class="dropdown-item carat-hover menu-link py-2"
+                      href="{% url 'country_index' slug=country.slug %}">
+                      {{ country }}
+                    </a>
+                    <div class="dropdown-menu dropdown-border-hide font-14 text-wrap menu-link"
+                      aria-labelledby="dropdownMenuLink">
+                      <a class="dropdown-item {{ country.name }} dark-brown" id="submenu-title-link"
+                        href="{% url 'country_index' slug=country.slug %}">About {{ country }}</a>
+                      <p class="px-4 ml-2 text-light-grey font-11">Best time to visit</br>Vaccinations</br>Plug type
+                        needed</p>
+                      <a class="dropdown-item mb-2 dark-brown" id="submenu-title-link"
+                        href="{% url 'country_index_parks' slug=country.slug %}">Parks and game reserves</a>
+                      <a class="dropdown-item dark-brown" id="submenu-title-link"
+                        href="{% url 'country_index_getting_there' country.slug %}">Getting to {{ country }}</a>
+                      <p class="px-4 ml-2 text-light-grey font-11">See which airlines fly to {{ country }}</p>
+                      <a class="dropdown-item mb-2 dark-brown" id="submenu-title-link"
+                        href="{% url 'country_index_wildlife' country.slug %}">{{ country }} wildlife</a>
+                    </div>
+                  </li>
+
+                  <div class="dropdown-divider d-md-none"></div>
+                  {% endfor %}
+                </form>
+              </ul>
+            </li>
+            <div class="mobilemenu-divider mx-3 d-md-none"></div>
+            <li class="nav-item px-4 px-md-2">
+              <a class="nav-link navbar-photos navbar-link" href="{% url 'photos:index' %}">Photos</a>
+            </li>
+            <div class="mobilemenu-divider mx-3 d-md-none"></div>
+            <li class="nav-item px-4 px-md-2">
+              <a class="nav-link navbar-wildlife navbar-link" href="{% url 'wildlife' %}">Wildlife</a>
+            </li>
+            <div class="mobilemenu-divider mx-3 d-md-none"></div>
+            <li class="nav-item px-4 px-md-2">
+              <a class="nav-link navbar-blog navbar-link" href="{% url 'articles:index' %}">Blog</a>
+            </li>
+            <div class="mobilemenu-divider mx-3 d-md-none"></div>
+            <li class="nav-item px-4 px-md-2">
+              <a class="nav-link navbar-about-us navbar-link" href="{% url 'about-us' %}">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<style>
+  .menu-link {
+    color: #494946 !important;
+  }
+
+  .menu-link:hover {
+    color: #505D2E !important;
+  }
+
+
+
+  .no-scroll {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+
+  .lock-scroll {
+    overflow: hidden;
+  }
+
+  .dropdown ul li:hover>a {
+    background-color: #f1f2f3;
+    color: #4B5320 !important;
+  }
+
+  #cookie-alert {
+    position: fixed;
+    bottom: -15px;
+    opacity: 0.9;
+    right: 0;
+    left: 0;
+    z-index: 10;
+  }
+</style>

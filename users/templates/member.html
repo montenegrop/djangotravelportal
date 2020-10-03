@@ -1,0 +1,405 @@
+{% extends 'core/base.html' %}
+{% load fullurl %}
+{% load static %}
+{% block title %}{{ object.display_name }} - Your African Safari member{% endblock %}
+{% block meta_description %}
+    {% if object.description %}
+        {{ object.description }}
+    {% else %}
+        {{ object.display_name }} is a member of yourafricansafari.com. Your African Safari offers unbiased, independent
+        reviews
+        of safari tour operators, safari companies and safari game parks.
+    {% endif %}
+{% endblock %}
+{% block meta_keywords %}{{ object.display_name }} - Your African Safari member{% endblock %}
+{% block link_canonical %}{% fullurl 'member' pk=object.pk slug=object.display_name_slugged %}{% endblock %}
+{% block extrahead %}
+
+    <script src="{% static '@robertorodriguez/yasfresco/dist/js/fresco.js' %}"></script>
+    <link rel="stylesheet" href="{% static '@robertorodriguez/yasfresco/dist/css/fresco.css' %}"/>
+
+
+    <style>
+        .review-rating-column {
+            min-width: 115px;
+        }
+    </style>
+
+    <script src="{% static 'users/js/utils.js' %}"></script>
+
+    <div>
+        <div class="member-bg-image"
+             style="background-image: url({% static '/core/img/main-tour-operator-about.jpg' %});">
+        </div>
+
+        <div class="pl-5 pl-sm-0">
+            <div class="container-fluid px-lg-5 max-width mx-auto">
+                <div class="row px-md-5 px-4">
+                    <div>
+                        <div class="pt-left">
+                            <div class="member-avatar">
+                                <img src="
+
+
+                                        {% if object.avatar %}{{ object.avatar.url }}{% else %}{% static '/users/img/user_blank.png' %}{% endif %}"
+                                     alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid px-lg-5 max-width mt-2 mx-auto border-bottom">
+            <div class="row px-md-5 px-4 ml-md-1">
+                <h1 class="h1-sm pr-3 mt-2">{{ object.display_name }}</h1>
+                <div>
+                    {% if object.user_type == 'LO' %}
+                        <h2 class="font-12 pr-2 pb-sm-1 text-dark-grey"><i class="i-lodge-staff"></i> Lodge staff/owner
+                        </h2>
+                        <h5 class="font-weight-light h5-sm">I own, manager or work at a safari lodge/camp</h5>
+                    {% endif %}
+                    {% if object.user_type == 'NP' %}
+                        <h2 class="font-12 pr-2 pb-sm-1 text-dark-grey"><i class="i-non-profit"></i> Non-profit</h2>
+                        <h5 class="font-weight-light h5-sm">I work for or own a non-profit company, such as African
+                            Wildlife
+                            Federation</h5>
+                    {% endif %}
+                    {% if object.user_type == 'SG' %}
+                        <h2 class="font-12 pr-2 pb-sm-1 text-dark-grey"><i class="i-safari-driver"></i> Safari
+                            driver/guide</h2>
+                        <h5 class="font-weight-light h5-sm">I work as a safari guide or driver, either independently or
+                            for a
+                            tour operator
+                        </h5>
+                    {% endif %}
+                    {% if object.user_type == 'SE' %}
+                        <h2 class="font-12 pr-2 pb-sm-1 text-dark-grey"><i class="i-safari-enthusiast"></i> Safari
+                            enthusiast</h2>
+                        <h5 class="font-weight-light h5-sm">I have been on safari or am looking to go on safari</h5>
+                    {% endif %}
+                    {% if object.user_type == 'TO' %}
+                        <h2 class="font-12 pr-2 pb-sm-1 text-dark-grey"><i class="i-safari-tour-operator"></i> Safari
+                            tour operator
+                        </h2>
+                        <h5 class="font-weight-light h5-sm">I own or work for a safari company that offers tours in
+                            Africa</h5>
+                    {% endif %}
+                    {% if object.user_type == 'TA' %}
+                        <h2 class="font-12 pr-2 pb-sm-1 text-dark-grey"><i class="i-travel-agency"></i> Travel agency
+                        </h2>
+                        <h5 class="font-weight-light h5-sm">I work for or own a travel agency</h5>
+                    {% endif %}
+                    {% if object.user_type == 'TW' %}
+                        <h2 class="font-12 pr-2 pb-sm-1 text-dark-grey"><i class="i-travel-writer"></i> Travel writer
+                        </h2>
+                        <h5 class="font-weight-light h5-sm">I am a travel writer/blogger/Tweeter</h5>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container-fluid px-lg-5 max-width mt-4 mx-auto">
+            <div class="row px-md-5 px-2 justify-content-between">
+                <div class="col-xl-8 pr-xl-5 col-lg-12">
+                    <div class="border rounded mb-4 pt-1 px-3">
+                        <h2 class="h2-sm">About me</h2>
+                        <p class="mb-2">
+                            {% if object.description %}
+                                {{ object.description }}
+                            {% else %}
+                                {{ object.display_name }} has not written a description yet.
+                            {% endif %}
+                        </p>
+                        <hr class="my-2">
+                        <div class="row my-2">
+                            <div class="col-12"><strong>Preferred safari lodging:</strong> {{ object.luxury_level }}
+                            </div>
+                            <div class="col">
+                                {{ object.get_luxury_level_display }}
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {% if object.has_website_or_blog or object.has_social_media %}
+                        <div class="border rounded mb-4 py-2 px-3">
+                            {% if object.has_website_or_blog %}
+                                <div class="row mb-0">
+                                    <div class="col-4">My website or articles:</div>
+                                    <div class="col">
+                                        {% if object.blog %}
+                                            <span class="c-green"><a href="{{ object.blog }}"
+                                                                     target="_blank">{{ object.blog }}</a></span>
+                                        {% else %}
+                                            <span class="c-green"><a href="{{ object.website }}"
+                                                                     target="_blank">{{ object.website }}</a></span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <hr class="my-2">
+                            {% endif %}
+                            {% if object.has_social_media %}
+                                <div class="row">
+                                    <div class="col-4">Social media:</div>
+                                    <div class="col">
+                                        <div class="slide-social-wrapper d-flex">
+                                            {% if object.facebook %}
+                                                <a href="{{ object.facebook }}" target="_blank"
+                                                   class="slide-social-icon active">
+                                                    <i class="fab fa-facebook-f"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if object.twitter %}
+                                                <a href="{{ object.twitter }}" target="_blank"
+                                                   class="slide-social-icon active">
+                                                    <i class="fab fa-twitter"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if object.instagram %}
+                                                <a href="{{ object.instagram }}" target="_blank"
+                                                   class="slide-social-icon active">
+                                                    <i class="fab fa-instagram"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if object.pinterest %}
+                                                <a href="{{ object.pinterest }}" target="_blank"
+                                                   class="slide-social-icon active">
+                                                    <i class="fab fa-pinterest"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if object.linkedin %}
+                                                <a href="{{ object.linkedin }}" target="_blank"
+                                                   class="slide-social-icon active">
+                                                    <i class="fab fa-linkedin-in"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if object.youtube %}
+                                                <a href="{{ object.youtube }}" target="_blank"
+                                                   class="slide-social-icon active">
+                                                    <i class="fab fa-youtube"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if object.whatsapp %}
+                                                <a href="{{ object.whatsapp }}" target="_blank"
+                                                   class="slide-social-icon active">
+                                                    <i class="fab fa-whatsapp"></i>
+                                                </a>
+                                            {% endif %}
+                                            {% if object.skype %}
+                                                <a href="{{ object.skype }}" target="_blank"
+                                                   class="slide-social-icon active">
+                                                    <i class="fab fa-skype"></i>
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    <div class="border rounded mb-4 py-2 px-3">
+                        <div class="row">
+                            <div class="col-4">Residence:</div>
+                            <div class="col">
+                                {{ object.country }}
+                            </div>
+                        </div>
+                        <hr class="my-2">
+                        <div class="row">
+                            <div class="col-4">Has been on:</div>
+                            <div class="col">{{ object.safari_count }} safari{{ object.safari_count|pluralize }}</div>
+                        </div>
+                        {% if object.reviews|length %}
+                            <hr class="my-2">
+                            <div class="row">
+                                <div class="col-4">Number of reviews:</div>
+                                <div class="col">{{ object.reviews|length }}</div>
+                            </div>
+                        {% endif %}
+                        <hr class="my-2">
+                        <div class="row">
+                            <div class="col-4">Kudus:</div>
+                            <div class="col"><i style="font-size: 18px;"
+                                                class="i-inline i-kudu"></i>{{ object.kudu_count }}</div>
+                        </div>
+                        <hr class="my-2">
+                        <div class="row">
+                            <div class="col-4">Badges:</div>
+                            <div class="col mb-0">
+                                {% if object.user_type == 'LO' %}
+                                    <div class="row align-items-center"
+                                         title="{{ object.display_name2|capfirst }} owns, manages or works at a safari lodge/camp">
+                                        <i class="i-lodge-staff col-1 mr-3 mr-md-2"></i>
+                                        Lodge staff/owner
+                                    </div>
+                                {% endif %}
+                                {% if object.user_type == 'NP' %}
+                                    <div class="row align-items-center"
+                                         title="{{ object.display_name2|capfirst }} works for or owns a non-profit company, such as African Wildpfe Federation">
+                                        <i class="i-non-profit col-1 mr-3 mr-md-2"></i>
+                                        Non-profit
+                                    </div>
+                                {% endif %}
+                                {% if object.user_type == 'SG' %}
+                                    <div class="row align-items-center"
+                                         title="{{ object.display_name2|capfirst }} works as a safari guide or driver, either independently or for a tour operator">
+                                        <i class="i-safari-driver col-1 mr-3 mr-md-2"></i>
+                                        Safari driver/guide
+                                    </div>
+                                {% endif %}
+                                {% if object.user_type == 'SE' %}
+                                    <div class="row align-items-center"
+                                         title="{{ object.display_name2|capfirst }} has been on safari or is looking to go on safari">
+                                        <i class="i-safari-enthusiast col-1 mr-3 mr-md-2"></i>
+                                        Safari enthusiast
+                                    </div>
+                                {% endif %}
+                                {% if object.user_type == 'TO' %}
+                                    <div class="row align-items-center"
+                                         title="{{ object.display_name2|capfirst }} owns or works for a safari company that offers tours in Africa">
+                                        <i class="i-safari-tour-operator col-1 mr-3 mr-md-2"></i>
+                                        Tour operator
+                                    </div>
+                                {% endif %}
+                                {% if object.user_type == 'TA' %}
+                                    <div class="row align-items-center"
+                                         title="{{ object.display_name2|capfirst }} owns or works for a travel agency">
+                                        <i class="i-travel-agency col-1 mr-3 mr-md-2"></i>
+                                        Travel agency
+                                    </div>
+                                {% endif %}
+                                {% if object.user_type == 'TW' %}
+                                    <div class="row align-items-center"
+                                         title="{{ object.display_name2|capfirst }} is a travel writer/blogger/Tweeter">
+                                        <i class="i-travel-writer col-1 mr-3 mr-md-2"></i>
+                                        Travel writer
+                                    </div>
+                                {% endif %}
+                                {% if object.contribution_count >= 10 %}
+                                    <div class="row align-items-center"
+                                         title="{{ object.display_name2|capfirst }} has written at least 10 reviews/articles">
+                                        <i class="i-top-contributor col-1 mr-3 mr-md-2"></i>
+                                        Top contributor
+                                    </div>
+                                {% endif %}
+                                {% if object.safari_count >= 10 %}
+                                    <div class="row align-items-center"
+                                         title="{{ object.display_name2|capfirst }} has gone on at least 10 safaris">
+                                        <i class="i-safari-guru col-1 mr-3 mr-md-2"></i>
+                                        Safari guru
+                                    </div>
+                                {% endif %}
+                                {% if object.countries_count >= 10 %}
+                                    <div class="row align-items-center"
+                                         title="{{ object.display_name2|capfirst }} has visited at least 10 African countries">
+                                        <i class="i-african-countries col-1 mr-3 mr-md-2"></i>
+                                        African traveller
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <hr class="my-2">
+                        <div class="row">
+                            <div class="col-4">Last updated:</div>
+                            <div class="col">{{ object.date_modified|date:"M j, Y" }}</div>
+                        </div>
+                    </div>
+                    {% if object.reviews %}
+                        <div class="table-responsive">
+                            <table class="table table-striped table-responsive">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Reviewed</th>
+                                    <th scope="col" class="text-nowrap">Review name</th>
+                                    <th scope="col">Rating</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for review in object.reviews %}
+                                    {% if review.park %}
+                                        <tr>
+                                            <td scope="row"
+                                                class="text-nowrap">{{ review.date_created|date:"M j, Y" }}</td>
+                                            <td><a href="{% url 'park' review.park.slug %}">{{ review.park.name }}</a>
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'park_reviews' review.park.slug %}?review={{ review.id }}">{{ review.title }}</a>
+                                            </td>
+                                            <td class="review-rating-column">
+                                                {{ review.overall_rating | star_rating | safe }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td scope="row">{{ review.date_created|date:"M j, Y" }}</td>
+                                            <td>
+                                                <a href="{% url 'tour_operator' review.tour_operator.slug %}">{{ review.tour_operator.name }}</a>
+                                            </td>
+                                            <td><a href="">{{ review.title }}</a></td>
+                                            <td class="review-rating-column">
+                                                {{ review.overall_rating | star_rating | safe }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+
+
+                    <div class="row" id="photos">
+                        {% include 'users/includes/photos.html' %}
+                    </div>
+                    {% if object.photos_total > 9 %}
+                        <a class="text-center d-block" id="more-photos" href="show-more">Show more</a>
+                    {% endif %}
+                </div>
+                {% include 'users/includes/member_sidebar.html' %}
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var limit = 1
+
+            $(".give_kudu").click(function () {
+                var photo_id = $(this).attr("id").replace("give_kudu_ph", "");
+                $.post("/photos/api/photo-like/" + photo_id + "/", function (data) {
+                    $(".kudu_text_ph" + photo_id).html(data.text);
+                    $(".kudu_count_ph" + photo_id).html(data.kudus);
+                    alert(data.message);
+                });
+            });
+
+            $('#more-photos').click(function (e) {
+                e.preventDefault();
+                limit = limit + 1;
+                axios({
+                    method: 'post',
+                    url: '{% url 'member' object.id %}',
+                    data: {
+                        limit: limit,
+                    },
+                }).then((response) => {
+                    $('#photos').append(response.data.photos);
+                    if (response.data.capped) {
+                        $('#more-photos').removeClass("d-block");
+                        $('#more-photos').hide();
+                    }
+                }, (error) => {
+                });
+
+            });
+
+        });
+
+    </script>
+
+
+
+
+{% endblock %}

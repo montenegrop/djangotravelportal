@@ -1,0 +1,491 @@
+{% extends 'backend/member/base.html' %}
+{% load static %}
+{% block backendcontent %}
+<div class="row max-width-admin">
+  <div class="col-12">
+    <div class="card main container-fluid">
+      <div class="card-header">
+        <div class="row d-flex justify-content-between px-2">
+          <h4>My member profile</h4>
+          <button data-toggle="modal" data-target="#updatePassword" type="submit" class="btn btn-green-secondary">Update password</button>
+        </div>
+        <!-- modal -->
+        <div class="modal fade" id="updatePassword" tabindex="-1" role="dialog" aria-labelledby="updatePasswordLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="updatePasswordLabel">Update your password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="currentInputPassword">Current password<span class="asteriskField">*</span></label>
+                  <input type="password" class="form-control" id="currentInputPassword1">
+                </div>
+                <div class="form-group">
+                  <label for="newInputPassword">New password<span class="asteriskField">*</span></label>
+                  <input type="password" class="form-control" id="newInputPassword">
+                </div>
+                <div class="form-group">
+                  <label for="confirmInputPassword">Confirm password<span class="asteriskField">*</span></label>
+                  <input type="password" class="form-control" id="confirmInputPassword">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-green-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-green-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>      
+      <div class="card-body ">        
+        <div class="row pb-4">
+          <h5 class="col-12">About me</h5>
+          <div class="img-container col-12">
+            <img src="https://yastest.crescente.com.ar/media/images/user_avatar/2020/05/26/image_961" alt="">
+          </div>
+          <div class="col-12 col-sm">
+            <p>Juan</p>
+            <p>Desciption Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+              Quo totam impedit tenetur cupiditate labore optio, doloremque recusandae odio magnam,
+              repellendus cum omnis aut blanditiis accusamus, quaerat saepe voluptas iste ipsa?Lorem,
+              ipsum dolor sit amet consectetur adipisicing elit. Quo totam impedit tenetur cupiditate labore optio,
+              doloremque recusandae odio magnam, repellendus cum omnis aut blanditiis accusamus, quaerat saepe
+              voluptas iste ipsa?
+            </p>
+            <div class="row">
+              <div class="col-12 col-xl-6">
+                <div class="row">
+                  <div class="col-5 col-md-4 pb-3">
+                    Residence:
+                  </div>
+                  <div class="col">
+                    <img class="flag-small"
+                      src="https://yastest.crescente.com.ar/media/images/country_flags/image_236" alt="United States"
+                      data-toggle="tooltip" data-placement="top" title="" data-original-title="United States">
+                    United states
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-5 col-md-4 pb-3">
+                    Has been on:
+                  </div>
+                  <div class="col">
+                    0 safaris
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-5 col-md-4 pb-3">
+                    Last updated:
+                  </div>
+                  <div class="col">
+                    Jun 18, 2020
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-5 col-md-4 pb-3">
+                    Social media
+                  </div>
+                  <div class="col">
+                    <div class="slide-social-wrapper d-flex">
+                      <a href="https://www.facebook.com/morgantrimblephotography" target="_blank"
+                        class="slide-social-icon active">
+                        <i class="fab fa-facebook-f"></i>
+                      </a>
+                      <a href="https://twitter.com/morgantrimble" target="_blank" class="slide-social-icon active">
+                        <i class="fab fa-twitter"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-xl-6">
+                <div class="row">
+                  <div class="col-5 col-md-4 col-xl-6 pb-3">
+                    Number of reviews:
+                  </div>
+                  <div class="col">
+                    0
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-5 col-md-4 col-xl-6 pb-3">
+                    Kudus:
+                  </div>
+                  <div class="col">
+                    <i class="i-inline i-kudu h5"></i> 0
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-5 col-md-4 col-xl-6 pb-3">
+                    Badges:
+                  </div>
+                  <div class="col">
+                    <i class="i-travel-writer pl-1"></i> Travel writer
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="row">
+          <h4 class="pb-3 pl-2">Update member profile</h4>
+          <h5 class="col-12">Contact info</h5>
+          <div class="form-group col-md-4">
+            <label for="">First Name<span class="asteriskField">*</span></label>
+            <input type="" class="form-control" id="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="">Last Name<span class="asteriskField">*</span></label>
+            <input type="" class="form-control" id="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="">Screen Name<span class="asteriskField">*</span></label>
+            <input type="" class="form-control" id="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="">Email<span class="asteriskField">*</span></label>
+            <input type="" class="form-control" id="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="inputState">Residence<span class="asteriskField">*</span></label>
+            <select id="inputState" class="form-control">
+              <option selected>Choose...</option>
+              <option>...</option>
+            </select>
+          </div>
+        </div>
+        <div class="row pt-3">
+          <h5 class="col-12">Social media</h5>
+          <div class="form-group col-md-4">
+            <label for="">Facebook</label>
+            <input type="" class="form-control" id="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="">Twitter</label>
+            <input type="" class="form-control" id="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="">Instagram</label>
+            <input type="" class="form-control" id="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="">Pinterest</label>
+            <input type="" class="form-control" id="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="">Pinterest</label>
+            <input type="" class="form-control" id="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="">Pinterest</label>
+            <input type="" class="form-control" id="">
+          </div>
+        </div>
+        <div class=" pt-3">
+          <h5>About you</h5>
+          <p>What describes me</p>
+          <div class="form-check d-block">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+              <i class="fas fa-house-user"></i>Lodge staff/owner <em class="font-11 text-light-grey">I own, manage or work at a safari lodge/camp</em>
+            </label>
+          </div>
+          <div class="form-check d-block">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+              <i class="fas fa-recycle"></i> Non-profit <em class="font-11 text-light-grey">I work for or own a non-profit company, such as African Wildlife Federation</em>
+            </label>
+          </div>
+          <div class="form-check d-block">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+              <i class="fas fa-bus"></i> Safari driver/guide <em class="font-11 text-light-grey">I work as a safari guide or driver, either independently or for a tour operator</em>
+            </label>
+          </div>
+          <div class="form-check d-block">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+              <i class="fas fa-hippo"></i> Safari enthusiast <em class="font-11 text-light-grey">I have been on safari or am looking to go on safari</em>
+            </label>
+          </div>
+          <div class="form-check d-block">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+              <i class="fas fa-binoculars"></i> Safari tour operator <em class="font-11 text-light-grey">I own or work for a safari company that offers tours in Africa</em>
+            </label>
+          </div>
+          <div class="form-check d-block">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+              <i class="fas fa-suitcase-rolling"></i> Travel agency <em class="font-11 text-light-grey">I work for or own a travel agency</em>
+            </label>
+          </div>
+          <div class="form-check d-block">
+            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+              <i class="fas fa-user-edit"></i> Travel writer <em class="font-11 text-light-grey">I am a travel writer/blogger/Tweeter</em>
+            </label>
+          </div>
+          <div class="form-group pt-3">
+            <label for="exampleFormControlTextarea1">What kind of traveler are you? Tell us a little bit about yourself.</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
+          <p>My safari travel style</p>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
+            <label class="form-check-label" for="exampleRadios1">
+              Luxury—<em class="font-11 text-light-grey">Fly me in to a private, tented camp where I can enjoy the finest foods, wines and linens. I’m after exclusive, intimate camps with refined touches.</em>
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked>
+            <label class="form-check-label" for="exampleRadios2">
+              Middle of the road—<em class="font-11 text-light-grey">I tend to stay in the main camps and lodges. It suits my budget and my preference for creature comforts, such as electricity and hot water.</em>
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" checked>
+            <label class="form-check-label" for="exampleRadios3">
+              Back-to-basics—<em class="font-11 text-light-grey">I prefer old school camping and can pitch a mean tent. I like being off the grid and am ready to sleep under the stars. I don’t mind helping set- up or cook dinner. I’m the original safari enthusiast!</em>
+            </label>
+          </div>
+          <p class="pt-3">Countries you have visited <em class="font-11 text-light-grey">(check all that apply)</em></p>
+          <div class="row pl-3">            
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                South Africa
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                South Africa
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                South Africa
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                South Africa
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                South Africa
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                South Africa
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                South Africa
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                South Africa
+              </label>
+            </div>            
+          </div>
+          <p class="pt-3">I've seen these animals <em class="font-11 text-light-grey">(check all that apply)</em></p>
+          <div class="row pl-3">            
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Vervet monkey
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Vervet monkey
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Vervet monkey
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Vervet monkey
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Vervet monkey
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Vervet monkey
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Vervet monkey
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Vervet monkey
+              </label>
+            </div>            
+          </div>
+          <p class="pt-3">Activites you enjoy while on safari <em class="font-11 text-light-grey">(check all that apply)</em></p>
+          <div class="row pl-3">            
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Horseback riding
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Horseback riding
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Horseback riding
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Horseback riding
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Horseback riding
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Horseback riding
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Horseback riding
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Horseback riding
+              </label>
+            </div>          
+          </div>
+          <p class="pt-3">Other activities you enjoy <em class="font-11 text-light-grey">(check all that apply)</em></p>
+          <div class="row pl-3">            
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Whitewater rafting
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Whitewater rafting
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Whitewater rafting
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Whitewater rafting
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Whitewater rafting
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Whitewater rafting
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Whitewater rafting
+              </label>
+            </div>
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Whitewater rafting
+              </label>
+            </div>          
+            <div class="form-group pt-3">
+              <label for="inputState">How many safaris have you been on?<span class="asteriskField">*</span></label>
+              <select id="inputState" class="form-control w-25">
+                <option selected>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </div>
+            
+          </div>
+
+        </div>
+      </div>
+      <div class="buttonHolder  pl-3">
+        <a class="cancel btn btn-green-secondary" id="cancel_button">Cancel</a>
+        <input type="submit" name="submit" value="Submit"
+          class="btn btn-green-primary button white"
+          id="submit-id-submit">                                        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $(".nav-link.widgets").addClass("active")
+</script>
+{% endblock %}
+

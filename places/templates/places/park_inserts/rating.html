@@ -1,0 +1,12 @@
+<div class="col-md col-sm-12">
+    <h1 class="h1-sm">
+        <strong>{{ object }}</strong>
+    </h1>
+    <div title="{{ object.rating_decimal }} / 5.00">
+        {{ object.rating_float | star_rating | safe }}
+        <span class="font-weight-light font-11 text-light-grey pl-1 ">
+          <span>{{ object.park_reviews.count }}</span>
+          review{{ object.park_reviews.count | pluralize }}
+        </span>
+    </div>
+</div>

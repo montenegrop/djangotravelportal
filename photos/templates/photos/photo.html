@@ -1,0 +1,149 @@
+{% extends 'core/base.html' %}
+{% load staticfiles%}
+{% load thumbnail %}
+{% block title %}Photo by: {{object.user.profile}} - {{ object.caption }} {% endblock %}
+{% block content %}
+<div class="container-fluid photo-content">
+    <div class="row">
+
+        <div class="col-md-8">
+
+            <div class="container-main-image contentbg">
+                <h4 class="text-center">
+                    {{ object.get_description | safe }}
+                </h4>
+                <img src="{{object.image.url}}" class="main-photo photo-border">
+                {% if object.taken_at %}
+                <br>
+                {% if object.park %}
+                <p>
+                    Taken at
+                    <a id="links" href="{% url 'park' slug=object.park.slug %}">{{object.park}}</a>
+                    {% else %}
+                    {% if object.country_index %}
+                    <a id="links"
+                        href="{% url 'country_index' slug=object.country_index.slug %}">{{object.taken_at}}</a>
+                    {% endif %}
+                </p>
+                {% endif %}
+                </p>
+                {% endif %}
+
+                <span style="font-weight: bold">Uploaded on</span>
+                {{object.date_created|date:'M d, Y'}} by
+                <span id="links">{{object.user.profile}}</span>
+                </p>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-5">
+
+                            <div class="share-icons">
+                                <a class="facebook"><i class="fab fa-facebook"></i></a>
+                                <a class="twitter"><i class="fab fa-twitter"></i></a>
+                                <a class="pinterest"><i class="fab fa-pinterest"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="row">
+
+                                <div class="col-12">
+                                    <div class="review-like   to-left">
+                                        <div class="text">
+                                            <p><strong>Like this photo?</strong></p>
+                                            <p>Go on, give it a kudu!</p>
+                                        </div>
+                                    </div>
+                                    <div class="review-like   to-left">
+                                        <div><a rel="nofollow" class="ico give_kudu" href="#give-kudu"
+                                                id="give_kudu_ph{{ object.pk }}"><i class="icon-tato"></i></a><span
+                                                class="number kudu_count_ph{{ object.pk }}">{{ object.kudu_count }}</span><span
+                                                class="number-text kudu_text_ph{{ object.pk }}">{% if object.kudu_count == 1 %}Person{% else %}People{% endif %}
+                                                gave this<br>a kudu</span><br />
+                                            <div class="kudu_message kudu_message_ph{{ object.pk }}"
+                                                style="color: #523612">&nbsp;</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% if user.is_authenticated %}
+
+                        <div class="photo-comments">
+                            <form method="post" action="">
+                                {% csrf_token %}
+                                <input type="text" name="comment" style="width:100%">
+                                <button type="submit" value="Submit">Submit Comment</button>
+                            </form>
+                            {% for item in comments %}
+                            <span class="photo-comments-single">
+                                <div id="avatar">
+                                    <img src="{{item.user_profile.avatar.url}}">
+                                    <a id="user_name" href="#">{{item.user}}</a>
+                                </div>
+                                <h3>
+                                    {{item.comment}}
+                                </h3>
+                                <h6>{{item.date_created}}</h6>
+                            </span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="contentbg">
+
+                <p>
+                    More photos from <a id="links" href='#'>{{ object.user.profile }}</a>
+                </p>
+
+                <div class="row">
+                    {% for photo in user_images %}
+                    <div class="col-md-12">
+                        <a href="{% url 'photos:photo' pk=photo.pk %}" class="photo-link">
+                            <div style="background-image: url('{{ photo.image|thumbnail_url:'crop_250' }}');"
+                                class="animal-photo img__wrap">
+                                <div class="img__description">
+                                    {% if photo.caption %}
+                                    <strong>
+                                        {{ photo.caption }}
+                                    </strong>
+                                    {% endif %}
+                                    <p>
+                                        This photo was taken by: <i>{{ photo.user.profile }}</i>
+
+                                        {% if photo.taken_at %}
+                                        at <i>{{ photo.taken_at }}</i>
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+{% block afterfooter %}
+<link rel="stylesheet" href="{% static 'photos/css/photo.css' %}?v=1" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#give_kudu_ph{{ object.pk }}").click(function () {
+            $.post("/photos/api/photo-like/{{ object.pk }}/", function (data) {
+                $(".kudu_text_ph{{ object.pk }}").html(data.text);
+                $(".kudu_message_ph{{ object.pk }}").html(data.message);
+                $(".kudu_count_ph{{ object.pk }}").html(data.kudus);
+            });
+
+        });
+    });
+</script>
+{% endblock %}

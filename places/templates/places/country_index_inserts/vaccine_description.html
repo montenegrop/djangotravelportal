@@ -1,0 +1,26 @@
+<div id="popup-vac-{{ vaccination.id }}" class="d-none w-25">
+    <div class="popover-heading">
+        <div class="text-left pl-2 pt-2 pb-1 bg-army-green">
+            <h5 class="text-white">{{ vaccination }}
+                <button type="button" class="close mr-3" data-dismiss="modal">&times;</button>
+            </h5>
+        </div>
+    </div>
+
+    <div class="popover-body">
+        <div class="text-dark-grey">
+            <p class="d-inline">{{ vaccination.description|safe }}</p>
+        </div>
+        <ul class="d-inline-block px-0">
+            <div class="row">
+                <li class="d-inline h5 col-12 text-dark-grey">We recommend this vaccination when you go to:</li>
+                {% for country in vaccination.countryindex_set.all %}
+                    <li class="d-inline col-6 shadow-none text-dark-grey">{{ country.name }}</li>
+                {% endfor %}
+            </div>
+        </ul>
+    </div>
+</div>
+
+
+

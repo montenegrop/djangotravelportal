@@ -1,0 +1,24 @@
+{% extends 'backend/member/base.html' %}
+{% load static %}
+{% block extrahead %}
+    {{ block.super }}
+    <style>
+        .edit-photo {
+            bottom: 2px;
+            right: 3px;
+        }
+    </style>
+{% endblock %}
+{% block backendcontent %}
+
+    <yas-member-photos :url="`{% url 'photos:add_photos' %}`.concat(`?to=0`)"
+                       :photos-count="{{ photos_count }}"
+                       :photos-json="{{ photos_json }}"
+                       :page-count="{{ page_count }}"></yas-member-photos>
+
+
+
+{% endblock %}
+
+
+

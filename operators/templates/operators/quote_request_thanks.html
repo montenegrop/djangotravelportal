@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+{% block title %}{% endblock %}
+{% block content %}
+
+<div class="main">
+
+  <div class="spanning">
+
+    <div class="pt-3" style=" box-sizing: border-box">
+      <div class="wrap mw-800">
+        <div class="block-bordered">
+
+          <h3 class="h3-sm">
+            Thank you for requesting a safari quote
+          </h3>
+          <p> 
+            Please allow up to two business days for the tour operator to contact you.
+          </p>
+
+
+          <a class="btn btn-green-primary mt-2" href="/">
+            Back to home page
+          </a>
+
+          {% if back_to %}
+          <p>
+            You will be redirected in <span id="counter">10</span>
+          </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  {% if back_to %}
+
+  var counter = 10;
+  var x = setInterval(function () {
+
+    counter--;
+    document.getElementById("counter").innerHTML = counter;
+
+    if (!counter) {
+      clearInterval(x);
+      window.location.href = '{{ back_to }}';
+    }
+
+  }, 1000);
+
+  {% endif %}
+</script>
+
+{% endblock %}

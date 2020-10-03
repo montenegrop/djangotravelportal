@@ -1,0 +1,288 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% block meta_title %}{{article.meta_title}}{% endblock %}
+{% block meta_description %}{{article.meta_description}}{% endblock %}
+{% block meta_keywords %}{{article.meta_keywords}}{% endblock %}
+{% block meta_og_image %}{{article.image_raw.url|media_full_url}}{% endblock %}
+{% block title %} {{ article.title }} {% endblock %}
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'blog/css/blog.css' %}" />
+{% endblock %}
+{% block content %}
+
+{% if article.image_raw %}
+<div class="hero-container"> 
+    <div class="hero-text-container">
+      <span class="text-dark-grey hero-text">
+        {{ article.image_caption }}
+      </span>
+    </div>
+    <div class="hero-image-container">  
+      <img src="{{ article.image_raw.url }}" alt="...">      
+  </div>   
+</div>
+{% endif %}
+
+<div class="container-fluid px-lg-5 max-width mt-4 mx-auto">
+  <div class="row px-md-5 px-2 justify-content-between">
+    <div class="col-md col-sm-12">
+      <p class="text-dark-grey">
+        {{ article.date_created|date:"M d Y" }} | Written by: <i><a
+            href="{% url 'member' pk=article.user.pk  %}">{{ article.user.profile }}</a></i><br>
+        {{ article.visit_count }} views
+      </p>
+    </div>
+    <div class="slide-social-wrapper mt-md-2 mt-2 d-flex justify-content-end ml-2">
+      <a class="slide-social-icon"
+        href="http://www.facebook.com/sharer/sharer.php?u=https://www.yourafricansafari.com/{{ request.get_full_path|urlencode }}"
+        target="_blank">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a class="slide-social-icon"
+        href="//twitter.com/intent/tweet?text={{park}}&url=https://www.yourafricansafari.com/{{ request.get_full_path|urlencode }}&via=safaricompanies"
+        target="_blank">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a class="slide-social-icon"
+        href="http://www.linkedin.com/shareArticle?url=https://www.yourafricansafari.com/{{ request.get_full_path|urlencode }}&title={{ park }}&summary={{ park.meta_description }}&source=https://www.yourafricansafari.com/"
+        target="_blank">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </div>
+
+    <div class="row justify-content-between mt-3 mx-0">
+      <div class="col-xl-8 pr-xl-5 col-lg-12">
+        <h1 class="h1-sm">
+          {{ article.title }}
+        </h1>
+        <div class="demo admin-content">
+          {{ article.content | safe }}
+        </div>
+        <div class="pb-3 max-width-300">
+          <hr>
+          <h4 class="text-dark-grey">Sources and credits</h4>
+          <p>
+            {{ article.source | safe }}
+          </p>
+        </div>
+        <div class="border border-grey row mx-1">
+          <div class="col-12 col-sm-5 pt-2">
+            <h5><strong>About the author</strong></h5>
+            <div class="d-flex mx-0 flex-sm-column">
+              {% if article.user.profile.avatar %}
+              <div>
+                <img src="{{article.user.profile.avatar.url}}" alt="company logo" id="about-operator-logo">
+              </div>
+              {% endif %}
+              <div class="ml-2 ml-sm-0">
+                <div>
+                  <a class="d-inline" href="{% url 'member' pk=article.user.pk  %}">{{ article.user.profile }}</a>
+                  <img class="flag-small" src="{{ article.user.profile.country.flag.url }}"
+                    alt="{{ article.user.profile.country }}" data-toggle="tooltip" data-placement="top" title=""
+                    data-original-title="{{ article.user.profile.country }}">
+                </div>
+                <p>Has been on: <strong>{{ article.user.profile.safari_count }} safaris</strong></p>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-sm pt-2">
+            <p>
+              {{ article.user.profile.description }}
+            </p>
+          </div>
+        </div>
+
+        <div class="pt-3 row px-0">
+          <div class="col-sm-5 col-12 pr-0">
+            <h4 class="text-dark-grey d-inline-block">Share on:</h4>
+            <div class="slide-social-wrapper d-inline-flex">
+              <a class="slide-social-icon"
+                href="http://www.facebook.com/sharer/sharer.php?u=https://www.yourafricansafari.com/{{ request.get_full_path|urlencode }}"
+                target="_blank">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a class="slide-social-icon"
+                href="//twitter.com/intent/tweet?text={{park}}&url=https://www.yourafricansafari.com/{{ request.get_full_path|urlencode }}&via=safaricompanies"
+                target="_blank">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a class="slide-social-icon"
+                href="http://www.linkedin.com/shareArticle?url=https://www.yourafricansafari.com/{{ request.get_full_path|urlencode }}&title={{ park }}&summary={{ park.meta_description }}&source=https://www.yourafricansafari.com/"
+                target="_blank">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+          <div class="col-sm col-12 pt-2 pt-sm-0">
+            <div class="review-like   to-left">
+              <div class="text">
+                <p><strong>Like this article?</strong></p>
+                <p>Go on, give it a kudu!</p>
+              </div>
+            </div>
+            <div class="review-like   to-left">
+              <div><a rel="nofollow" class="ico give_kudu" href="#give-kudu" id="give_kudu_ph{{ article.pk }}"><i
+                    class="icon-tato"></i></a><span
+                  class="number kudu_count_ph{{ article.pk }}">{{ article.kudu_count }}</span><span
+                  class="number-text kudu_text_ph{{ article.pk }}">{% if article.kudu_count == 1 %}Person{% else %}People{% endif %}
+                  gave this<br>a kudu</span><br />
+                <div class="kudu_message kudu_message_ph{{ article.pk }}" style="color: #523612">&nbsp;</div>
+              </div>
+            </div>
+          </div>
+          <p class="font-12 text-light-grey col-12 pt-2 pt-md-0">© Your African Safari Ltd, All rights reserved.</p>
+        </div>
+        <div class="container-fluid px-0">
+          <hr>
+          <h4 class="text-dark-grey">{{ article.comments.count }} Comments</h4>
+          <hr>
+
+          {% include 'blog/comments.html' %}
+
+          {% if user.is_authenticated %}
+          {% include 'blog/new_comment.html' %}
+          {% else %}
+          <a class="btn pl-0" data-toggle="modal" data-target="#loginModal">
+            Log in to leave a comment
+          </a>
+          {% endif %}
+        </div>
+
+      </div>
+
+      <!--RHC-->
+      <div class="col-xl-4 col-12">
+        <div class="dropdown-divider d-xl-none"></div>
+        <!--Start section - This is displaying the about text either too many times or none, needs to be fixed-->
+        <div class="rhc-wide-border px-3 pt-3 mt-3 parks-rhc-max-width">
+          <h5><strong>About YAS</strong></h5>
+          <div class="row">
+            <div class="col-12">
+              <p>Your African Safari is a safari-planning and safari review site. It was created to help support a
+                healthy
+                African wildlife population. All reviews are vetted before being approved and only ethical tours are
+                published</p>
+            </div>
+          </div>
+        </div>
+        <!--End section -->
+        <div class="dropdown-divider d-xl-none"></div>
+        <!--Start section - This needs to be recent articles-->
+        <div class="rhc-wide-border px-3 pt-3 mt-4 parks-rhc-max-width">
+          <h5><strong>Recent articles</strong></h5>
+          <div class="articles">
+            {% for article in recent_articles %}
+            <a href="{% url 'articles:view' slug=article.slug %}">
+              <div class="card mb-3">
+                <div class="row no-gutters">
+                  <div class="col-12">
+                    <img src="{{ article.image|thumbnail_url_:'crop_300_150' }}" class="card-img-top p-2" alt="...">
+                  </div>
+                  <div class="col-12">
+                    <div class="card-body px-2 pb-2 text-dark-grey">
+                      <p class="card-title text-left">{{ article }}</p>
+                      <p class="card-text">
+                        <small class="text-light-grey">{{ article.date_created|date:"M d Y" }}</small>
+                        <br>
+                        <small class="text-light-grey">By: {{ article.user.profile.screen_name }}</small>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+        <!--End section -->
+        <div class="dropdown-divider d-xl-none"></div>
+        <div class="rhc-wide-border px-3 pt-3 mt-4 parks-rhc-max-width">
+          <!--Start section - This needs to be only 2 articles. "YAS needs to replaced with the author"-->
+          <h5><strong>Articles by {{ article.user.profile }}</strong></h5>
+          <div class="articles">
+            {% for article in recent_articles_author %}
+            <a href="{% url 'articles:view' slug=article.slug %}">
+              <div class="card mb-3">
+                <div class="row no-gutters">
+                  <div class="col-12">
+                    <img src="{{ article.image|thumbnail_url_:'crop_300_150' }}" class="card-img-top p-2" alt="...">
+                  </div>
+                  <div class="col-12">
+                    <div class="card-body px-2 pb-2 text-dark-grey">
+                      <p class="card-title text-left">{{ article }}</p>
+                      <p class="card-text">
+                        <small class="text-light-grey">{{ article.date_created|date:"M d Y" }}</small>
+                        <br>
+                        <small class="text-light-grey">By: {{ article.user.profile.screen_name }}</small>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+        <!--End section -->
+        <div class="dropdown-divider d-xl-none"></div>
+        <!--Start section - This needs to be recent reviews and only display 3 not 4 cards-->
+        <div class="rhc-wide-border px-3 pt-3 mt-4 parks-rhc-max-width">
+          <h5><strong>Recent reviews</strong></h5>
+          <div class="articles">
+            {% for review in recent_reviews %}
+            <a href="{% url 'reviews:index' slug=review.slug %}">
+              <div class="card mb-3 px-2 pt-2 pb-1">
+                <div class="row no-gutters pb-2">
+                  {% if user.profile.avatar %}
+                  <div class="col-4">
+                    <div class="photo-container-1">
+                      <img src="{{ review.user.profile.avatar.url }}" alt="...">
+                    </div>
+                  </div>
+                  {% endif %}
+                  <div class="col-8">
+                    <div class="card-body pr-0 text-dark-grey">
+                      <p class="card-title text-left">{{ review.title }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <p class="card-text"><small class="text-light-grey">Where: {{ review }}</small></p>
+                  </div>
+                  <div class="col-12">
+                    <p class="card-text"><small class="text-light-grey">By: {{ review.user.profile }}</small></p>
+                  </div>
+                </div>
+              </div>
+            </a>
+            {% endfor %}
+          </div>
+        </div>
+        <!--End section -->
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block afterfooter %}
+
+<script type="text/javascript">
+  $(".navbar-blog").addClass("active");
+  $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+  $(document).ready(function () {
+    $("#give_kudu_ph{{ article.pk }}").click(function () {
+      $.post("{% url 'articles:api_article_kudu' pk=article.pk %}", function (data) {
+        $(".kudu_text_ph{{ article.pk }}").html(data.text);
+        $(".kudu_message_ph{{ article.pk }}").html(data.message);
+        $(".kudu_count_ph{{ article.pk }}").html(data.kudus);
+      });
+
+    });
+  });
+</script>
+{% endblock %}

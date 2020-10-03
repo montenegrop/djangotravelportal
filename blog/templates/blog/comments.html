@@ -1,0 +1,18 @@
+{% for comment in article.comments %}
+<div class="row">
+    <h4 class="h4-sm col-12 d-sm-flex justify-content-between">
+        <a href="{% url 'member' pk=comment.user.pk  %}">
+            {{ comment.user.profile }}
+        </a>
+        <p class="font-12px pt-sm-2 pt-1">Said on {{ comment.date_created|date:"d F Y H:i" }}</p>
+    </h4>
+    <div class="col-12 col-sm-5 col-md-4">
+      <img class="comments-img" src='{{ comment.user.profile.avatar.url }}'>
+    </div>
+    <p class="mb-0 col-12 col-sm">
+        {{comment.comment}}
+    </p>
+</div>
+<hr>
+
+{% endfor %}

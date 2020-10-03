@@ -1,0 +1,260 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %} {{ object }} {% endblock %}
+{% block extrahead %}
+<link href="{% static 'operators/css/tour-operator.css' %}" type="text/css" media="all" rel="stylesheet">
+<script src="{% static '@robertorodriguez/yasfresco/dist/js/fresco.js' %}"></script>
+<link rel="stylesheet" href="{% static '@robertorodriguez/yasfresco/dist/css/fresco.css' %}" />
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-lg-5 max-width mt-4 pt-3 pt-sm-0 mx-auto ">
+  <div class="row px-md-5 px-2 justify-content-between">
+    <div class="col-xl-8 pr-xl-5 col-lg-12">
+      {% include "operators/tour_operator_includes/operator_info.html" %}
+    </div>
+
+
+    <div class="col-xl-4 col-12 pt-2">
+      <div class="row d-flex align-items-center">
+        <div class="col-10 col-sm order-1">
+          <a href="{% url 'operator_quote' operator_pk=tour.pk slug=tour.slug %}"
+            class="btn  btn-orange get-quote-btn z-10 position-relative">Get quote</a>
+        </div>
+        <div class=" col-2 col-md-1 d-flex justify-content-end order-xl-2 order-sm-3 order-2">
+          <div class="pt-1">
+            {% if tour.is_fav_ %}
+            <i onclick="add_tour_operator_fav(this, {{ tour.pk }})" class="far fav-heart fa-heart fas pointer"
+              id="heart-TP-page"></i>
+            {% else %}
+            <i onclick="add_tour_operator_fav(this, {{ tour.pk }})" class="far fa-heart  pointer"
+              id="heart-TP-page"></i>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col col-sm-7 col-md-8 col-xl-12 order-xl-3 order-sm-2 order-3 d-flex align-items-center justify-content-sm-end justify-content-xl-start">
+          <div class="row d-flex align-items-center">
+            {% if tour.quick_to_respond %}
+            <div id="quick-to-reply-banner" class="d-flex align-items-center my-2">
+              <img class="d-inline" src="{% static 'operators/img/quick.png' %}" />
+              <span class="col font-12px">Quick to reply to quote requests!</span>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  {#  <a href='{% url "operator_quote" slug=tour.slug %}' class="btn mt-2 btn-orange ml-2 d-sm-none d-block z-10 position-relative">Get quote</a>#}
+
+  <div class="row px-md-5 px-2 justify-content-between mt-3">
+    <div class="col-xl-8 pr-xl-5 col-lg-12">
+      {% include "operators/tour_operator_includes/summary.html" %}
+      {% if review_focus %}
+      {{ review_focus }}
+      {% endif %}
+      {% include "operators/tour_operator_includes/tour_reviews.html" %}
+    </div>
+
+
+    <!--RHC-->
+
+    <div class="col-xl-4 col-12">
+
+      {% include "operators/tour_operator_includes/ratings.html" %}
+      {% if tour_articles %}
+      {% include "operators/tour_operator_includes/latest_articles.html" %}
+      {% endif %}
+
+      {% if tour_park_reviews %}
+      {% include "operators/tour_operator_includes/park_reviews.html" %}
+      {% endif %}
+
+      {% if tour_photos %}
+      {% include "operators/tour_operator_includes/latest_photos.html" %}
+      {% endif %}
+
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+  function giveReviewKudu() {
+    $(".give_kudu").each(function (ee) {
+      var rid = $(this)[0].id;
+      var nid = rid.split("_ph").pop();
+      var isSmall = $(this).hasClass('small_tour_review');
+
+      $("#" + rid).click(function () {
+        $.post("/api/tour-review-kudu/" + nid + "/", function (data) {
+          $(".kudu_text_ph" + nid).html(data.text);
+          $(".kudu_count_ph" + nid).html(data.kudus);
+          if (isSmall) {
+            $(".kudu_message_small_ph" + nid).html(data.message);
+          } else {
+            $(".kudu_message_ph" + nid).html(data.message);
+          }
+        });
+      });
+    });
+  }
+</script>
+
+
+
+<script>
+  function fresco_photos() {
+    $("[data-fresco-id={{ tour_photos_first_id }}]").trigger("click")
+  }
+
+  function showMoreText() {
+
+    var inn = 1
+
+    var showChar = 200;
+    var ellipsestext = "...";
+    var moretext = "read more";
+    var lesstext = "read less";
+    $('.more').each(function (ee) {
+      if ($(this).hasClass('no-more')) {
+        return;
+      } else {
+        $(this).addClass('no-more');
+      }
+      var pid = $(this)[0].id;
+      var content = $(this).html();
+      if (content.length > showChar) {
+        var c = content.substr(0, showChar - 1);
+        var h = content.substr(showChar - 1, content.length - showChar);
+        var html = c + '<span class="moreelipses">' + ellipsestext + '</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink" id="more-' + pid + '">' + moretext + '</a></span>';
+        $(this).html(html);
+      }
+    });
+    $(".morelink").click(function (e) {
+      var mid = $(this)[0].id
+      if ($(this).hasClass("less")) {
+        $(this).removeClass("less");
+        $(this).html(moretext);
+        $('#stars-' + mid).collapse('toggle')
+        $('#kudus-' + mid).collapse('toggle')
+        $('#photos-' + mid).collapse('toggle')
+        $('#reviews-' + mid).collapse('toggle')
+      } else {
+        $(this).addClass("less");
+        $(this).html(lesstext);
+        $('#stars-' + mid).collapse('toggle')
+        $('#kudus-' + mid).collapse('toggle')
+        $('#photos-' + mid).collapse('toggle')
+        $('#reviews-' + mid).collapse('toggle')
+      }
+
+      $(this).parent().prev().toggle();
+      $(this).prev().toggle();
+      return false;
+    });
+  }
+
+  $(".articles-show-more").click(function () {
+    $(".articles-show-more").each(function (i, obj) {
+      if ($(obj).hasClass("d-block")) {
+        $(obj).removeClass("d-block")
+        $(obj).hide();
+      } else {
+        $(obj).addClass("d-block")
+      }
+    })
+
+  });
+
+  $(".park-reviews-show-more").click(function () {
+    $(".park-reviews-show-more").each(function (i, obj) {
+      if ($(obj).hasClass("d-block")) {
+        $(obj).removeClass("d-block")
+        $(obj).hide();
+      } else {
+        $(obj).addClass("d-block")
+      }
+    })
+
+  });
+
+
+  $(function () {
+    $("[data-toggle=popover]").popover({
+      html: true,
+      content: function () {
+        var content = $(this).attr("data-popover-content");
+        return $(content).children(".popover-body").html();
+      },
+    });
+  });
+
+
+  $(document).ready(function () {
+
+    if ($(".focused").length == 1) {
+      $([document.documentElement, document.body]).animate({
+        scrollTop: $(".focused").offset().top - 200
+      }, 1000);
+    }
+    $('[data-toggle="tooltip"]').tooltip();
+
+    var sort = "1";
+    var limit = 10;
+
+    showMoreText();
+    giveReviewKudu();
+
+    $('#sort-by').change(function () {
+      sort = $(this).val()
+      axios({
+        method: 'post',
+        url: '{% url 'tour_operator' tour.slug %}',
+        data: {
+          is_sorting: true,
+          sort: sort,
+          limit: limit,
+          focus_review: '',
+        }
+      }).then((response) => {
+        $('#reviewsSorted').html(response.data.reviews)
+        showMoreText();
+        giveReviewKudu();
+      }, (error) => {
+      });
+    });
+    $('#more-reviews').click(function (e) {
+      e.preventDefault();
+      limit = limit + 10;
+      axios({
+        method: 'post',
+        url: '{% url 'tour_operator' tour.slug %}',
+        data: {
+          is_sorting: false,
+          sort: sort,
+          limit: limit,
+          focus_review: '',
+        },
+      }).then((response) => {
+        $('#reviewsSorted').append(response.data.reviews);
+        showMoreText();
+        giveReviewKudu();
+        if (response.data.capped) {
+          $('#more-reviews').removeClass("d-flex");
+          $('#more-reviews').hide();
+        }
+      }, (error) => {
+      });
+
+    });
+
+
+  });
+
+</script>
+{% endblock %}

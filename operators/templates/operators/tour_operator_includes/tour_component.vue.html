@@ -1,0 +1,66 @@
+<script type="text/x-template" id="tour_component">
+  <div class="card shadow-sm bg-white rounded mx-3 col-l mb-5" id="tourpackage-card-size">
+    <div>
+      <div class="container-fluid px-0">
+        <div class="row mb-n4">
+          <div class="col-12 tour-package-image" v-on:click="window.location.href=(getTourUrl(tour))">
+            <img
+              :src="tour.thumbnail"
+              :alt="tour.title"
+            >
+          </div>
+          <div v-if="tour.is_featured" id="featured" class="col-6">
+            <div v-if="tour.is_featured" class="shadow-featured-banner ">
+              <div class="tourpackage-featured-banner align-items-center d-flex">
+                <p class="my-auto mx-auto">Featured</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 text-right" v-bind:class="{ 'offset-6': !tour.is_featured }">
+            <i @click="heartChange(tour)"
+              class="far fa-heart fa-heart-card pointer"
+              :class="{'fas': tour.is_fav}"
+               id="heart-TP-card"
+            ></i>
+          </div>
+        </div>
+      </div>
+      <a :href="getTourUrl(tour)">
+      <h5 class="card-title text-center font-weight-bold olive-green" v-text="tour.title"></h5>
+      </a>
+      <div class="text-center font-12 text-light-grey font-weight-light">
+        From $<span class="font-weight-bold" v-text="tour.min_price"></span> per person 
+      </div>
+      <div class="mx-2">
+        <div class="text-center font-12 border border-grey-thin mt-2 py-2" v-text="tour.main_features">
+        </div>
+        <div class="text-dark-grey mt-3 font-12">
+          <p class="my-2"><span class="font-weight-bold">Tour by:</span> [[ tour.operator_name ]]</p>
+          <p class="font-weight-bold d-inline my-2">Countries:</p>
+          
+          <div class="d-inline">
+            <img v-for="flag in tour.flags" :key="flag.id" 
+              :src="flag.flag_url" 
+              :alt="flag.name_short" 
+              class='flag-small'
+              data-toggle="tooltip" 
+              data-placement="top"
+              :title="flag.name_short"
+            >
+          </div>
+          <p class="my-2" v-if="tour.focus_activities">
+            <span class="font-weight-bold">Focus:</span>
+            [[tour.focus_activities]]
+          </p>          
+        </div>
+      </div>
+      <div class="row justify-content-center mt-3 mb-2">
+        <a class="btn btn-orange-secondary font-14 py-1 mb-3"
+          :href="getTourUrl(tour)"
+        >
+          Learn more
+        </a>
+      </div>
+    </div>
+  </div>
+</script>

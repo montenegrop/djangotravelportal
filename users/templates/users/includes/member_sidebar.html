@@ -1,0 +1,174 @@
+{% load static %}
+<div class="col-xl-4 col-12">
+    <div class="dropdown-divider d-xl-none"></div>
+    {% if object.countries_highlighted %}
+    <div class="contentbg rhc-wide-border px-3 parks-rhc-max-width">
+        <h5 class="pt-3 pb-2">
+            <strong>I have visited these countries</strong>
+        </h5>
+        <div class="guides_countries pl-2 pb-2">
+            {% for country in object.countries_highlighted %}
+            <a href="{% url 'country_index' country.slug %}">
+                <img class="flag-small" src="{{ country.flag.url }}" alt="{{ country.name }}">
+                {{ country.name_short }}
+            </a><br>
+            {% endfor %}
+
+            <div class="collapse" id="collapseCountries">
+                {% for country in object.countries_rest %}
+                <a href="{% url 'country_index' country.slug %}">
+                    <img class="flag-small" src="{{ country.flag.url }}" alt="{{ country.name }}">
+                    {{ country.name_short }}
+                </a><br>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if object.countries_count > 3 %}
+        <a href="#collapseCountries" data-toggle="collapse" role="button"
+            class="my-2 d-block text-center countries-show-more">
+            Show more ({{ object.countries_count }})
+        </a>
+
+        <a href="#collapseCountries" data-toggle="collapse" role="button"
+            class="my-2 text-center countries-show-more d-none">
+            Show less
+        </a>
+        {% endif %}
+    </div>
+
+    {% endif %}
+
+    <div class="dropdown-divider d-xl-none"></div>
+    {% if object.parks_highlighted %}
+    <div class="contentbg rhc-wide-border px-3 mt-4 parks-rhc-max-width">
+        <h5 class="pt-3 pb-2">
+            <strong>I have been to these parks</strong>
+        </h5>
+
+        <div>
+            {% for park in object.parks_highlighted %}
+            <div class="d-flex">
+                <a href="{% url 'park' slug=park.slug %}">{{ park.name_short }}</a>
+                <div class="ml-auto mt-1">
+                    {{ park.rating_float | star_rating | safe }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="collapse" id="collapseParks">
+            {% for park in object.parks_rest %}
+            <div class="d-flex">
+                <a href="{% url 'park' slug=park.slug %}">{{ park }}</a>
+                <div class="ml-auto mt-1">
+                    {{ park.rating_float | star_rating | safe }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        {% if object.parks_count > 3 %}
+        <a href="#collapseParks" data-toggle="collapse" role="button" class="my-2 d-block text-center parks-show-more">
+            Show more ({{ object.parks_count }})
+        </a>
+
+        <a href="#collapseParks" data-toggle="collapse" role="button" class="my-2 text-center parks-show-more d-none">
+            Show less
+        </a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+
+    {% if object.articles %}
+    <div class="dropdown-divider d-xl-none"></div>
+    <div class="contentbg rhc-wide-border px-3 mt-4 parks-rhc-max-width">
+        <h5 class="pt-3 pb-2">
+            <strong> Articles I have written</strong>
+        </h5>
+        <div class="articles">
+            {% for article in object.articles %}
+            <a>
+                <div class="card reviews mb-3 px-2 pt-2 pb-1">
+                    <div class="row no-gutters pb-2">
+                        <div class="col-4">
+                            <div class="photo-container-reviews">
+                                <a href="javascript:void(0)">
+                                    <img src="{{ article.image.url }}" alt="...">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body pr-0">
+                                <p class="card-title text-left text-truncate"><a
+                                        href="{% url 'articles:view' article.slug %}">{{ article.title }}</a>
+                                </p>
+                                <p class="mb-0 pt-2">
+                                    <small class="text-light-grey pb-4">Written on
+                                        {{ article.date_created | date:"M j, Y" }}</small>
+                                    <br>
+                                    <small class="text-light-grey">
+                                        {% for category in article.categories.all %}{{ category.name }}
+                                        {% if not forloop.last %},
+                                        {% endif %}{% endfor %}</small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        <a href="#" class="my-2 d-block text-center">
+            See more
+        </a>
+    </div>
+    {% endif %}
+
+    <div class="dropdown-divider d-xl-none"></div>
+    {% if object.activities %}
+    <div class="contentbg rhc-wide-border px-3 mt-4 parks-rhc-max-width">
+        <h5 class="pt-3 pb-2">
+            <strong>I enjoy these activities</strong>
+        </h5>
+        <div class="container col-12">
+            <div class="row clearfix half-padd inline-items">
+                {% for activity in object.activities %}
+                <div class="column col-4 text-center pb-2">
+                    <a class="text-dark-grey" title="{{ activity.name }}" href="{% url 'activity' activity.slug %}">
+                        <img class="rhc-small-images"
+                            src="{% if activity.image %}{{ activity.image.url }}{% else %}{% static '/users/img/placeholder.png' %}{% endif %}"
+                            alt="{{ activity.name }}" />
+                        <span>{{ activity.name }}</span>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="dropdown-divider d-xl-none"></div>
+    {% if object.animals %}
+    <div class="contentbg rhc-wide-border px-3 mt-4 parks-rhc-max-width">
+        <h5 class="pt-3 pb-2">
+            <strong>Some animals I've seen</strong>
+        </h5>
+        <div class="container col-12">
+            <div class="row clearfix half-padd inline-items">
+                {% for animal in object.animals %}
+                <div class="column col-4 col-n-6 col text-center pb-2">
+                    <a class="text-dark-grey" title="{{ animal.name }}" href="{% url 'animal' animal.slug %}">
+                        <img class="rhc-small-images"
+                            src="{% if animal.image %}{{ animal.image.url }}{% else %}{% static '/users/img/placeholder.png' %}{% endif %}"
+                            alt="{{ animal.name }}" />
+                        <span>{{ animal.name }}</span>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>

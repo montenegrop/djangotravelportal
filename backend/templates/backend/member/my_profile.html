@@ -1,0 +1,353 @@
+{% extends 'backend/member/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block extrahead %}
+<style>
+  .error {
+    color: #7C3B3E;
+    font-size: 11px;
+  }
+</style>
+{{ block.super }}
+<script src="{% static 'jquery-validation/dist/jquery.validate.min.js' %}"></script>
+{% endblock %}
+
+{% block backendcontent %}
+<div class="row max-width-admin">
+  <div class="col-12">
+    <div class="card main container-fluid">
+
+
+      <yas-update-password url="{% url 'change_password' %}"></yas-update-password>
+
+      <form method="post" id="memberProfileForm"> {% csrf_token %}
+
+        <div class="card-header">
+          <div class="row d-flex justify-content-between px-3">
+            <h4 class="text-dark-grey">My member profile</h4>
+            <button data-toggle="modal" data-target="#updatePassword" type="button"
+              class="btn btn-green-secondary">Update password
+            </button>
+          </div>
+          <!-- modal -->
+        </div>
+
+        <div class="card-body ">
+          <div class="row pb-4">
+
+
+            <h5 class="col-12">About me</h5>
+            <div class="img-container col-12">
+              <yas-upload-avatar image="{{ avatar }}"></yas-upload-avatar>
+
+              {#                                <img src="{{ profile.avatar.url }}"#}
+              {#                                     alt="">#}
+            </div>
+            <div class="col-12 col-sm">
+              <p class="pl-sm-3">{{ profile.user.first_name }}</p>
+              <p class="pl-sm-3">{{ profile.description }}
+              </p>
+              <div class="row border-grey py-2 mr-2 ml-sm-3 ml-0">
+                <div class="col-12 col-xl-6">
+                  <div class="row">
+                    <div class="col-5 col-md-4 pt-0 pb-2 col-lg-3 mr-xl-3 text-nowrap">
+                      Residence:
+                    </div>
+                    <div class="col">
+                      {% if profile.country.flag %}
+                      <img class="flag-small" src="{{ profile.country.flag.url }}" alt="{{ profile.country.name }}">
+                      {% endif %}
+                      {{ profile.country.name }}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-5 col-md-4 pt-0 pb-2 col-lg-3 mr-xl-3 text-nowrap">
+                      Has been on:
+                    </div>
+                    <div class="col">
+                      {{ profile.safari_count }} safari{{ profile.safari_count|pluralize }}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-5 col-md-4 pt-0 pb-2 col-lg-3 mr-xl-3 text-nowrap">
+                      Last updated:
+                    </div>
+                    <div class="col">
+                      {{ profile.date_modified|date:"M d, Y" }}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-5 col-md-4 pt-0 pb-2 col-lg-3 mr-xl-3 text-nowrap">
+                      Social media
+                    </div>
+                    <div class="col">
+                      <div class="slide-social-wrapper d-flex">
+                        {% if profile.facebook %}
+                        <a href="{{ profile.facebook }}" target="_blank" class="slide-social-icon active">
+                          <i class="fab fa-facebook-f"></i>
+                        </a>
+                        {% endif %}
+                        {% if profile.twitter %}
+                        <a href="{{ profile.twitter }}" target="_blank" class="slide-social-icon active">
+                          <i class="fab fa-twitter"></i>
+                        </a>
+                        {% endif %}
+                        {% if profile.instagram %}
+                        <a href="{{ profile.instagram }}" target="_blank" class="slide-social-icon active">
+                          <i class="fab fa-instagram"></i>
+                        </a>
+                        {% endif %}
+                        {% if profile.pinterest %}
+                        <a href="{{ profile.pinterest }}" target="_blank" class="slide-social-icon active">
+                          <i class="fab fa-pinterest"></i>
+                        </a>
+                        {% endif %}
+                        {% if profile.linkedin %}
+                        <a href="{{ profile.linkedin }}" target="_blank" class="slide-social-icon active">
+                          <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        {% endif %}
+                        {% if profile.youtube %}
+                        <a href="{{ profile.youtube }}" target="_blank" class="slide-social-icon active">
+                          <i class="fab fa-youtube"></i>
+                        </a>
+                        {% endif %}
+                        {% if profile.whatsapp %}
+                        <a href="{{ profile.whatsapp }}" target="_blank" class="slide-social-icon active">
+                          <i class="fab fa-whatsapp"></i>
+                        </a>
+                        {% endif %}
+                        {% if profile.skype %}
+                        <a href="{{ profile.skype }}" target="_blank" class="slide-social-icon active">
+                          <i class="fab fa-skype"></i>
+                        </a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-xl-6">
+                  <div class="row">
+                    <div class="col-5 col-md-4 pt-0 pb-2 col-lg-3 mr-xl-2 text-nowrap">
+                      Reviews:
+                    </div>
+                    <div class="col">
+                      {{ profile.reviews_count }}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-5 col-md-4 pt-0 pb-2 col-lg-3 mr-xl-2 text-nowrap">
+                      Kudus:
+                    </div>
+                    <div class="col">
+                      <i class="i-inline i-kudu h5"></i> {{ profile.kudus_count }}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-5 col-md-4 pt-0 pb-2 col-lg-3 mr-xl-2 text-nowrap">
+                      Badges:
+                    </div>
+                    <div class="col">
+                      <i class="i-travel-writer pl-1"></i> {{ profile.get_user_type_display }}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+            <h4 class="pb-3 pl-3 text-dark-grey">Update member profile</h4>
+            <h5 class="col-12">Contact info</h5>
+            <div class="form-group col-md-4">
+              {{ form2.first_name|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+              {{ form2.last_name|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+              {{ form1.screen_name|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+              {{ form2.email|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+              {{ form1.country|as_crispy_field }}
+            </div>
+          </div>
+          <div class="row pt-3">
+            <h5 class="col-12">Social media</h5>
+            <div class="form-group col-md-4">
+              {{ form1.facebook|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+              {{ form1.twitter|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+              {{ form1.instagram|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+              {{ form1.pinterest|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+              {{ form1.youtube|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+              {{ form1.whatsapp|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-4">
+              {{ form1.blog|as_crispy_field }}
+            </div>
+          </div>
+          <div class=" pt-3">
+            <p class="mb-1 font-16px">What best describes me. I'm a...</p>
+
+
+
+
+            {% for user_type in user_types %}
+            <div class="form-check  text-nowrap col-12">
+              <input class="form-check-input" type="radio" value="{{ user_type.0 }}" id="user_type{{ forloop.counter }}"
+                name="user_type" {% if user_type.0 == profile.user_type %} checked {% endif %}>
+              <label class="form-check-label" for="user_type{{ forloop.counter }}">
+                {{ user_type.1 }}&mdash;<em class="font-11">{{ types_dict|get_value_from_dict:user_type.0 }}</em>
+              </label>
+            </div>
+            {% endfor %}
+
+            <div class="form-group pt-3 mb-2">
+              <label for="exampleFormControlTextarea1" class="font-16px mb-n2">What kind of traveler are
+                you? Tell us a little
+                bit
+                about yourself.</label>
+              {{ form1.description|as_crispy_field }}
+            </div>
+            <p class="mb-1 font-16px">My safari travel style</p>
+
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="luxury_level" id="luxury_level1" value="Luxury"
+                {% if "Luxury" == profile.luxury_level %} checked {% endif %}>
+              <label class="form-check-label" for="luxury_level1">
+                Luxury—<em class="font-11 text-light-grey">Fly me in to a private, tented camp where
+                  I
+                  can enjoy the finest foods, wines and linens. I’m after exclusive, intimate camps
+                  with
+                  refined touches.</em>
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="luxury_level" id="luxury_level2" value="Mid"
+                {% if "Mid" == profile.luxury_level %} checked {% endif %}>
+              <label class="form-check-label" for="luxury_level2">
+                Middle of the road—<em class="font-11 text-light-grey">I tend to stay in the main
+                  camps
+                  and lodges. It suits my budget and my preference for creature comforts, such as
+                  electricity and hot water.</em>
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="luxury_level" id="luxury_level3" value="Back-to-basics"
+                {% if "Back-to-basics" == profile.luxury_level %} checked {% endif %}>
+              <label class="form-check-label" for="luxury_level3">
+                Back-to-basics—<em class="font-11 text-light-grey">I prefer old school camping and
+                  can
+                  pitch a mean tent. I like being off the grid and am ready to sleep under the stars.
+                  I
+                  don’t mind helping set- up or cook dinner. I’m the original safari enthusiast!</em>
+              </label>
+            </div>
+            <p class="pt-3 mb-1 font-16px">Countries you have visited <em class="font-11 text-light-grey">(check all
+                that
+                apply)</em></p>
+
+
+            {% for country in countries_visited %}
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3 ">
+              <input class="form-check-input" type="checkbox" value="{{ country.id }}" id="country{{ country.id }}"
+                name="countries_visited" {% if country in profile.countries_visited.all %}checked{% endif %}>
+              <label class="form-check-label" for="country{{ country.id }}">
+                {{ country.name }}
+              </label>
+            </div>
+            {% endfor %}
+
+
+
+            <p class="pt-3 mb-1 font-16px">I've seen these animals <em class="font-11 text-light-grey">(check all that
+                apply)</em></p>
+
+
+            {% for animal in animals %}
+            <div class="form-check col-2 col-12 col-sm-6 col-md-4 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="{{ animal.id }}" id="animal{{ animal.id }}"
+                name="animals" {% if animal in profile.animals_seen.all %}checked{% endif %}>
+              <label class="form-check-label" for="animal{{ animal.id }}">
+                {{ animal.name }}
+              </label>
+            </div>
+            {% endfor %}
+
+
+            <p class="pt-3 mb-1 font-16px">Activities you enjoy while on safari <em
+                class="font-11 text-light-grey">(check
+                all that apply)</em></p>
+
+            {% for activity in activities_safari %}
+            <div class="form-check col-md-6 col-xl-4">
+              <input class="form-check-input" type="checkbox" value="{{ activity.id }}" id="activity{{ activity.id }}"
+                name="activities_safari" {% if activity in profile.activities_enjoy.all %}checked{% endif %}>
+              <label class="form-check-label" for="activity{{ activity.id }}">
+                {{ activity.name }}
+              </label>
+            </div>
+            {% endfor %}
+
+
+            <p class="pt-3 mb-1 font-16px">Other activities you enjoy <em class="font-11 text-light-grey">(check all
+                that
+                apply)</em></p>
+
+            {% for activity in activities_non_safari %}
+            <div class="form-check col-md-6 col-xl-3">
+              <input class="form-check-input" type="checkbox" value="{{ activity.id }}" id="activity{{ activity.id }}"
+                name="activities_non_safari" {% if activity in profile.activities_enjoy.all %}checked{% endif %}>
+              <label class="form-check-label" for="activity{{ activity.id }}">
+                {{ activity.name }}
+              </label>
+            </div>
+            {% endfor %}
+
+
+            <div class="form-group pt-3 font-16px">
+              <label for="inputState">How many safaris have you been on?<span class="asteriskField">*</span></label>
+              {{ form1.safari_count|as_crispy_field }}
+            </div>
+
+          </div>
+        </div>
+
+        <div class="buttonHolder  pl-3">
+          <input type="submit" name="submit" value="Save changes" class="btn btn-green-primary button white"
+            id="submit-id-submit">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function () {
+    $('.maxlen').trigger('maxlength.reposition');
+    $('.maxlen').maxlength({
+      threshold: 1,
+      showOnReady: true,
+      zIndex: 1,
+      appendToParent: true,
+      alwaysShow: true,
+      warningClass: "badge bg-transparent-50 bg-army-green badge-success",
+      limitReachedClass: "badge badge-danger"
+    });
+    $("#memberProfileForm").validate();
+  })
+</script>
+{% endblock %}

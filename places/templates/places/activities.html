@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+{% load thumbnail %}
+{% block title %} African Safari Activities {% endblock %}
+{% block meta_description %}
+    Yoga, diving, hot air balloon rides—there’s more to an African safari than just game drives.
+{% endblock %}
+
+{% block meta_tw_image %}
+    {{ header_image }}
+{% endblock %}
+
+{% block meta_og_image %}
+    {{ header_image }}
+{% endblock %}
+{% block content %}
+    <div class="container-fluid px-md-5 max-width wildlife-page-height">
+        <div class="row mt-5 px-md-5 px-2">
+            <div class="col-md col-sm-12 ">
+                <h1 class="h1-sm">
+                    <strong> {{ object.name_short }} activities </strong>
+                </h1>
+                {% if object.parks %}
+                    <p>Popular activities enjoyed on safari or that can be combined with an African safari.</p>
+                {% else %}
+                    <p>Popular activities enjoyed in {{ object.name }}</p>
+                {% endif %}
+                <div class="row mt-4">
+                    {% for activity in activities %}
+                        <div class="col-lg-3 col-sm-6 col-xs-12 ">
+                            <a href="/photos?activity={{ activity.slug }}">
+                                <figure class="effect-sadie card animal mb-4 box-shadow">
+                                    <img src="{{ activity.image|thumbnail_url_:'crop_250' }}" alt="{{ activity.name }}">
+                                    <figcaption>
+                                        <h2>{{ activity.name_short }}</h2>
+                                        <p>{{ activity.description|striptags|safe| truncatechars:200 }}</p>
+                                    </figcaption>
+                                </figure>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".navbar-places").addClass("active");
+    </script>
+
+{% endblock %}

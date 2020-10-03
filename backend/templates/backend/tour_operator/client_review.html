@@ -1,0 +1,167 @@
+{% extends 'backend/tour_operator/base.html' %}
+{% load static %}
+{% block backendcontent %}
+<div class="row max-width-admin">
+  <div class="col-md-12">
+    <div class="card strpied-tabled-with-hover">
+      <div class="card-header ">
+        <h4 class="card-title">Manage your reviews</h4>
+      </div>
+      <div class="card-body table-full-width table-responsive table-borderless">
+        <table class="table table-striped-client-review mb-0">
+          <thead>
+            <th>Date</th>
+            <th>Title</th>
+            <th>From</th>
+            <th>Views</th>
+            <th>Responded</th>
+            <th class="text-center text-nowrap">View more</th>
+          </thead>
+          <tbody>
+
+            {% for review in paginator %}
+
+            <tr data-toggle="collapse" href="#collapseExample{{ review.id }}" role="button" aria-expanded="false"
+              aria-controls="collapseExample{{ review.id }}">
+              <td class="text-nowrap">{{ review.date_created | date:"M. d, Y" }}</td>
+              <td class="min-w-300px">
+                {{ review.title|truncatechars:100 }}
+              </td>
+              <td class="text-nowrap">{{ review.user.profile.screen_name }}</td>
+              <td>{{ review.views_count }}</td>
+
+              {% if review.response %}
+              <td class="text-success">YES</td>
+              {% else %}
+              <td class="text-danger">No</td>
+              {% endif %}
+
+              <td class="text-center pointer">
+                <b class="caret"></b>
+              </td>
+            </tr>
+            <tr class="collapse" id="collapseExample{{ review.id }}">
+              <td colspan="6">
+                <div class="container-fluid px-0">
+                  <div class="row">
+                    <div class="col-sm col-12">
+                      <div class="img-container">
+                        <img src="{{ review.user.profile.avatar |thumbnail_url_:'crop_300_150' }}"
+                          alt="no profile picture">
+                      </div>
+                      <div>{{ review.user.first_name }} {{ review.user.last_name }}</div>
+
+                      {% if review.user.profile.safari_count >= 10 %}
+                      <div>
+                        <i class="i-safari-guru"></i>
+                        Safari guru
+                      </div>
+                      {% else %}
+                      <div>
+                        <i
+                          class="i-{{ review.user.profile.get_user_type_display|slugify }} pr-1"></i>{{ review.user.profile.get_user_type_display }}
+                      </div>
+                      {% endif %}
+
+                      <div><i class="i-kudu pr-1"></i>{{ review.user.profile.kudu_count }}
+                        kudu{{ review.user.profile.kudu_count|pluralize }}</div>
+                      <div><i class="fas fa-camera pr-1"></i>Photos
+                        ({{ review.user.photo_set.count }})
+                      </div>
+                      <div><i class="far fa-comments pr-1"></i>Reviews
+                        ({{ review.user.profile.reviews_count }})
+                      </div>
+                      <div><i class="fa fa-link pr-1"></i>
+                        <a target='_blank'
+                          href="{% url 'tour_operator_review' slug=user.profile.tour_operator.slug review=review.id %}">
+                          View review
+                        </a>
+                      </div>
+                    </div>
+
+                    <div class="col-xl-9 col-sm-8 col-12">
+                      <div class="mb-3">Visited: <img class="flag-small"
+                          src="{{ review.user.profile.country.flag.url }}" alt="Tanzania">
+                        {{ review.user.profile.country.name }}
+                      </div>
+                      <p>{{ review.content }}</p>
+                      <div class="row">
+                        {% if not review.response %}
+                        <form method="post"> {% csrf_token %}
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <h5>Send a response</h5>
+                              <input type="hidden" value="{{ review.id }}" name="review_id" />
+                              <textarea style="resize: none;" name="response" rows="4" cols="80" maxlength="300"
+                                class="maxlen form-control" placeholder="Your message"></textarea>
+                              <span class="bootstrap-maxlength badge bg-transparent-50 bg-army-green badge-success">
+                                0 / 300
+                              </span>
+                            </div>
+                            <button type="submit" class="btn btn-green-primary">Submit
+                            </button>
+                          </div>
+                        </form>
+                        {% else %}
+                        <div class="col-md-12">
+                          <div class="group">
+                            <h5>Your response was</h5>
+                            <p rows="4" cols="80">{{ review.response }}</p>
+                          </div>
+                        </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            {% endfor %}
+
+          </tbody>
+        </table>
+
+
+      </div>
+    </div>
+
+    <div>
+      {% include 'search/paginator.html' %}
+    </div>
+
+
+  </div>
+</div>
+<script>
+  $(".nav-link.client-reviews").addClass("active")
+</script>
+<script>
+  $(document).ready(function () {
+
+    $(".collapse").on('show.bs.collapse', function () {
+      $(this).find(".caret").removeClass('fa-angle-down');
+      $(this).find(".caret").addClass('fa-angle-up');
+    });
+    $(".collapse").on('hidden.bs.collapse', function () {
+      $(this).find(".caret").removeClass('fa-angle-up');
+      $(this).find(".caret").addClass('fa-angle-down');
+    });
+    $(".collapse").on('shown.bs.collapse', function () {
+
+    });
+
+    $(".maxlen").keydown(function (e) {
+      const len = $(this).val().length;
+      const total = $(this).attr('maxlength')
+      var res = (len) + "/ 300"
+      $(this).next().html(res);
+    })
+
+  });
+
+
+
+</script>
+
+{% endblock %}

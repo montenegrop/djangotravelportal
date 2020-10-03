@@ -1,0 +1,34 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %} Search results{% endblock %}
+{% block extrahead %}
+<script src="{% static '@robertorodriguez/yasfresco/dist/js/fresco.js' %}"></script>
+<link rel="stylesheet" href="{% static '@robertorodriguez/yasfresco/dist/css/fresco.css' %}" />
+{% endblock %}
+{% block content %}
+<div class="container-fluid px-lg-5 max-width guides-page-height">
+  <div class="row px-lg-5 px-2 justify-content-between">
+    <div class="col-md col-sm-12 ">
+      {% if error %}
+      {{ error }}
+      {% else %}
+      {% include 'search/main.html' %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  $(function () {
+    $('[data-toggle="popover"]').popover()
+  })
+</script>
+
+<script>
+  $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
+{% endblock %}

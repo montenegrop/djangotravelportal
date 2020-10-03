@@ -1,0 +1,136 @@
+/*text-transform:none for .confirm() buttons*/
+.transform-none {
+	text-transform: none !important;
+}
+
+/*for tags*/
+.tagsinput {
+    width: 100% !important;
+}
+/*end for tags*/
+
+.review-finish {
+  float: right;
+  margin-bottom: 20px;
+}
+.review-finish.cancel-photo-upload {
+  background-color: #ffffff;
+}
+
+.photo-content {
+    max-width: 1200px;
+}
+
+.animal-photo {
+    margin: 0 auto;
+    margin-top: 15px;
+}
+
+.under-caption-message {
+    color: #7C3B3E;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.delete-confirm {
+    margin-right: 3px;
+}
+
+.under-delete-message {
+    font-size: 8pt;
+    margin-top: 20px;
+}
+
+.clear-both {
+    clear: both;
+}
+
+.display-none {
+    display: none;
+}
+
+.tags-env {
+    width: 460px;
+    min-height: 40px;
+    height: 40px;
+}
+
+.mt20 {
+    margin-top: 20px;
+}
+
+.uploaded {
+    color: #676767
+}
+
+.dropzone .dz-preview .dz-error-message {
+    width: 160px!important;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+  background-color: #B1B1B1;;
+  color: white;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+	background-color: #e4e4e4;
+	border: 1px solid #aaa;
+	border-radius: 4px;
+	display: inline-block;
+	margin-left: 5px;
+	margin-top: 5px;
+	padding-left: 6px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+	background-color: transparent;
+	border: none;
+	color: #999;
+	cursor: pointer;
+	font-size: 1em;
+	font-weight: bold;
+	padding-left: 4px;
+	float: right;
+	margin-left: 5px;
+}
+
+.tagsinput .tag {
+	position: relative;
+	background: #e4e4e4;
+	display: block;
+	max-width: 100%;
+	word-wrap: break-word;
+	color: #494946;
+	padding: 5px 30px 0px 5px;
+	/* border-radius: 2px; */
+	margin: 0 5px 5px 0;
+	border: 1px solid #aaa;
+	border-radius: 4px;
+}
+.tagsinput .tag a::after, 
+.tagsinput .tag a::before {
+	background: #999;
+	position: absolute;
+	display: block;
+	width: 10px;
+	height: 2px;
+	top: 14px;
+	left: 10px;
+	content: '';
+}
+
+.select2-container {
+  width: 100% !important;
+}
+
+.select2-container .select2-selection--multiple {
+  min-height: 35px;
+}
+@media screen and (max-width: 575px) {
+  .select2-container .select2-selection--multiple {
+    min-height: 65px;
+  }
+}
+@media screen and (max-width: 395px) {
+  .select2-container .select2-selection--multiple {
+    min-height: 90px;
+  }
+}

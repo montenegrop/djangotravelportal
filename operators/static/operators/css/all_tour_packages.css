@@ -1,0 +1,286 @@
+
+  /*Featured card*/
+  .shadow-featured {
+    box-shadow: 0rem 0rem 1rem 0.1rem #AB6700;
+    width: 340px;
+    height: 537px;
+  }
+
+  .tourpackage-featured-banner {
+    position: relative;
+    width: 110px;
+    height: 34px;
+    bottom: 160px;
+    right: 14px;
+    background-color: #4B5320;
+    color: #ffffff;
+    border-radius: 2px 2px 2px 0px;
+  }
+
+  .tourpackage-featured-banner::before {
+    content: "";
+    width: 30px;
+    height: 30px;
+    background: #4B5320;
+    position: absolute;
+    bottom: -49%;
+    left: -14%;
+    -webkit-clip-path: polygon(52% 45%, 96% 75%, 96% 45%);
+    clip-path: polygon(52% 45%, 96% 75%, 96% 45%);
+  }
+
+  .border-featured {
+    border: 2px solid #AB6700 !important;
+  }
+
+  .shadow-featured-banner {
+    filter: drop-shadow(0.2rem 0.2rem 0.13rem rgba(0, 0, 0, 0.452)) !important;
+  }
+
+  #featured-card {
+    position: relative;
+    bottom: 50px;
+  }
+
+  #yasscore {
+    width: 55px;
+    height: 55px;
+    position: relative;
+    top: 50px;
+  }
+
+  .tour-package-image {
+    max-height: 178px;
+    min-height: 178px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .tour-package-image img {
+    width: 100%;
+    height: auto;
+  }
+
+  .fa-hiking {
+    position: relative;
+    left: 3px;
+  }
+
+  #flags {
+    position: relative;
+    bottom: 3px;
+  }
+
+  #flags>img {
+    width: 25px;
+  }
+
+  /* Cards */
+  #tourpackage-card-size {
+    width: 340px;
+    max-height: 460px;
+  }
+
+  @media only screen and (max-width: 375px) {
+    #tourpackage-card-size {
+      width: 340px;
+      max-height: 450px;
+    }
+  }
+  #tourpackage-card-size h5.card-title {
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    max-height: 48px;
+    overflow-y: hidden;
+  }
+  #card-padding {
+    position: relative;
+    bottom: 50px;
+  }
+
+  /* Button heart */
+  .fa-heart.fa-heart-card {
+    color: #DC7403;    
+    position: relative;  
+  }
+
+  #heart-TP-card{
+    bottom: 160px;
+    right: 14px;
+    font-size: 2.2em !important;
+  }
+
+
+  /* Quick to respond banner */
+  .respond-banner-featured {
+    position: relative;
+    width: 110px;
+    height: 44px;
+    bottom: 55px;
+    left: 74%;
+    background-color: #F1EFD8;
+    color: #ffffff;
+    border-radius: 2px 2px 0px 2px;
+  }
+
+  .respond-banner {
+    position: relative;
+    width: 110px;
+    height: 44px;
+    bottom: 10px;
+    left: 74%;
+    background-color: #F1EFD8;
+    color: #ffffff;
+    border-radius: 2px 2px 0px 2px;
+  }
+
+  .respond-banner:before {
+    content: "";
+    width: 30px;
+    height: 30px;
+    background: #F1EFD8;
+    position: absolute;
+    bottom: -35%;
+    left: 87%;
+    -webkit-clip-path: polygon(52% 45%, 96% 75%, 96% 45%);
+    clip-path: polygon(52% 45%, 96% 75%, 96% 45%);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+  }
+
+  .shadow-respond-banner {
+    filter: drop-shadow(-0.2rem 0.2rem 0.13rem rgba(0, 0, 0, 0.452)) !important;
+  }
+
+  #quick-respond {
+    position: relative;
+    bottom: 23px;
+  }
+
+  #quick-respond>img {
+    width: 80px;
+  }
+
+  #quick-respond>p {
+    position: relative;
+    bottom: 30px;
+  }
+
+
+  /* Filters */
+  #filters {
+    max-width: 250px;
+  }
+
+  #filter-search {
+    position: relative;
+    left: 10px;
+  }
+
+  .m-top-03 {
+    margin-top: 0.3rem;
+  }
+
+  #filter-btn {
+    max-width: 120px;
+  }
+
+  #mobile-submit-btn {
+    position: relative;
+    left: 10px;
+  }
+
+  #sortby-dropdown {
+    max-width: 200px;
+  }
+
+  #selected-filters-all {
+    max-width: 130px;
+  }
+
+  #selected-filters {
+    padding-top: 2px;
+  }
+
+  #selected-filter-x {
+    position: relative;
+    top: 1px;
+  }
+
+
+
+  /* Popover */
+  .popover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    max-width: 180px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: left;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+    word-break: normal;
+    word-spacing: normal;
+    white-space: normal;
+    line-break: auto;
+    font-size: 12px;
+    word-wrap: break-word;
+    background-color: #ffffff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+  }
+
+  .popover-header {
+    padding: 0.5rem 0.75rem;
+    margin-bottom: 0;
+    text-align: left;
+    font-size: 14px;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #ebebeb;
+    border-top-left-radius: calc(0.3rem - 1px);
+    border-top-right-radius: calc(0.3rem - 1px);
+  }
+
+  .popover-body {
+    padding: 0.5rem 0.75rem;
+    color: #494946;
+  }
+
+  #page-load .popover {
+    width: 276px;
+    max-width: none;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+  
+  /* Alert */
+  .alert-custom {
+    color: #494946;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+  }
+
+  .caret-rotate {
+    transform: rotate(180deg);
+  }
+
+  .fa-info-circle {
+    color: #979797;
+    position: relative;
+    top: 1px;
+  }
+
+

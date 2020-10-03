@@ -1,0 +1,93 @@
+<div class="row max-width-admin">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h4>Pending reviews</h4>
+        {% if reviews %}
+        <table class='table table-striped table-sm'>
+          <thead>
+            <tr>
+              <th>
+                Id
+              </th>
+              <th>
+                Item
+              </th>
+              <th>
+                Date created
+              </th>
+              <th>
+                User
+              </th>
+              <th>
+                Member country
+              </th>
+              <th>
+                Submitted
+              </th>
+              <th>
+                Actions
+              </th>
+            </tr>
+          </thead>
+          {% for r in reviews%}
+          <tr>
+            <td>
+              {{ r.pk }}
+            </td>
+            <td>
+              {{ r }}
+            </td>
+            <td>
+              {{ r.date_created|date:"d.M.Y" }}
+              <br>
+              {{ r.date_created|date:"H:i" }}
+            </td>
+            <td>
+              {{ r.user }}
+              <br>
+              {{ r.user.email }}
+            </td>
+            <td>
+              {{ r.user.profile.country|default_if_none:'' }}
+            </td>
+            <td>
+              {{ r.country_written|default_if_none:'' }}
+              <br>
+              {{ r.ip_address }}
+            </td>
+            <td>
+              {% if r.is_tour_operator_review %}
+              <a href="{% url 'backend:admin_open_tour_operator_review' tour_operator_review_pk=r.pk %}">
+                Open
+              </a>
+              |
+              <a target='_blank' href="{% url 'admin:reviews_touroperatorreview_change' object_id=r.pk %}">
+                Open in admin
+              </a>
+              |
+              <a data-what='Are you sure?' class="ask" data-href="?delete_tour_operator={{ r.pk }}">
+                Delete
+              </a>
+              {% else %}
+              <a href="{% url 'backend:admin_open_park_review' park_review_pk=r.pk %}">
+                Open
+              </a>
+              |
+              <a target='_blank' href="{% url 'admin:reviews_parkreview_change' object_id=r.pk %}">
+                Open in admin
+              </a>
+              |
+              <a data-what='Are you sure?' class="ask" data-href="?delete_park_review={{ r.pk }}">
+                Delete
+              </a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

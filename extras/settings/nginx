@@ -1,0 +1,19 @@
+server {
+    listen 80;    
+    server_name 0.0.0.0;
+
+    location = /favicon.ico {access_log off;log_not_found off;} 
+
+    location /static/ {
+        root /home/juan/yas;    
+    }
+    location /media/ {
+        root /home/juan/yas;
+    }
+
+    location / {
+	include proxy_params;
+        proxy_pass http://unix:/home/juan/yas/yas.sock;
+
+    }
+}

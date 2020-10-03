@@ -1,0 +1,25 @@
+{% load static %}
+
+<!-- SIDEBAR -->
+<div class="sidebar" data-color="brown" data-image="{% static 'backend/img/cheetah.jpg' %}">
+  <!-- Tip 1: You can change the color of the sidebar using: data-color="purple | blue | green | orange | red"
+          Tip 2: you can also add an image using data-image tag-->
+  <div class="sidebar-wrapper">
+
+    <ul class="nav">
+      <li class="nav-item">
+        <a class="nav-link dashboard" href="{% url 'backend:admin' %}">
+          <i class="fas fa-chart-pie"></i>
+          <p><strong>Dashboard</strong></p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dashboard" href="{% url 'backend:admin_tour_operator' %}">
+          <i class="fas fa-chart-pie"></i>
+          <p><strong>Tour operators</strong></p>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- END SIDEBAR -->

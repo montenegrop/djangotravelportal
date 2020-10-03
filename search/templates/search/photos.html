@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %} Search results{% endblock %}
+{% block extrahead %}
+    <script src="{% static '@robertorodriguez/yasfresco/dist/js/fresco.js' %}"></script>
+    <link rel="stylesheet" href="{% static '@robertorodriguez/yasfresco/dist/css/fresco.css' %}"/>
+{% endblock %}
+{% block content %}
+    <div class="container-fluid px-lg-5 max-width guides-page-height">
+        <div class="row px-lg-5 px-2 justify-content-between">
+            <div class="col-md col-sm-12 ">
+                <div class="row justify-content-between">
+                    <div class="col-xl-8 pr-xl-5 col-lg-12">
+                        <div class="contentbg mt-4 border-grey px-4 pt-2 shadow pb-xl-0 mb-4">
+                            <div>
+                                <h2>You searched for <strong>"{{ query }}"</strong></h2>
+                            </div>
+                        </div>
+                        <div class="py-2 d-xl-none"></div>
+                        <h4 class="text-dark-grey mb-2 mt-4"><strong>Photos</strong></h4>
+                        {% for photo in paginator %}
+                            {% include 'search/single/photo.html' %}
+                            <script>
+                                $("#photo-link-{{ photo.id }}").click(function () {
+                                    $("#photo_{{ photo.id }}")[0].click();
+                                    return false;
+                                });
+                            </script>
+                        {% endfor %}
+                        <a class="d-flex justify-content-end olive-green pt-1"
+                           href="{% url 'search:index' query=query %}">
+                            Back to all results
+                        </a>
+                    </div>
+                </div>
+                {% include 'search/paginator.html' %}
+            </div>
+        </div>
+    </div>
+
+ 
+
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+
+
+{% endblock %}
+

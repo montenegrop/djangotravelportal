@@ -1,0 +1,19 @@
+{% if object.image %}
+<div class="hero-container">
+        <div class="hero-text-container">
+            {% if object.header_caption_link %}
+                <a target='_blank' class="text-dark-grey hero-text" href="{{ object.header_caption_link }}">
+                    {{ object.image_caption | safe }}
+                </a>
+            {% else %}
+                <a class="text-dark-grey hero-text disabled no-hover" role="button" aria-disabled="true"
+                   tabindex="-1">
+                    {{ object.image_caption | safe }}
+                </a>
+            {% endif %}
+        </div>
+        <div class="hero-image-container">  
+          <img src="{{ object.image.url }}" alt="{{ object.header_alt }}">      
+      </div>        
+    </div>
+{% endif %}

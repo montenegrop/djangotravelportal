@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %} Countries {% endblock %}
+{% block extrahead %}
+
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="content-wrap">
+        <ul class="list-group-flush">
+            {% for country in countries %}
+                <li class="list-group-item">
+                    <h4><img class="list-flag" src="{{ country.flag.url }}"/> {{ country.name }}</h4>
+                </li>
+                <ul class="list-group">
+                    {% for animal in country.animal_set.all %}
+                        <li class="list-group-item">
+                           <a href="{% url 'animal' slug=animal.slug %}" class="justify-content-between d-flex flex-row">
+                            {{ animal.name }} - {{ animal.animal_class.name }}
+                            <button type="button" class="btn btn-warning photos">{{ animal.photo_set.count }} photos</button></a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </ul>
+       </div>
+    </div>
+{% endblock %} 

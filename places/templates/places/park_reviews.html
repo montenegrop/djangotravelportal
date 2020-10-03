@@ -1,0 +1,211 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %} {{ object }}-review {% endblock %}
+
+{% block extrahead %}
+<link href="/static/jquery-ui-1.12.1.min.css" type="text/css" media="all" rel="stylesheet">
+<script type="text/javascript" src="/static/jquery-ui-1.12.1.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+{% include 'places/park_inserts/park_meta.html' %}
+
+<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}"></script>
+<script src="{% static '@google/markerwithlabel/src/markerwithlabel_packed.js' %}"></script>
+<link rel="stylesheet" href="{% static 'places/css/parks.css' %}?v=1" />
+<script src="{% static 'places/js/parks.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+{% include 'places/park_inserts/image.html' %}
+
+<div class="container-fluid px-lg-5 max-width mt-4 mx-auto">
+    <div class="row px-md-5 px-2 justify-content-between">
+        {% include 'places/park_inserts/rating.html' %}
+
+        {% include 'places/park_inserts/park_social_media.html' %}
+
+        <div class="row justify-content-between mt-3 mx-0">
+            <div class="col-xl-8 pr-xl-5 col-lg-12">
+
+
+                {% include 'places/park_inserts/suitability.html' %}
+
+                {% include 'places/park_inserts/tabs_reviews.html' %}
+
+
+                {% if review_focus %}
+                {{ review_focus }}
+                {% endif %}
+                <div class="row">
+                    <div class="col-lg-4 col-sm-5 col-8 row align-items-center mx-1">
+                        <p class="m-0 pr-2 text-right">Sort by:</p>
+                        <form action="ReviewSorting" method="post">
+                            <select class="col custom-select pointer" id="sort-by" name="new-selected">
+                                <option selected value="1">Most recent</option>
+                                <option value="2">Oldest</option>
+                                <option value="3">Most popular (based on views)</option>
+                            </select>
+                        </form>
+                    </div>
+                </div>
+                <div id="reviewsSorted">
+
+                    {% include 'places/park_inserts/park_reviews.html' %}
+                </div>
+
+                <!--END COMMENT-->
+                {% if total_park_reviews > 10 %}
+                <a class="text-center d-block" id="more-reviews" href="show-more">Show more</a>
+                {% endif %}
+            </div>
+
+            <!--RHC-->
+            {% include 'places/park_inserts/park_right_hand_sidebar_reviews.html' %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+{% block afterfooter %}
+
+
+<script>
+    $(".navbar-places").addClass("active");
+
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    function showMoreText() {
+        var showChar = 200;
+        var ellipsestext = "...";
+        var moretext = "read more";
+        var lesstext = "read less";
+        $('.more').each(function (ee) {
+            if ($(this).hasClass('no-more')) {
+                return;
+            } else {
+                $(this).addClass('no-more');
+            }
+            var pid = $(this)[0].id;
+            var content = $(this).html();
+            if (content.length > showChar) {
+                var c = content.substr(0, showChar - 1);
+                var h = content.substr(showChar - 1, content.length - showChar);
+                var html = c + '<span class="moreelipses">' + ellipsestext + '</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink" id="more-' + pid + '">' + moretext + '</a></span>';
+                $(this).html(html);
+            }
+        });
+        $(".morelink").click(function (e) {
+            var mid = $(this)[0].id
+            if ($(this).hasClass("less")) {
+                $(this).removeClass("less");
+                $(this).html(moretext);
+                $('#stars-' + mid).collapse('toggle')
+                $('#kudus-' + mid).collapse('toggle')
+                $('#photos-' + mid).collapse('toggle')
+                $('#reviews-' + mid).collapse('toggle')
+            } else {
+                $(this).addClass("less");
+                $(this).html(lesstext);
+                $('#stars-' + mid).collapse('toggle')
+                $('#kudus-' + mid).collapse('toggle')
+                $('#photos-' + mid).collapse('toggle')
+                $('#reviews-' + mid).collapse('toggle')
+            }
+            $(this).parent().prev().toggle();
+            $(this).prev().toggle();
+            return false;
+        });
+    }
+
+    function giveReviewKudu() {
+        $(".give_kudu").each(function (ee) {
+            var rid = $(this)[0].id;
+            var nid = rid.split("_ph").pop();
+            var isSmall = $(this).hasClass('small_park_review');
+
+            $("#" + rid).click(function () {
+                $.post("/api/park-review-kudu/" + nid + "/", function (data) {
+                    $(".kudu_text_ph" + nid).html(data.text);
+                    $(".kudu_count_ph" + nid).html(data.kudus);
+                    if (isSmall) {
+                        $(".kudu_message_small_ph" + nid).html(data.message);
+                    } else {
+                        $(".kudu_message_ph" + nid).html(data.message);
+                    }
+                });
+            });
+        });
+    }
+
+    $(document).ready(function () {
+        var sort = "1";
+        var limit = 10;
+        showMoreText();
+        giveReviewKudu();
+
+        var focus_id = '{{ review_id_focus }}';
+
+        if ($(".focused").length == 1) {
+            $([document.documentElement, document.body]).animate({
+                scrollTop: $(".focused").offset().top - 200
+            }, 1000);
+        }
+
+        $('#more-comment-' + focus_id).trigger('click');
+
+
+
+
+    $('#sort-by').change(function () {
+        sort = $(this).val()
+        axios({
+            method: 'post',
+            url: '{% url 'park_reviews' object.slug %}',
+            data: {
+                is_sorting: true,
+                sort: sort,
+                limit: limit,
+                focus_review: '',
+            }
+        }).then((response) => {
+            $('#reviewsSorted').html(response.data.reviews)
+            showMoreText();
+            giveReviewKudu();
+        }, (error) => {
+        });
+    });
+
+    $('#more-reviews').click(function (e) {
+        e.preventDefault();
+        limit = limit + 10;
+        axios({
+            method: 'post',
+            url: '{% url 'park_reviews' object.slug %}',
+            data: {
+                is_sorting: false,
+                sort: sort,
+                limit: limit,
+                focus_review: focus_id,
+            },
+        }).then((response) => {
+            $('#reviewsSorted').append(response.data.reviews);
+            showMoreText();
+            giveReviewKudu();
+            if (response.data.capped) {
+                $('#more-reviews').removeClass("d-block");
+                $('#more-reviews').hide();
+            }
+        }, (error) => {
+        });
+
+    });
+    });
+</script>
+
+{% endblock %}

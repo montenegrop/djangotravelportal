@@ -1,0 +1,56 @@
+  
+  <div class="col-md-3">
+    <div class="card px-3 pt-3 mb-3">
+      <div class="filter-photos contentbg bg-white">
+        <div class="big1">
+            Filter photos
+        </div>
+        <form @submit="submit_search">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="country" v-model="country">Country</label>
+              <select class="form-control" id="country" name="country" v-model="country">
+                <option value=>All countries</option>
+                <option v-for="country in countries" v-bind:value="country.slug">
+                  [[ country.name ]]
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="park" v-model="park">Park</label>
+              <select class="form-control" id="park" name="park" v-model="park">
+                <option value=>All parks</option>
+                <option v-for="park in parks" v-bind:value="park.slug">
+                  [[ park.name ]]
+                </option>
+              </select>
+            </div>
+            <div class="form-group">
+                <label for="animal" v-model="animal">Animal</label>
+                <select class="form-control" id="animal" name="animal" v-model="animal">
+                  <option value=>All animals</option>
+                  <option v-for="animal in animals" v-bind:value="animal.slug">
+                    [[ animal.name ]]
+                  </option>
+                </select>
+            </div>
+            <div class="form-group">
+              <label for="activity" v-model="activity">Activity</label>
+              <select class="form-control" id="activity" name="activity" v-model="activity">
+                <option value=>All activities</option>
+                <option v-for="activity in activities" v-bind:value="activity.slug">
+                  [[ activity.name ]]
+                </option>
+              </select>
+            </div>
+            <div class="row d-flex justify-content-between px-3">
+               <button class="btn btn-green-secondary mb-2 mr-2" @click="reset">Clear filters</button>
+              <input type="submit" value="Filter" class="btn btn-green-primary  mb-2">
+             
+
+
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>

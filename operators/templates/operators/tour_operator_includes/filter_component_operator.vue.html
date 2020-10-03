@@ -1,0 +1,133 @@
+<script type="text/x-template" id="filter_component">
+  <form>
+    <p class="text-dark-grey">Where would you like to go?</p>
+    <places-filter 
+      ref="placesFilter"
+      :is_inited="is_inited"
+      :variants="filter_variants_country_and_park"
+      :excluded_slug="excluded_slug"
+      @selected="fillCustomFilters($event, ['country', 'park'], 'placesFilter');"
+      @remove-slug="removeSlug"
+      @change-slug="changeSlug"
+    ></places-filter>
+    <div class="accordion text-dark-grey" id="accordionExample">
+      <div class="card border-right-0 border-left-0 border-bottom-0 rounded-0 pointer">
+        <div class="py-3 background-white caret-toggle" id="headingOne" data-toggle="collapse" data-target="#collapseOne">
+          <a class="collapsed text-dark-grey" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false"
+            aria-controls="collapseOne">
+            Tour operators that: <i class="fas fa-angle-down caret-rotate caret float-right mr-1 "></i>
+          </a>
+        </div>
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <checkboxes-filter
+            ref="operatorThatFilter"
+            :items="tour_operator_that"
+            tag="that"
+            value_property="title"
+            @selected="fillCustomFilters($event, ['that'], 'operatorThatFilter')"
+          ></checkboxes-filter>
+        </div>
+      </div>
+      <div id="luxury-popup"> </div>
+      <div class="card border-right-0 border-left-0 border-bottom-0 rounded-0 pointer">
+        <div class="py-3 background-white caret-toggle" id="headingTwo" data-toggle="collapse"
+          data-target="#collapseTwo">
+          <a class="collapsed text-dark-grey" data-toggle="collapse" data-target="#collapseTwo"
+            aria-expanded="false" aria-controls="collapseTwo">
+            Main luxury focus
+            <i class="fas fa-info-circle pl-1" data-toggle="popover" data-trigger="hover" data-placement="right"
+              data-popover-content="#luxury-popup-text" data-container="#luxury-popup"></i>
+            <div id="luxury-popup-text" class="d-none">
+              <div class="popover-body">
+                <p class="text-left">Luxury</br><span class="font-weight-light"> Private, luxury camps. Fly-in
+                    safaris.</span></br>
+                  Middle of the road</br><span class="font-weight-light"> Mixture of fly and drive safari. 3-4 star
+                    accommodation. Tented lodges, hotels and luxury mobile tents.</span></br>
+                  Back-to-basics</br><span class="font-weight-light"> Driving safaris. 2-3 star accommodation or
+                    camping.</span></p>
+              </div>
+            </div>
+            <i class="fas fa-angle-down caret-rotate  caret float-right mr-1"></i>
+          </a>
+        </div>
+        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
+          <div class="card-body py-1 pl-1 font-weight-lighter text-light-grey">
+            <radio-filter
+              ref="luxuryFocusFilter"
+              :items="luxury_focus"
+              value_property="title"
+              tag="luxury-focus"
+              @selected="fillCustomFilters([$event], ['luxury-focus'], 'luxuryFocusFilter')"
+            ></radio-filter>
+          </div>
+        </div>
+      </div>
+      <div class="card border-right-0 border-left-0 border-bottom-0 rounded-0 pointer">
+        <div class="py-3 background-white caret-toggle" id="headingThree" data-toggle="collapse"
+          data-target="#collapseThree">
+          <a class="collapsed text-dark-grey" data-toggle="collapse" data-target="#collapseThree"
+            aria-expanded="false" aria-controls="collapseThree">
+            Minimum rating<i class="fas fa-angle-down caret-rotate caret float-right mr-1"></i>
+          </a>
+        </div>
+        <div id="collapseThree" class="collapse show" aria-labelledby="headingThree"
+          data-parent="#accordionExample">
+          <div class="card-body py-1 pl-1 font-weight-lighter text-light-grey">
+            <radio-filter
+              ref="ratingFilter"
+              :items="minimum_rating"
+              tag="rating"
+              @selected="fillCustomFilters([$event], ['rating'], 'ratingFilter')"
+            ></radio-filter>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card border-right-0 border-left-0 rounded-0 pointer">
+      <div class="py-3 background-white caret-toggle" id="headingFour" data-toggle="collapse"
+        data-target="#collapseFour">
+        <a class="collapsed text-dark-grey" data-toggle="collapse" data-target="#collapseFour"
+          aria-expanded="false" aria-controls="collapseFour">
+          Languages spoken<i class="fas fa-angle-down caret float-right mr-1"></i>
+        </a>
+      </div>
+      <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+        <div class="card-body px-0 py-1 font-weight-lighter text-light-grey">
+          <checkboxes-filter
+            ref="languagesFilter"
+            :items="languages"
+            tag="languages"
+            value_property="name"
+            @selected="fillCustomFilters($event, ['languages'], 'languagesFilter')"
+          ></checkboxes-filter>
+        </div>
+      </div>
+    </div>
+    <div class="card border-right-0 border-left-0 rounded-0 pointer">
+      <div class="py-3 background-white caret-toggle" id="headingFive" data-toggle="collapse"
+        data-target="#collapseFive">
+        <a class="collapsed text-dark-grey" data-toggle="collapse" data-target="#collapseFive"
+          aria-expanded="false" aria-controls="collapseFive">
+          Headquarters<i class="fas fa-angle-down caret float-right mr-1"></i>
+        </a>
+      </div>
+      <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
+        <div class="card-body px-0 py-1 font-weight-lighter text-light-grey">
+          <checkboxes-filter
+            ref="headquartersFilter"
+            :items="headquarters"
+            tag="headquarters"
+            value_property="name"
+            @selected="fillCustomFilters($event, ['headquarters'], 'headquartersFilter')"
+          ></checkboxes-filter>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-custom alert-dismissible fade show p-12 mt-1 font-13">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Focus on what matters</strong></br> Use filters to only see what matters most.
+      Want someone who is quick to respond or who speaks French?
+      We can help.
+    </div>
+  </form>
+</script>

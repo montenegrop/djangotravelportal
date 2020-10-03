@@ -1,0 +1,93 @@
+<script type="text/x-template" id="operator_component">
+  <div :class="card_size_classes" >
+    <div>
+      <div class="col text-right pointer mb-n3">
+        <i @click="heartChange(operator)"
+          class="far fa-heart fa-heart-card pointer"
+          :class="{'fas': operator.is_fav}"
+            id="heart-TP-card"
+        ></i>
+      </div>
+      <div class="row pb-2 d-flex justify-content-between" style="min-height: 80px;">
+        
+        <div class="col-3">          
+          <div v-if="operator.is_featured" class="shadow-featured-banner" id="featured">
+            <div class="featured-banner align-items-center d-flex">
+              <p class="my-auto mx-auto">Featured</p>
+            </div>
+          </div>
+        </div>
+        
+
+        <div class="featured-operator-logo-container col-5">
+          <img class="card-img-top rounded mx-auto operator-logo"
+            :src="operator.logo"
+            {% comment %} src="https://static3.yourafricansafari.com/images/touroperator/logo/chaz-tours-and-travel-1581508149.jpg" {% endcomment %}
+            alt="company logo">
+        </div>
+
+        <div class="col-3">
+          <div v-if="operator.quick_to_respond" class="shadow-respond-banner" id="quick-respond-banner">
+            <div class="respond-banner-featured">
+              <div class="text-center" id="quick-respond-container">
+                <img
+                  src="https://trello-attachments.s3.amazonaws.com/5d2292f37db95c2f90642b60/5d947f94beebc521ccf40f4f/5f39150868ef4d596e464d0582b51777/iconfinder_Animals_Mammals_Artboard_35_4601913_(1).png" />
+                <p class="text-center font-11 text-dark-grey">Quick to respond</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="row align-items-center" id="operator-name">
+      <h5 class="mt-2 card-title col text-center font-weight-bold olive-green h5-sm">
+        [[ operator.name ]]
+      </h5>
+    </div>
+    <div class="text-center">
+      <span class="yellow font-h4" style="padding: 0px 0 5px 0; display: inline-block;">
+        <i v-for="i in 5"
+          :class="(i <= operator.average_rating) ? 'fas' : 'far'"
+          class="fa-star"
+          style="margin-right: 5px;"
+        ></i>
+      </span>
+      <span class="font-weight-light font-11 text-light-grey">[[operator.reviews_count]] reviews</span>
+    </div>
+    <div class="rounded border border-grey mx-auto mb-2" id="yasscore">
+      <p class="small pt-1 text-center font-weight-light text-light-grey font-11" data-trigger="hover"
+        data-toggle="popover" data-placement="bottom"
+        data-content="YAScore is a weighted average of 20 metrics including years in business, quality and quantity of reviews, and how quickly tour operator responds to quote requests.">
+        YAScore</br><span class="h4 font-weight-light dark-brown">[[ operator.new_yas_score ]]</span></p>
+    </div>
+    <div class="text-center font-12 border border-grey-thin mt-2 py-2 mb-1">
+      Main focus: Middle of the road safaris | [[ operator.tours_count ]] tours
+    </div>
+    <div class="d-flex justify-content-center">
+      <p v-if="operator.headquarter && operator.headquarter.flag_flat">HQ <span>
+          <img class="flag-small"
+            :src="operator.headquarter.flag_flat" :alt="operator.headquarter.name"
+            data-toggle="tooltip" data-placement="top" 
+            :title="operator.headquarter.name"
+            :data-original-title="operator.headquarter.name"
+          >
+        </span></p>
+    </div>
+    <div class="d-flex justify-content-center pb-2">
+      <img v-for="flag in operator.flags" :key="flag.id" 
+        :src="flag.flag_url" 
+        :alt="flag.name_short" 
+        class='flag-small'
+        data-toggle="tooltip" 
+        data-placement="top"
+        :title="flag.name_short"
+      >
+    </div>
+    <div class="row justify-content-center mt-3 mb-2">
+      <a :href="getTourUrl(operator)" class="btn mx-auto btn-orange-secondary font-14 py-1" type="submit">
+        Learn more
+      </a>
+    </div>
+  </div>
+</script>

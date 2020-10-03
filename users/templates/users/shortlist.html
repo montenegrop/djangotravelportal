@@ -1,0 +1,476 @@
+{% extends 'core/base.html' %}
+{% load fullurl %}
+{% load static %}
+{% block title %}
+Shortlist
+{% endblock %}
+{% block content %}
+<div class="container-fluid px-lg-5 max-width mt-4 mx-auto">
+  <div class="row px-md-5 px-2 justify-content-between">
+    <div class="col-md col-sm-12 ">
+      <h1 class="h1-sm">
+        <strong>Your shortlists</strong>
+      </h1>
+      <div class="row justify-content-between">
+        <div class="col-12 col-md-8">
+          <div class="tour-tab tab clearfix">
+            <ul class="nav mb-3 tabs" id="pills-tab" role="tablist">
+              <li class="nav-item py-0 " role="presentation">
+                <a class="nav-link {{ active_itineraries }}" id="pills-packages-tab" data-toggle="pill"
+                  href="#pills-packages" role="tab" aria-controls="pills-packages" aria-selected="true">Tour
+                  packages (<i class='favs-count-it'>{{ itineraries.count }}</i> )</a>
+              </li>
+              <li class="nav-item py-0 " role="presentation">
+                <a class="nav-link {{ active_operators }}" id="pills-operators-tab" data-toggle="pill"
+                  href="#pills-operators" role="tab" aria-controls="pills-operators" aria-selected="false">Tour
+                  operators (<i class='favs-count-to'>{{ tour_operators.count }}</i> )</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+
+
+        <div class="col-12">
+          <!-- BEGIN IT TAB-->
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade {{ active_itineraries }}" id="pills-packages" role="tabpanel"
+              aria-labelledby="pills-packages-tab">
+              {% if itineraries %}
+              <div class="d-flex justify-content-start pb-2">
+                <div class="form-check selectAllPackages">
+                  <input class="select_itineraries form-check-input mt-0" type="checkbox" value="1"
+                    id="selectAllPackages" name='selectAll'>
+                  <label class="form-check-label font-12px" for="selectAllPackages">
+                    Select all packages
+                  </label>
+                </div>
+              </div>
+              <div class='py-4 no-results itinerary d-none'>
+                You have no packages in your shortlist
+              </div>
+              {% else %}
+              <div class='py-4'>
+                You have no packages in your shortlist
+              </div>
+              {% endif %}
+
+              <form action="{% url 'quote' %}" method='post'>
+                {% csrf_token %}
+
+                {% for itinerary in itineraries %}
+                <div class="itinerary-content">
+                  <div class="row px-3 ">
+                    <div class="col-sm-11 form-check">
+                      <input name='itineraries' class="select_itinerary form-check-input form-check-input-position"
+                        type="checkbox" value="{{ itinerary.pk }}" id="{{ itinerary.pk }}">
+                      <a class='delete_itinerary_fav' href="#" data-id='{{ itinerary.pk }}'>
+                        <i class="far fa-times-circle font-18px cross-sm text-white d-sm-none"></i></a>
+                      <label class="form-check-label row" for="{{ itinerary.pk }}">
+                        <img class="col-sm-2 shortlist-img" src="{{ itinerary.image|image_ }}" alt="">
+                        <div class="col shortlist-item">
+                          <div>
+                            <p class="font-18px mb-0">{{itinerary.title}}</p>
+                            <p class="font-12px d-inline pr-3">{{itinerary.tour_operator}}</p>
+
+                            {{ itinerary.tour_operator.average_rating | star_rating | safe }}
+                            <span class="font-10 font-weight-light d-inline text-dark-grey ">
+                              <span>{{ itinerary.tour_operator.reviews_count }}</span>
+                              review{{ itinerary.tour_operator.reviews_count | pluralize }}
+
+                          </div>
+                          <div class="pt-1 ml-n1">
+                            <div class="row mb-lg-2 mb-0">
+                              <div class="col-xl-3 col-lg-4 col-12 mb-lg-0 text-nowrap">
+                                {% if itinerary.price_str %}
+                                <div class="d-inline-block icon-container text-center">
+                                  <i class="fas fa-dollar-sign text-dark-grey"></i>
+                                </div>
+                                {{ itinerary.price_str }}
+                                {% endif %}
+                              </div>
+                              <div class="col-md col-12 mb-1 mb-lg-0">
+                                {% if itinerary.focus_activities %}
+                                <div class="d-inline-block icon-container text-center">
+                                  <i class="fas fa-star text-dark-grey"></i>
+                                </div>
+                                {{ itinerary.focus_activities }}
+                                {% endif %}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-xl-3 col-lg-4 col-12 mb-1 mb-lg-0">
+                                <div class="d-inline-block icon-container text-center">
+                                  <i class="far fa-calendar-alt text-dark-grey"></i>
+                                </div>
+                                {{ itinerary.days }} day{{ itinerary.days|pluralize }}
+                              </div>
+                              <div class="col-md col-12">
+                                {% if itinerary.parks.all.exists %}
+                                <div class="d-inline-block icon-container text-center">
+                                  <i class="fas fa-tree text-dark-grey"></i>
+                                </div>
+                                {{ itinerary.parks_str }}
+                                {% endif %}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                    <div class="col-1 d-flex align-items-end justify-content-end">
+                      <a class='delete_itinerary_fav' href="#" data-id='{{ itinerary.pk }}'>
+                        <i class="far fa-times-circle font-18px text-dark-grey d-none d-sm-inline" data-toggle="tooltip"
+                          data-placement="top" title="Remove package"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <hr class="pb-2">
+
+                </div>
+                {% endfor %}
+                <a href="#" class="d-none delete_itinerary_fab_multiple btn btn-green-secondary mr-2">Remove
+                  packages</a>
+                <input type='submit' class="d-none send_itinerary_fab_multiple btn btn-green-primary"
+                  value='Email operators'>
+              </form>
+
+            </div>
+
+            <!-- END ITNERARY TAB-->
+
+
+
+            <div class="tab-pane fade {{ active_operators }} " id="pills-operators" role="tabpanel"
+              aria-labelledby="pills-operators-tab">
+
+              {% if tour_operators %}
+              <div class="d-flex justify-content-start pb-2">
+                <div class="form-check selectAllOperators">
+                  <input class="form-check-input mt-0" type="checkbox" value="" id="selectAllOperators">
+                  <label class="form-check-label font-12px" for="selectAllOperators">
+                    Select all operators
+                  </label>
+                </div>
+              </div>
+              <div class='py-4 no-results operators d-none'>
+                You have no operators in your shortlist
+              </div>
+              {% else %}
+              <div class='py-4'>
+                You have no operators in your shortlist
+              </div>
+              {% endif %}
+
+              <form action="{% url 'quote' %}" method='post'>
+                {% csrf_token %}
+
+                {% for tour_operator in tour_operators %}
+                <div class="operator-content">
+                  <div class="row px-3">
+                    <div class="col-sm-11 form-check">
+                      <input value='{{ tour_operator.pk}}' name='tour_operators'
+                        class="select_operators form-check-input form-check-input-position form-check" type="checkbox"
+                        value="{{ tour_operator.pk }}" id="{{ tour_operator.pk }}">
+                      <a class='delete_operator_fav' href="#" data-id='{{ tour_operator.pk }}'>
+                        <i class="far fa-times-circle font-18px cross-sm text-dark-grey d-sm-none"></i></a>
+                      <label class="form-check-label row" for="{{ tour_operator.pk }}">
+                        <img class="col-sm-2 shortlist-img" src="{{ tour_operator.logo.url }}" alt="">
+                        <div class="col shortlist-item">
+
+                          <p class="font-18px mb-0 d-inline pr-3">{{ tour_operator|safe }}</p>
+                          <span class="yellow font-h5 text-nowrap" title="5.00 / 5.00">
+                            {{ tour_operator.average_rating | star_rating | safe }}
+                            <span class="font-10 font-weight-light d-inline text-dark-grey ">
+                              <span>{{ tour_operator.reviews_count }}</span>
+                              review{{ tour_operator.reviews_count | pluralize }}
+                            </span>
+                          </span>
+                          <div class="pt-1">
+                            <div class="row mb-lg-2 mb-0">
+                              <div class="col-xl-3 col-lg-4 col-12 text-nowrap">
+                                <span class="mr-1">Headquarters:</span>
+                                <img class="flag-small" src="{{ tour_operator.headquarters.flag.url }}"
+                                  alt="{{ tour_operator.headquarters }}" data-toggle="tooltip" data-placement="top"
+                                  title="" data-original-title="{{ tour_operator.headquarters }}">
+                              </div>
+                              <div class="col-md col-12">
+                                Offers tours in:
+                                {% for country in tour_operator.country_indexes.all %}
+                                <span class="text-nowrap">
+                                  <img class="flag-small mr-0" src="{{ country.flag.url }}" alt="{{ country }}"
+                                    data-toggle="tooltip" data-placement="top" title="{{ country }}"
+                                    data-original-title="{{ country }}">
+                                  <span class="mr-2 d-sm-none">
+                                    {{ country }}
+                                  </span>
+                                </span>
+                                {% endfor %}
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-xl-3 col-lg-4 col-12 mb-1 mb-lg-0">
+                                {{ tour_operator.packages_count }} tour{{ tour_operator.packages_count| pluralize }} on
+                                YAS
+                              </div>
+                              <div class="col-md col-12">
+                                Luxury level: {{ tour_operator.get_luxury_level_display }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                    <div class="col-1 d-flex align-items-end justify-content-end">
+                      
+                      <a class='delete_operator_fav' href="#" data-id='{{ tour_operator.pk }}'>
+                        <i class="far fa-times-circle font-18px text-dark-grey d-none d-sm-inline" data-toggle="tooltip"
+                          data-placement="top" title="Remove operator"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <hr class="pb-2">
+                </div>
+                {% endfor %}
+                <a href="#" class="d-none delete_operator_fab_multiple btn btn-green-secondary mr-2">Remove
+                  operators</a>
+                <input type='submit' class="d-none send_operator_fab_multiple btn btn-green-primary"
+                  value='Email operators'>
+              </form>
+            </div>
+            <!-- END OPERATOR TAB-->
+          </div>
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .form-check-input-position {
+    bottom: 50%;
+  }
+
+  .icon-container {
+    width: 20px;
+  }
+
+  .shortlist-img {
+    min-width: 210px;
+    max-height: 125px;
+  }
+
+  .tour-tab .tabs li {
+    max-width: 260px;
+  }
+
+  .shortlist-item {
+    align-content: space-between;
+    display: grid;
+  }
+
+  @media screen and (max-width: 576px) {
+    .tour-tab .tabs li {
+      width: 50%;
+    }
+
+    .shortlist-img {
+      max-height: 240px;
+    }
+
+    .form-check-input-position {
+      top: 5px;
+      left: 45px;
+      z-index: 5;
+      width: 25px;
+      height: 25px;
+    }
+
+    .cross-sm {
+      position: absolute;
+      right: 23px;
+      z-index: 100;
+      top: 10px;
+    }
+  }
+</style>
+<script>
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+  $(function () {
+    $.ajaxSetup({
+      type: "POST",
+
+      headers: { "X-CSRFToken": getCookie("csrftoken") }
+    });
+  });
+
+
+  $("#selectAllPackages").change(function (e) {
+    $(".select_itinerary").prop('checked', this.checked)
+    $(".select_itinerary").trigger('change')
+  });
+  $("#selectAllOperators").change(function (e) {
+    $(".select_operators").prop('checked', this.checked)
+    $(".select_operators").trigger('change')
+  });
+
+  $(".delete_itinerary_fav").click(function () {
+    const id = $(this).data("id")
+    const parent = $(this)
+    $.ajax({
+      url: "/delete_itinerary_fav/" + id + '/',
+      type: 'GET',
+      success: function (result) {
+        $(".fav-counter").html(result['count'])
+        $(".favs-count-it").html(result['count_it'])
+        parent.parents('.itinerary-content').fadeOut(function () {
+          $(this).remove()
+          if ($('.itinerary-content').length == 0) {
+            $(".no-results.itinerary").removeClass("d-none")
+            $(".form-check.selectAllPackages").addClass("d-none")
+            $(".delete_itinerary_fab_multiple").addClass('d-none')
+            $(".send_itinerary_fab_multiple").addClass('d-none')
+          }
+        })
+      }
+    });
+    return false
+  });
+
+  $(".delete_operator_fav").click(function () {
+    const id = $(this).data("id")
+    const parent = $(this)
+    $.ajax({
+      url: "/delete_operator_fav/" + id + '/',
+      type: 'GET',
+      success: function (result) {
+        $(".fav-counter").html(result['count'])
+        $(".favs-count-to").html(result['count_to'])
+        parent.parents('.operator-content').fadeOut(function () {
+          $(this).remove()
+          if ($('.operator-content').length == 0) {
+            $(".no-results.operators").removeClass("d-none")
+            $(".form-check.selectAllOperators").addClass("d-none")
+            $(".delete_operator_fab_multiple").addClass('d-none')
+            $(".send_operator_fab_multiple").addClass('d-none')
+          }
+        })
+      }
+    });
+    return false
+  });
+
+  //show hide buttons
+  $(".select_operators").change(function () {
+    var count = $(".select_operators:checked")
+    if (count.length > 0) {
+      $(".delete_operator_fab_multiple").removeClass('d-none')
+      $(".send_operator_fab_multiple").removeClass('d-none')
+    } else {
+      $(".delete_operator_fab_multiple").addClass('d-none')
+      $(".send_operator_fab_multiple").addClass('d-none')
+    }
+  });
+
+  $(".select_itinerary").change(function () {
+    var count = $(".select_itinerary:checked")
+    if (count.length > 0) {
+      $(".delete_itinerary_fab_multiple").removeClass('d-none')
+      $(".send_itinerary_fab_multiple").removeClass('d-none')
+    } else {
+      $(".delete_itinerary_fab_multiple").addClass('d-none')
+      $(".send_itinerary_fab_multiple").addClass('d-none')
+    }
+  })
+  //multiple
+
+
+  $(".delete_operator_fab_multiple").click(function () {
+    var delete_ids = $(".select_operators:checked").map(function () {
+      return $(this).val();
+    }).get();
+
+    $.ajax({
+      url: "/delete_operator_fav_multiple/",
+      type: 'POST',
+      data: { 'favs': delete_ids },
+      success: function (result) {
+        $(".fav-counter").html(result['count'])
+        $(".favs-count-to").html(result['count_to'])
+        $(".delete_operator_fab_multiple").addClass('d-none')
+        $(".send_operator_fab_multiple").addClass('d-none')
+        $(".select_operators:checked").each(function () {
+          $(this).parents('.operator-content').fadeOut(function () {
+            $(this).remove()
+            if ($('.operator-content').length == 0) {
+              $(".no-results.operators").removeClass("d-none")
+              $(".form-check.selectAllOperators").addClass("d-none")
+            }
+          })
+        })
+      }
+    });
+    return false
+  });
+
+
+
+  $(".delete_itinerary_fab_multiple").click(function () {
+    var delete_ids = $(".select_itinerary:checked").map(function () {
+      return $(this).val();
+    }).get();
+
+    $.ajax({
+      url: "/delete_itinerary_fav_multiple/",
+      type: 'POST',
+      data: { 'favs': delete_ids },
+      success: function (result) {
+        $(".fav-counter").html(result['count'])
+        $(".favs-count-it").html(result['count_it'])
+        $(".select_itinerary:checked").each(function () {
+          $(this).parents('.itinerary-content').fadeOut(function () {
+            $(this).remove()
+            $(".delete_itinerary_fab_multiple").addClass('d-none')
+            $(".send_itinerary_fab_multiple").addClass('d-none')
+            if ($('.itinerary-content').length == 0) {
+              $(".no-results.itinerary").removeClass("d-none")
+              $(".form-check.selectAllPackages").addClass("d-none")
+            }
+          })
+        })
+      }
+    });
+    return false
+  });
+
+
+  //send email
+
+
+  $(document).ready(function () {
+    $('[data-toggle="tooltip"]').click(function () {
+      $('[data-toggle="tooltip"]').tooltip("hide");
+
+    });
+  });
+
+</script>
+{% endblock %}

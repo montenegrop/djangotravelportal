@@ -1,0 +1,935 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %} Home {% endblock %}
+<link href="https://fonts.googleapis.com/css2?family=Mali:wght@300&display=swap" rel="stylesheet">
+{% block extrahead %}
+<style>
+  body {
+    padding-top: 0;
+  }
+
+  .content {
+    margin-top: 114px;
+  }
+
+  #home-search-btn {
+    position: relative;
+    right: 40px
+  }
+
+  .home-search-wrapper {
+    max-width: 660px;
+  }
+
+  #hero-text {
+    padding: 0px 60px;
+    top: -10px;  
+  }
+
+  #mission-statement {
+    background: rgba(101, 96, 76, 0.71);
+    bottom: 0px;
+    position: absolute;
+    padding: 0px 60px;
+    color: #fff !important;
+  }
+
+  #mission-statement div {
+    max-width: 1300px;
+    margin: auto;
+  }
+
+  .opacity:hover {
+    opacity: 0.8;
+  }
+
+  /* Mailminch signup */
+
+  .mail-signup {
+    margin: 0 auto;
+    width: 60%;
+  }
+
+
+
+  @media screen and (max-width: 767px) {
+    .mail-signup {
+      width: 80%;
+    }
+
+    #hero-text {
+      padding: 0px 30px;
+    }
+
+    #mission-statement {
+      padding: 0px 30px;
+    }
+  }
+
+  @media screen and (max-width: 576px) {
+    .mail-signup {
+      width: 90%;
+    }
+    #mission-statement {
+    position: relative;
+    }
+    #hero-text {
+      top: 40px;
+    }
+  }
+
+  #map-image img {
+    width: 100%;
+  }
+
+  .company {
+    width: 160px;
+  }
+
+  .company img {
+    max-width: 100%;
+  }
+
+  .company-img-container {
+    height: 100px;
+  }
+
+  .mali-font {
+    font-family: 'Mali', cursive;
+  }
+
+  .review-card-home {
+    max-width: 300px;
+  }
+
+  .review-card-contents {
+    min-height: 110px;
+  }
+
+  .review-image-container {
+    height: 95px;
+    width: 95px;
+  }
+
+  .review-card-contents img {
+    border-radius: 50%;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+
+  .review-card-gradient {
+    background: transparent;
+    background: -moz-linear-gradient(top, transparent 50%, rgba(0, 0, 0, 0.9) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(50%, transparent), color-stop(100%, rgba(0, 0, 0, 0.9)));
+    background: -webkit-linear-gradient(top, transparent 50%, rgba(0, 0, 0, 0.9) 100%);
+    background: -o-linear-gradient(top, transparent 50%, rgba(0, 0, 0, 0.9) 100%);
+    background: -ms-linear-gradient(top, transparent 50%, rgba(0, 0, 0, 0.9) 100%);
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.9) 100%);
+    height: 95px;
+    width: 95px;
+    border-radius: 50%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+  }
+
+  .review-name {
+    position: relative;
+    top: 5px;
+  }
+
+  /* big five cards */
+  #big-five-card1 {
+    height: 260px;
+    max-width: 300px;
+  }
+
+  #big-five-card1 img {
+    height: 80%;
+  }
+
+  .big-five-cards {
+    height: 260px;
+    max-width: 300px;
+    min-width: 300px;
+  }
+
+  .big-five-cards img {
+    height: 80%;
+    object-fit: cover;
+  }
+
+  .text-truncate {
+    max-width: 100%;
+  }
+
+  /* Blog cards */
+  .blog-articles-home {
+    max-width: 300px;
+    min-width: 300px;
+  }
+
+  /* TP cards */
+  #tourpackage-card-size-home {
+    max-width: 300px;
+    min-width: 300px;
+    max-height: 460px;
+  }
+
+  #tour-package-image {
+    max-height: 178px;
+    min-height: 178px;
+    overflow: hidden;
+  }
+
+  #tour-package-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .fa-heart.fa-heart-card {
+    color: #DC7403;
+    position: relative;
+  }
+
+  #heart-TP-card {
+    bottom: 160px;
+    right: 14px;
+    font-size: 2.2em !important;
+  }
+
+  #tourpackage-card-size-home h5.card-title {
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    max-height: 48px;
+    overflow-y: hidden;
+  }
+
+  #card-padding {
+    position: relative;
+    bottom: 50px;
+  }
+
+  @media screen and (max-width: 992px) {
+    #tour-package-image {
+      max-height: 140px;
+      min-height: 140px;
+    }
+
+    #heart-TP-card {
+      bottom: 130px;
+    }
+
+    #tourpackage-card-size-home {
+      max-height: 300px;
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    #tourpackage-card-size-home {
+      max-width: 30%;
+      min-width: 1px;
+    }
+
+    .blog-articles-home {
+      max-width: 30%;
+      min-width: 1px;
+    }
+  }
+
+  @media screen and (min-width: 992px) {  
+    #big-five-card1 {
+      height: 480px;
+      max-width: 100%;
+    }
+
+    #big-five-card1 img {
+      height: 90%;
+      object-fit: cover;
+      object-position: left;
+    }
+
+    .big-five-cards {
+      height: 220px;
+      max-width: none;
+      min-width: 0;
+    }
+
+    .big-five-cards img {
+      height: 80%;
+      object-fit: cover;
+    }
+
+    .big-five-row {
+      height: 480px;
+      align-content: space-between;
+    }
+  }
+
+
+  @media screen and (min-width: 1200px) {
+    #tourpackage-card-size-home {
+      max-width: 340px;
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+    .scrolling-wrapper-flexbox {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .scrolling-wrapper-flexbox::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-wrap {
+      flex-wrap: nowrap;
+      margin-left: 10px;
+    }
+  }
+
+  @media screen and (max-width: 576px) {
+      .company-img-container {
+        height: auto;
+      }
+
+      .form-control::placeholder {
+        font-size: 12px;
+      }
+    }
+
+  .carousel {
+    height: 200px;
+  }
+
+  .carousel-indicators {
+   position: relative;
+  }
+
+  .carousel-indicators li {
+    background-color: #6b6a24;
+  }
+
+  .carousel-item {
+  text-align: center;
+  background-color: white;
+  }
+
+
+.hero-home-container {
+  width: 100%;
+  height: 400px;
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  overflow: hidden;
+  display: flex;
+}
+
+@media only screen and (max-width: 992px) {
+	.hero-home-container {
+		height: 350px;
+	}
+}
+
+.hero-home {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  align-self: end;
+}
+
+
+</style>
+{% endblock %}
+{% block content %}
+<!-- hero image and search bar-->
+<div class="container-fluid px-0 mx-0">
+  <div class="row mx-0">
+    <div class="col-12 px-0">
+      <header class="masthead" >        
+        <div class="container-fluid h-100">
+          <div class="row h-100 align-items-center">
+            <div class="col-12 pb-4 pb-sm-0 max-width" id="hero-text">
+              <h5 class="text-white">Plan it, book it, make it</h5>
+              <h1 class="text-white h1-sm">
+                Your African Safari
+              </h1>
+              <form action="" class="mt-4">
+                <div class="home-search-wrapper">
+                  <div class="d-flex justify-content-between">
+                    <input type="text" class="form-control input-lg" id="home-search" name="search"
+                      placeholder="Where do you want to go on safari?">
+                    <button type="submit" class="btn" id="home-search-btn"><i
+                        class="fas fa-search text-light-grey"></i></button>
+                  </div>
+                </div>
+              </form>
+            </div>          
+          </div>
+        </div>
+        <div class="hero-home-container">
+          <picture>
+            <source media="(max-width: 576px)" srcset="{% static 'core/img/home/max_576px' %}/{{ masthead_number }}.jpg">
+            <source media="(max-width: 768px)" srcset="{% static 'core/img/home/max_768px' %}/{{ masthead_number }}.jpg">
+            <source media="(max-width: 1440px)" srcset="{% static 'core/img/home/max_1440px' %}/{{ masthead_number }}.jpg">
+            <source media="(max-width: 1920px)" srcset="{% static 'core/img/home/max_1920px' %}/{{ masthead_number_lg }}.jpg">
+            <source media="(min-width: 1920px)" srcset="{% static 'core/img/home/min_1920px' %}/{{ masthead_number_lg }}.jpg"> 
+            <img class="hero-home" src="{% static 'core/img/home/min_1920px/2.jpg' %}" alt="..."> 
+          </picture> 
+        </div>        
+        
+      </header>
+      <div class="row mx-0">
+        <div class="container-fluid px-0">
+          <div class="col-12 text-left py-2 py-sm-1" id="mission-statement">
+          <div>
+            <span>
+              <span class="font-weight-bold text-white">
+                About Your African Safari</span>&mdash;YAS was created to help support, grow and nourish a healthy
+              African wildlife population. We only allow tours that do not exploit wildlife. 
+              <a href="#" class="text-white"><u>Read more</u></a>   
+           </span>
+          </div>
+        </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end hero image and search bar-->
+
+
+<div class="container-fluid px-lg-5 max-width mt-4 mx-auto">
+  <div class="row">
+
+    <!-- latest reviews-->
+    <div class="col-lg-12 latest-reviews ">
+      <h3 class="mt-5 mb-4 h3-sm text-center">
+        Read the latest safari reviews
+      </h3>
+      <div class="row">
+        <div class="col-12 col-md-4">
+          <div class="card mb-3 review-card-home mx-auto">
+            <div class="row review-card-contents no-gutters">
+              <div class="col-4 col-md-5 col-lg-4 p-1">
+                <div class="review-image-container mt-1">
+                  <div class="review-card-gradient">
+                    <p class="review-name text-white mt-auto">Morgan</p>
+                  </div>
+                  <img src="https://yastest.crescente.com.ar/media/images/user_avatar/2020/05/27/image_6464"
+                    class="card-img-top bg-gradient-primary" alt="...">
+                </div>
+              </div>
+              <div class="col">
+                <div class="p-2">
+                  <p class="card-text my-0 text-muted font-12px">
+                    Virunga National Park
+                  </p>
+                  <div class="yellow font-h5 pb-1" title="4.63 / 5.00">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                  </div>
+                  <p>"Amazing trip to Africa with Almighty Kilimanjaro"</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="card mb-3 review-card-home mx-auto">
+            <div class="row review-card-contents no-gutters">
+              <div class="col-4 col-md-5 col-lg-4 p-1">
+                <div class="review-image-container mt-1">
+                  <div class="review-card-gradient">
+                    <p class="review-name text-white mt-auto">Rafael</p>
+                  </div>
+                  <img src="https://yastest.crescente.com.ar/media/images/user_avatar/2020/05/26/image_1932"
+                    class="card-img-top bg-gradient-primary" alt="...">
+                </div>
+              </div>
+              <div class="col">
+                <div class="p-2">
+                  <p class="card-text my-0 text-muted font-12px">
+                    Virunga National Park
+                  </p>
+                  <div class="yellow font-h5 pb-1" title="4.63 / 5.00">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                  </div>
+                  <p>"Ranked the best in the African continent!!!"</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="card mb-3 review-card-home mx-auto">
+            <div class="row review-card-contents no-gutters">
+              <div class="col-4 col-md-5 col-lg-4 p-1">
+                <div class="review-image-container mt-1">
+                  <div class="review-card-gradient">
+                    <p class="review-name text-white mt-auto">lisa</p>
+                  </div>
+                  <img src="https://yastest.crescente.com.ar/media/images/user_avatar/2020/05/26/image_4"
+                    class="card-img-top bg-gradient-primary" alt="...">
+                </div>
+              </div>
+              <div class="col">
+                <div class="p-2">
+                  <p class="card-text my-0 text-muted font-12px">
+                    Experience Zanzibar Tours & Safaris
+                  </p>
+                  <div class="yellow font-h5 pb-1" title="4.63 / 5.00">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                  </div>
+                  <p>"Don't be put off by DR Congos bad press"</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end latest reviews-->
+
+    <!-- featured tours-->
+    <div class="col-lg-12 featured-tours text-center mt-2 px-0">
+      <h3 class="mb-4 h3-sm">
+        Featured safari tours
+      </h3>
+      <div class="scrolling-wrapper-flexbox">
+        <div class="row justify-content-around no-wrap mx-2">
+
+          <div id="tourpackage-card-size-home" class="card shadow-sm bg-white rounded col-4 mx-3 mx-md-0 mb-5 opacity">
+            <a href="/tours/6343/6343-southern-africa-delight">
+              <div>
+                <div class="container-fluid px-0">
+                  <div class="row mb-2">
+                    <div id="tour-package-image">
+                      <img
+                        src="http://yastest.crescente.com.ar/media/images/itineraries/2020/08/11/600_Sossusvlei_Namibia.jpg"
+                        alt="Southern Africa delight">
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h5 class="text-center font-weight-bold olive-green">Southern Africa delight</h5>
+                  <div class="text-center font-12 text-light-grey font-weight-light pb-2">
+                    From $<span class="font-weight-bold">12000.00</span> per person
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div id="tourpackage-card-size-home" class="card shadow-sm bg-white rounded col-4 mx-3 mx-md-0 mb-5 opacity">
+            <a href="/tours/6343/6343-southern-africa-delight">
+              <div>
+                <div class="container-fluid px-0">
+                  <div class="row mb-2">
+                    <div id="tour-package-image">
+                      <img
+                        src="http://yastest.crescente.com.ar/media/images/itineraries/2020/08/11/600_lion_m_trimble_majete_Morgan.jpg"
+                        alt="Malawi package"></div>
+                  </div>
+                </div>
+                <h5 class="text-center font-weight-bold olive-green">Malawi package</h5>
+                <div class="text-center font-12 text-light-grey font-weight-light pb-2">
+                  From $<span class="font-weight-bold">15000.00</span> per person
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <div id="tourpackage-card-size-home" class="card shadow-sm bg-white rounded col-4 mx-3 mx-md-0 mb-5 opacity">
+            <a href="/tours/6343/6343-southern-africa-delight">
+              <div>
+                <div class="container-fluid px-0">
+                  <div class="row mb-2">
+                    <div id="tour-package-image">
+                      <img
+                        src="http://yastest.crescente.com.ar/media/images/itineraries/2020/08/11/South_Africa_Limpopo_Province.jpg"
+                        alt="Southern Africa delight"></div>
+                  </div>
+                </div>
+                <h5 class="text-center font-weight-bold olive-green"> Kenya and South Africa tour package</h5>
+                <div class="text-center font-12 text-light-grey font-weight-light pb-2">
+                  From $<span class="font-weight-bold">75000.00</span> per person
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end featured tours-->
+
+    <!-- big five -->
+    <div class="col-lg-12 big-five text-center my-1 px-0">
+      <h3 class="mt-2 mb-4 h3-sm">
+        Where to see the big five on safari
+      </h3>
+      <div class="scrolling-wrapper-flexbox">
+        <div class="row no-wrap mx-2">
+          <div class="col-3 col-lg-5 pr-4 mr-1 opacity">
+            <a href="https://yastest.crescente.com.ar/parks/moremi/">
+              <div class="card" id="big-five-card1">
+                <img src="https://trello-attachments.s3.amazonaws.com/5d2292f37db95c2f90642b60/5d312816dae9783ae08401f6/1e564ed11e8e7ded9adc14a5a70f0329/Leopard.jpg"
+                  class="card-img-top" alt="Leopard">
+                <h5 class="p-1 my-auto olive-green">
+                  Moremi Game Reserve
+                </h5>
+              </div>
+            </a>
+          </div>
+          <div class="col">
+            <div class="row flex-nowrap flex-lg-wrap big-five-row">
+              <div class="col-4 col-lg-6 px-2 px-lg-3 opacity">
+                <a href="https://yastest.crescente.com.ar/parks/akagera/">
+                <div class="card big-five-cards">
+                  <img
+                    src="https://trello-attachments.s3.amazonaws.com/5d312816dae9783ae08401f6/1000x581/5a440ee4c1d4b202c3ed73fdbe92bf5a/Lion.jpg"
+                    class="card-img-top" alt="Lion">
+                  <h5 class="p-1 my-auto olive-green">
+                    Akagera National Park
+                  </h5>
+                </div>
+                </a>
+              </div>
+              <div class="col-4 col-lg-6 px-2 px-lg-3 opacity">
+                <a href="https://yastest.crescente.com.ar/parks/kruger/">
+                <div class="card big-five-cards">
+                  <img
+                    src="https://trello-attachments.s3.amazonaws.com/5d312816dae9783ae08401f6/800x404/6b46a379c446c7f5ea0664c5cfcadbf8/Rhinoceros_in_Africa.jpg"
+                    class="card-img-top" alt="Rhinoceros">
+                  <h5 class="p-1 my-auto olive-green">
+                    Kruger National Park
+                  </h5>
+                </div>
+                </a>
+              </div>             
+              <div class="col-4 col-lg-6 px-2 px-lg-3 opacity">
+                <a href="https://yastest.crescente.com.ar/parks/masai-mara/">
+                <div class="card big-five-cards">
+                  <img
+                    src="https://trello-attachments.s3.amazonaws.com/5d312816dae9783ae08401f6/800x408/c394362a56b4300abb0f69ba03cd6efa/Elephant_babies_touching_trunks.jpg"
+                    class="card-img-top" alt="Elephant">
+                  <h5 class="p-1 my-auto olive-green text-truncate">
+                    Masai Mara National Reserve
+                  </h5>
+                </div>
+                </a>
+              </div>
+              <div class="col-4 col-lg-6 px-2 px-lg-3 opacity">
+                <a href="https://yastest.crescente.com.ar/parks/serengeti/">
+                <div class="card big-five-cards">
+                  <img
+                    src="https://trello-attachments.s3.amazonaws.com/5d312816dae9783ae08401f6/800x400/c3b0fa6ba33eb75ae73554192561b2a1/African_buffalo_in_group.jpg"
+                    class="card-img-top" alt="Buffalo">
+                  <h5 class="p-1 my-auto olive-green">
+                    Serengeti National Park
+                  </h5>
+                </div>
+                </a>
+              </div>
+             
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end big five -->
+
+    <!-- testimonials -->
+    <div class="col-lg-10 offset-lg-1 col-12 my-1 px-0">
+      <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">       
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <h6 class="d-flex justify-content-center align-items-center h-75 my-0 font-italic">"I contacted several tour operator in Tanzania. They all responded immediately with a wealth of wonderful information. All are professional, responsive, knowledgeable, and ready to help. You ought to be proud of such fine group of operators."</h6>    
+            <p>Regards, Aaron 2019</p>            
+          </div>
+          <div class="carousel-item">
+            <h5 class="d-flex justify-content-center align-items-center h-75 my-0 h5-sm font-italic">
+              "I had a very rapid and useful reply."
+            </h5>
+            <p>Jeremy North Vancouver, BC 2019</p>
+          </div>      
+        </div>
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>         
+        </ol>
+      </div> 
+    </div>   
+
+    <!-- end testimonials-->
+
+    <!-- featured country-->
+    <div class="col-lg-12 featured-country mt-3 px-0">
+      <h3 class="mt-5 mb-4 h3-sm d-sm-none text-center">
+        South Africa
+      </h3>
+      <div class="row mx-2">
+        <div class="col d-sm-none">
+          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Omnis ut commodi molestias repellat, illo error
+            at assumenda eaque veritatis quisquam, accusantium optio, culpa esse sunt id ad quos in consectetur.</p>
+        </div>
+        <div class="col-12 col-sm-5" id="map-image">
+          <img
+            src="https://trello-attachments.s3.amazonaws.com/5d2292f37db95c2f90642b60/5d312816dae9783ae08401f6/3c8aa849a80026b20ccc7ae6d441f041/Map-SouthAfrica.png"
+            alt="">
+        </div>
+        <div class="col d-none d-sm-block">
+          <h3 class="mt-5 mb-4 h3-sm">
+            South Africa
+          </h3>
+          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt ducimus distinctio placeat consequatur
+            expedita, mollitia ipsam est! Doloribus praesentium explicabo magnam facere, blanditiis ipsam consequuntur
+            natus. Fugiat adipisci magnam totam?</p>
+          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt ducimus distinctio placeat consequatur
+            expedita, mollitia ipsam est! Doloribus praesentium explicabo magnam facere, blanditiis ipsam consequuntur
+            natus. Fugiat adipisci magnam totam?</p>
+        </div>
+      </div>
+    </div>
+    <!-- end featured country-->
+
+    <!-- blog posts-->
+    <div class="col-lg-12 blog-posts my-1 px-0">
+      <div class="mb-2 text-center">
+        <h3 class="mt-5 mb-4 h3-sm">
+          Latest safari blog posts
+        </h3>        
+      </div>
+      <div class="scrolling-wrapper-flexbox">
+        <div class="row justify-content-around no-wrap mx-2">
+          <div class="card blog-articles-home px-0 col-4 mx-3 mx-md-0 mb-4 pb-0 opacity">
+            <a class="army-green"
+              href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
+              <img src="https://yastest.crescente.com.ar/media/images/articles/2020/05/22/image_49"
+                class="card-img-top blog-img" alt="...">
+            </a>
+            <div class="card-body pt-1 pb-2 px-2">
+              <div class="d-flex justify-content-between">
+                <div class="date font-12 text-light-grey">April 2020</div>
+                <div class="font-12 text-light-grey">10 views</div>
+              </div>
+              <h5 class="card-title d-flex align-items-center my-1">
+                <a class="army-green"
+                  href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
+                  COVID-19 and safaris
+                </a>
+              </h5>
+            </div>
+          </div>
+          <div class="card blog-articles-home px-0 col-4 mx-3 mx-md-0 mb-4 pb-0 opacity">
+            <a class="army-green"
+              href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
+              <img src="https://yastest.crescente.com.ar/media/images/articles/2020/05/22/image_202"
+                class="card-img-top blog-img" alt="...">
+            </a>
+            <div class="card-body pt-1 pb-2 px-2">
+              <div class="d-flex justify-content-between">
+                <div class="date font-12 text-light-grey">April 2020</div>
+                <div class="font-12 text-light-grey">2 views</div>
+              </div>
+              <h5 class="card-title d-flex align-items-center my-1">
+                <a class="army-green"
+                  href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
+                  Helping Rwanda's children
+                </a>
+              </h5>
+            </div>
+          </div>
+          <div class="card blog-articles-home px-0 col-4 mx-3 mx-md-0 mb-4 pb-0 opacity">
+            <a class="army-green"
+              href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
+              <img src="https://yastest.crescente.com.ar/media/images/articles/2020/05/22/image_201"
+                class="card-img-top blog-img" alt="...">
+            </a>
+            <div class="card-body pt-1 pb-2 px-2">
+              <div class="d-flex justify-content-between">
+                <div class="date font-12 text-light-grey">April 2020</div>
+                <div class="font-12 text-light-grey">23 views</div>
+              </div>
+              <h5 class="card-title d-flex align-items-center my-1">
+                <a class="army-green"
+                  href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
+                  Volunteering on safari
+                </a>
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end blog posts-->
+
+    <!-- mail sign up-->
+    <!--  <div class="mail-signup">
+      <h3 class="mt-5 mb-2 h3-sm text-center mx-4">
+        Join our safari community!
+      </h3>
+      <div class='mailmunch-forms-widget-944251'></div>
+    </div> -->
+    <!-- end mail sign up-->
+
+
+    <!-- proud stats-->
+    <!-- <div class="col-lg-12 proud-stats my-4 px-0">
+      <h3 class="mt-5 mb-2 h3-sm text-center mx-4">
+        Proud to be a comprehensive African safari resource
+      </h3>
+      <div class="col-12 col-lg-8 col-xl-6 mx-auto d-sm-flex justify-content-around">
+        <div class="text-center">
+          <h4 class="text-dark-grey mali-font" id="operatorCount">2314</h4>
+          <p>tour operators</p>
+        </div>
+        <div class="text-center">
+          <h4 class="text-dark-grey mali-font" id="packageCount">5784</h4>
+          <p>tour packages</p>
+        </div>
+        <div class="text-center">
+          <h4 class="text-dark-grey mali-font" id="reviewCount">2411</h4>
+          <p>reviews</p>
+        </div>
+        <div class="text-center">
+          <h4 class="text-dark-grey mali-font" id="photoCount">36789</h4>
+          <p>safari photos</p>
+        </div>
+        <div class="text-center">
+          <h4 class="text-dark-grey mali-font" id="memberCount">7877</h4>
+          <p>members</p>
+        </div>
+      </div>
+    </div> -->
+    <!-- end proud stats-->
+
+    <!-- yas welcomes-->
+    <div class="col-lg-12 yas-welcomes my-4 px-0">
+      <h3 class="mt-5 mb-2 h3-sm text-center">
+        YAS welcomes the following companies
+      </h3>
+      <div class="col-12 mx-auto d-sm-flex  justify-content-around">
+        <div class="company py-2 py-sm-0  px-3 mx-auto text-center">
+          <div class="company-img-container">
+            <img src="https://www.yourafricansafari.com/images/touroperator/logo/kilipeak-adventure-1597505769.jpg"
+              alt="">
+          </div>
+          <p class="font-12px">Kilipeak Adventure</p>
+        </div>
+        <div class="company py-2 py-sm-0 px-3 mx-auto text-center">
+          <div class="company-img-container">
+            <img
+              src="https://www.yourafricansafari.com/images/touroperator/logo/top-cream-tours-and-safaris-1518096000.jpg"
+              alt="">
+          </div>
+          <p class="font-12px">Top Cream Tours and Safaris</p>
+        </div>
+        <div class="company py-2 py-sm-0 px-3 mx-auto text-center">
+          <div class="company-img-container">
+            <img src="https://www.yourafricansafari.com/images/touroperator/logo/chaz-tours-and-travel-1581508149.jpg"
+              alt="">
+          </div>
+          <p class="font-12px">Chaz Tours and Travel</p>
+        </div>
+        <div class="company py-2 py-sm-0 px-3 mx-auto text-center">
+          <div class="company-img-container">
+            <img
+              src="https://www.yourafricansafari.com/images/touroperator/logo/silver-spark-africa-safaris-1586528509.jpg"
+              alt="">
+          </div>
+          <p class="font-12px">Silver Spark Africa Safaris</p>
+        </div>
+      </div>
+    </div>
+    <!-- end yas welcomes-->
+  </div>
+</div>
+<!-- mail sign up -->
+<!-- <script src="//a.mailmunch.co/app/v1/site.js" id="mailmunch-script" data-mailmunch-site-id="548103"
+  async="async">
+</script> -->
+<!-- <script>
+  // function that increments the numbers of the proud-stats
+  const countUp = (id, end, time, increment) => {
+    let range = end - 0,
+      current = 0,
+      obj = document.getElementById(id);
+
+    const timer = setInterval(function () {
+
+      if (end - obj.textContent <= 100) {
+        current += 1;
+      } else {
+        current += increment;
+      }
+      obj.innerHTML = current;
+      if (current >= end) {
+        clearInterval(timer);
+      }
+    }, time)
+  };
+
+  // function that determines when the proud-stats element is in the viewport
+  const proudStats = document.querySelector(".proud-stats");
+  isInViewPort = (element) => {
+    const bounding = element.getBoundingClientRect();
+    if (
+      bounding.top >= 0 &&
+      bounding.left >= 0 &&
+      bounding.right <= (window.innerWidth || document.documentElement.clientWidth) &&
+      bounding.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // function that calls the counter function when the proud-stats element is in the viewport
+  let count = 0;
+  window.addEventListener('scroll', function counter() {
+    // this prevents it from running more than once
+    if (count === 0) {
+      if (isInViewPort(proudStats) === true) {
+        countUp("operatorCount", 2314, 5, 10);
+        countUp("operatorCount", 2314, 5, 10);
+        countUp("packageCount", 5784, 5, 10);
+        countUp("reviewCount", 2411, 5, 10);
+        countUp("photoCount", 36789, 5, 50);
+        countUp("memberCount", 7877, 5, 10);
+        count++;
+      };
+    }
+  });
+</script> -->
+
+<script>
+$('.carousel').carousel()
+</script>
+
+{% endblock %}

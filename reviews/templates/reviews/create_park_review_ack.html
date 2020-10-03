@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+{% load fullurl %}
+{% block content %}
+<div class="spanning">
+  <meta itemprop="name" content="{{ park.name }}" />
+  <meta itemprop="alternateName" content="{{ park.name_short }}" />
+  <meta itemprop="url" content="{% fullurl 'park' slug=park.slug %}" />
+  {% if park.image %}
+  <meta itemprop="photo" content="{{ base_url }}{{ park.image.url }}" />{% endif %}
+  {% with main_text='Write a review for '|add:park.name_short %}
+  {% endwith %}
+  <div>
+    <div class="wrap mw-780">
+      <div class="border-grey p-3">
+        <h3 class="h3-sm">
+          Thank you for submitting your review
+        </h3>
+        <p>          
+          Your review will have to go through an approval process
+          before being published.
+        </p>
+
+        {% if similar_parks.count > 0 %}
+        <p class="mt-4">
+          <strong>Would you like to write a review for a nearby park as well:</strong>
+
+        <ul>
+          {% for similar_park in similar_parks %}
+          <li>
+            <a href="{% url 'reviews:park' pk=similar_park.pk %}">
+              {{ similar_park.name }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+        </p>
+        {% endif %}
+        <p>&nbsp;</p>
+        <a class="btn btn-green-primary" href="{% url 'park' slug=park.slug %}">
+          Back to {{ park.name }}
+        </a>
+      </div><!-- /.block-bordered -->
+    </div><!-- /.wrap -->
+  </div><!-- /.item-content -->
+</div><!-- /.spanning-columns -->
+
+{% endblock %}

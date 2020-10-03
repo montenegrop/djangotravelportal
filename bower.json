@@ -1,0 +1,23 @@
+{
+  "name": "yas",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "juancrescente <juan.crescente@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/juancrescente/yas",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "chartist": "^0.11.4",
+    "select2": "^4.0.13",
+    "remarkable-bootstrap-notify": "^3.1.3"
+  }
+}

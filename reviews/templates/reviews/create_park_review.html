@@ -1,0 +1,639 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %} Write a review {% endblock %}
+{% block content %}
+    <div ref="park_form" class="container d-none" id="reviews_create_park_review">
+        <h2 class="pt-2 pt-sm-0">Write a review for {{ park.name }}</h2>
+
+        <template>
+            <div class="vld-parent">
+                <loading :active.sync="isLoading"></loading>
+            </div>
+        </template>
+        {% if park.slug == 'kilimanjaro' %}
+            <form method="post"
+                  @submit="handle_submit($event, '{% url 'reviews:park_kilimanjaro_save' pk=park.pk %}')">
+        {% else %}
+            <form method="post"
+                  @submit="handle_submit($event, '{% url 'reviews:park_save' pk=park.pk %}')">
+        {% endif %}
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="font-16px" for="title"
+                   v-bind:class="{'text-danger': errors && !!errors.title}">
+                What would you like to call your review?<span class="required"> *</span></label>
+
+            <div class="position-relative">
+              <input type="text"
+                     class="form-control"
+                     id="title"
+                     v-bind:class="{'is-invalid': errors && !!errors.title}"
+                     v-model="title"
+                     name="title"
+                     :maxlength="max_length_300">
+
+              <span class="bootstrap-maxlength badge position-absolute d-block nowrap char-counter-position"
+                    v-bind:class="{'bg-transparent-50 bg-army-green badge-success': charactersCounter(title) < max_length_300,  'badge-danger': !charactersCounter(title) < max_length_300}"
+              >[[ charactersCounter(title) ]]</span>
+
+            </div>
+
+            <p class="text-danger" v-if="errors && !!errors.title">
+                <small>[[ errors.title[0] ]]</small>
+            </p>
+            <p class="text-danger font-12px" v-if="!$v.title.required && $v.title.$dirty">
+                    Title is required.
+            </p>
+        </div>
+        <div class="form-group">
+            <label class="font-16px w-100" for="content"
+                   v-bind:class="{'text-danger': errors && !!errors.content}">Your review<span class="required"> *</span></label>
+            <div class="position-relative">
+            <textarea
+                rows="8"
+                class="form-control"
+                id="content"
+                v-bind:class="{'is-invalid': errors && !!errors.content}"
+                v-model="content"
+                name="content"
+                :maxlength="max_length_15000"></textarea>
+
+              <span class="bootstrap-maxlength badge position-absolute d-block nowrap char-counter-position"
+                    v-bind:class="{'bg-transparent-50 bg-army-green badge-success': charactersCounter(content) < max_length_15000,  'badge-danger': !charactersCounter(content) < max_length_15000}"
+              >[[ charactersCounter(content) ]]</span>
+            </div>
+
+
+            <p class="text-danger" v-if="errors && !!errors.content">
+                <small>[[ errors.content[0] ]]</small>
+            </p>
+            <p class="text-danger font-12px" v-if="!$v.content.required && $v.content.$dirty">
+                    Content is required.
+            </p>
+            <p class="text-danger font-12px" v-else-if="!$v.content.minLength">
+                    Content must have at least 150 characters.
+            </p>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="font-16px" class="form-group">
+                    <label for="friend_recommend">Would you recommend this park?<span class="required">  *</span></label>
+                    <br>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input
+                                type="radio"
+                                id="friend_recommend_yes"
+                                v-model="friend_recommend"
+                                v-bind:value="true"
+                                name="friend_recommend"
+                                class="custom-control-input">
+                        <label
+                                class="custom-control-label"
+                                for="friend_recommend_yes"
+                        >Yes</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input
+                                type="radio"
+                                id="friend_recommend_no"
+                                v-model="friend_recommend"
+                                v-bind:value="false"
+                                name="friend_recommend"
+                                class="custom-control-input">
+                        <label
+                                class="custom-control-label"
+                                for="friend_recommend_no"
+                        >No</label>
+                    </div>
+                    <p class="text-danger font-12px" v-if="!$v.friend_recommend.required && $v.friend_recommend.$dirty">
+                        This field is required.
+                    </p>
+                    <p class="text-danger" v-if="errors && !!errors.friend_recommend">
+                        <small>[[ errors.friend_recommend[0] ]]</small>
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="font-16px" for="book_lodging">Did you stay at a lodge in this park?
+                  {% if park.slug != 'kilimanjaro' %}<span class="required"> *</span>{% endif %}</label>
+                <br>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input
+                      type="radio"
+                      id="book_lodging_yes"
+                      v-model="book_lodging"
+                      v-bind:value="true"
+                      name="book_lodging"
+                      class="custom-control-input">
+                  <label
+                      class="custom-control-label"
+                      for="book_lodging_yes"
+                  >Yes</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input
+                      type="radio"
+                      id="book_lodging_no"
+                      v-model="book_lodging"
+                      v-bind:value="false"
+                      name="book_lodging"
+                      class="custom-control-input">
+                  <label
+                      class="custom-control-label"
+                      for="book_lodging_no"
+                  >No</label>
+                </div>
+                {% if park.slug != 'kilimanjaro' %}
+                  <p class="text-danger font-12px" v-if="!$v.book_lodging.required && $v.book_lodging.$dirty">
+                      This field is required.
+                  </p>
+                {% endif %}
+                <p class="text-danger" v-if="errors && !!errors.book_lodging">
+                  <small>[[ errors.book_lodging[0] ]]</small>
+                </p>
+              </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-16px"
+                            for="visit_date"
+                            v-bind:class="{'text-danger': errors && (!!errors.visit_date_month || !!errors.visit_date_year)}">When
+                        did you visit this park?<span class="required"> *</span></label>
+                    <select class="custom-select w-22 font-12px"
+                            name="visit_date_year"
+                            v-model="visit_date_year"
+                            v-bind:class="{'is-invalid': errors && !!errors.visit_date_year}">
+                        <option value="-2" hidden>-select year-</option>
+                        <option v-for="year in current_year - 1999 + 1" :key="year" :value="[[ current_year - year + 1 ]]">[[ current_year - year + 1 ]]</option>
+                    </select>
+                    <select class="custom-select w-25 font-12px"
+                            name="visit_date_month"
+                            v-model="visit_date_month"
+                            v-bind:class="{'is-invalid': errors && !!errors.visit_date_month}">
+                        <option value="-2" hidden>-select month-</option>
+                        <option v-if="visit_date_year != -2" value="1">January</option>
+                        <option v-if="(visit_date_year != 2020 || current_month >= 2) && visit_date_year != -2" value="2">February</option>
+                        <option v-if="(visit_date_year != 2020 || current_month >= 3) && visit_date_year != -2" value="3">March</option>
+                        <option v-if="(visit_date_year != 2020 || current_month >= 4) && visit_date_year != -2" value="4">April</option>
+                        <option v-if="(visit_date_year != 2020 || current_month >= 5) && visit_date_year != -2" value="5">May</option>
+                        <option v-if="(visit_date_year != 2020 || current_month >= 6) && visit_date_year != -2" value="6">June</option>
+                        <option v-if="(visit_date_year != 2020 || current_month >= 7) && visit_date_year != -2" value="7">July</option>
+                        <option v-if="(visit_date_year != 2020 || current_month >= 8) && visit_date_year != -2" value="8">August</option>
+                        <option v-if="(visit_date_year != 2020 || current_month >= 9) && visit_date_year != -2" value="9">September</option>
+                        <option v-if="(visit_date_year != 2020 || current_month >= 10) && visit_date_year != -2" value="10">October</option>
+                        <option v-if="(visit_date_year != 2020 || current_month >= 11) && visit_date_year != -2" value="11">November</option>
+                        <option v-if="(visit_date_year != 2020 || current_month >= 12) && visit_date_year != -2" value="12">December</option>
+                    </select>
+                    <p class="text-danger font-12px" v-if="!$v.visit_date_month.minValue && $v.visit_date_month.$dirty">
+                            Please select year and month.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-16px" for="days_booked"
+                           v-bind:class="{'text-danger': errors && !!errors.days_booked}">How many days was your safari?<span class="required"> *</span></label>
+                    <select class="custom-select w-22 font-12px"
+                            v-bind:class="{'is-invalid': errors && !!errors.days_booked}"
+                            v-model="days_booked"
+                            name="days_booked"
+                            id="end_date_text">
+                        <option value="-2" hidden>- select -</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="-1">30+</option>
+                    </select>
+                </div>
+                <p class="text-danger font-12px" v-if="!$v.days_booked.minValue && $v.days_booked.$dirty">
+                        Booking days is required.
+                </p>
+            </div>
+        </div>
+
+
+
+        {% if park.slug == 'kilimanjaro' %}
+              <div class="form-group mb-0">
+                <label class="font-16px" for="reached_summit">Which route did you climb?<span class="required"> *</span></label>
+                <br>
+                <p class="text-danger" v-if="errors && !!errors.route_to_climb">
+                    <small>[[ errors.route_to_climb[0] ]]</small>
+                </p>
+                <div class="row">
+                    <div class="col-12 col-sm-6 col-md-3 col-lg text-nowrap" v-for="item_route_to_climb in routes_to_climb_json">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input
+                                    type="radio"
+                                    :id="'route_to_climb_' + item_route_to_climb.key"
+                                    v-model="route_to_climb"
+                                    v-bind:value="item_route_to_climb.key"
+                                    name="route_to_climb"
+                                    class="custom-control-input">
+                            <label
+                                    class="custom-control-label"
+                                    :for="'route_to_climb_' + item_route_to_climb.key"
+                            >[[ item_route_to_climb.value ]]</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input
+                                    type="radio"
+                                    id="route_to_climb_OT"
+                                    v-model="route_to_climb"
+                                    v-bind:value="null"
+                                    name="route_to_climb"
+                                    class="custom-control-input">
+                            <label
+                                    class="custom-control-label"
+                                    for="route_to_climb_OT"
+                            >Other</label>
+                        </div>
+                    </div>
+                    <div v-show="route_to_climb == null" class="col-12 col-md-6">
+                        <div class="form-group">
+                            <input type="text"
+                                  :disabled="route_to_climb != null"
+                                  class="form-control"
+                                  id="other_route_to_climb"
+                                  v-bind:class="{'is-invalid': errors && !!errors.other_route_to_climb}"
+                                  v-model="other_route_to_climb"
+                                  name="other_route_to_climb">
+                            <p class="text-danger" v-if="errors && !!errors.other_route_to_climb">
+                                <small>[[ errors.other_route_to_climb[0] ]]</small>
+                            </p>
+                            <p class="text-danger font-12px" v-if="!$v.other_route_to_climb.requiredIf && $v.other_route_to_climb.$dirty">
+                                    This field is required if you choose "Other"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+              <p class="text-danger font-12px" v-if="other_route_to_climb == '' && $v.route_to_climb.$dirty && route_to_climb == 'unselected'">
+                    A route is required
+            </p>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div  class="form-group">
+                        <label class="font-16px" for="reached_summit">Did you reach the summit?<span class="required"> *</span></label>
+                        <br>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input
+                                    type="radio"
+                                    id="reached_summit_yes"
+                                    v-model="reached_summit"
+                                    v-bind:value="true"
+                                    name="reached_summit"
+                                    class="custom-control-input">
+                            <label
+                                    class="custom-control-label"
+                                    for="reached_summit_yes"
+                            >Yes</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input
+                                    type="radio"
+                                    id="reached_summit_no"
+                                    v-model="reached_summit"
+                                    v-bind:value="false"
+                                    name="reached_summit"
+                                    class="custom-control-input">
+                            <label
+                                    class="custom-control-label"
+                                    for="reached_summit_no"
+                            >No</label>
+                        </div>
+                        <p class="text-danger font-12px"
+                           v-if="!$v.reached_summit.required && $v.reached_summit.$dirty">
+                            This field is required.
+                        </p>
+                        <p class="text-danger" v-if="errors && !!errors.reached_summit">
+                            <small>[[ errors.reached_summit[0] ]]</small>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label class="font-16px" for="take_medications">Did you take altitude sickness medication?<span
+                                class="required"> *</span></label>
+                        <br>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input
+                                    type="radio"
+                                    id="take_medications_yes"
+                                    v-model="take_medications"
+                                    v-bind:value="true"
+                                    name="take_medications"
+                                    class="custom-control-input">
+                            <label
+                                    class="custom-control-label"
+                                    for="take_medications_yes"
+                            >Yes</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input
+                                    type="radio"
+                                    id="take_medications_no"
+                                    v-model="take_medications"
+                                    v-bind:value="false"
+                                    name="take_medications"
+                                    class="custom-control-input">
+                            <label
+                                    class="custom-control-label"
+                                    for="take_medications_no"
+                            >No</label>
+                        </div>
+                        <p class="text-danger font-12px"
+                             v-if="!$v.take_medications.required && $v.take_medications.$dirty">
+                              This field is required.
+                          </p>
+                        <p class="text-danger" v-if="errors && !!errors.take_medications">
+                            <small>[[ errors.take_medications[0] ]]</small>
+                        </p>
+                    </div>
+                </div>
+            </div>            
+        {% endif %}
+        <p class="font-16px">Please rate this park<span class="required"> *</span></p>
+        <div class="row">
+            <div class="col-md-4 col-6 font-12px">
+                <p :class="{ 'mb-0'  : !$v.quality_wildlife_rating.minValue && $v.quality_wildlife_rating.$dirty  }">
+                    Quality of wildlife</p>
+            </div>
+            <div class="col">
+                <star-rating
+                        :star-size="20"
+                        :show-rating="false"
+                        @rating-selected="set_quality_wildlife_rating"></star-rating>
+            </div>
+        </div>
+        <p class="text-danger font-12px" v-if="!$v.quality_wildlife_rating.minValue && $v.quality_wildlife_rating.$dirty">
+                Field is required.
+        </p>
+        <div class="row">
+            <div class="col-md-4 col-6 font-12px">
+                <p :class="{ 'mb-0' : !$v.quality_lodging_rating.minValue && $v.quality_lodging_rating.$dirty  }">Quality of lodging</label></p>
+            </div>
+            <div class="col">
+                <star-rating
+                        :star-size="20"
+                        :show-rating="false"
+                        @rating-selected="set_quality_lodging_rating"></star-rating>
+            </div>
+        </div>
+            <p class="text-danger font-12px" v-if="!$v.quality_lodging_rating.minValue && $v.quality_lodging_rating.$dirty">
+                Field is required.
+        </p>
+        <div class="row">
+            <div class="col-md-4 col-6 font-12px">
+                <p :class="{ 'mb-0' : !$v.crowdedness_rating.minValue && $v.crowdedness_rating.$dirty  }">Tranquility (1 = crowded | 5 = empty)</p>
+            </div>
+            <div class="col">
+                <star-rating
+                        :star-size="20"
+                        :show-rating="false"
+                        @rating-selected="set_crowdedness_rating"></star-rating>
+            </div>
+        </div>
+            <p class="text-danger font-12px" v-if="!$v.crowdedness_rating.minValue && $v.crowdedness_rating.$dirty">
+                Field is required.
+        </p>
+        <div class="row">
+            <div class="col-md-4 col-6 font-12px">
+                <p :class="{ 'mb-0' : !$v.overall_rating.minValue && $v.overall_rating.$dirty  }">Overall rating</label></p>
+            </div>
+            <div class="col">
+                <star-rating
+                        :star-size="20"
+                        :show-rating="false"
+                        @rating-selected="set_overall_rating"></star-rating>
+            </div>
+        </div>
+            <p class="text-danger font-12px" v-if="!$v.overall_rating.minValue && $v.overall_rating.$dirty">
+                Field is required.            
+        </p>
+        <div class="form-group">
+          <label class="font-16px" for="selected_animals"
+                 v-bind:class="{'text-danger': errors && !!errors.selected_animals}">
+            What were the top animal sightings?{% if park.slug != 'kilimanjaro' %}
+            <span class="required"> *</span>{% endif %}</label>
+          <p class="text-danger" v-if="errors && !!errors.selected_animals">
+            <small>[[ errors.selected_animals[0] ]]</small>
+          </p>
+          <div class="row">
+            <div class="col-md-4"
+                 v-for="animal in animals_json">
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input
+                    type="checkbox"
+                    :id="'selected_animals_' + animal.id"
+                    v-model="selected_animals"
+                    v-bind:value="animal.id"
+                    :name="'selected_animals_[' + animal.id + ']'"
+                    class="custom-control-input">
+                <label
+                    class="custom-control-label"
+                    :for="'selected_animals_' + animal.id"
+                >[[animal.name]]</label>
+              </div>
+            </div>
+          </div>
+          <p class="text-danger" v-if="!$v.selected_animals.required && $v.selected_animals.$dirty">
+            <small>
+              Choose at least one animal.
+            </small>
+          </p>
+        </div>
+        <div class="form-group">
+          <label class="font-16px" for="selected_activities"
+                 v-bind:class="{'text-danger': errors && !!errors.selected_activities}">
+            What activities did you do on safari?{% if park.slug != 'kilimanjaro' %}
+            <span class="required"> *</span>{% endif %}</label>
+          <p class="text-danger" v-if="errors && !!errors.selected_activities">
+            <small>[[ errors.selected_activities[0] ]]</small>
+          </p>
+          <div class="row">
+            <div class="col-md-4"
+                 v-for="activity in activities_json">
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input
+                    type="checkbox"
+                    :id="'selected_activities_' + activity.id"
+                    v-model="selected_activities"
+                    v-bind:value="activity.id"
+                    :name="'selected_activities_[' + activity.id + ']'"
+                    class="custom-control-input">
+                <label
+                    class="custom-control-label"
+                    :for="'selected_activities_' + activity.id"
+                >[[activity.name]]</label>
+              </div>
+            </div>
+          </div>
+          <p class="text-danger font-12px" v-if="!$v.selected_activities.required && $v.selected_activities.$dirty">
+              Choose at least one activity.
+          </p>
+        </div>
+
+      {% if park.slug == 'kilimanjaro' %}
+        <div class="form-group">
+          <label class="font-16px" for="pearls_of_wisdom"
+                 v-bind:class="{'text-danger': errors && !!errors.pearls_of_wisdom}">
+            Any advice for those considering this activity?<span class="required"> *</span></label>
+
+          <div class="position-relative">
+
+            <input type="text"
+                   v-model="pearls_of_wisdom"
+                   v-bind:class="{'is-invalid': errors && !!errors.pearls_of_wisdom}"
+                   class="form-control"
+                   id="pearls_of_wisdom"
+                   name="pearls_of_wisdom"
+                   :maxlength="max_length_300"/>
+
+            <span class="bootstrap-maxlength badge position-absolute d-block nowrap char-counter-position"
+                  v-bind:class="{'bg-transparent-50 bg-army-green badge-success': charactersCounter(pearls_of_wisdom) < max_length_300,  'badge-danger': !charactersCounter(pearls_of_wisdom) < max_length_300}"
+            >[[ charactersCounter(pearls_of_wisdom) ]]</span>
+
+          </div>
+
+
+          <p class="text-danger font-12px"
+             v-if="!$v.pearls_of_wisdom.required && $v.pearls_of_wisdom.$dirty">
+              This field is required.
+          </p>
+          <p class="text-danger" v-if="errors && !!errors.pearls_of_wisdom">
+            <small>[[ errors.pearls_of_wisdom[0] ]]</small>
+          </p>
+        </div>
+      {% else %}
+        <div class="form-group">
+          <label class="font-16px" for="pearls_of_wisdom"
+                 v-bind:class="{'text-danger': errors && !!errors.pearls_of_wisdom}">
+            What was the highlight of your trip?
+          </label>
+
+          <div class="position-relative">
+
+            <input type="text"
+                   v-model="pearls_of_wisdom"
+                   v-bind:class="{'is-invalid': errors && !!errors.pearls_of_wisdom}"
+                   class="form-control"
+                   id="pearls_of_wisdom"
+                   name="pearls_of_wisdom"
+                   :maxlength="max_length_300">
+
+            <span class="bootstrap-maxlength badge position-absolute d-block nowrap char-counter-position"
+                  v-bind:class="{'bg-transparent-50 bg-army-green badge-success': charactersCounter(pearls_of_wisdom) < max_length_300,  'badge-danger': !charactersCounter(pearls_of_wisdom) < max_length_300}"
+            >[[ charactersCounter(pearls_of_wisdom) ]]</span>
+
+          </div>
+
+
+          <p class="text-danger" v-if="errors && !!errors.pearls_of_wisdom">
+            <small>[[ errors.pearls_of_wisdom[0] ]]</small>
+          </p>
+
+        </div>
+
+      {% endif %}       
+        <div class="form-group">
+            <div class="custom-control custom-checkbox custom-control-inline">
+                <input
+                        type="checkbox"
+                        id="like_upload_photos"
+                        v-model="like_upload_photos"
+                        v-bind:value="true"
+                        name="like_upload_photos"
+                        class="custom-control-input">
+                <label
+                        class="custom-control-label"
+                        for="like_upload_photos"
+                >Would you like to upload some photos? (A new page will follow)</label>
+            </div>
+            <p class="text-danger" v-if="errors && !!errors.like_upload_photos">
+                <small>[[ errors.like_upload_photos[0] ]]</small>
+            </p>
+        </div>
+        <div class="form-group">
+          <div class="custom-control custom-checkbox custom-control-inline">
+              <input
+                      type="checkbox"
+                      id="i_certify_these_photos"
+                      v-model="i_certify_these_photos"
+                      v-bind:value="true"
+                      name="i_certify_these_photos"
+                      class="custom-control-input">
+              <label
+                      class="custom-control-label font-weight-600"
+                      for="i_certify_these_photos"
+              >I certify that this review is a direct result of my own safari experience. Your African Safari has a zero-tolerance policy on fake reviews.<span class="required"> *</span></label>
+          </div>
+          <p class="text-danger" v-if="errors && !!errors.i_certify_these_photos">
+              <small>[[ errors.i_certify_these_photos[0] ]]</small>
+          </p>
+          <p class="text-danger font-12px" v-if="!$v.i_certify_these_photos.$model && $v.i_certify_these_photos.$dirty">
+                  This field is required.
+          </p>
+      </div>
+        <div v-if="serverError" class="alert alert-danger">
+            [[ serverError ]]
+        </div>
+        <a href="{% url 'reviews:create' %}" class="btn btn-green-secondary mr-2">Cancel</a>
+        <button type="submit" class="btn btn-green-primary">Submit</button>
+
+        <p class="text-danger font-12px" v-if="$v.$dirty">
+          Please check for missing fields
+        </p>
+
+        </form>
+    </div>
+{% endblock %}
+{% block afterfooter %}
+
+    {% if park.slug == 'kilimanjaro' %}
+        <script src="{% static 'reviews/js/create_park_review_kilimanjaro.js' %}"></script>
+    {% else %}
+        <script src="{% static 'reviews/js/create_park_review.js' %}?v=1"></script>
+    {% endif %}
+  <style>
+      .char-counter-position {
+          z-index: 1;
+          bottom: -16px;
+          right: 0;
+      }
+  </style>
+{% endblock %}

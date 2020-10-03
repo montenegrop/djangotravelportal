@@ -1,0 +1,27 @@
+{% load static %}
+<div class="widget_container">
+    <div class="touroperator_name">
+        <a target='_blank' href="{% url 'tour_operator' slug=user.profile.tour_operator.slug %}">
+            {{ user.profile.tour_operator }}
+        </a>
+    </div>
+    <div class="review_stars">
+        <div class="nostars">
+            <a target='_blank' href="{% url 'tour_operator' slug=user.profile.tour_operator.slug %}">
+                <div class="" style="overflow:hidden; width:90px">
+                    <img src="{% static 'backend/img/fullstars_small.png' %}" title="5.00 Stars, 11 reviews"><br>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="stars_text mt-1">
+        <a target='_blank' href="{% url 'reviews:tour_operator_review' slug=user.profile.tour_operator.slug %}">
+            11 reviews
+        </a>
+    </div>
+    <div class="logo">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'core/img/yas_logo_small.png' %}" alt="Your African Safari Logo">
+        </a>
+    </div>
+</div>

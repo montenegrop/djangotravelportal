@@ -1,0 +1,117 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %} Write a review {% endblock %}
+
+{% block content %}
+    <div class="container" id="reviews_create">
+        <h1 class="pt-2 pt-sm-0">Write a review</h1>
+        <p>Start writing your review now...</p>
+        <h3>What would you like to review?</h3>
+        <form ref="create_form" class="d-none" method="post" action="{% url 'reviews:create' %}">
+            <div class="custom-control custom-radio custom-control-inline">
+                <input
+                        type="radio"
+                        id="review_option_tour_operator"
+                        v-model="review_type"
+                        v-bind:value="'tour_operator'"
+                        name="review_type"
+                        class="custom-control-input">
+                <label
+                        class="custom-control-label"
+                        for="review_option_tour_operator"
+                >Tour operator</label>
+            </div>
+            <div class="custom-control custom-radio custom-control-inline">
+                <input
+                        type="radio"
+                        id="review_option_park"
+                        v-model="review_type"
+                        v-bind:value="'park'"
+                        name="review_type"
+                        class="custom-control-input">
+                <label
+                        class="custom-control-label"
+                        for="review_option_park"
+                >Parks &amp; game reserves</label>
+            </div>
+
+            <div class="alert alert-danger" v-if="errors && errors['review_type'] && !review_type">
+                [[ errors['review_type'] ]]
+            </div>
+
+            <div v-show="review_type==='tour_operator'">
+                <div class="form-group mt-3">
+                    <label
+                            for="selected_tour_operator"
+                            v-bind:class="{'text-danger': errors && !!errors.selected_tour_operator}"></label>
+                    <select
+                            class="form-control"
+                            v-bind:class="{'is-invalid': errors && !!errors.selected_tour_operator}"
+                            id="selected_tour_operator"
+                            name="selected_tour_operator"
+                            v-model="selected_tour_operator">
+                        <option
+                                value="">Please select a tour operator
+                        </option>
+                        <option
+                                v-for="tour_operator in tour_operators_json"
+                                v-bind:value="tour_operator.id">
+                            [[ tour_operator.name ]]
+                        </option>
+                    </select>
+                    <p class="text-danger" v-if="errors && !!errors.selected_tour_operator">
+                        <small>[[ errors.selected_tour_operator ]]</small>
+                    </p>
+                </div>
+            </div>
+            <div v-show="review_type==='park'">
+                <div class="form-group mt-3">
+                    <label
+                            for="selected_country"
+                            v-bind:class="{'text-danger': errors && !!errors.selected_country}"></label>
+                    <select
+                            class="form-control"
+                            v-bind:class="{'is-invalid': errors && !!errors.selected_country}"
+                            id="selected_country"
+                            name="selected_country"
+                            v-model="selected_country">
+                        <option value="">First select a country</option>
+                        <option v-for="country in countries_json" v-bind:value="country.id">
+                            [[ country.name ]]
+                        </option>
+                    </select>
+                    <p class="text-danger" v-if="errors && !!errors.selected_country">
+                        <small>[[ errors.selected_country ]]</small>
+                    </p>
+                </div>
+                {{ data }}
+                <div class="form-group">
+                    <label
+                            for="selected_park"
+                            v-bind:class="{'text-danger': errors && !!errors.selected_park}"></label>
+                    <select
+                            class="form-control"
+                            id="selected_park"
+                            name="selected_park"
+                            v-model="selected_park">
+                        <option value="">Then select a park</option>
+                        <option v-for="park in selected_country_saved.parks" v-bind:value="park.id">
+                            [[ park.name ]]
+                        </option>
+                    </select>
+                    <p class="text-danger" v-if="errors && !!errors.selected_park">
+                        <small>[[ errors.selected_park ]]</small>
+                    </p>
+                </div>
+            </div>
+            {% csrf_token %}
+            <hr>
+            <button type="submit" class="btn btn-green-primary">Submit</button>
+        </form>
+    </div>
+
+{% endblock %}
+{% block afterfooter %}
+    <script src="{% static 'reviews/js/create.js' %}"></script>
+{% endblock %}
+

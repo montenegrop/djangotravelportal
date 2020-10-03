@@ -1,0 +1,197 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% load fullurl %}
+{% block title %}{{ object.name_short }} parks and game reserves{% endblock %}
+
+{% block extrahead %}
+
+{% include 'places/country_index_inserts/country_meta.html' %}
+
+<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}"></script>
+<script src="{% static '@google/markerwithlabel/src/markerwithlabel_packed.js' %}"></script>
+<link href="{% static 'places/css/country-index.css' %}" type="text/css" media="all" rel="stylesheet">
+<script src="{% static 'places/js/country-index.js' %}"></script>
+{% endblock %}
+
+
+{% block meta_description %}Your African Safari lists {{ object.parks.count }} parks and game reserves for
+{{ object.name }}. Safari in {{ object.name }}? See which tour operators can be found in {{ object.name }}. Learn
+what
+time of year is best to visit {{ object.name }} for safari. See what activities you can do in {{ object.name }}after
+your safari.{% endblock %}
+{% block meta_keywords %}your african safari parks game reserves {{ object.name }}{% endblock %}
+{% block og_image %}{{ object.image_large.url }}{% endblock %}
+{% block link_canonical %}{% fullurl 'country_index_parks' object.slug %}{% endblock %}
+{% block meta %}
+<meta property="og:image:type" content="image/jpg" />
+<meta property="og:image:width" content="{{ object.image_large|width }}" />
+<meta property="og:image:height" content="{{ object.image_large|height }}" />
+<meta name="twitter:image" content="{{ object.image_large }}" />
+<meta name="og:type" content="article" />
+<meta name="og:url" content="{% fullurl 'country_index_parks' object.slug %}" />
+<meta name="og:title" content="{{ object.name }} parks and game reserves" />
+<meta name="twitter:title" content="{{ object.name }} parks and game reserves" />
+{% endblock %}
+{% block content %}
+<div class="spanning add-new-styles" itemscope itemtype="http://schema.org/Country" itemprop="mainEntity">
+  <meta itemprop="name" content="{{ object.name }}" />
+  <meta itemprop="alternateName" content="{{ object.name }}" />
+  <meta itemprop="url" content="{% fullurl 'country_index' object.slug %}" />
+  <meta itemprop="photo" content="{{ object.image_header }}" />
+
+
+  {% include 'places/country_index_inserts/header.html' %}
+
+  <div class="container-fluid px-lg-5 max-width mt-4 mx-auto">
+    <div class="row px-md-5 px-2 justify-content-between ">
+      <div class="col-xl-8 col-md-9 col-12">
+        <h1 class="h1-sm">
+          <strong>{{ object.name_short }} parks & game reserves</strong>
+        </h1>
+      </div>
+      <div class="slide-social-wrapper mt-md-2 mt-2 d-flex justify-content-end ml-2">
+        <a class="slide-social-icon"
+          href="http://www.facebook.com/sharer/sharer.php?u=https://www.yourafricansafari.com{{ request.get_full_path|urlencode }}"
+          target="_blank">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a class="slide-social-icon"
+          href="//twitter.com/intent/tweet?text={{ object }}&url=https://www.yourafricansafari.com{{ request.get_full_path|urlencode }}&via=safaricompanies"
+          target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a class="slide-social-icon"
+          href="http://www.linkedin.com/shareArticle?url=https://www.yourafricansafari.com{{ request.get_full_path|urlencode }}&title={{ object }}&summary={{ object.meta_description }}&source=https://www.yourafricansafari.com/"
+          target="_blank">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </div>
+
+      <div class="row justify-content-xl-between d-flex justify-content-center mt-3 mx-0 w-100">
+        <div class="col-xl-8 pr-xl-5 col-lg-12">
+          <div class="tour-tab tab clearfix">
+            <ul class="tabs">
+              <a class="about" href="{% url 'country_index' object.slug %}">
+                <li>About</li>
+              </a>
+              <a class="parks" href="{% url 'country_index_parks' object.slug %}">
+                <li class="active">Parks<em class="font-weight-light font-11"> ({{ object.parks.count }})</em></li>
+              </a>
+              <a class="touroperators" href="{% url 'country_index_getting_there' object.slug %}">
+                <li>Getting there</li>
+              </a>
+            </ul>
+          </div>
+
+          {% for park in object.parksannotated %}
+          <div class="border-grey rounded mb-4">
+            <div class="border-bottom px-3 pt-2 container-fluid">
+              <div class="d-flex row mb-1">
+                <div class="col-md-8 col-xl-8 col-lg-9 col-12">
+                  <h5 class="d-inline pr-2">
+                    <strong>
+                      <a class="dark-brown" href="{% url 'park' park.slug %}">
+                        {{ park.name_short }}
+                      </a>
+                    </strong>
+                  </h5>
+                </div>
+                <div class="col-12 col-md d-flex">
+                  <div class="ob-rating text-nowrap ml-md-auto">
+                    {{ park.rating_float | star_rating | safe }}
+                    <a class="font-weight-light font-11 text-light-grey pl-1"
+                      href="{% url 'park_reviews' slug=park.slug %}">
+                      <span>{{ park.parkreview_count }}</span>
+                      review{{ park.parkreview_count | pluralize }}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-sm-flex">
+              <div class="park-card-image mx-auto">
+                <a href="{% url 'park' park.slug %}">
+                  <img src="{{ park.image|thumbnail_url_:'crop_300_150' }}" alt="{{ park.name_short }}" />
+                </a>
+              </div>
+              <div class="pt-2 pl-4 pr-3">
+                <p>{{ park.description | striptags | safe | truncatechars_html:208 }}
+                  <a class="" href="{% url 'park' park.slug %}">read more</a>
+                </p>
+                <div class="pb-2">
+                  <div class="row mb-sm-2 mb-0">
+                    <div class="col-sm-6 col-12 ">
+                      <a href="{% url 'all_tour_operator_park' park.slug %}">
+                        <div class="d-inline-block icon-container">
+                          <i class="text-dark-grey fas fa-binoculars"></i>
+                        </div>
+                        <span class="font-12">Tour operators ({{ park.tour_operators_cnt }})</span>
+                      </a>
+                    </div>
+                    <div class="col-sm-6 col-12">
+                      <div class="d-inline-block icon-container">
+                        <i class="text-dark-grey fas fa-map-marker-alt"></i>
+                      </div>
+                      <span class="font-12 text-dark-grey">Located in:</span>
+                      {% if park.country_indexes.count > 1 %}
+                      {% for country in park.country_indexes.all %}
+                      <a class="font-12" href="{% url 'country_index' slug=country.slug %}">
+                        <img class="flag-small" src="{{ country.flag.url }}" alt="{{ country }}" data-toggle="tooltip"
+                          data-placement="top" title="{{ country }}" data-original-title="{{ country }}">
+                      </a>
+                      {% endfor %}
+                      {% else %}
+                      {% for country in park.country_indexes.all %}
+                      <a class="font-12" href="{% url 'country_index' slug=country.slug %}">
+                        <img class="flag-small" src="{{ country.flag.url }}" alt="{{ country }}" data-toggle="tooltip"
+                          data-placement="top" title="{{ country }}" data-original-title="{{ country }}">
+                      </a>
+                      {% endfor %}
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6 col-12">
+                      <a href="{% url 'all_tour_packages_park' park.slug %}">
+                        <div class="d-inline-block icon-container">
+                          <i class="text-dark-grey fas fa-map"></i>
+                        </div>
+                        <span class="font-12">Tours packages ({{ park.tour_packages_cnt }})</span>
+                      </a>
+                    </div>
+                    <div class="col-sm-6 col-12">
+                      <a href="{% url 'photos:index' %}?park={{ park.slug }}">
+                        <div class="d-inline-block icon-container">
+                          <i class="text-dark-grey fas fa-camera"></i>
+                        </div>
+                        <span class="font-12">Photos ({{ park.photos_cnt }})</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="new-card-footer"></div>
+          </div>
+          {% endfor %}
+        </div>
+
+
+        <!--RHC New-->
+        {% include 'places/country_index_inserts/right_hand_sidebar.html' %}
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    $(document).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+  <script>
+    $(".navbar-places").addClass("active");
+  </script>
+  {% endblock %}

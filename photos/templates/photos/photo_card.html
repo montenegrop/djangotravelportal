@@ -1,0 +1,44 @@
+<div class="card type-4 mb-2" id="photo_card_{{ object.id }}">
+    <div class="card-body">
+        <!--[% IF c.req.params.pt == photo.id %]
+        <div id="ammended_text">
+            <em style="color:#73ae3a">Photo has been tagged</em>
+        </div>
+        [% END %] -->
+        <div class="flex">
+            <div class="wrap-img">
+                <img id="photo_{{ object.id }}" src="{{ object.image.url }}" alt="{{ object.caption }}">
+
+            </div>
+            <div class="text">
+                <span class="info-ico"><i class="icon-previews"></i> {{ object.visit_count }}</span>
+                <span class="info-ico"><i class="i-kudu"></i> {{ object.kudu_count }}</span>
+                <div class="count-chars" data-n_max=100>
+                    <label class="group-title">Add a caption <span class="info">(<span class="n_chars">0</span> of <span
+                            class="n_max">100</span> characters used)</span> <span class="required">*</span></label>
+                    <textarea id="caption_{{ object.id }}" name="caption_{{ object.id }}" class="textarea"
+                              rows="2">{% if object.caption is not None %}{{ object.caption }}{% endif %}</textarea>
+                    <br/><em>Press 'enter' to save caption</em>
+                </div>
+                <p id="response_{{ object.id }}" style="color:#ff0000; margin-top: 10px; display: inline-block;"></p>
+            </div>
+            <div class="right-side">
+                <h4>Modify photo</h4>
+                <!--a href="#" class="m-btn mr-10"><i class="i-crop"></i></a>
+                <a href="#" class="m-btn"><i class="i-rotate"></i></a-->
+                <a href="{% url 'photos:photo_tag' pk=object.id %}"
+                   class="m-btn mr-10 bg-green {% if not object.is_tagged %}button_attention{% endif %}"><i
+                        class="i-tag" style="margin-right: 3px;"></i>Tag</a>
+                <a id="delete_photo_{{ object.id }}" href="#" class="m-btn btn-cancel">
+                    <i class="confirm_photo_delete icon-close" style="margin-right: 3px;"></i>Delete
+                </a>
+                <div style="clear:both;"></div>
+                <div style="font-size: 8pt; margin-top: 20px;">
+                    <em>Only landscape photos accepted at this time</em>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div><!-- /.card -->
+<div class="clear"></div>

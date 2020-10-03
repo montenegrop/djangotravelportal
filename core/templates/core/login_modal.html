@@ -1,0 +1,46 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<div class="modal" tabindex="-1" role="dialog" id="loginModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Login to Your African Safari</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          <a href="{% url 'social:begin' 'facebook' %}">
+            <img src="{% static 'core/img/facebook_login.png' %}" />
+          </a>
+        </p>
+        <p>
+          <small>By proceeding you agree to our
+            <a target="_blank" href="{% url 'privacy-policy' %}">Privacy Policy</a> and
+            <a target="_blank" href="{% url 'terms-of-use' %}">Terms of Use</a>.
+          </small>
+        </p>
+        <a class="font-16px pl-0" data-toggle="modal" data-dismiss="modal" data-target="#registrationModal">
+          Sign up to become a member
+        </a>
+        <h2>Login</h2>
+        <form method="post" action="{% url 'login' %}?next={{ request.get_full_path }}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.GET.next|default:request.get_full_path }}" />
+          {{ auth_form | crispy }}
+          <input type="submit" class="btn btn-green-primary" value="Login" />
+          <p class="mt-2">
+            <small>By proceeding you agree to our
+              <a target="_blank" href="{% url 'privacy-policy' %}">Privacy Policy</a> and
+              <a target="_blank" href="{% url 'terms-of-use' %}">Terms of Use</a>.
+            </small>
+          </p>
+          <p>
+            <a href="{% url 'password_reset' %}">Lost password?</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

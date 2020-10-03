@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% block title %} {{object}} - African Wildlife - Your African Safari  {% endblock %}
+{% block content %}
+<div class="container-fluid px-lg-5 max-width mt-4 mx-auto">
+  <div class="row px-md-5 px-2 justify-content-between">
+    <div class="col-md-6">
+      <h1>I'm sorry, but I can’t let you pass</h1>
+      <h5>Sorry—403 access denied</h5>
+      <p class="pt-3 mb-1">Let me escort you back to the right place:</p>
+      <ul>
+        <li><a href="{% url 'home' %}">Back to home page</a></li>
+        <li><a href="{% url 'articles:index' %}">Check out our latest blog</a></li>
+        <li><a href="{% url 'all_tour_operator' %}">Find a tour operator</a></li>
+        <li><a href="{% url 'all_tour_packages' %}">Find a tour package  </a></li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <div class="img-container-404">
+        <img src="{% static 'core/img/white_backed_vulture.png' %}" alt="Vulture">
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

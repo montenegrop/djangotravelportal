@@ -1,0 +1,124 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% block meta_title %}Your African Safari blog{% endblock %}
+{% block meta_description %}Articles that cover top safari destinations, what to look for in a tour operator, interviews with tour companies who give back and industry surveys.{% endblock %}
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'blog/css/blog.css' %}" />
+{% endblock %}
+{% block title %}
+African safari news & surveys
+{% endblock %}
+{% block content %}
+<div class="container-fluid px-lg-5 max-width mt-4  mx-auto" id="blog">
+  <div class="row px-md-5 px-2 justify-content-between">
+    <div class="col-xl-8 col-md-9 col-12">
+      <h1 class="h1-sm">
+        <strong>African safari blog</strong>
+      </h1>
+      <p>Welcome to the YAS blog. Feel free to browse our articles which cover top safari destinations,
+        what to look for in a tour operator, interviews with tour companies who give back and much more.</p>
+      <div class="d-none">
+        <input class="form-control mr-0 text-light-grey font-11" type="search" placeholder="Search articles"
+          aria-label="Search" id="query" name="query" value="{{ query }}">
+        <button class="btn" id="mobile-submit-btn" type="submit">
+          <i class="fas fa-search search-icon-small"></i>
+        </button>
+      </div>
+    </div>
+    <div class="slide-social-wrapper mt-md-2 mt-0 d-flex justify-content-end ml-2 my-2">
+      <a class="slide-social-icon"
+        href="http://www.facebook.com/sharer/sharer.php?u=https://www.yourafricansafari.com{% url 'articles:index' %}"
+        target="_blank">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      <a class="slide-social-icon"
+        href="//twitter.com/intent/tweet?text={{park}}&url=https://www.yourafricansafari.com{% url 'articles:index' %}"
+        target="_blank">
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a class="slide-social-icon"
+        href="http://www.linkedin.com/shareArticle?url=https://www.yourafricansafari.com{% url 'articles:index' %}&title=Your African Safari blog&summary=Your African Safari blog&source=https://www.yourafricansafari.com/"
+        target="_blank">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </div>
+  </div>
+
+  
+  <div class="row px-md-5 px-2 py-2 justify-content-between">
+    <div class="col">
+      <h2>
+        <strong>Latest posts</strong>
+      </h2>
+    </div>
+    <div class="col-xl-3 col-lg-4 col-sm col-12 vw-20 row align-items-center mx-1 d-none">
+      <p class="m-0 pr-2 text-right">Sort by:</p>
+      <select class="col custom-select pointer w-25">
+        <option selected value="2">Most recent</option>
+        <option value="2">Category name</option>
+        <option value="3">Oldest</option>
+        <option value="4">Most popular (based on views)</option>
+      </select>
+    </div>
+  </div>
+  <div class="row px-md-5 mx-1 px-3 justify-content-between" id="reviewsSorted">
+    {% for article in latest_articles %}
+    <div class="card blog-articles col-12 col-md-5 col-lg-3 mb-4 pb-0">      
+      <a class="army-green" href="{% url 'articles:view' article.slug %}">
+        <img src="{{ article.image.url }}" class="card-img-top blog-img" alt="..." >
+      </a>
+      <div class="card-body pt-1 pb-2 px-2">
+        <div class="d-flex justify-content-between">
+          <div>{{ categories_names|dict_key:article.pk }}</div>
+          <div class="date font-12 text-light-grey">{{ article.date_created|date:'F' }} {{ article.date_created|date:'Y' }}</div>
+        </div>  
+        <h5 class="card-title d-flex align-items-center my-1">
+          <a class="army-green" href="{% url 'articles:view' article.slug %}">
+            {{ article.title_short }}
+          </a>
+        </h5>
+        <p class="card-text">
+          {% autoescape off %}
+          {{ article.content_no_script | striptags | truncatechars_html:100 }}
+          {% endautoescape %}
+        </p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="row px-md-5 px-2 justify-content-center" id="more-reviews">
+    <a>See more articles</a>
+  </div>
+
+</div>
+{% endblock %}
+{% block afterfooter %}
+<script src="{% static 'blog/js/blog.js' %}?v=1"></script>
+<script>
+  $(document).ready(function () {
+      var limit = 15;
+    $('#more-reviews').click(function (e) {
+          e.preventDefault();
+          limit = limit + 9;
+          axios({
+            method: 'post',
+            url: '{% url 'articles:index' %}',
+            data: {
+              limit: limit,
+            },
+          }).then((response) => {
+            $('#reviewsSorted').append(response.data.reviews);
+            if (response.data.capped) {
+              $('#more-reviews').removeClass("d-flex");
+              $('#more-reviews').hide();
+            }
+          }, (error) => {
+          });
+        });
+      });
+
+</script>
+
+
+{% endblock %}

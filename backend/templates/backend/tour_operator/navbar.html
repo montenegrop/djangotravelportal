@@ -1,0 +1,127 @@
+<div class="main-panel">
+  <!-- NAVBAR -->
+  <nav class="navbar-admin navbar-expand-lg ">
+    <div class="container-fluid">
+      <div class="navbar-wrapper ">
+        <div class="navbar-minimize">
+          <!--<button id="minimizeSidebar" class="btn-admin btn-warning btn-fill btn-round btn-icon d-none d-lg-block">
+                <i class="fa-admin fa fa-ellipsis-v visible-on-sidebar-regular"></i>
+                <i class="fa-admin fa-navicon visible-on-sidebar-mini"></i>
+              </button>-->
+        </div>
+        <span class="navbar-brand ml-3">{{ display_name }}</span>
+      </div>
+      <button class="navbar-toggler navbar-toggler-right mr-4" type="button" data-toggle="collapse"
+        aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-bar burger-lines"></span>
+        <span class="navbar-toggler-bar burger-lines"></span>
+        <span class="navbar-toggler-bar burger-lines"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end">
+
+        <ul class="navbar-nav ml-auto">
+          <li class="dropdown nav-item">
+            <span class="nav-link">
+              {{tour_operator}}
+            </span>
+          </li>
+          <li class="dropdown nav-item">
+            <a href="#" class="nav-link" data-toggle="dropdown">
+              <i class="fas fa-award font-14"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-admin dropdown-menu-right p-3 "
+              style="width: 400px; position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-340px, 70px, 0px);"
+              x-placement="bottom-end">
+              <i class="fas fa-award font-14 mr-2 text-light-grey"></i> <strong>Best practices—dashboard</strong>
+              <p class="my-2">• Add YAS widget to your home page</p>
+              <p class="my-2">• Add or update one itinerary/month</p>
+              <p class="my-2">• Get one client review/month</p>
+              <p class="my-2">• Add new photos monthly</p>
+              <p class="my-2">• Write a review for every park you offer tours in</p>
+            </div>
+
+            <!--<div class="dropdown-menu dropdown-menu-admin dropdown-menu-right p-3 " style="width: 400px; position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-340px, 70px, 0px);" x-placement="bottom-end">
+                  <i class="fas fa-award font-14 mr-2 text-light-grey"></i> <strong>Best practices—itineraries</strong>
+                  <p class="my-2">• Run spellcheck before posting</p>
+                  <p class="my-2">• Avoid using all caps for titles or body</p>
+                  <p class="my-2">• Update pricing annually</p>
+                  <p class="my-2">• Update or change itineraries at least once a year</p>
+                </div>-->
+
+            <!--<div class="dropdown-menu dropdown-menu-admin dropdown-menu-right p-3" style="width: 400px; position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-340px, 70px, 0px);" x-placement="bottom-end">
+                  <i class="fas fa-award font-14 mr-2 text-light-grey"></i> <strong>Best practices—photos</strong>
+                  <p class="my-2">• Only upload photos taken in one of the countries featured on YAS so it can be tagged</p>
+                  <p class="my-2">• Only upload photos that you took</p>
+                  <p class="my-2">• Tag up to 3 animals in pics</p>
+                </div>-->
+
+            <!--<div class="dropdown-menu dropdown-menu-admin dropdown-menu-right p-3" style="width: 400px; position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-340px, 70px, 0px);" x-placement="bottom-end">
+                  <i class="fas fa-award font-14 mr-2 text-light-grey"></i> <strong>Best practices—client reviews</strong>
+                  <p class="my-2">• Add YAS widget to your home page so clients know they can review you here</p>
+                  <p class="my-2">• Ask clients for reviews before they head home, while it’s fresh in their minds</p>
+                  <p class="my-2">• Try to respond to all client reviews and thank them</p>
+                </div>-->
+
+            <!--<div class="dropdown-menu dropdown-menu-admin dropdown-menu-right p-3" style="width: 400px; position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-340px, 70px, 0px);" x-placement="bottom-end">
+                  <i class="fas fa-award font-14 mr-2 text-light-grey"></i> <strong>Best practices—writing a park review</strong>
+                  <p class="my-2">• Reviews copied from other sites will be rejected</p>
+                  <p class="my-2">• Write in your own words</p>
+                  <p class="my-2">• Let people know why you operate in this park/reserve</p>
+                  <p class="my-2">• Include photos, if possible</p>
+                </div>-->
+
+            <!--<div class="dropdown-menu dropdown-menu-admin dropdown-menu-right p-3" style="width: 400px; position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(-340px, 70px, 0px);" x-placement="bottom-end">
+                  <i class="fas fa-award font-14 mr-2 text-light-grey"></i> <strong>Best practices—quote requests</strong>
+                  <p class="my-2">• For best results, try to respond within 12 hours</p>
+                  <p class="my-2">• Tour operators that view requests within 12 hours of receiving them get the ‘quick to respond’ icon on
+                    their profile</p>
+                  <p class="my-2">• Quote requests that go unanswered after 72 hours lower your YAScore</p>
+                </div>-->
+
+          </li>
+
+          <li class="dropdown nav-item ml-n3">
+            <a href="#" class="nav-link">
+              <i class="far fa-question-circle font-14"></i>
+            </a>
+          </li>
+
+          <!--<li class="dropdown nav-item">
+                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                  <i class="far fa-bell font-14"></i>
+                  <span class="notification">5</span>
+                  <span class="d-lg-none">Notification</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-admin dropdown-menu-right">
+                  <a class="dropdown-item" href="#">Notification 1</a>
+                  <a class="dropdown-item" href="#">Notification 2</a>
+                  <a class="dropdown-item" href="#">Notification 3</a>
+                  <a class="dropdown-item" href="#">Notification 4</a>
+                  <a class="dropdown-item" href="#">Notification 5</a>
+                </ul>
+              </li>-->
+          <!--<li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-list-ul"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right dropdown-menu-admin" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#">
+                    <i class="far fa-envelope"></i> Messages
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="far fa-question-circle"></i> FAQ
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="fas fa-sliders-h"></i> Settings
+                  </a>
+                  <div class="divider"></div>                               
+                  <a href="#" class="dropdown-item text-danger">
+                    <i class="fas fa-power-off"></i> Log out
+                  </a>
+                </div>
+              </li>-->
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- END NAVBAR -->

@@ -1,0 +1,57 @@
+{% if paginator.has_other_pages %}
+
+<nav aria-label="Page navigation example" class='text-center'>
+    <ul class="pagination justify-content-center align-items-center ">
+        {% if paginator.number|add:'-2' > 1 %}
+        <li class="page-item p-1">
+            <a class='page-link' href="#" onclick="page(1)">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item p-1 disabled">
+            <a class="page-link">
+                <span><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
+            </a>
+        </li>
+        {% endif %}
+
+        {% if paginator.number|add:'-2' > 1 %}
+        <li class="page-item p-1">&hellip;</li>
+        {% endif %}
+
+        {% for i in paginator.paginator.page_range %}
+        {% if paginator.number == i %}
+
+        <li class="page-item p-1 active">
+            <a class="page-link">
+                <span>{{ i }} <span class="sr-only">(current)</span></span>
+            </a>
+        </li>
+        {% elif i > paginator.number|add:'-3' and i < paginator.number|add:'3' %}
+        <li class="page-item p-1">
+            <a class='page-link' href='#' onclick="page({{ i }})">{{ i }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        {% if paginator.paginator.num_pages > paginator.number|add:'2' %}
+        <li class="page-item p-1">&hellip;</li>
+        {% endif %}
+
+        {% if paginator.paginator.num_pages > paginator.number|add:'2' %}
+        <li class="page-item p-1">
+            <a class='page-link' onclick="page({{ paginator.paginator.num_pages }})" href="#">
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </a>
+        </li>
+        {% else %}
+        <li class="page-item p-1 disabled">
+            <a class="page-link">
+                <span><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

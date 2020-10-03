@@ -1,0 +1,220 @@
+{% for review in tour_reviews %}
+  <div class="border rounded mb-4 mt-3 {% if focused %}focused{% endif %}" id="review-focus-{{ review.id }}">
+    <div class="border-bottom px-3 pt-2 container-fluid">
+      <div class="d-flex row">
+        <div class="col-sm-8 col-12">
+          <h5 class="d-inline-block pr-2"><strong>"{{ review.title }}"</strong></h5>
+        </div>
+        <div class="col-12 col-sm ml-auto pb-1">
+          <div class="ob-rating text-nowrap text-left text-sm-right">
+            <div title="{{ object.overall_rating }} / 5.00">
+              {{ review.overall_rating | star_rating | safe }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-sm-flex container-fluid">
+      <div class="row">
+        <div class="park-card-image mx-auto mx-sm-0 px-0 col-12 col-sm-3 d-sm-none">
+          <a href="{% url 'member' review.user.id %}">
+            <img src="{{ review.user.profile.avatar |thumbnail_url_:'crop_300_150' }}" alt=""/>
+          </a>
+        </div>
+        <div class="d-none d-sm-block">
+          <div class="park-card-image mx-auto mx-sm-0 px-0 col-12 col-sm-3">
+            <a href="{% url 'member' review.user.id %}">
+              <img src="{{ review.user.profile.avatar |thumbnail_url_:'crop_300_150' }}" alt=""/>
+            </a>
+          </div>
+          <div class="col-6 col-sm-3 mt-2 mt-sm-0" id="reviewer-info">
+            <div class="font-12 pb-2 mt-sm-1">
+              <div>By: <a
+                  href="{% url 'member' review.user.id %}">{{ review.user.profile.screen_name }}</a>
+              </div>
+              {% if review.user.profile.safari_count >= 10 %}
+                <div>
+                  <i class="i-safari-guru"></i>
+                  Safari guru
+                </div>
+              {% else %}
+                <div>
+                  <i
+                      class="i-{{ review.user.profile.get_user_type_display|slugify }} pr-1"></i>{{ review.user.profile.get_user_type_display }}
+                </div>
+              {% endif %}
+              <div>
+                <img class="flag-small" src="{{ review.user.profile.country.flag.url }}"
+                     alt="{{ review.user.profile.country }}"
+                     data-original-title="{{ review.user.profile.country }}">{{ review.user.profile.country }}
+              </div>
+              
+              <div class="collapse" id="kudus-more-comment-{{ review.id }}"><i
+                  class="i-kudu pr-1"></i>{{ review.user.profile.kudu_count }}
+                kudus
+              </div>
+              <div class="collapse" id="photos-more-comment-{{ review.id }}"><i
+                  class="fas fa-camera pr-1"></i>Photos
+                ({{ review.user.photo_set.count }})
+              </div>
+              <div class="collapse" id="reviews-more-comment-{{ review.id }}"><i
+                  class="far fa-comments pr-1"></i>Reviews
+                ({{ review.user.profile.total_review_count }})
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col pt-1">
+          <div class="font-12 pb-2 d-none d-sm-inline">
+            {% if review.start_date %}
+              <span class="pr-3 text-light-grey">Visited: {{ review.start_date | date:"M. Y" }}</span>
+            {% endif %}
+            <span class="text-light-grey">Reviewed: {{ review.date_modified | date:"M. d, Y" }}</span>
+            {% if review.country_written.flag.url %}
+              <span class="text-light-grey ml-5">Submitted in: <img class="flag-small"
+                                                                    src="{{ review.country_written.flag.url }}"
+                                                                    data-toggle="tooltip"
+                                                                    data-placement="top"
+                                                                    data-original-title="{{ review.country_written.name }}"></span>
+            {% endif %}
+          </div>
+          <p class="my-sm-0 mt-sm-2 comment more" id="comment-{{ review.id }}">
+            {{ review.content }}
+          </p>
+          <div class="row mt-2 collapse" id="stars-more-comment-{{ review.id }}">
+            <div class="col-12 col-md-6 pr-md-0">
+              <div class="d-flex justify-content-between pt-1">
+                <div>Meet and greet team</div>
+                <div class="ml-auto mt-1">
+                  {{ review.meet_and_greet_rating | star_rating | safe }}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between pt-1">
+                <div>Responsiveness of staff</div>
+                <div class="ml-auto mt-1">
+                  {{ review.responsiveness_rating | star_rating | safe }}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between pt-1">
+                <div>Quality of itinerary</div>
+                <div class="ml-auto mt-1">
+                  {{ review.itinerary_quality_rating | star_rating | safe }}
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6 ml-0">
+              <div class="d-flex justify-content-between pt-1">
+                <div>Quality of vehicles</div>
+                <div class="ml-auto mt-1">
+                  {{ review.vehicle_rating | star_rating | safe }}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between pt-1">
+                <div>Caliber of guide</div>
+                <div class="ml-auto mt-1">
+                  {{ review.safari_quality_rating | star_rating | safe }}
+                </div>
+              </div>
+              <div class="d-flex justify-content-between pt-1">
+                <div>Overall rating</div>
+                <div class="ml-auto mt-1">
+                  {{ review.overall_rating | star_rating | safe }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="my-sm-2 my-1 collapse d-sm-inline d-none" id="collapseReviewCard">
+          <div class="row d-sm-flex d-none align-items-center align-items-end mt-3 mb-1">
+            <div class="font-12 col-12 d-flex justify-content-between text-nowrap">
+              <div class="mt-3">Countries visited:
+                {% if review.user.profile.countries_visited.count > 0 %}
+                {% for country in review.user.profile.countries_visited.all %}
+                  <img class="flag-small" src="{{ country.flag.url }}"
+                       alt="{{ country.name }}" data-toggle="tooltip" data-placement="top" title=""
+                       data-original-title="{{ country.name }}">
+                {% endfor %}
+                {% endif %}
+              </div>
+              <div class="review-like pr-2">
+                <a rel="nofollow" class="ico give_kudu" href="#give-kudu"
+                   id="give_kudu_ph{{ review.id }}">
+                  <i class="icon-tato"></i>
+                </a><span
+                  class="number kudu_count_ph{{ review.id }}">{{ review.kudu_count }}</span><span
+                  class="number-text kudu_text_ph{{ review.id }}">{% if review.kudu_count == 1 %}
+                Person{% else %}People{% endif %}
+                gave this<br>a kudu</span><br/>
+              </div>
+            </div>
+          </div>
+          <div class="kudu_message kudu_message_ph{{ review.id }} text-right" style="color: #523612">
+            &nbsp;Like this review? Go on, give it a kudu!
+          </div>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-6 col-sm-3 mt-2 mt-sm-0 d-sm-none" id="reviewer-info">
+          <div class="font-12  mt-sm-1">
+            <div>By: <a
+                href="{% url 'member' review.user.id %}">{{ review.user.profile.screen_name }}</a>
+            </div>
+            {% if review.user.profile.safari_count >= 10 %}
+              <div>
+                <i class="i-safari-guru"></i>
+                Safari guru
+              </div>
+            {% else %}
+              <div>
+                <i
+                    class="i-{{ review.user.profile.get_user_type_display|slugify }} pr-1"></i>{{ review.user.profile.get_user_type_display }}
+              </div>
+            {% endif %}
+            <div>
+              <img class="flag-small" src="{{ review.user.profile.country.flag.url }}"
+                   alt="{{ review.user.profile.country }}"
+                   data-original-title="{{ review.user.profile.country }}">{{ review.user.profile.country }}
+            </div>
+          </div>
+        </div>
+        <div class="col-6 d-flex align-items-end d-sm-none pr-0">
+          <div class="font-12">
+            <div>Countries visited:
+              {% for country in review.user.profile.countries_visited.all %}
+                <img class="flag-small" src="{{ country.flag.url }}"
+                     alt="{{ country.name }}" data-toggle="tooltip" data-placement="top" title=""
+                     data-original-title="{{ country.name }}">
+              {% endfor %}
+            </div>
+            <div>Visited: {{ review.start_date | date:"M. Y" }}</div>
+            <div>Reviewed: {{ review.date_created | date:"M. d, Y" }}</div>
+          </div>
+        </div>
+        <div class="col-sm col-12 d-sm-none">
+          <hr class="my-2">
+          <div class="row d-flex align-items-center">
+            <div class="font-12 col-12 d-flex justify-content-end text-nowrap pb-1">
+              <div class="review-like pr-2 mt-0">
+                <a rel="nofollow" class="ico give_kudu small_tour_review" href="#give-kudu"
+                   id="give_kudu_small_ph{{ review.id }}">
+                  <i class="icon-tato"></i>
+                </a><span
+                  class="number kudu_count_ph{{ review.id }}">{{ review.kudu_count }}</span><span
+                  class="number-text kudu_text_ph{{ review.id }}">{% if review.kudu_count == 1 %}
+                Person{% else %}People{% endif %}
+                gave this<br>a kudu</span><br/>
+
+              </div>
+            </div>
+          </div>
+          <div class="kudu_message kudu_message_small_ph{{ review.id }}" style="color: #523612">
+            &nbsp;Like this review? Go on, give it a kudu!
+          </div>
+        </div>
+      </div>
+    </div>
+    {% if review.response %}
+      <div class="card-footer">
+        <i>Response:</i> {{ review.response }}
+      </div>
+    {% endif %}
+  </div>
+{% endfor %}

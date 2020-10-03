@@ -1,0 +1,462 @@
+{% extends 'backend/tour_operator/base.html' %}
+{% load static %}
+{% block backendcontent %}
+
+<script>
+  function copyToClipboard(element) {
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val($(element).text()).select();
+    document.execCommand("copy");
+    $temp.remove();
+  }
+</script>
+
+<div class="row max-width-admin">
+  <div class="col-md-12">
+
+    <div id="copy-alert" class="alert alert-warning alert-dismissible fade position-fixed z-10" role="alert">
+      <strong>Copied to clickboard</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      </button>
+    </div>
+
+
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Get YAS on your website</h4>
+        <p class="card-category font-weight-light text-light-grey">Get your YAS score and reviews on your website.
+          Simply copy and paste the HTML code below and you should see your score instantly. We have a few widgets
+          available. Choose 1 the fits your website best.</p>
+      </div>
+      <div class="card-body">
+        <ul role="tablist" class="nav nav-tabs d-flex flex-nowrap">
+          <li role="presentation" class="nav-item" aria-expanded="false">
+            <a class="nav-link active" id="info-tab" href="#popular-widgets" data-toggle="tab"
+              aria-expanded="true">Popular widgets</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="account-tab" href="#small-widgets" data-toggle="tab" aria-expanded="false">Small
+              image widgets</a>
+          </li>
+        </ul>
+        <div class="tab-content">
+          <div aria-expanded="true" aria-labelledby="info-tab" role="tabpanel" class="tab-pane active"
+            id="popular-widgets">
+            <div class="card">
+              <div class="card-header">
+                <p class="card-category font-weight-light text-light-grey font-12">These widgets are dynamically created
+                  and give real value to your website's credibility by providing instant content to your website.</p>
+              </div>
+
+              {% comment %} 4 different widgets: {% endcomment %}
+
+              {% comment %} widget number 1 {% endcomment %}
+
+              <div class="card-body">
+                <div class="accordions" id="accordion">
+                  <div class="card">
+                    <div class="card-header">
+                      <p class="pr-4 card-title" data-target="#PopularcollapseOne" data-toggle="collapse"
+                        class="collapsed" aria-expanded="true">Reviews widget <span class="font-10">(180 x
+                          130 pixels)</span><b class="caret-flipped"></b>
+                      </p>
+                    </div>
+                    <div id="PopularcollapseOne" class="card-collapse collapse show">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-center">
+                            <div id="yascore_w1"><iframe frameborder="0" width="100%" scrolling="no"
+                                src="{% url 'tour_operator_widget_1' tour_operator.slug %}"></iframe></div>
+                          </div>
+                          <div class="col-md-8">
+                            <textarea readonly="readonly" id="copy-code-1" rows="4" cols="80" class="form-control mb-2"
+                              style="margin-top: 0px; margin-bottom: 0px;">&lt;div id="yascore_w1"&gt;
+&lt;iframe scrolling="no" frameBorder="0" width="180" src="{{ page_url }}{% url 'tour_operator_widget_1' tour_operator.slug %}"&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+                            <div class="clearfix mb-20"></div>
+                          </div>
+                          <div class="ml-3 ml-md-0">
+                            <button class="btn btn-green-primary mr-2 d-block d-sm-inline copy-button"
+                              data-copy-target="copy-code-1">Copy code</button>
+                            <span class="mt-3">Then paste it to your website</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div class="card-header">
+                      <p class="pr-4 card-title" data-target="#PopularcollapseTwo" data-toggle="collapse"
+                        class="collapsed" aria-expanded="true">Stars widget <span class="font-10">(180 x
+                          130 pixels)</span><b class="caret-flipped"></b>
+                      </p>
+                    </div>
+                    <div id="PopularcollapseTwo" class="card-collapse collapse show">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-center">
+                            <div id="yascore_w2"><iframe frameborder="0" width="100%" scrolling="no"
+                                src="{% url 'tour_operator_widget_2' tour_operator.slug %}"></iframe></div>
+                          </div>
+                          <div class="col-md-8">
+                            <textarea readonly="readonly" id="copy-code-2" rows="4" cols="80" class="form-control mb-2"
+                              style="margin-top: 0px; margin-bottom: 0px;">&lt;div id="yascore_w2"&gt;
+&lt;iframe scrolling="no" frameBorder="0" width="180" src="{{ page_url }}{% url 'tour_operator_widget_2' tour_operator.slug %}"&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+                            <div class="clearfix mb-20"></div>
+                          </div>
+                          <div class="ml-3 ml-md-0"> <button type="submit"
+                              class="btn btn-green-primary mr-2 d-block d-sm-inline copy-button"
+                              data-copy-target="copy-code-2">Copy code</button> <span class="mt-3">Then
+                              paste it to your website</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                 
+                  <div class="card">
+                    <div class="card-header">
+                      <p class="pr-4 card-title" data-target="#PopularcollapseThree" data-toggle="collapse"
+                        class="collapsed" aria-expanded="true">Find us at Your African Safari <span
+                          class="font-10">(white background, 172 x 113 pixels)</span><b class="caret-flipped"></b>
+                      </p>
+                    </div>
+                    <div id="PopularcollapseThree" class="card-collapse collapse show">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-center">
+                            <a href="{% url 'tour_operator' tour_operator.slug %}">
+                              <img src="{% static 'operators/img/widget/logo-and-text.png' %}"
+                                alt="{{ tour_operator }}">
+                            </a>
+                          </div>
+                          <div class="col-md-8">
+                            <textarea readonly="readonly" id="copy-code-3" rows="4" cols="80" class="form-control mb-2"
+                              style="margin-top: 0px; margin-bottom: 0px; height: 100px;">&lt;div id="yas_ws3"&gt;&lt;/div&gt;
+&lt;a href="{{ page_url }}{% url 'tour_operator' tour_operator.slug %}"&gt;
+&lt;img src="{{ page_url }}{% static 'operators/img/widget/logo-and-text.png' %}" alt="{{ tour_operator }}"&gt;
+&lt;/a&gt;</textarea>
+
+                            <div class="clearfix mb-20"></div>
+                          </div>
+                          <div class="ml-3 ml-md-0"> <button type="submit"
+                              class="btn btn-green-primary mr-2 d-block d-sm-inline copy-button"
+                              data-copy-target="copy-code-3">Copy code</button> <span class="mt-3">Then
+                              paste it to your website</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% if False %}
+                  <div class="card">
+                    <div class="card-header">
+                      <p class="pr-4 card-title" data-target="#PopularcollapseFour" data-toggle="collapse"
+                        class="collapsed" aria-expanded="true">Small widget <span class="font-10">(160pixels wide x
+                          120pixels tall)</span><b class="caret-flipped"></b>
+                      </p>
+                    </div>
+
+
+                    <div id="PopularcollapseFour" class="card-collapse collapse show">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-4 d-flex justify-content-center">
+                            <div id="yascore_w4"><iframe frameborder="0" width="240px" scrolling="no"
+                                src="{% url 'tour_operator_widget_4' tour_operator.slug %}"></iframe></div>
+                          </div>
+                          <div class="col-md-8">
+                            <textarea readonly='readonly' id="copy-code-4" rows="4" cols="80" class="form-control mb-2"
+                              style="margin-top: 0px; margin-bottom: 0px;">&lt;div id="yascore_w4"&gt;
+&lt;iframe scrolling="no" frameBorder="0" width="160" src="{{ page_url }}{% url 'tour_operator_widget_4' tour_operator.slug %}"&gt;
+&lt;/iframe&gt;
+&lt;/div&gt;</textarea>
+                            <div class="clearfix mb-20"></div>
+                          </div>
+                          <div class="ml-3 ml-md-0"> <button type="submit"
+                              class="btn btn-green-primary mr-2 d-block d-sm-inline copy-button"
+                              data-copy-target="copy-code-4">Copy code</button> <span class="mt-3">Then
+                              paste it to your website</span></div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {% comment %} 6 small images that link to TO page: {% endcomment %}
+
+          <div id="small-widgets" class="tab-pane" role="tabpanel" aria-labelledby="account-tab" aria-expanded="true">
+            <div class="card">
+              <div class="card-header">
+                <p class="card-category font-weight-light text-light-grey font-12">Small image widgets that link back
+                  your YAS company page..</p>
+              </div>
+
+              {% comment %} --color {% endcomment %}
+
+              <div class="card-body">
+                <div class="accordions" id="accordion">
+                  <div class="card">
+                    <div class="card-header">
+                      <p class="pr-4 card-title" data-target="#SmallcollapseSmallOne" data-toggle="collapse"
+                        class="collapsed" aria-expanded="true">YAS logo green <span
+                          class="font-10">(white background, 80 x 80 pixels)</span><b class="caret-flipped"></b>
+                      </p>
+                    </div>
+                    <div id="SmallcollapseSmallOne" class="card-collapse collapse show">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-4 mb-2 d-flex justify-content-center">
+                            <a href="{% url 'tour_operator' tour_operator.slug %}">
+                              <img src="{{ page_url }}{% static 'operators/img/widget/color.png' %}"
+                                alt="{{ tour_operator }}">
+                            </a>
+                          </div>
+                          <div class="col-md-8">
+                            <textarea readonly="readonly" id="copy-code-s1" rows="4" cols="80" class="form-control mb-2"
+                              style="margin-top: 0px; margin-bottom: 0px; height: 100px;">&lt;div id="yas_ws1"&gt;&lt;/div&gt;
+&lt;a href="{{ page_url }}{% url 'tour_operator' tour_operator.slug %}"&gt;
+&lt;img src="{{ page_url }}{% static 'operators/img/widget/color.png' %}" alt="{{ tour_operator }}"&gt;
+&lt;/a&gt;</textarea>
+                            <div class="clearfix mb-20"></div>
+                          </div>
+                          <div class="ml-3 ml-md-0"> <button type="submit"
+                              class="btn btn-green-primary mr-2 d-block d-sm-inline copy-button"
+                              data-copy-target="copy-code-s1">Copy code</button> <span class="mt-3">Then
+                              paste it to your website</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {% comment %} --grey {% endcomment %}
+
+              <div class="card-body">
+                <div class="accordions" id="accordion">
+                  <div class="card">
+                    <div class="card-header">
+                      <p class="pr-4 card-title" data-target="#SmallcollapseSmallTwo" data-toggle="collapse"
+                        class="collapsed" aria-expanded="true">YAS logo gray <span
+                          class="font-10">(white background, 80 x 80 pixels)</span><b class="caret-flipped"></b>
+                      </p>
+                    </div>
+                    <div id="SmallcollapseSmallTwo" class="card-collapse collapse show">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-4 mb-2 d-flex justify-content-center">
+                            <a href="{% url 'tour_operator' tour_operator.slug %}">
+                              <img src="{% static 'operators/img/widget/grey.png' %}" alt="{{ tour_operator }}">
+                            </a>
+                          </div>
+                          <div class="col-md-8">
+                            <textarea readonly="readonly" id="copy-code-s2" rows="4" cols="80" class="form-control mb-2"
+                              style="margin-top: 0px; margin-bottom: 0px; height: 100px;">&lt;div id="yas_ws2"&gt;&lt;/div&gt;
+&lt;a href="{{ page_url }}{% url 'tour_operator' tour_operator.slug %}"&gt;
+&lt;img src="{{ page_url }}{% static 'operators/img/widget/grey.png' %}" alt="{{ tour_operator }}"&gt;
+&lt;/a&gt;</textarea>
+                            <div class="clearfix mb-20"></div>
+                          </div>
+                          <div class="ml-3 ml-md-0"> <button type="submit"
+                              class="btn btn-green-primary mr-2 d-block d-sm-inline copy-button"
+                              data-copy-target="copy-code-s2">Copy code</button> <span class="mt-3">Then
+                              paste it to your website</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>             
+
+              {% comment %} --logo-white {% endcomment %}
+
+              <div class="card-body">
+                <div class="accordions" id="accordion">
+                  <div class="card">
+                    <div class="card-header">
+                      <p class="pr-4 card-title" data-target="#SmallcollapseSmallThree" data-toggle="collapse"
+                        class="collapsed" aria-expanded="true">YAS logo white <span
+                          class="font-10">(white background, 80 x 80 pixels)</span><b
+                          class="caret-flipped"></b>
+                      </p>
+                    </div>
+                    <div id="SmallcollapseSmallThree" class="card-collapse collapse show">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-4 mb-2 d-flex justify-content-center">
+                            <a href="{% url 'tour_operator' tour_operator.slug %}">
+                              <img style="background-color:#F1EFD8;"
+                                src="{% static 'operators/img/widget/logo-white.png' %}" alt="{{ tour_operator }}">
+                            </a>
+                          </div>
+                          <div class="col-md-8">
+                            <textarea readonly="readonly" id="copy-code-s4" rows="4" cols="80" class="form-control mb-2"
+                              style="margin-top: 0px; margin-bottom: 0px; height: 100px;">&lt;div id="yas_ws4"&gt;&lt;/div&gt;
+&lt;a href="{{ page_url }}{% url 'tour_operator' tour_operator.slug %}"&gt;
+&lt;img src="{{ page_url }}{% static 'operators/img/widget/logo-white.png' %}" alt="{{ tour_operator }}"&gt;
+&lt;/a&gt;</textarea>
+                            <div class="clearfix mb-20"></div>
+                          </div>
+                          <div class="ml-3 ml-md-0"> <button type="submit"
+                              class="btn btn-green-primary mr-2 d-block d-sm-inline copy-button"
+                              data-copy-target="copy-code-s4">Copy code</button> <span class="mt-3">Then
+                              paste it to your website</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {% comment %} --text {% endcomment %}
+              {% if False %}
+              <div class="card-body">
+                <div class="accordions" id="accordion">
+                  <div class="card">
+                    <div class="card-header">
+                      <p class="pr-4 card-title" data-target="#SmallcollapseSmallFour" data-toggle="collapse"
+                        class="collapsed" aria-expanded="true">YAS logo text <span
+                          class="font-10">(80 x 80 pixels)</span><b class="caret-flipped"></b>
+                      </p>
+                    </div>
+                    <div id="SmallcollapseSmallFour" class="card-collapse collapse show">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-4 mb-2 d-flex justify-content-center">
+                            <a href="{% url 'tour_operator' tour_operator.slug %}">
+                              <img src="{% static 'operators/img/widget/text.png' %}" alt="{{ tour_operator }}">
+                            </a>
+                          </div>
+                          <div class="col-md-8">
+                            <textarea readonly="readonly" id="copy-code-s5" rows="4" cols="80" class="form-control mb-2"
+                              style="margin-top: 0px; margin-bottom: 0px; height: 100px;">&lt;div id="yas_ws5"&gt;&lt;/div&gt;
+&lt;a href="{{page_url}}{% url 'tour_operator' tour_operator.slug %}"&gt;
+&lt;img src="{{ page_url }}{% static 'operators/img/widget/text.png' %}" alt="{{ tour_operator }}"&gt;
+&lt;/a&gt;</textarea>
+                            <div class="clearfix mb-20"></div>
+                          </div>
+                          <div class="ml-3 ml-md-0"> <button type="submit"
+                              class="btn btn-green-primary mr-2 d-block d-sm-inline copy-button"
+                              data-copy-target="copy-code-s5">Copy code</button> <span class="mt-3">Then
+                              paste it to your website</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+              {% comment %} --white,_green_bg {% endcomment %}
+
+              <div class="card-body">
+                <div class="accordions" id="accordion">
+                  <div class="card">
+                    <div class="card-header">
+                      <p class="pr-4 card-title" data-target="#SmallcollapseSmallFive" data-toggle="collapse"
+                        class="collapsed" aria-expanded="true">YAS logo green background <span
+                          class="font-10">(80 x 80 pixels)</span><b class="caret-flipped"></b>
+                      </p>
+                    </div>
+                    <div id="SmallcollapsSmallFive" class="card-collapse collapse show">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-4 mb-2 d-flex justify-content-center">
+                            <a href="{% url 'tour_operator' tour_operator.slug %}">
+                              <img src="{% static 'operators/img/widget/white,_green_bg.png' %}"
+                                alt="{{ tour_operator }}">
+                            </a>
+                          </div>
+                          <div class="col-md-8">
+                            <textarea readonly="readonly" id="copy-code-s6" rows="4" cols="80" class="form-control mb-2"
+                              style="margin-top: 0px; margin-bottom: 0px; height: 100px;">&lt;div id="yas_ws6"&gt;&lt;/div&gt;
+&lt;a href="{{page_url}}{% url 'tour_operator' tour_operator.slug %}"&gt;
+&lt;img src="{{ page_url }}{% static 'operators/img/widget/white,_green_bg.png' %}" alt="{{ tour_operator }}"&gt;
+&lt;/a&gt;</textarea>
+                            <div class="clearfix mb-20"></div>
+                          </div>
+                          <div class="ml-3 ml-md-0"> <button type="submit"
+                              class="btn btn-green-primary mr-2 d-block d-sm-inline copy-button"
+                              data-copy-target="copy-code-s6">Copy code</button> <span class="mt-3">Then
+                              paste it to your website</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {% comment %} --white,_grey_bg {% endcomment %}
+
+              <div class="card-body">
+                <div class="accordions" id="accordion">
+                  <div class="card">
+                    <div class="card-header">
+                      <p class="pr-4 card-title" data-target="#SmallcollapseSmallSix" data-toggle="collapse"
+                        class="collapsed" aria-expanded="true">YAS logo gray background <span
+                          class="font-10">(80 x 80 pixels)</span><b class="caret-flipped"></b>
+                      </p>
+                    </div>
+                    <div id="SmallcollapsSmallSix" class="card-collapse collapse show">
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-4 mb-2 d-flex justify-content-center">
+                            <a href="{% url 'tour_operator' tour_operator.slug %}">
+                              <img src="{% static 'operators/img/widget/white,_grey_bg.png' %}"
+                                alt="{{ tour_operator }}">
+                            </a>
+                          </div>
+                          <div class="col-md-8">
+                            <textarea readonly="readonly" id="copy-code-s7" rows="4" cols="80" class="form-control mb-2"
+                              style="margin-top: 0px; margin-bottom: 0px; height: 100px;">&lt;div id="yas_ws7"&gt;&lt;/div&gt;
+&lt;a href="{{ page_url }}{% url 'tour_operator' tour_operator.slug %}"&gt;
+&lt;img src="{{ page_url }}{% static 'operators/img/widget/white,_grey_bg.png' %}" alt="{{ tour_operator }}"&gt;
+&lt;/a&gt;</textarea>
+                            <div class="clearfix mb-20"></div>
+                          </div>
+                          <div class="ml-3 ml-md-0"> <button type="submit"
+                              class="btn btn-green-primary mr-2 d-block d-sm-inline copy-button"
+                              data-copy-target="copy-code-s7">Copy code</button> <span class="mt-3">Then
+                              paste it to your website</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(".nav-link.widgets").addClass("active")
+</script>
+<script>
+  $(document).ready(function () {
+    $(".copy-button").click(function () {
+      var copy_id = $(this).data("copy-target");
+      copyToClipboard("#" + copy_id);
+    });
+
+    $("#copy-alert").hide();
+    $(".copy-button").click(function showAlert() {
+      $("#copy-alert").fadeTo(1000, 500).slideUp(500, function () {
+        $("#copy-alert").slideUp(500);
+      });
+    });
+  });
+</script>
+
+
+{% endblock %}

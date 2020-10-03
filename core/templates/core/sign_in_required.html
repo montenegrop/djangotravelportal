@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+<div class="error-box">
+<div class="error-box-content">
+<img src="{% static 'core/img/padlock.png' %}" alt="image box" class="box-img">
+<div class="box-title">Sign in required</div>
+<div class="box-subtitle">You will need to sign in to proceed</div>
+<p>What now?</p>
+<p>
+You have accessed a page that requires you to be logged in. <br>
+In order to proceed you will need to
+<a href="#" data-target="#loginModal" data-toggle="modal" id="login_link2"><strong>Log in</strong></a>
+</p>
+</div>
+</div>
+{% endblock %}

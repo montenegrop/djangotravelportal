@@ -1,0 +1,74 @@
+{% load addf %}
+<div class="stars" title="{{ rating }} / 5" style="{% if skip_border %}border-right: unset{% endif %}">
+
+	{% with diff=rating %}
+	{% if diff <= 0 %}
+	<span></span>
+	{% elif diff > 0 and diff <= 0.25 %}
+	<span class="bg-star-two"></span>
+	{% elif diff > 0.25 and diff <= 0.5 %}
+	<span class="bg-star-three"></span>
+	{% elif diff > 0.5 and diff <= 0.75 %}
+	<span class="bg-star-for"></span>
+	{% else %}
+	<span class="bg-star"></span>
+	{% endif %}
+	{% endwith %}
+
+	{% with diff=rating|addf:"-1" %}
+	{% if diff <= 0 %}
+	<span></span>
+	{% elif diff > 0 and diff <= 0.25 %}
+	<span class="bg-star-two"></span>
+	{% elif diff > 0.25 and diff <= 0.5 %}
+	<span class="bg-star-three"></span>
+	{% elif diff > 0.5 and diff <= 0.75 %}
+	<span class="bg-star-for"></span>
+	{% else %}
+	<span class="bg-star"></span>
+	{% endif %}
+	{% endwith %}
+
+	{% with diff=rating|addf:"-2" %}
+	{% if diff <= 0 %}
+	<span></span>
+	{% elif diff > 0 and diff <= 0.25 %}
+	<span class="bg-star-two"></span>
+	{% elif diff > 0.25 and diff <= 0.5 %}
+	<span class="bg-star-three"></span>
+	{% elif diff > 0.5 and diff <= 0.75 %}
+	<span class="bg-star-for"></span>
+	{% else %}
+	<span class="bg-star"></span>
+	{% endif %}
+	{% endwith %}
+
+	{% with diff=rating|addf:"-3" %}
+	{% if diff <= 0 %}
+	<span></span>
+	{% elif diff > 0 and diff <= 0.25 %}
+	<span class="bg-star-two"></span>
+	{% elif diff > 0.25 and diff <= 0.5 %}
+	<span class="bg-star-three"></span>
+	{% elif diff > 0.5 and diff <= 0.75 %}
+	<span class="bg-star-for"></span>
+	{% else %}
+	<span class="bg-star"></span>
+	{% endif %}
+	{% endwith %}
+
+	{% with diff=rating|addf:"-4" %}
+	{% if diff <= 0 %}
+	<span></span>
+	{% elif diff > 0 and diff <= 0.25 %}
+	<span class="bg-star-two"></span>
+	{% elif diff > 0.25 and diff <= 0.5 %}
+	<span class="bg-star-three"></span>
+	{% elif diff > 0.5 and diff <= 0.75 %}
+	<span class="bg-star-for"></span>
+	{% else %}
+	<span class="bg-star"></span>
+	{% endif %}
+	{% endwith %}
+
+</div><!-- /.stars -->

@@ -1,0 +1,179 @@
+{% extends 'backend/admin/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block backendcontent %}
+<style>
+  .table-sm.table>thead>tr>th {
+    font-size: 0.7em;
+  }
+
+  .table-sm td {
+    font-size: 0.8em;
+  }
+
+  .photo img {
+    width: 30px;
+    height: auto;
+  }
+</style>
+<div class="row max-width-admin">
+  <div class="col-12">
+    <div class="filters card">
+      <div class="card-body">
+        <form novalidate class="form" action='.' method="GET">
+          {% csrf_token %}
+          <div class="row">
+
+            <div class="col">
+              {{ form.name | as_crispy_field}}
+            </div>
+            <div class="col">
+              {{ form.order_by | as_crispy_field}}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+            </div>
+
+            <div class="col">
+            </div>
+          </div>
+
+          <!-- Button -->
+          <div class="row">
+            <div class="col-10">
+            </div>
+            <div class="col-2">
+              <div class="form-group">
+                <input value='Filter' type="submit" class="btn btn-success" id="submit">
+              </div>
+            </div>
+          </div>
+          <!-- End Button -->
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="col-12">
+    <div class="table-responsive">
+
+      <table class='table table-striped  table-sm'>
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>YAScore</th>
+            <th>Created</th>
+            <th>Seen</th>
+            <th>Itin.</th>
+            <th>TO<br>review</th>
+            <th>Park<br>review</th>
+            <th>QR</th>
+            <th>Photos</th>
+            <th>Package</th>
+            <th>Widget</th>
+            <th>Email <br> supp</th>
+            <th>Owner</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        {% for tour_operator in paginator %}
+        <tr>
+          <td>
+            {% if tour_operator.website %}
+            <a href="{% url 'tour_operator' slug=tour_operator.slug %}" target="_blank">
+              {{ tour_operator }}
+            </a> <br>
+            <a href="{{ tour_operator.website|external_url }}" target="_blank">
+              {{ tour_operator.website }}
+            </a>
+            {% else %}
+            {{ tour_operator }}
+            {% endif %}
+            {% if tour_operator.email %}
+            <br>
+            {{ tour_operator.email }}
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'backend:admin_yas_score' pk=tour_operator.pk %}">
+              {{ tour_operator.yas_score}}
+            </a>
+          </td>
+          <td>
+            {{ tour_operator.date_created|date:"d.M.Y" }}
+          </td>
+          <td>
+            {{ tour_operator.last_seen|date:"d.M.Y" }}
+            <br>
+            {{ tour_operator.last_seen|date:"H:i" }}
+          </td>
+          <td>
+            {{ tour_operator.packages_count|default_if_none:0 }}
+          </td>
+          <td>
+            {{ tour_operator.reviews_count|default_if_none:0 }}
+          </td>
+          <td>
+            {{ tour_operator.park_reviews_count|default_if_none:0 }}
+          </td>
+          <td>
+            {{ tour_operator.photos_count|default_if_none:0 }}
+          </td>
+          <td>
+            {{ tour_operator.quote_request_count|default_if_none:0 }}
+          </td>
+
+          <td>
+            {{ tour_operator.package|default_if_none:'' }}
+          </td>
+          <td>
+            {{ tour_operator.widget_added|yes_no }}
+          </td>
+          <td>
+            {{ tour_operator.suppress_email|yesno }}
+          </td>
+          <td>
+            {% for p in tour_operator.profiles.all %}
+            {{ p.user.email }} <br>
+            {% endfor %}
+          </td>
+          <td>
+            {% if tour_operators_users|dict_key:tour_operator.pk %}
+            <form method="POST" id='login_as_{{tour_operator.pk}}'
+              action="{% url 'login_as_user' user_id=tour_operators_users|dict_key:tour_operator.pk %}">
+              {% csrf_token %}
+            </form>
+            <a href="javascript:void(0);" onclick="document.getElementById('login_as_{{tour_operator.pk}}').submit();">
+              View as
+            </a> <br>
+            {% endif %}
+            <a target='_blank'
+              href="{% url 'admin:operators_touroperator_change' object_id=tour_operator.pk %}">Edit</a>
+            <br>
+            <a target='_blank'
+              href="{% url 'admin:operators_touroperator_delete' object_id=tour_operator.pk %}">Remove</a> <br>
+          </td>
+        </tr>
+
+        {% endfor %}
+      </table>
+
+
+    </div>
+  </div>
+  
+  <div class="row-12 center">
+    {% include 'search/paginator.html' %}
+  </div>
+
+</div>
+
+<script>
+  $(" .nav-link.tour_operators").addClass("active") </script>
+{% endblock %}

@@ -1,0 +1,326 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% load fullurl %}
+{% block title %}
+  African safari parks and game reserves
+{% endblock %}
+{% block meta_description %}
+Your African Safari features information on {{ parks_count }} of Africa's top safari destinations
+{% endblock %}
+{% block meta_keywords %}Your african safari parks game reserves{% endblock %}
+{% block meta_og_image %}{{image}}{% endblock %}
+
+{% block content %}
+<div class="spanning add-new-styles" itemscope itemtype="http://schema.org/Country" itemprop="mainEntity">
+
+
+  <div class="container-fluid px-lg-5 max-width mt-4 mx-auto">
+    <div class="row px-md-5 px-2 justify-content-between ">
+      <div class="col-xl-8 col-md-9 col-12">
+        <h1 class="h1-sm">
+          <strong>Parks & game reserves</strong>
+        </h1>
+        <p>
+          Your African Safari features information on {{ parks_count }} of Africa's top safari destinations
+        </p>
+      </div>
+      <div class="slide-social-wrapper mt-md-2 mt-2 d-flex justify-content-end ml-2">
+        <a class="slide-social-icon"
+          href="http://www.facebook.com/sharer/sharer.php?u=https://www.yourafricansafari.com{{ request.get_full_path|urlencode }}"
+          target="_blank">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a class="slide-social-icon"
+          href="//twitter.com/intent/tweet?text={{park}}&url=https://www.yourafricansafari.com{{ request.get_full_path|urlencode }}&via=safaricompanies"
+          target="_blank">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a class="slide-social-icon"
+          href="http://www.linkedin.com/shareArticle?url=https://www.yourafricansafari.com{{ request.get_full_path|urlencode }}&title={{ park }}&summary={{ park.meta_description }}&source=https://www.yourafricansafari.com/"
+          target="_blank">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </div>
+
+      <div class="row justify-content-xl-between d-flex justify-content-center mt-3 mx-0 w-100">
+        <div class="col-xl-8 pr-xl-5 col-lg-12">
+          {% for park in parks %}
+          <div class="border rounded mb-4">
+            <div class="border-bottom px-3 pt-2 container-fluid">
+              <div class="d-flex row">
+                <div class="col-md-8 col-12">
+                  <h5 class="d-inline-block pr-2">
+                    <strong><a class="dark-brown" href="{% url 'park' park.slug %}">
+                        {{ park.name }}
+                      </a></strong>
+                  </h5>
+                </div>
+                <div class="col-12 col-md ml-auto">
+                  <div class="ob-rating text-nowrap">
+                    <div class="text-left text-md-right">
+                      <span class="yellow font-h5" title="{{ park.parkreview_average|floatformat:2 }} / 5.00">
+                        {{ park.average_rating | star_rating | safe }}
+                      </span>
+                      <a class="font-weight-light font-11 text-light-grey pl-1"
+                        href="{% url 'park_reviews' park.slug %}">
+                        <span>{{ park.reviews_count }}</span>
+                        review{{ park.reviews_count | pluralize }}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-sm-flex">
+              <div class="park-card-image mx-auto">
+                <a href="{% url 'park' park.slug %}">
+                  <img src="{{ park.image|thumbnail_url_:'crop_300_150' }}" alt="{{ park.name_short }}" />
+                </a>
+              </div>
+              <div class="pt-2 pl-4 pr-3">
+                <p>{{ park.description | striptags | safe | truncatechars_html:208}}
+                  <a class="" href="{% url 'park' park.slug %}">read more</a>
+                </p>
+                <div class="pb-2">
+                  <div class="row mb-sm-2 mb-0">
+                    <div class="col-sm-6 col-12 ">
+                      <a href="{% url 'park_tour_operators' park.slug %}">
+                        <div class="d-inline-block icon-container">
+                          <i class="text-dark-grey fas fa-binoculars"></i>
+                        </div>
+                        <span class="font-12">
+                          Tour operators ({{ park.tour_operators_count }})
+
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-sm-6 col-12">
+                      <div class="d-inline-block icon-container">
+                        <i class="text-dark-grey fas fa-map-marker-alt"></i>
+                      </div>
+                      <span class="font-12 text-dark-grey">Located in</span>
+
+                      {% if park.country_indexes.count > 1 %}
+                      {% for country in park.country_indexes.all %}
+                      <a class="font-12" href="{% url 'country_index' slug=country.slug %}">
+                        <img class="flag-small" src="{{ country.flag.url }}" alt="{{ country }}" data-toggle="tooltip"
+                          data-placement="top" title="{{ country }}" data-original-title="{{ country }}">
+                      </a>
+                      {% endfor %}
+                      {% else %}
+                      {% for country in park.country_indexes.all %}
+                      <a class="font-12" href="{% url 'country_index' slug=country.slug %}">
+                        <img class="flag-small" src="{{ country.flag.url }}" alt="{{ country }}" data-toggle="tooltip"
+                          data-placement="top" title="{{ country }}" data-original-title="{{ country }}">
+                        {{ country }}
+                      </a>
+                      {% endfor %}
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6 col-12">
+                      <a href="{% url 'park_tours' park.slug %}">
+                        <div class="d-inline-block icon-container">
+                          <i class="text-dark-grey fas fa-map"></i>
+                        </div>
+                        <span class="font-12">
+                          Tours packages ({{ park.packages_count }})
+                        </span>
+                      </a>
+                    </div>
+                    <div class="col-sm-6 col-12">
+                      <a href="{% url 'photos:index' %}?park={{ park.slug }}">
+                        <div class="d-inline-block icon-container">
+                          <i class="text-dark-grey fas fa-camera"></i>
+                        </div>
+                        <span class="font-12">
+                          Photos ({{ park.photos_count }})
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="new-card-footer"></div>
+          </div>
+          {% endfor %}
+          {% if parks.has_other_pages %}
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              {% if parks.has_previous %}
+              <li class="page-item"><a class="page-link" href="?page={{ parks.previous_page_number }}">Previous</a></li>
+              {% else %}
+              <li class="page-item disabled">
+                <a class="page-link">
+                  Previous
+                </a>
+              </li>
+              {% endif %}
+              {% for i in parks.paginator.page_range %}
+              {% if parks.number == i %}
+              <li class="page-item active">
+                <a class="page-link">
+                  <span>{{ i }} <span class="sr-only">(current)</span></span>
+                </a>
+              </li>
+              {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ i }}">
+                  {{ i }}
+                </a>
+              </li>
+              {% endif %}
+              {% endfor %}
+              {% if parks.has_next %}
+              <li class="page-item"><a class="page-link" href="?page={{ parks.next_page_number }}">Next</a></li>
+              {% else %}
+              <li class="page-item disabled">
+                <a class="page-link">
+                  Next
+                </a>
+              </li>
+              {% endif %}
+            </ul>
+          </nav>
+          {% endif %}
+
+
+        </div>
+
+
+        <!--RHC New-->
+        <div class="col-xl-4 col-12">
+          <div class="contentbg rhc-wide-border px-3 parks-rhc-max-width">
+            <h5 class="pt-3 pb-2">
+              <strong>Latest articles</strong>
+            </h5>
+            <div class="articles">
+              {% for article in recent_articles %}
+              <a>
+                <div class="card reviews mb-3 px-2 pt-2 pb-1">
+                  <div class="row no-gutters pb-2">
+                    <div class="col-4">
+                      <div class="photo-container-reviews">
+                        <a href="{% url 'articles:view' article.slug %}">
+                          <img src="{{ article.image|thumbnail_url_:'crop_150' }}" alt="...">
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-8">
+                      <div class="card-body pr-0">
+                        <p class="card-title text-left text-truncate">
+                          <a class="text-dark-grey"
+                            href="{% url 'articles:view' article.slug %}">{{ article.title_short }}</a>
+                        </p>
+                        <p class="mb-0 pt-2">
+                          <small class="text-light-grey pb-4">When: {{ article.date_created|date:"N j, Y" }}</small>
+                          <br>
+                          <small class="text-light-grey">By:
+                              {{ article.user.profile }}
+                          </small>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="dropdown-divider d-xl-none"></div>
+          <div class="contentbg rhc-wide-border px-3 mt-4 parks-rhc-max-width">
+            <h5 class="pt-3 pb-2 pl-2">
+              <strong>Recent reviews</strong>
+            </h5>
+            <div class="articles">
+              {% for review in recent_reviews %}
+              <a href="{% url 'park_reviews' review.park.slug %}?review={{ review.id }}">
+                <div class="card reviews mb-3 px-2 pt-2 pb-1">
+                  <div class="row no-gutters pb-2">
+                    <div class="col-4">
+                      <div class="photo-container-reviews">
+                        <img src="{{ review.user.profile.avatar.url }}" alt="...">
+                      </div>
+                    </div>
+                    <div class="col-8">
+                      <div class="card-body pr-0">
+                        <p class="card-title text-left text-truncate text-dark-grey">{{ review.title }}</p>
+                        <p class="mb-0 pt-2">
+                          <small class="text-light-grey pb-4">When: {{ review.date_created }}</small>
+                          <br>
+                          <small class="text-light-grey">Where: {{ review }}</small>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-12">
+                      <small class="text-light-grey">By:
+                          {{ review.user.profile }}
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              {% endfor %}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <style>
+    .slide-social-wrapper {
+      flex-direction: row;
+      display: flex;
+    }
+
+    .slide-social-icon {
+      width: 36px;
+      height: 36px;
+      border: 1px solid #999;
+      font-size: 20px;
+      display: flex;
+      border-radius: 18px;
+      justify-content: center;
+      align-items: center;
+      margin: 0 3px;
+      color: #666 !important;
+      opacity: .7;
+    }
+
+    .slide-social-icon:hover {
+      color: #666 !important;
+      opacity: 1;
+    }
+
+    .rhc-small-images {
+      max-width: 103px;
+      background-color: #fff;
+      -moz-box-shadow: 0 3px 10px rgba(0, 0, 0, .15);
+      -webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, .15);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, .15);
+      border: 1px solid #e9e3e1;
+    }
+
+    @media only screen and (max-width: 1200px) {
+      .parks-rhc-max-width {
+        max-width: 396px;
+      }
+    }
+  </style>
+  <script>
+    $(document).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
+  {% endblock %}

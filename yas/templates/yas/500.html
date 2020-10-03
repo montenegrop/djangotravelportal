@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% block title %} {{object}} - African Wildlife - Your African Safari  {% endblock %}
+{% block content %}
+<div class="container-fluid px-lg-5 max-width mt-4 mx-auto">
+  <div class="row px-md-5 px-2 justify-content-between">
+    <div class="col-md-6">
+      <h1>Well this is unexpected</h1>
+      <h5>Oops—500 something went wrong</h5>
+      <p class="pt-3 mb-1">Perhaps we can point you in the right direction:</p>
+      <ul>
+        <li><a href="{% url 'home' %}">Back to home page</a></li>
+        <li><a href="{% url 'articles:index' %}">Check out our latest blog</a></li>
+        <li><a href="{% url 'all_tour_operator' %}">Find a tour operator</a></li>
+        <li><a href="{% url 'all_tour_packages' %}">Find a tour package  </a></li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <div class="img-container-404">
+        <img src="{% static 'core/img/cheetah.png' %}" alt="Cheetah">
+      </div>          
+    </div>
+  </div>
+</div>
+{% endblock %}

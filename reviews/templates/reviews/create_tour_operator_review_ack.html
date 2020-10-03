@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+{% load fullurl %}
+{% block content %}
+<div class="spanning">
+  {% with main_text='Write a review' %}
+  {% endwith %}
+  <div>
+    <div class="wrap mw-780 mt-lg-0 mt-4 px-3">
+      <div class="border-grey p-3">
+        <h3 class="h3-sm">
+          Thank you for submitting your review
+        </h3>
+        <p>          
+          Your review will have to go through an approval process
+          before being published.
+        </p>
+
+        {% if similar_parks.count > 0 %}
+        <p class="mt-4">
+          <strong>Would you like to write a review for a nearby park as well:</strong>
+        </p>
+
+        <ul>
+          {% for similar_park in similar_parks %}
+          <li>
+            <a href="{% url 'reviews:park' pk=similar_park.pk %}">
+              {{ similar_park.name }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        <p>&nbsp;</p>
+        <a class="btn btn-green-primary" href="{% url 'tour_operator' slug=tour_operator.slug %}">
+          Back to {{ tour_operator.name }}
+        </a>
+      </div><!-- /.block-bordered -->
+    </div><!-- /.wrap -->
+  </div><!-- /.item-content -->
+</div><!-- /.spanning-columns -->
+
+{% endblock %}

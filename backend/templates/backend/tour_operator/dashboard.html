@@ -1,0 +1,90 @@
+{% extends 'backend/tour_operator/base.html' %}
+{% load static %}
+{% block backendcontent %}
+<!-- TOP 4 SQAURES-->
+<div class="row max-width-admin">
+  <div class="col-12 col-md-6">
+  {% include  'backend/tour_operator/widgets/where_to_start.html' %}
+</div>
+
+<div class="col-12 col-md-6">
+  <div class="row">
+    <div class="col-12 col-xl-6 d-flex justify-content-center">
+      <div class="card card-stats">
+        <div class="card-body ">
+          <div class="row" style="cursor: pointer;" onclick="goToWidgets()">
+            <div class="col-12">
+              <h4 class="card-title pb-2">Add your widget</h4>
+            </div>
+            <div class="col-12">
+              {% include 'backend/tour_operator/widgets/widget_placeholder.html' %}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-6 d-flex justify-content-center">
+      <div class="card card-stats">
+        <div class="card-body ">
+          <div class="row">
+            <div class="col-12">
+              <h4 class="card-title pb-2">Quote requests</h4>
+            </div>
+            <div class="col-12">
+              <div class="text-center">
+                <h4 class="card-title font-60 d-inline">{{ new_quote_requests }}</h4>
+                <span class="font-14">new</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer ">
+          <hr>
+          <a class="stats" href="#">Reply now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- {% include  'backend/tour_operator/widgets/top_package.html' %}
+  {% include  'backend/tour_operator/widgets/top_photo.html' %} -->
+
+<!-- END TOP 4 SQAURES-->
+
+<!-- <div class="row max-width-admin">
+  
+ {% include  'backend/tour_operator/widgets/visits.html' %} 
+</div>-->
+
+{% if worldtable|length != 0 %}
+<div class="row max-width-admin" style="right:0;">
+  <div class="col-md-12">
+    <div class="card ">
+      <div class="card-header ">
+        <h4 class="card-title">Geographic breakdown</h4>
+      </div>
+      <div class="card-body ">
+        <div class="row">
+          {% include  'backend/tour_operator/widgets/geo_breakdown.html' %}
+          {% include  'backend/tour_operator/widgets/worldmap.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+<script>
+  $(".nav-link.dashboard").addClass("active")
+</script>
+<script src="{% static 'backend/js/tour_operator/dashboard.js' %}?v=1"></script>
+
+<script type="application/javascript">
+            function goToWidgets() {
+            window.location = "{% url 'backend:tour_operator_widgets' %}";
+        }
+</script>
+
+{% endblock %}

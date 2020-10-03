@@ -1,0 +1,42 @@
+<VirtualHost *:80>
+    ServerName yas.crescente.com.ar
+    ServerAlias *.crescente.com.ar 
+    DocumentRoot /home/juan/yas/
+    # WSGIScriptAlias / /home/juan/yas/yas/wsgi.py
+    ProxyPass /static !
+    ProxyPass /media !
+    ProxyPass /.well-known/acme-challenge/ !
+    #SSLRequireSSL
+    ProxyPass / http://127.0.0.1:8001/
+    ProxyPassReverse / http://127.0.0.1:8001/
+    #RequestHeader set X-FORWARDED-PROTOCOL ssl
+    #RequestHeader set X-FORWARDED-SSL on
+    <directory /home/juan/yas/>
+        AllowOverride all
+        Require all granted
+        Options FollowSymlinks
+    </directory>
+    Alias /static /home/juan/yas/static/
+    Alias /media /home/juan/yas/media/
+    <Directory /home/juan/yas/static/>
+        Order allow,deny
+        Allow from all
+        Require all granted
+    </Directory>
+    <Directory /home/juan/yas/media/>
+        Order allow,deny
+        Allow from all
+        Require all granted
+    </Directory>
+    Alias /.well-known/acme-challenge/(.*)$ /var/lib/letsencrypt/http_challenges/$1
+    <directory /var/lib/letsencrypt/http_challenges>
+        Order allow,deny
+        Allow from all
+        Require all granted
+    </directory>
+    RewriteEngine on
+    RewriteCond %{SERVER_NAME} =yas.crescente.com.ar [OR]
+    RewriteCond %{SERVER_NAME} =*.crescente.com.ar
+    RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+</VirtualHost>
+

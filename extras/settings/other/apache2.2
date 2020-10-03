@@ -1,0 +1,21 @@
+<VirtualHost *:80>
+ ServerName yastest.crescente.com.ar
+ DocumentRoot /home/juan/yas/
+ WSGIScriptAlias / /home/juan/yas/yas/wsgi.py
+
+ # adjust the following line to match your Python path 
+ WSGIDaemonProcess yastest.crescente.com.ar processes=2 threads=15 display-name=%{GROUP} python-home=/home/juan/yas/venv/bin/python
+ WSGIProcessGroup yastest.crescente.com.ar
+
+ <directory /home/juan/yas/>
+   AllowOverride all
+   Require all granted
+   Options FollowSymlinks
+ </directory>
+
+ Alias /static/ /home/juan/yas/static/
+
+ <Directory /home/juan/yas/static>
+  Require all granted
+ </Directory>
+</VirtualHost>

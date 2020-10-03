@@ -1,0 +1,736 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% block title %} {{ object }} {% endblock %}
+{% block extrahead %}
+<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}"></script>
+<script src="{% static '@google/markerwithlabel/src/markerwithlabel_packed.js' %}"></script>
+<link href="{% static 'operators/css/tour_package.css' %}" type="text/css" media="all" rel="stylesheet">
+<script src="{% static 'operators/js/tour_package.js' %}"></script>
+
+{% endblock %}
+{% block content %}
+<style>
+  .tp-img-container {
+    background-image: url("{{ itinerary.image|thumbnail_url_:'crop_790_400' }}");
+    height: 400px;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover
+  }
+
+  #quick-to-reply-banner img {
+    max-width: 100px;
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+  }
+
+  #quick-to-reply-banner {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(241, 239, 216, 1) 35%, rgba(241, 239, 216, 1) 100%);
+    height: 35px;
+    border-radius: 3px;
+    width: 330px;
+  }
+
+  #operator-logo-container {
+    width: 180px;
+    height: 100px;
+    margin: auto;
+    overflow: hidden;
+  }
+
+  .operator-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  /* Button heart */
+  #heart-TP-page {
+    font-size: 2.2em !important;
+  }
+
+  .fa-heart {
+    color: #DC7403;
+  }
+
+  .vl {
+    height: 100%;
+    width: 1px;
+    border: 0.5px solid #979797;
+    opacity: 0.4;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: -100;
+    position: absolute;
+    top: 0;
+    left: 50%;
+  }
+
+  #lastLine {
+    height: 120px;
+  }
+
+  .vl-sm {
+    height: 100%;
+    width: 1px;
+    border: 0.5px solid #979797;
+    opacity: 0.4;
+    z-index: -100;
+    position: absolute;
+    left: 50%;
+  }
+
+  .card-lhc {
+    margin-bottom: 20px;
+    margin-top: 70px
+  }
+
+  .card-rhc {
+    margin-top: 50px;
+  }
+
+  @media screen and (min-width: 576px) {
+    .card-lhc {
+      margin-top: 0px;
+    }
+
+    .card-rhc {
+      margin-top: 100px;
+    }
+  }
+
+  .circle-rhc {
+    margin-top: 50px;
+  }
+
+  /* .day-circle {
+    background: #FFFFFF;
+    border: 1px solid #D5D5D5;
+    border-radius: 50%;
+    font-size: 12px;
+    color: #979797;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  } */
+
+  @media (min-width: 576px) {
+    .collapse.dont-collapse-sm {
+      display: block;
+      height: auto !important;
+      visibility: visible;
+    }
+  }
+
+  /* Cards */
+  .shadow-featured {
+    box-shadow: 0rem 0rem 1rem 0.1rem #AB6700;
+    width: 340px;
+    height: 537px;
+  }
+
+  .tourpackage-featured-banner {
+    position: relative;
+    width: 110px;
+    height: 34px;
+    bottom: 160px;
+    right: 14px;
+    background-color: #4B5320;
+    color: #ffffff;
+    border-radius: 2px 2px 2px 0px;
+  }
+
+  .tourpackage-featured-banner::before {
+    content: "";
+    width: 30px;
+    height: 30px;
+    background: #4B5320;
+    position: absolute;
+    bottom: -49%;
+    left: -14%;
+    -webkit-clip-path: polygon(52% 45%, 96% 75%, 96% 45%);
+    clip-path: polygon(52% 45%, 96% 75%, 96% 45%);
+  }
+
+  .border-featured {
+    border: 2px solid #AB6700 !important;
+  }
+
+  .shadow-featured-banner {
+    filter: drop-shadow(0.2rem 0.2rem 0.13rem rgba(0, 0, 0, 0.452)) !important;
+  }
+
+  #featured-card {
+    position: relative;
+    bottom: 50px;
+  }
+
+  #yasscore {
+    width: 55px;
+    height: 55px;
+    position: relative;
+    top: 50px;
+  }
+
+  #tour-package-image {
+    max-height: 178px;
+    min-height: 178px;
+    overflow: hidden;
+  }
+
+  #tour-package-image img {
+    width: 100%;
+    height: auto;
+  }
+
+  .fa-hiking {
+    position: relative;
+    left: 3px;
+  }
+
+  #flags {
+    position: relative;
+    bottom: 3px;
+  }
+
+  #flags>img {
+    width: 25px;
+  }
+
+  /* Cards */
+  #tourpackage-card-size {
+    width: 340px;
+    max-height: 460px;
+  }
+
+  @media only screen and (max-width: 375px) {
+    #tourpackage-card-size {
+      width: 340px;
+      max-height: 450px;
+    }
+  }
+
+  #tourpackage-card-size h5.card-title {
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    max-height: 48px;
+    overflow-y: hidden;
+  }
+
+  #card-padding {
+    position: relative;
+    bottom: 50px;
+  }
+
+
+  #heart-TP-card {
+    bottom: 160px;
+    right: 14px;
+    font-size: 2.2em !important;
+  }
+
+  .caret-rotate {
+    transform: rotate(180deg);
+  }
+
+
+  /* card line and number circles */
+  .day-circle-right::before {
+    right: -4.5em;
+  }
+
+  .day-circle-left::before {
+    left: -4.5em;
+  }
+
+  body {
+    counter-reset: day-counter;
+  }
+
+  .day-circle {
+    counter-increment: day-counter;
+  }
+
+  .day-circle::before {
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+    position: absolute;
+    content: "Day "counter(day-counter);
+    background: #FFFFFF;
+    border: 1px solid #D5D5D5;
+    border-radius: 50%;
+    font-size: 12px;
+    color: #979797;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-border-right::before {
+    content: "";
+    border: 1.25px solid #D5D5D5;
+    position: absolute;
+    right: -2.35em;
+    height: 80%;
+    max-height: 100px !important;
+    z-index: -100;
+    border-width: thin;
+  }
+
+  .card-border-left::before {
+    content: "";
+    border: 1.25px solid #D5D5D5;
+    position: absolute;
+    left: -2.35em;
+    height: 130%;
+    z-index: -100;
+    border-width: thin;
+  }
+
+  .last-card-border::before {
+    height: 40%;
+    top: -30%;
+  }
+
+  .one-card-border::before {
+    height: 0;
+  }
+
+  .second-last-card-border::before {
+    max-height: 100%;
+  }
+
+  @media screen and (max-width: 576px) {
+    .one-card-border::before {
+      height: 0 !important;
+      min-height: 50% !important;
+
+    } 
+    .second-last-card-border::before {
+      max-height: 125%;
+    }
+
+    .day-circle-right::before {
+      left: 50%;
+      top: -4.5em;
+      margin-left: -1.75em;
+    }
+
+    .card-border-right::before {
+      left: 50%;
+      height: 120%;
+      top: -1em;
+      width: 1px;
+      max-height: none !important;
+      min-height: 140px;
+    }
+
+    .day-circle-left::before {
+      left: 50%;
+      top: -4.5em;
+      margin-left: -1.75em;
+    }
+
+    .card-border-left::before {
+      left: 50%;
+      height: 160%;
+      top: -1em;
+      width: 1px;
+      min-height: 140px;
+    }
+
+    .last-card-border::before {
+      height: 40%;
+      min-height: 0;
+    }
+  }
+
+  .get-quote-btn {
+    width: 125px;
+  }
+</style>
+
+<div class="container-fluid px-lg-5 max-width mt-4 pt-3 pt-sm-0 mx-auto">
+  <div class="row px-md-5 px-2 justify-content-between pt-sm-3 pt-0 pt-md-2 pt-lg-0">
+    <div class="col-xl-8 pr-xl-5 col-lg-12">
+      <h1 class="h1-sm">
+        <strong>
+          {{ itinerary }}
+        </strong>
+      </h1>
+      <h2 class="h2-sm">
+        {{ itinerary.title_short }}
+      </h2>
+    </div>
+
+    <div class="col-xl-4 col-12 pt-xl-2">
+      <div class="d-flex justify-content-between pb-xl-3 pb-2">
+        {% if itinerary.min_price %}
+        <div>
+          <h5 class="d-inline h5-sm">
+            {% if not itinerary.max_price %}From{% endif %}
+            <h3 class="font-weight-bold d-inline h3-sm">{{ itinerary.price_display }}</h3>pp
+          </h5>
+        </div>
+        {% endif %}
+        <div class="pt-1 ml-auto">
+          {% if itinerary.is_fav_ %}
+          <i onclick="add_tour_package_fav(this, {{ itinerary.pk }})" class="far fa-heart fas pointer"
+            id="heart-TP-page"></i>
+          {% else %}
+          <i onclick="add_tour_package_fav(this, {{ itinerary.pk }})" class="far fa-heart  pointer"
+            id="heart-TP-page"></i>
+          {% endif %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-sm-3 mt-2">
+          <a href="{% url 'package_quote' itinerary_pk=itinerary.pk slug=itinerary.slug %}"
+            class="btn  btn-orange get-quote-btn z-10 position-relative">Get quote</a>
+        </div>
+        <div class="col col-xl-12 d-flex  align-items-center justify-content-sm-end justify-content-xl-start">
+          {% if itinerary.tour_operator.quick_to_respond %}
+          <div id="quick-to-reply-banner" class="d-flex align-items-center my-2">
+            <img class="d-inline" src="{% static 'operators/img/quick.png' %}" />
+            <span class="col font-12px">Quick to reply to quote requests!</span>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+    <div class="col-xl-8 pr-xl-5 col-lg-12">
+      <!-- tabs -->
+      <div class="tour-tab tab clearfix">
+        <ul class="nav mt-2 mb-1 tabs" id="pills-tab" role="tablist">
+          <li class="nav-item py-0" role="presentation">
+            <a class="nav-link active" id="pills-summary-tab" data-toggle="pill" href="#pills-summary" role="tab"
+              aria-controls="pills-summary" aria-selected="true">Summary</a>
+          </li>
+          <li class="nav-item py-0" role="presentation">
+            <a class="{% if itinerary.needs_update %} disabled {% endif %} nav-link" id="pills-dayByDay-tab" data-toggle="pill" href="#pills-dayByDay" role="tab"
+              aria-controls="pills-dayByDay" aria-selected="false" {% if itinerary.needs_update %}aria-disabled="true"{% endif %} >Day by day</a>
+          </li>
+          <li class="nav-item py-0" role="presentation">
+            <a class="nav-link " id="pills-moreTours-tab" data-toggle="pill" href="#pills-moreTours" role="tab"
+              aria-controls="pills-moreTours" aria-selected="false"
+               >All tours <em
+                class="font-weight-light font-11">({{ all_tours_count }})</em></a>
+          </li>
+        </ul>
+      </div>
+      <!-- end tabs -->
+
+      <div class="tab-content" id="pills-tabContent">
+        <!-- summary -->
+        <div class="tab-pane fade show active" id="pills-summary" role="tabpanel" aria-labelledby="pills-summary-tab">
+          <div class="tp-img-container mb-3">
+          </div>
+          <h2 class="h2-sm">Safari summary</h2>
+          {{ itinerary.summary }}
+          <hr class="my-4">
+          <h2 class="h2-sm">About this tour</h2>
+          <div class="row pb-3">
+            <div class="col-sm-6"><i class="fas fa-user-friends pr-1"></i>{{ itinerary.itinerary_type }}</div>
+            <div class="col-sm-6"><i
+                class="fas fa-battery-{{ battery_level }} pr-1"></i>{{ itinerary.activity_level_name }}
+              activity</div>
+          </div>
+          <div class="pb-3">
+            <h5 class="d-inline">Main focus: </h5>
+            <p class="d-inline">{{ itinerary.safari_focus_activity }}</p>
+          </div>
+          <div>
+            <h5 class="d-inline">Best months:</h5>
+            {% for month in itinerary.months.all %}
+            <p class="d-inline">{{ month }}{% include "./comma.html" %}</p>
+            {% endfor %}
+          </div>
+          <hr class="my-4">
+          {% if itinerary.secondary_focus_activity.exists %}
+          <h2 class="h2-sm">Fine details</h2>
+          <h5>Safari highlights</h5>
+          <ul class="pl-3 pb-2">
+            {% for activity in itinerary.secondary_focus_activity.all %}
+            <li>{{ activity }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+          <h5>Countries visited</h5>
+          <div class="row pb-3">
+            {% for country in itinerary.country_indexes.all %}
+            <div class="col-sm-3">
+              <img class="list-flag mb-1" src="{{ country.flag.url }}" alt="country.name">
+              {{ country.name }}
+            </div>
+            {% endfor %}
+          </div>
+          <h5>Parks visited</h5>
+          <div class="row pb-3">
+            {% for park in itinerary.parks.all %}
+            <div class="col-sm-3">{{ park.name_short }}</div>
+            {% endfor %}
+          </div>
+          {% if itinerary.inclusions.all %}
+          <h5>What’s included?</h5>
+          <div class="row pb-3">
+            {% for inclusion in itinerary.inclusions.all %}
+            <div class="col-sm-3">{{ inclusion.name }}</div>
+            {% endfor %}
+          </div>
+          {% endif %}
+          {% if itinerary.exclusions.all %}
+          <h5>What’s not included?</h5>
+          <div class="row pb-3">
+            {% for exclusion in itinerary.exclusions.all %}
+            <div class="col-sm-3">{{ exclusion.name }}</div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        <!-- end summary -->
+
+        <!-- day by day -->
+        <div class="tab-pane fade" id="pills-dayByDay" role="tabpanel" aria-labelledby="pills-dayByDay-tab">
+          <div class="mb-3">
+            <div class="container px-0" style="padding-bottom: 15px">
+
+              <div id="map-canvas"></div>
+              <script>
+                var parks = {{ parks_data | safe }};
+                var country = {{ country_data | safe }};
+                initMap()
+              </script>
+            </div>
+          </div>
+          <h2 class="h2-sm pb-3">Itinerary</h2>
+          {% for day in itinerary_days %}
+          {% if forloop.counter0|divisibleby:2 %}
+          <div class="row">
+            {% endif %}
+            <div class="col-12 col-sm-6">
+              <div
+                class="card {% cycle 'card-lhc day-circle-right mr-sm-3' 'card-rhc day-circle-left ml-sm-3' %} day-circle">
+                <div class="day-card card-body shadow {% cycle 'card-border-right' 'card-border-left' %}">
+                  <h5 class="card-title">{{ day.title }}</h5>
+
+                  <div class="collapse show dont-collapse-sm" id="collapseDayByDay{{ day.day_number }}">
+
+
+                    {% if day.parks.count > 0 %}
+                    <p>
+                      <i class="fas fa-tree"></i>
+                      {% for park in day.parks.all %}
+                      {{ park.name_short }}
+                      {% if not forloop.last %} |{% endif %}
+                      {% endfor %}
+                    </p>
+                    {% endif %}
+                    <p class="card-text font-12px">{{ day.description }}</p>
+                    <p class="mb-0">
+                      {% if day.lodging %}
+                      <i class="fas fa-campground"></i>
+                      {{ day.lodging }}
+                      {% endif %}
+                    </p>
+                  </div>
+                  <i class="caret pointer fas fa-angle-up text-center d-block d-sm-none" data-toggle="collapse"
+                    href="#collapseDayByDay{{ day.day_number }}" role="button" aria-expanded="false"
+                    aria-controls="collapseDayByDay{{ day.day_number }}"></i>
+                </div>
+              </div>
+            </div>
+            {% if forloop.counter|divisibleby:2 or forloop.last %}
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+        <!-- end day by day -->
+
+        <!-- all tours-->
+        <div class="tab-pane fade" id="pills-moreTours" role="tabpanel" aria-labelledby="pills-moreTours-tab">
+          <p class="mb-0 pb-0 pt-2">Here are the latest {% if all_tours_count > 6 %}6{% endif %} tours by
+            {{ operator.name }}. {% if all_tours_count > 6 %}<a
+              href="{% url 'all_tour_packages_operator' operator=operator.slug %}">
+              See all {{ all_tours_count }}
+              tours.</a>{% endif %}</p>
+
+
+          <!--Cards-->
+          <section class="container-fluid p-0 pt-3">
+            <div class="d-flex row justify-content-xl-around justify-content-md-between justify-content-around">
+              {% for tour in related_tours %}
+              <div class="card shadow-sm bg-white rounded mx-3 col-l mb-5" id="tourpackage-card-size">
+                <div>
+                  <div class="container-fluid px-0 position-relative">
+                    <div class="row mb-n4">
+                      <div id="tour-package-image" class="col-12">
+                        <img src="{{ tour.image|thumbnail_url_:'card' }}" alt="Tour package image">
+                      </div>
+                      {% if tour.is_featured %}
+                      <div id="featured" class="col-6">
+                        <div class="shadow-featured-banner ">
+                          <div class="tourpackage-featured-banner align-items-center d-flex">
+                            <p class="my-auto mx-auto">Featured</p>
+                          </div>
+                        </div>
+                      </div>
+                      {% endif %}
+                      <div class="col-12 text-right pointer position-absolute top-0 right-0 px-0 mx-0 pt-2">
+                        {% if tour.is_fav_ %}
+                        <i onclick="add_tour_package_fav(this, {{ tour.pk }})" class="far fa-heart fas pointer"
+                          id="heart-TP-page"></i>
+                        {% else %}
+                        <i onclick="add_tour_package_fav(this, {{ tour.pk }})" class="far fa-heart  pointer"
+                          id="heart-TP-page"></i>
+                        {% endif %}
+
+                      </div>
+                    </div>
+                  </div>
+                  <h5 class="card-title text-center font-weight-bold olive-green">{{ tour.title_short }}</h5>
+                  <div class="text-center font-12 text-light-grey font-weight-light">
+                    From <span class="font-weight-bold">{{ tour.min_price }}</span> pp
+                  </div>
+                  <div class="mx-2">
+                    <div class="text-center font-12 border border-grey-thin mt-2 py-2">
+                      {{ tour.serialized }}
+                    </div>
+                    <div class="text-dark-grey mt-3 font-12">
+                      <p class="my-2"><span class="font-weight-bold">Tour by:</span> {{ operator.name }}</p>
+                      <p class="font-weight-bold d-inline my-2">Countries:</p>
+                      <div class="d-inline">
+                        {% for country in tour.country_indexes.all %}
+                        {#                              Neil I added class="list-flag mb-1" to Img below#}
+                        <img class="list-flag mb-1" src="{{ country.flag.url }}" alt="{{ country.name }} flag"
+                          data-toggle="tooltip" data-placement="top" title="{{ country.name }}">
+                        {% endfor %}
+                      </div>
+                      <p class="my-2"><span class="font-weight-bold">Focus:</span>
+                        {{ tour.safari_focus_activity }}</p>
+                    </div>
+                  </div>
+                  <div class="row justify-content-center mt-3 mb-2">
+                    <a class="btn btn-orange-secondary font-14 py-1 mb-3" role="button"
+                      href="{% url 'tour_package' pk=tour.id slug=tour.id %}">Learn
+                      more
+                    </a>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+          </section>
+          {% if all_tours_count > 6 %}<p class="text-center"><a
+              href="{% url 'all_tour_packages_operator' operator=operator.slug %}">See all {{ all_tours_count }}
+              tours</a></p>
+          {% endif %}
+        </div>
+        <!-- end all tours-->
+      </div>
+    </div>
+
+    <!-- rhc-->
+    <div class="col-xl-4 col-12 pt-4 pt-sm-0 mt-2">
+      <div class="dropdown-divider d-xl-none parks-rhc-max-width"></div>
+      <div class="contentbg rhc-yasscore-border px-3 parks-rhc-max-width pb-2 ">
+        <div class="row">
+          <h5 class="border-bottom pt-2 col-12 text-center">Tour offered by:</h5>
+          <div class="col-12 container mt-2">
+            <div id="operator-logo-container">
+              <a href="{% url 'tour_operator' slug=operator.slug %}">
+                <img class="card-img-top rounded operator-logo mx-auto" src="{{ operator.logo.url }}"
+                  alt="{{ operator.name_short }}" id="operator-logo">
+              </a>
+            </div>
+          </div>
+          <div class="col-10 px-0 offset-3 my-auto">
+            <div class="d-inline font-h4 font-weight-bold">Y<span class="orange">A</span>S score:
+              {{ operator.yas_score }}/100
+            </div>
+            <i class="far fa-question-circle mr-1  d-inline" data-trigger="hover" data-toggle="popover"
+              data-placement="bottom"
+              data-content="YAScore is a weighted average of 20 metrics including years in business, quality and quantity of reviews, and how quickly tour operator responds to quote requests."></i>
+            <div class="d-block font-12">Based on {{ operator.reviews_count }} reviews</div>
+          </div>
+        </div>
+        <hr class="mx-3 mt-md-1 mt-2 border border-grey">
+        <span>Overall rating</span>
+        <span class="yellow font-h5 float-right">
+          {{ tour_reviews_average | star_rating | safe }}
+        </span><br>
+        <span>Caliber of guide</span>
+        <span class="yellow font-h5 float-right">
+          {{ tour_safari_quality_reviews_average | star_rating | safe }}
+        </span><br>
+        <span>Cleanliness of vehicle</span>
+        <span class="yellow font-h5 float-right">
+          {{ tour_vehicle_reviews_average | star_rating | safe }}
+        </span><br>
+        <span>Meet and greet team</span>
+        <span class="yellow font-h5 float-right">
+          {{ tour_meet_and_greet_reviews_average | star_rating | safe }}
+        </span><br>
+        <span>Quality of itinerary</span>
+        <span class="yellow font-h5 float-right">
+          {{ tour_itinerary_quality_reviews_average | star_rating | safe }}
+        </span><br>
+        <span>Responsiveness of staff</span>
+        <span class="yellow font-h5 float-right">
+          {{ tour_responsiveness_reviews_average | star_rating | safe }}
+        </span><br>
+      </div>
+    </div>
+    <!-- end rhc-->
+  </div>
+</div>
+
+
+<script>
+  // change heart colour
+  function heartChange(x) {
+    x.classList.toggle("fas");
+  }
+
+  // rotate carets
+  const caret = document.querySelectorAll(".caret");
+  caret.forEach(function (e) {
+    e.addEventListener("click", function () {
+      this.classList.toggle("caret-rotate")
+    });
+  });
+
+  // last day card line length
+  const dayCards = document.querySelectorAll(".day-card"),
+    lastCard = dayCards[dayCards.length - 1],
+    secondLastCard = dayCards[dayCards.length - 2]
+
+  const restrictLineLength = () => {
+    if (lastCard && dayCards.length === 1) {
+      lastCard.classList.add("one-card-border");
+    }
+    else if (lastCard && dayCards.length > 1) {
+      lastCard.classList.add("last-card-border");
+      secondLastCard.classList.add("second-last-card-border");
+    }
+  }
+  restrictLineLength();
+</script>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+<div class="contentbg rhc-wide-border px-0 px-sm-3 mt-4 parks-rhc-max-width">
+  <div class="dropdown-divider d-xl-none"></div>
+    <h5 class="pt-3 pb-2">
+        <strong>Latest articles</strong>
+    </h5>
+    <div class="articles">
+        <a>
+            <div class="card reviews mb-3 px-2 pt-2 pb-1">
+                <div class="row no-gutters pb-2">
+                    <div class="col-4">
+                        <div class="photo-container-reviews">
+                            <a href="{% url 'articles:view' slug=tour_articles.0.slug %}">
+                                <img src="{{ tour_articles.0.image|thumbnail_url_:'crop_150' }}" alt="...">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="card-body pr-0">
+                            <p class="card-title text-left text-truncate"><a
+                                    href="{% url 'articles:view' slug=tour_articles.0.slug %}">{{ tour_articles.0.title_short }}</a></p>
+                            <p class="mb-0 pt-2">
+                                <small class="text-light-grey pb-4">When: {{ tour_articles.0.date_created|date:"N j, Y" }}</small>
+                                <br>
+                                <small class="text-light-grey">By: {{ tour_articles.0.user.profile.screen_name }}</small>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+        <div class="collapse" id="collapseArticles">
+            {% for article in tour_articles|slice:"1:" %}
+                <a>
+                    <div class="card reviews mb-3 px-2 pt-2 pb-1">
+                        <div class="row no-gutters pb-2">
+                            <div class="col-4">
+                                <div class="photo-container-reviews">
+                                    <a href="{% url 'articles:view' slug=article.slug %}">
+                                        <img src="{{ article.image|thumbnail_url_:'crop_150' }}" alt="...">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div class="card-body pr-0">
+                                    <p class="card-title text-left text-truncate"><a
+                                            href="{% url 'articles:view' slug=article.slug %}">{{ article.title_short }}</a></p>
+                                    <p class="mb-0 pt-2">
+                                        <small class="text-light-grey pb-4">When: {{ article.date_created|date:"N j, Y" }}</small>
+                                        <br>
+                                        <small class="text-light-grey">By: {{ article.user.profile.screen_name }}</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% if tour_articles_total > 1 %}
+        <a href="#collapseArticles" data-toggle="collapse" role="button"
+           class="my-2 d-block text-center articles-show-more">
+            See more ({{ tour_articles_total }})
+        </a>
+
+        <a href="#collapseArticles" data-toggle="collapse" role="button"
+           class="my-2 text-center articles-show-more d-none">
+            See less
+        </a>
+    {% endif %}
+
+</div>

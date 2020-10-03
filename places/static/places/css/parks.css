@@ -1,0 +1,249 @@
+.no-hover {
+    pointer-events: none;
+}
+
+.focused{
+  box-shadow: 10px 15px 25px rgba(171, 103, 0, 0.7);
+  }
+  
+.comment {
+    max-width: 800px;
+}
+
+a.morelink {
+    text-decoration: none;
+    outline: none
+}
+
+.morecontent span {
+    display: none
+}
+
+.close {
+    color: #fff;
+    opacity: 1;
+}
+
+.exchange-table {
+    width: 430px;
+}
+
+.popover {
+    max-width: 671px;
+}
+
+.popover-header {
+    padding: 0;
+    border-bottom: none;
+    font-size: unset;
+}
+
+
+.popup-country {
+    top: auto;
+    bottom: 100%;
+    position: absolute;
+    display: none;
+    width: 490px;
+    min-height: 233px;
+    z-index: 600;
+    background: #fff;
+    border-radius: 2px;
+    -moz-box-shadow: 0 3px 30px 0 rgba(62, 63, 62, .5);
+    -webkit-box-shadow: 0 3px 30px 0 rgba(62, 63, 62, .5);
+    box-shadow: 0 3px 30px 0 rgba(62, 63, 62, .5);
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.popup-country .co-title {
+    min-height: 42px;
+    padding: 14px 20px;
+    line-height: 1.3;
+    border-radius: 2px;
+    background-color: #ffce52;
+    -moz-box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, .15);
+    -webkit-box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, .15);
+    box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, .15);
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.popup-country .popup-description {
+    padding: 20px;
+}
+
+[class^=icon-], [class*=" icon-"] {
+    font-family: icomoon !important;
+    speak: none;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.popup-country .popup-description {
+    padding: 20px;
+}
+
+.popup-country .co-title .close {
+    position: absolute;
+    right: 20px;
+    font-size: 10px;
+    top: 12px;
+    line-height: 2;
+}
+
+.vaccinations-box a {
+    color: #73ae3a;
+}
+
+.vaccinations-box td, .vaccinations-box a {
+    font-size: 14px;
+    font-weight: 600;
+    color: #7c8082;
+}
+
+.popup-country a {
+    color: #73ae3a;
+    cursor: pointer;
+    background: 0 0;
+    text-decoration: none;
+}
+
+.popup-country .popup-description li {
+    position: relative;
+    width: 0;
+    margin-bottom: 0;
+    margin-right: 3px;
+    float: none;
+    font-size: 13px;
+    line-height: 1.53846154;
+    color: #73ae3a;
+    font-weight: 600;
+}
+
+.popup-country .popup-description p {
+    display: inline;
+    font-size: 13px;
+    color: #7c8082;
+    font-weight: 600;
+}
+
+
+.popup-country .popup-description ul, .popup-country .popup-description li {
+    display: inline;
+}
+
+.safari-info ul {
+    display: inline-block;
+}
+
+.popup-country ul, .popup-country ol {
+    list-style: none;
+}
+
+
+.popup-country p {
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+
+/* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+#map-canvas {
+    height: 10%;
+    min-height: 250px;
+    width: 100%;
+    max-height: 350px;
+}
+
+#review-btn {
+  max-height: 40px;
+  max-width: 140px;
+}
+
+li::marker {
+  font-size: 8px;
+  display: flex;
+}
+
+.map-image {
+    max-width: 100%;
+    width: 100%;
+}
+
+#parks-text {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#kudu-button {
+    background-color: none;
+    border: 1px solid #6B6A24;
+}
+
+#kudu-button:hover {
+    background-color: none;
+    border: 1px solid #4B5320;
+}
+
+#kudu-button:active {
+    background-color: #4B5320;
+}
+
+.icon-tato:active {
+    color: white
+}
+
+.park-card-image {
+    min-width: 170px;
+    max-width: 170px;
+    width: 170px;
+    overflow: hidden;
+    height: 90px;
+}
+
+.park-card-image img {
+    display: block;
+    min-width: 100%;
+    max-width: initial;
+    height: 90px;
+}
+
+@media only screen and (max-width: 576px) {
+    .park-card-image {
+        min-width: 170px;
+        max-width: 100%;
+        width: 100%;
+        overflow: hidden;
+        height: 160px;
+    }
+
+    .park-card-image img {
+        height: 160px;
+    }
+}
+
+#reviewer-info {
+    min-width: 170px;
+    max-width: 170px;
+    width: 170px;
+}
+
+@media only screen and (max-width: 576px) {
+    #reviewer-info {
+        min-width: 50%;
+        max-width: 50%;
+        width: 50%;
+    }
+}
+
+

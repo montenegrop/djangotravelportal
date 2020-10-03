@@ -1,0 +1,35 @@
+{% for photo in object.photos %}
+    <div class="col-lg-4 col-sm-6 col-12">
+        <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+            <a data-width="{{ photo.image|width }}" data-height="{{ photo.image|height }}"
+               class="gallery_a fresco" href="{{ photo.image.url }}"
+               data-caption="{{ photo.get_description }}"
+               data-index="{{ forloop.counter0 }}" class="gallery_a fresco"
+               data-fresco-caption="{{ photo.get_description }}" data-fresco-id="{{ photo.id }}"
+               data-fresco-photo-url="{{ photo.photo_url }}"
+               data-fresco-title="{{ photo.title }}"
+               data-fresco-kudu-count="{{ photo.kudu_count }}"
+               data-fresco-options="ui: 'inside'"
+               data-caption="{{ photo.get_description }}" data-index="{{ forloop.counter }}"
+               data-fresco-group="unique_name">
+                <div id="animal-img-wrapper">
+                    <div style="background-image: url('{{ photo.image|thumbnail_url_:'crop_250' }}');"
+                         class="animal-photo img__wrap mx-auto"
+                         data-href='{{ photo.image.url }}'
+                         data-caption='{{ photo.get_description }}'>
+                        <div class="img__description">
+                            {% if photo.get_caption_excerpt %}
+                                <strong>{{ photo.get_caption_excerpt }} </strong>
+                            {% endif %}
+                            <p>
+                                {% autoescape off %}
+                                    {{ photo.get_description }}
+                                {% endautoescape %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </figure>
+    </div>
+{% endfor %}

@@ -1,0 +1,131 @@
+{% extends 'backend/tour_operator/base.html' %}
+{% load static %}
+{% block backendcontent %}
+<style>
+  @media screen and (max-width: 992px) {
+    .min-w-300px {
+      min-width: 300px;
+    }
+  }
+</style>
+<div class="row max-width-admin">
+  <div class="col-md-12">
+    <div class="card strpied-tabled-with-hover">
+      <div class="card-header ">
+        <h4 class="card-title">Manage your quote requests</h4>
+      </div>
+      <div class="card-body table-full-width table-responsive">
+        <table class="table table-striped-quote-request ">
+          <thead>
+            <th>Requested</th>
+            <th>From</th>
+            <th>Itinerary</th>
+            <th>Size</th>
+            <th>Start date</th>
+            <th>Length</th>
+            <th class="text-center text-nowrap">View more</th>
+          </thead>
+          <tbody>
+
+            {% for request in quote_requests %}
+
+            <tr class="quote_btn table-borderless {% if not request.seen %}font-weight-bold{% endif %}"
+              data-toggle="collapse" href="#request_{{ request.id }}" role="button" aria-expanded="false"
+              aria-controls="request_{{ request.id }}" data-id='{{ request.id }}' id="quote_{{ request.id }}">
+              <td class="text-nowrap">{{ request.date_created | date:"M. d, Y" }}</td>
+              <td class="text-nowrap">{{ request.name }}</td>
+              <td class="min-w-300px">{{ request.itinerary.title }}</td>
+              {% if request.party_size == '2' %}
+              <td class="text-nowrap">{{ request.party_size }} people</td>
+              {% else %}
+              <td class="text-nowrap">{{ request.party_size }} person{{ request.party_size|pluralize }}</td>
+              {% endif %}
+              <td class="text-nowrap">{{ request.date_trip | date:"M. d, Y" }}</td>
+              <td class="text-nowrap">{{ request.days }} day{{ request.days|pluralize }}</td>
+              <td class="text-center pointer"><b class="caret"></b></td>
+            </tr>
+            <tr class="collapse" id="request_{{ request.id }}">
+              <td colspan="12" class="border-top-0">
+                <table class="table border-bottom">
+                  <tbody>
+                    <tr class="table-borderless">
+                      <td scope="row" class="w-25">Sent on</td>
+                      <td class="text-light-grey">{{ request.date_modified | date:"M. d, Y" }}</td>
+                    </tr>
+                    <tr>
+                      <td scope="row" class="w-25">From</td>
+                      <td class="text-light-grey">{{ request.user.first_name }} {{ request.user.last_name }}
+                        &lt;{{ request.email }}&gt;
+                      </td>
+                    </tr>
+                    <tr>
+                      <td scope="row" class="w-25">Type of safari</td>
+                      <td class="text-light-grey">{{ request.itinerary_type }}</td>
+                    </tr>
+                    <tr>
+                      <td scope="row" class="w-25">Date of trip</td>
+                      <td class="text-light-grey">{{ request.date_trip | date:"M. d, Y" }}</td>
+                    </tr>
+                    <tr>
+                      <td scope="row" class="w-25">Length</td>
+                      <td class="text-light-grey">{{ request.days }} day{{ request.days|pluralize }}</td>
+                    </tr>
+                    <tr>
+                      <td scope="row" class="w-25">Party size</td>
+                      <td class="text-light-grey">{{ request.party_size }}</td>
+                    </tr>
+                    <tr>
+                      <td scope="row" class="w-25">Country</td>
+                      <td class="text-light-grey">{% for country in request.country_indexes.all %}
+                        {{ country.name }}{% include "places/park_inserts/comma.html" %}{% endfor %}</td>
+                    </tr>
+                    {% if request.itinerary %}
+                    <tr>
+                      <td scope="row" class="w-25">Regarding</td>
+                      <td class="text-light-grey">{{ request.itinerary.title_short }}</td>
+                    </tr>
+                    {% endif %}
+                    <tr>
+                      <td scope="row" class="w-25">Additional information</td>
+                      <td class="text-light-grey">{{ request.additional_information }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <a href="mailto:{{ request.email }}" target="_blank" class="btn btn-green-primary ml-3">Reply via
+                  email</a>
+                <p class="font-12 text-light-grey font-weight-light py-2 pl-3 border-bottom">Please note: Pressing
+                  reply will open your email client. If it does not work, you can copy the email address above.</p>
+              </td>
+            </tr>
+
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block afterfooter %}
+<script>
+  $(".nav-link.quote-requests").addClass("active")
+</script>
+<script>
+  $(".quote_btn").click(function () {
+    var ele = $(this)
+    var quote_id = ele.data('id')
+    $.ajax({
+      url: "/backend/tour_operator/quoterequest_update/" + quote_id,
+      type: 'GET',
+      success: function (result) {
+        ele.removeClass("font-weight-bold");
+      }
+    }
+    );
+  })
+</script>
+{% endblock %}

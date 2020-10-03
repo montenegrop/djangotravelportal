@@ -1,0 +1,23 @@
+{% for article in latest_articles %}
+    <div class="card blog-articles col-12 col-md-5 col-lg-3 mb-4 pb-0">
+        <a class="army-green" href="{% url 'articles:view' article.slug %}">
+            <img src="{{ article.image.url }}" class="card-img-top blog-img" alt="...">
+        </a>
+        <div class="card-body pt-1 pb-2 px-2">
+            <div class="d-flex justify-content-between">
+                <div>{{ categories_names|dict_key:article.pk }}</div>
+                <div class="date font-12 text-light-grey">{{ article.date_created|date:'F' }} {{ article.date_created|date:'Y' }}</div>
+            </div>
+            <h5 class="card-title d-flex align-items-center my-1">
+                <a class="army-green" href="{% url 'articles:view' article.slug %}">
+                    {{ article.title_short }}
+                </a>
+            </h5>
+            <p class="card-text">
+                {% autoescape off %}
+                    {{ article.content_no_script | striptags | truncatechars_html:100 }}
+                {% endautoescape %}
+            </p>
+        </div>
+    </div>
+{% endfor %}

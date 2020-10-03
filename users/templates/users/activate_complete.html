@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+{% load fullurl %}
+{% load static %}
+{% block title %}
+Activation complete
+{% endblock %}
+{% block content %}
+<div class="hero-image-container" style="background-image: url({% static 'core/img/male_lion_jgoetz.jpg' %});"></div>
+<div class="container-fluid px-md-5 max-width">
+  <div class="row mt-5 px-md-5 px-2 justify-content-between admin-content">
+    <div class="col-12">
+      <h1 class="h1-sm py-2">Thank you and welcome to Your African Safari</h1>
+      <h2 class="h2-sm">A little bit about us</h2>
+      <p>Your African Safari (YAS) was created by people who are passionate about the animals of Africa. It was created to help support, grow and nourish a healthy African wildlife population. The genesis of YAS was first and foremost for the preservation of Africa’s wild animals—that these voiceless creatures stand a chance of a long and healthy life, in their natural environments, free from the confines of zoos or other cages.
+      </p>
+      <h2 class="h2-sm">Here are some links to get you started</h2>
+      <ul>
+        <li><a href="{% url 'reviews:create' %}">Write a review</a></li>
+        <li><a href="{% url 'backend:member_profile' %}">Update my member profile</a></li>
+        <li><a href="{% url 'backend:member_photos' %}">Add some photos</a></li>
+        <li><a href="{% url 'terms-of-use' %}">Read our terms and conditions</a></li>      
+      </ul>
+      <a href="{% url 'join' %}">
+      <button type="button" class="btn btn-green-primary">Add my company to YAS
+        </button></a> 
+    </div>
+  </div>    
+</div>
+{% endblock %}

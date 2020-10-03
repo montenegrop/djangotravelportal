@@ -1,0 +1,266 @@
+{% extends 'core/base.html' %}
+{% block title %} {{ head.title }} {% endblock %}
+{% block meta_description %} {{ head.description }} {% endblock %}
+
+{% load static %}
+{% block extrahead %}
+
+{% endblock %}
+{% block content %}
+
+<head>
+  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
+  <link rel="stylesheet" href="{% static 'operators/css/all_tour_packages.css' %}?v=1">
+</head>
+<main class="container-fluid max-width" id='all_tour_packages'>
+  <div class="row">
+
+    <!--Filters-->
+    <section class="ml-3 pr-0 pt-3 col d-md-none d-lg-block d-none" id="filters">
+      <packages-filter
+        ref="filter1"
+        :custom_filters="custom_filters"
+        :excluded_slug="slug"
+        @change="changeFilter"
+        @remove-slug="removeSlug"
+        @change-slug="changeSlug"
+      ></packages-filter>
+    </section>
+
+    <section class="col">
+      <!--Title and sort by-->
+      <div class="container-fluid no-gutters">
+        <section class="container-fluid p-0 mb-4">
+          <div class="col mx-0">
+            <div class="row pt-2 pb-2">
+              <div class="col-lg">
+                <h1 class="h1-sm text-sm-left text-center font-weight-bold army-green">
+                  <span v-if="!slug">
+                  {{ head.header }}
+                  </span>
+                  <span v-else v-text="slug.value + ' safari tour packages'"></span>
+                  <span v-if="pagination.positions_total"
+                    class="font-weight-light h4 h4-sm army-green"
+                    v-text="'(' + pagination.positions_total + ')'"
+                  ></span>
+                </h1>
+              </div>
+              <div class="col-4 row align-items-center justify-content-end">
+                <p class="col-4 m-0 d-none d-lg-block d-xl-block text-right text-nowrap">Sort by:</p>
+                <select v-model="selected_order" id='ordering' class="col-6 custom-select d-none d-lg-block d-xl-block pointer">
+                  <option v-for="order in ordering"
+                    :key="order.value"
+                    :value="order.value"
+                    v-text="order.title"
+                  ></option>
+                </select>
+                <i class="far fa-question-circle mr-1 ml-2 d-lg-block d-none" data-trigger="hover" data-toggle="popover"
+                  data-placement="bottom" data-content="YAScore is a weighted average of 20 metrics including years in business, quality and quantity of reviews, and how quickly tour operator responds to quote requests."></i>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex row no-gutters align-items-center justify-content-between container-fluid">
+            <div class="d-flex align-items-center justify-content-between d-lg-none full-width">
+              <button class="btn btn-green-secondary font-weight-light text-light-grey d-md-block d-lg-none col-4" id="filter-btn"
+                type="button" data-toggle="modal" data-target="#filterModal">
+                Filter
+              </button>
+              <div class="text-right">
+                <select v-model="selected_order" class="custom-select">
+                  <option v-for="order in ordering"
+                    :key="order.value"
+                    :value="order.value"
+                    v-text="order.title"
+                  ></option>
+                </select>
+                <i class="far fa-question-circle mr-1 ml-2 d-lg-none" style="position: absolute;" data-trigger="hover" data-toggle="popover"
+                data-placement="bottom" data-content="YAScore is a weighted average of 20 metrics including years in business, quality and quantity of reviews, and how quickly tour operator responds to quote requests."></i>
+              </div>
+            </div>
+            <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalTitle"
+              aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title pl-3" id="filterModalTitle">Filters</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <!--Filters for mobile-->
+                  <div class="modal-body">
+                    <section class="mx-auto col">
+                      <packages-filter
+                        ref="filter2"
+                        :custom_filters="custom_filters"
+                        :excluded_slug="slug"
+                        @change="changeFilter"
+                        @remove-slug="removeSlug"
+                        @change-slug="changeSlug"
+                      ></packages-filter>
+                    </section>
+                  </div>
+                  <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn olive-green" @click="clearFilters" data-dismiss="modal">Clear all</button>
+                    <button type="button" class="btn ml-3 btn-green-primary" data-dismiss="modal">Apply</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row no-gutters pt-2">
+            <div class="ml-3" id="selected-filters-all">
+              <p class="text-left text-dark-grey text-nowrap mr-2 mb-0">Selected filters:</p>
+              <a @click="clearFilters" class="text-light-grey font-weight-light mb-0">Clear all</a>
+            </div>
+            <div class="col-md-7 col d-flex flex-wrap" id="selected-filters">
+              <badge-filter v-for="filter in custom_filters"
+                :filter="filter"
+                @remove="removeFilter"
+              ></badge-filter>
+              <badge-filter v-if="slug"
+                :filter="slug"
+                @remove="removeSlug"
+              ></badge-filter>
+            </div>
+            <div class="col-12 col-md px-3">
+              <p v-if="pagination.positions_on_page" class="text-sm-right text-left text-dark-grey text-nowrap">
+                <span v-text="pagination.showing_from"></span>
+                -
+                <span v-text="pagination.showing_to"></span>
+                safari tour packages
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!--Cards-->
+        <section class="container-fluid p-0 mt-md-0 mt-4">
+
+          <!-- Контейнер туров -->
+          <div v-if="is_loading" class="d-flex row justify-content-around" style="margin-bottom: 30px;">
+            <div class="vld-icon"><svg viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg" width="64" height="64"
+                stroke="#000">
+                <g fill="none" fill-rule="evenodd">
+                  <g transform="translate(1 1)" stroke-width="2">
+                    <circle stroke-opacity=".25" cx="18" cy="18" r="18"></circle>
+                    <path d="M36 18c0-9.94-8.06-18-18-18" transform="rotate(126.708 18 18)">
+                      <animatetransform attributeName="transform" type="rotate" from="0 18 18" to="360 18 18" dur="0.8s"
+                        repeatCount="indefinite"></animatetransform>
+                    </path>
+                  </g>
+                </g>
+              </svg></div>
+          </div>
+          <div v-else class="d-flex row justify-content-around">
+
+            <tour v-for="tour in tourpackages"
+                  :key="tour.id"
+                  :tour="tour"
+            >
+            </tour>
+          </div>
+        </section>
+
+        <pagination 
+          :pagination="pagination"
+          :current_page="current_page"
+          scroll_to="#all_tour_packages h1"
+          @goto="current_page=$event; load();"
+        ></pagination>
+      </div>
+    </section>
+</main>
+
+<script>
+  $('span').popover({
+    trigger: 'manual'
+  });
+  $(document).ready(function () {
+    $('span').popover('show');
+
+  });
+  $("html").on("mouseup", function (e) {
+    var l = $(e.target);
+    if (l[0].className.indexOf("popover") == -1) {
+      $(".popover").each(function () {
+        $(this).popover("hide");
+      });
+    }
+  });
+  $(".navbar-tour-packages").addClass("active");
+</script>
+
+
+<script>
+  $(function () {
+    $("[data-toggle=popover]").popover({
+      html: true,
+      content: function () {
+        var content = $(this).attr("data-popover-content");
+        return $(content).children(".popover-body").html();
+      },
+      /*title: function() {
+      var title = $(this).attr("data-popover-content");
+      return $(title).children(".popover-heading").html();
+              }*/
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+    $(".btn-default").click(function () {
+      $("[data-toggle='popover']").popover('show');
+    });
+    $(".btn-primary").click(function () {
+      $("[data-toggle='popover']").popover('hide');
+    });
+  });
+</script>
+
+<!-- caret rotation -->
+<script>
+  const caretContainer = document.querySelectorAll(".caret-toggle");
+
+  caretContainer.forEach(function (i) {
+    const caret = i.querySelector(".caret");
+    i.addEventListener("click", function () {
+      caretContainer.forEach(function (item) {
+        if (item !== i) {
+          item.firstElementChild.firstElementChild.classList.remove("caret-rotate");
+        }
+      });
+      caret.classList.toggle("caret-rotate");
+    });
+  });
+</script>
+
+<script>
+  let filter_variants_country_and_park = {{ filter_variants_country_and_park | safe }};
+  let main_focus_activities = {{ main_focus_activities | safe }};
+  let second_focus_activities = {{ second_focus_activities | safe }};
+  let itinerary_types = {{ itinerary_types | safe }};
+  let server_slug = {{ slug | safe }};
+</script>
+
+{% include 'operators/tour_operator_includes/tour_component.vue.html' %}
+{% include 'operators/tour_operator_includes/filter_component_package.vue.html' %}
+{% include 'operators/tour_operator_includes/pagination_component.vue.html' %}
+
+<script src="{% static 'vue/dist/vue.min.js' %}"></script>
+<script src="{% static 'vue-router/dist/vue-router.min.js' %}"></script>
+<script src="{% static 'vue-select/dist/vue-select.js' %}"></script>
+<link rel="stylesheet" href="{% static 'vue-select/dist/vue-select.css' %}">
+<script src="{% static 'vue2-datepicker/index.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'vue2-datepicker/index.css' %}">
+<script src="{% static 'vue-slider-component/dist/vue-slider-component.umd.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'vue-slider-component/dist-css/vue-slider-component.css' %}">
+<link rel="stylesheet" href="{% static 'vue-slider-component/theme/antd.css' %}">
+
+<link rel="stylesheet" href="{% static 'operators/css/filters.css' %}">
+<script src="{% static 'operators/js/utils.js' %}"></script>
+<script src="{% static 'operators/js/filters.js' %}"></script>
+<script src="{% static 'operators/js/all_tour_packages.js' %}?v=1.1"></script>
+
+{% endblock %}

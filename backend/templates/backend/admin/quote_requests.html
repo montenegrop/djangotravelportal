@@ -1,0 +1,168 @@
+{% extends 'backend/admin/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block backendcontent %}
+<style>
+  .table-sm.table>thead>tr>th {
+    font-size: 0.7em;
+  }
+
+  .table-sm td {
+    font-size: 0.8em;
+  }
+
+  .photo img {
+    width: 30px;
+    height: auto;
+  }
+</style>
+<script type="application/javascript"  src="{% static 'daterangepicker/moment.min.js' %}"></script>
+
+<div class="row max-width-admin">
+  <div class="col-12">
+    <div class="filters card">
+      <div class="card-body">
+        <form novalidate class="form" action='.' method="GET">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-6">
+              {{ form.tour_operator | as_crispy_field}}
+            </div>
+          </div>
+          <div class='row'>
+            <div class="col-3">
+              {{ form.country_index | as_crispy_field}}
+            </div>
+            <div class="col-3">
+              {{ form.date_range | as_crispy_field}}
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-3">
+              {{ form.only_unseen | as_crispy_field}}
+            </div>
+          </div>
+          <!-- Button -->
+          <div class="row">
+            <div class="col-10">
+            </div>
+            <div class="col-2">
+              <div class="form-group">
+                <input value='Filter' type="submit" class="btn btn-success" id="submit">
+              </div>
+            </div>
+          </div>
+          <!-- End Button -->
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="col-12">
+    <div class="table-responsive">
+
+      <table class='table table-striped  table-sm'>
+        <thead>
+          <tr>
+            <th>
+              Id
+            </th>
+            <th>Tour operator</th>
+            <th>Itinerary</th>
+            <th>Created</th>
+            <th>Countries</th>
+            <th>From</th>
+            <th>Party size</th>
+            <th>Trip date</th>
+            <th>Duration</th>
+            <th>Seen</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        {% for item in paginator %}
+        <tr>
+          <td>
+            {{ item.pk}}
+          </td>
+          <td>
+            {{ item.tour_operator}}
+          </td>
+          <td>
+            {{ item.itinerary|default_if_none:'' }}
+          </td>
+          <td>
+            {{ item.date_created|date:"d.M.Y" }}
+            <br>
+            {{ item.date_created|date:"H:i" }}
+          </td>
+          <td>
+            {% for country in item.country_indexes.all %}
+            {{ country.name }}
+            {% endfor %}
+          </td>
+          <td>
+            {{ item.user }}
+            {% if item.country %}
+            {% if item.country.flag %}
+            <img class="flag-small" src="{{ item.country.flag.url }}">
+            {% endif %}
+            {% endif %}
+          </td>
+          <td>
+            {{ item.party_size }}
+          </td>
+          <td>
+            {{ item.date_trip|date:"d.M.Y" }}
+          </td>
+          <td>
+            {{ item.days }}
+          </td>
+          <td>
+            {{item.seen|yes_no}}
+          </td>
+          <td>
+            <a target='_blank' href="{% url 'admin:operators_quoterequest_change' object_id=item.pk %}">Edit</a>
+            <br>
+            <a target='_blank' href="{% url 'admin:operators_quoterequest_delete' object_id=item.pk %}">Remove</a> <br>
+          </td>
+        </tr>
+
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+  <div class="row-12 center">
+    {% include 'search/paginator.html' %}
+  </div>
+</div>
+<script>
+  $(" .nav-link.tour_operators").addClass("active")
+  $('.daterange').daterangepicker({
+    autoApply: true,
+    autoUpdateInput: false,
+    locale: {
+      format: 'DD/MM/YYYY',
+      //cancelLabel: 'Clear'
+    },
+    "maxSpan": {
+      "days": 60
+    },
+    ranges: {
+      'Today': [moment(), moment().add(1, 'days')],
+      'Yesterday': [moment().subtract(1, 'days'), moment()],
+      'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+      'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+      'This Month': [moment().startOf('month'), moment().endOf('month')],
+      'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+    },
+    "alwaysShowCalendars": true,
+  });
+  $('.daterange').on('apply.daterangepicker', function (ev, picker) {
+    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+  });
+  $('.select2').select2({ width: '100%', })
+</script>
+{% endblock %}

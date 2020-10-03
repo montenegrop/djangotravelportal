@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% block title %}{{ page.title }}{% endblock %}
+{% block meta_description %}{{ page.meta_description }}{% endblock %}
+{% block meta_keywords %}{{ page.meta_keywords }}{% endblock %}
+{% block meta_title %}{{ page.meta_title }}{% endblock %}
+{% block content %}
+
+{% if page.image %}
+<div class="hero-image-container" style="background-image: url({{ page.image.url }});">
+  <div class="hero-text-container">
+    {% if object.image_title %}
+    <a class="text-dark-grey hero-text" target='_blank' href="{{ object.header_caption_link  }}">
+      {{ object.image_title }}
+    </a>
+    {% endif %}
+  </div>
+</div>
+{% endif %}
+<div class="container-fluid px-md-5 max-width">
+  <div class="row mt-5 px-md-5 px-2 justify-content-between admin-content">
+    <div class="col-12">
+      <h1 class="h1-sm">
+        {{ page.title}}
+      </h1>
+    </div>
+    <p class="col-12">
+      {{ content | safe }}
+    </p>
+  </div>
+</div>
+{% endblock %}
+{% block afterfooter %}
+{% if page.slug == 'about-us' %}
+<script>
+  $(".navbar-about-us").addClass("active");
+</script>
+{% endif %}
+{% endblock %}

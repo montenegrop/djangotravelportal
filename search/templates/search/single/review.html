@@ -1,0 +1,65 @@
+{% load thumbnail %}
+<div class="contentbg border-grey container-fluid mt-3">
+  <div class="d-flex justify-content-between my-1 row align-items-center">
+    <h5 class="px-4 mt-2">
+      <strong>
+        {% if review.tour_operator %}
+        <a href="{% url 'tour_operator_review' slug=review.tour_operator.slug review=review.id %}" class="dark-brown">
+          {{ review }}
+        </a>
+        {% endif %}
+        {% if review.park %}
+        <a href="{% url 'park_review' slug=review.park.slug review_pk=review.pk %}" class="dark-brown">
+          {{ review }}
+        </a>
+        {% endif %}
+      </strong>
+    </h5>
+    <div class="pr-2 px-4">
+      {{ review.overall_rating | star_rating | safe }}
+    </div>
+  </div>
+  <hr class="my-0 d-sm-block d-none">
+  <div class="row pb-sm-0 pb-2">
+    {% if review.tour_operator %}
+    <a href="{% url 'tour_operator_review' slug=review.tour_operator.slug review=review.id %}" class="col-sm-3 col-12 my-auto">
+      <div id="search-result-img">
+        <img class="d-block mx-auto" src="{{ review.tour_operator.logo|thumbnail_url_:'search_card' }}" alt="company logo">
+      </div>
+    </a>
+    {% endif %}
+    {% if review.park %}
+    <a href="{% url 'park_review' slug=review.park.slug review_pk=review.pk %}" class="col-sm-3 col-12r">
+      <div id="search-result-img">
+        <img class="d-block mx-auto" src="{{ review.park.image|thumbnail_url_:'search_card' }}" alt="company logo">
+      </div>
+    </a>
+    {% endif %}
+    <div class="col-sm-8 col-12 px-4  mt-2">
+      {% if review.tour_operator %}
+      <p>Tour operator: <a href="{% url 'tour_operator' slug=review.tour_operator.slug %}">
+          {{ review.tour_operator }}
+        </a></p>
+      {% endif %}
+      {% if review.park %}
+      <p>Park: <a href="{% url 'park_review' slug=review.park.slug review_pk=review.pk %}">{{ review.park }}</a></p>
+      {% endif %}
+      <p class="mb-1">
+        {{ review.content | truncatechars_html:100 | striptags }}
+        {% if review.tour_operator %}
+        <a class="olive-green" href="{% url 'tour_operator_review' slug=review.tour_operator.slug review=review.id %}">
+          read more</a></p>
+      {% endif %}
+      {% if review.park %}
+      <a class="olive-green" href="{% url 'park_review' slug=review.park.slug review_pk=review.pk %}">
+        read more
+      </a>
+      </p>
+      {% endif %}
+      <div class="row font-12">
+        <p class="col-6 mb-0">By: {{ review.user.profile }}</p>
+        <p class="col mb-0">Reviewed: {{ review.date_created|date:"N j, Y" }}</p>
+      </div>
+    </div>
+  </div>
+</div>

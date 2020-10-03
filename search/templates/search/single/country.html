@@ -1,0 +1,43 @@
+<div class="contentbg border-grey container-fluid mt-3">
+    <div class="d-flex justify-content-between my-1 row">
+        <h5 class=" px-4 mt-2"><strong><a class="dark-brown" href="{% url 'country_index' slug=country.slug %}">
+                    {{country}}
+                </a></strong></h5>
+    </div>
+    <hr class="my-0 d-sm-block d-none">
+    <div class="row">
+        <a href="{% url 'country_index' slug=country.slug %}" class="col-sm-3 col-12">
+          <div id="search-result-img">
+            <img class="d-block mx-auto" src="{{ country.image|thumbnail_url_:'search_card' }}" alt="{{ country }}">
+              </div>
+        </a>
+        <div class="col-sm-8 col-12 mb-2 px-4 mt-2 ml-sm-2">
+            <p>
+                {{country.description | truncatechars_html:100 | striptags}}
+                <a class="olive-green" href="{% url 'country_index' slug=country.slug %}">read more</a></p>
+            </p>
+            <div class="row ml-1 font-12">
+              <div class="col-12 col-sm-6 pl-0 text-nowrap">
+                <i class="col-1 px-0 fas fa-camera mt-1"></i><a href="photos?country={{ country.slug }}"
+                class="col pl-0 olive-green">Community photos ({{country.photos_count}})</a>
+              </div>
+              <div class="col-12 col-sm-6 pl-0 pl-sm-1 text-nowrap">
+                <i class="col-1 px-0 fas fa-binoculars mt-1"></i><a href="{% url 'all_tour_operator_country' country=country.slug %}"
+                    class="col pl-0 olive-green"> Safari tour operators ({{country.operators_count}})</a>
+              </div>                                
+            </div>
+            <div class="row ml-1 font-12">
+              <div class="col-12 col-sm-6 pl-0 text-nowrap">
+                <i class="col-1 px-0 fas fa-tree mt-1"></i><a href="{% url 'country_index_parks' slug=country.slug %}"
+                    class="col pl-0 olive-green">Parks and reserves ({{country.parks_count}})</a>
+              </div>
+              <div class="col-12 col-sm-6 pl-0 pl-sm-1 text-nowrap">
+                <i class="col-1 px-0 fas fa-map mt-1"></i> <a href="{% url 'all_tour_packages_country' country=country.slug %}"
+                    class="col pl-0 olive-green">Safari tour packages ({{country.packages_count}})</a>
+              </div>
+                
+                
+            </div>
+        </div>
+    </div>
+</div>

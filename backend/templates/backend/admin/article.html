@@ -1,0 +1,16 @@
+{% extends 'backend/admin/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block backendcontent %}
+<style>
+</style>
+<div class="row max-width-admin">
+
+    <div class="col-12">
+        {{form|crispy  }}
+    </div>
+</div>
+
+<script>
+    $(" .nav-link.articles").addClass("active") </script>
+{% endblock %}

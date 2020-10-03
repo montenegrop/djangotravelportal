@@ -1,0 +1,21 @@
+<div class="col-md-7">
+  
+    <div class="card ">
+      <div class="card-header ">
+        <h4 class="card-title">This week page views</h4>
+        <p class="card-category">{{ visit_count.total_visits }} total visits</p>
+      </div>
+      <div class="card-body pb-5">
+        <div class="row">
+          <div class="col-11">
+            <div class='ct-chart'></div>
+          </div>
+        </div>
+        
+    </div>
+  </div>
+</div>
+<script>
+  var labels = {{ visit_count.labels|safe }}
+  var series = {{ visit_count.series }}
+</script>

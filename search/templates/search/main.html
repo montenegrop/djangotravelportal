@@ -1,0 +1,144 @@
+<div class="row px-md-5 justify-content-between">
+  <div class="col-xl-8 pr-xl-5 col-lg-12">
+    <div class="contentbg mt-4 border-grey px-4 pt-2 shadow pb-xl-0 mb-4">
+      <div>
+        <h2>You searched for <strong>"{{ query }}"</strong></h2>
+        <p class="font-12 font-weight-light d-none">Showing 1 - 50 out of 547 search results</p>
+        <p class="mb-2">Search result categories:</p>
+        <div class="row mb-2">
+          <div class="col-md-5 col-12">
+            <div class="pb-1"><i class="fas fa-binoculars pr-1"></i> Safari tour operators
+              <a href="{% url 'search:operators' query=query %}">               
+                <span class="olive-green">({{ tour_operators_count }})</span>
+              </a>
+            </div>
+            <i></i>
+            <div class="pb-1"><i class="fas fa-map pr-1"></i>Safari tour packages 
+              <a href="{% url 'search:packages' query=query %}" class="olive-green">
+                ({{ packages_count }})</a>
+              </div>
+            <i></i>
+            <div class="pb-1"><i class="far fa-comments pr-1"></i>Reviews 
+              <a href="{% url 'search:reviews' query=query %}" class="olive-green">
+                ({{ reviews_count }})
+              </a></div>
+          </div>
+          <div class="col-md-4 col-12">
+            <i></i>
+            <div class="pb-1"><i class="fas fa-globe-africa pr-1"></i>Countries <span
+                class="olive-green">
+                ({{ countries_count }})
+              </span>
+              </div>
+            <i></i>
+            <div class="pb-1"><i class="fas fa-tree pr-1"></i> Parks <span
+                class="olive-green">({{ parks_count }})</span></div>
+            <i></i>
+            <div class="pb-1"><i class="far fa-newspaper pr-1"></i>Blog articles
+              <a href="{% url 'search:blog' query=query %}" class="olive-green">
+              ({{ articles_count }})
+            </a></div>
+          </div>
+          <div class="col-md-3 col-12">
+            <i></i>
+            <div class="pb-1"><i class="fas fa-camera pr-1"></i>Photos 
+              <a href="{% url 'search:photos' query=query %}" class="olive-green">
+                ({{ photos_count }})
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="py-2 d-xl-none"></div>
+    <!--SAFARI TOUR OPERATORS-->
+    {% if tour_operators %}
+    <h4 class="text-dark-grey mb-2 mt-4"><strong>Safari tour operators</strong></h4>
+    {% for tour_operator in tour_operators %}
+    {% include 'search/single/operator.html' %}
+    {% endfor %}
+    <a class="d-flex justify-content-end olive-green pt-1" href="{% url 'search:operators' query=query %}">
+      See all tour operators results ({{ tour_operators_count }})
+    </a>
+    {% endif %}
+    <!--END TOUR OPERATORS-->
+
+    <!--SAFARI TOUR PACKAGES-->
+    {% if packages %}
+    <h4 class="text-dark-grey mb-2 mt-4"><strong>Safari tour packages</strong></h4>
+    {% for package in packages %}
+    {% include 'search/single/package.html' %}
+    {% endfor %}
+    
+    <a class="d-flex justify-content-end olive-green pt-1" href="{% url 'search:packages' query=query %}">
+      See all tour packages results ({{ packages_count }})
+    </a>
+    {% endif %}
+    <!--END SAFARI TOUR PACKAGES-->
+
+    <!--TOUR OPERATOR REVIEWS-->
+    {% if reviews %}
+    <h4 class="text-dark-grey mb-2 mt-4"><strong>Reviews</strong></h4>
+    {% for review in reviews %}
+    {% include 'search/single/review.html' %}
+    {% endfor %}
+    <a class="d-flex justify-content-end olive-green pt-1" href="{% url 'search:reviews' query=query %}">
+      See all reviews results ({{ reviews_count }})
+    </a>
+    {% endif %}
+    <!--END COMMENT-->
+
+    <!--COUNTRIES-->
+    {% if countries %}
+    <h4 class="text-dark-grey mb-2 mt-4"><strong>Countries</strong></h4>
+    {% for country in countries %}
+    {% include 'search/single/country.html' %}
+    {% endfor %}
+    {% endif %}
+    <!--END COUNTRY-->
+
+
+    <!--PARKS-->
+    {% if parks %}
+    <h4 class="text-dark-grey mb-2 mt-4"><strong>Parks</strong></h4>
+    {% for park in parks %}
+    {% include 'search/single/park.html' %}
+    {% endfor %}
+    {% endif %}
+    <!--END parks-->
+
+    <!--BLOGS-->
+    {% if articles %}
+    <h4 class="text-dark-grey mb-2 mt-4"><strong>Blog posts</strong></h4>
+    {% for article in articles %}
+    {% include 'search/single/post.html' %}
+    {% endfor %}
+    <a class="d-flex justify-content-end olive-green pt-1" href="{% url 'search:blog' query=query %}">
+      See all blog post results ({{ articles_count }})
+    </a>
+    {% endif %}
+    <!--END COMMENT-->
+
+    <!--PHOTOS-->
+    {% if photos %}
+    <h4 class="text-dark-grey mb-2 mt-4"><strong>Photos</strong></h4>
+    {% for photo in photos %}
+    {% include 'search/single/photo.html' %}
+        <script>
+            $("#photo-link-{{ photo.id }}").click(function () {
+                $("#photo_{{ photo.id }}")[0].click();
+                return false;
+            });
+        </script>
+    {% endfor %}
+    <a class="d-flex justify-content-end olive-green pt-1" href="{% url 'search:photos' query=query %}">
+      See all photos results ({{ photos_count }})
+    </a>
+    {% endif %}
+    <!--END COMMENT-->
+  </div>
+
+  <!--RHC-->
+  {% include 'rhc.html' %}
+</div>

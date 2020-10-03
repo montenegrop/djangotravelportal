@@ -1,0 +1,174 @@
+{% load crispy_forms_tags %}
+<div class="modal" tabindex="-1" role="dialog" id="registrationModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <template>
+        <div class="vld-parent">
+          <loading :active.sync="isLoading"></loading>
+        </div>
+      </template>
+      <div class="modal-header">
+        <h5 class="modal-title">Join YAS</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4>Register via Facebook</h4>
+        <a href="{% url 'social:begin' 'facebook' %}">
+          <img src="//static3.yourafricansafari.com/images/buttons/facebook_login.png" alt="">
+        </a>
+        <p>
+          <small>By proceeding you agree to our
+            <a target="_blank" href="{% url 'privacy-policy' %}">Privacy Policy</a> and
+            <a target="_blank" href="{% url 'terms-of-use' %}">Terms of Use</a>
+          </small>
+        </p>
+        <hr>
+        <h4>Or fill in our registration form</h4>
+        <p>Want to add your company? Please complete member form first.</p>
+        <form action="{% url 'account_registration' %}" method="post" @submit.prevent="handleSubmit"
+          id="registrationForm">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="registrationFirstName" v-bind:class="{'text-danger': errors && !!errors.first_name}">First
+              name</label>
+            <input type="text" v-bind:class="{'is-invalid': errors && !!errors.first_name}" v-model="first_name"
+              class="form-control" id="registrationFirstName">
+            <p class="text-danger" v-if="errors && !!errors.first_name">
+              <small>[[ errors.first_name[0] ]]</small>
+            </p>
+            <p class="text-danger" v-if="!$v.first_name.required && $v.first_name.$dirty">
+              <small>
+                First name is required.
+              </small>
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="registrationLastName" v-bind:class="{'text-danger': errors && !!errors.last_name}">Last
+              name</label>
+            <input type="text" v-bind:class="{'is-invalid': errors && !!errors.last_name}" class="form-control"
+              v-model="last_name" id="registrationLastName">
+            <p class="text-danger" v-if="errors && !!errors.last_name">
+              <small>[[ errors.last_name[0] ]]</small>
+            </p>
+            <p class="text-danger" v-if="!$v.last_name.required && $v.last_name.$dirty">
+              <small>
+                Last name is required.
+              </small>
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="registrationScreenName" v-bind:class="{'text-danger': errors && !!errors.screen_name}">Screen
+              name</label>
+            <input type="text" v-bind:class="{'is-invalid': errors && !!errors.screen_name}" class="form-control"
+              v-model="screen_name" id="registrationScreenName">
+            <p class="text-danger" v-if="errors && !!errors.screen_name">
+              <small>[[ errors.screen_name[0] ]]</small>
+            </p>
+            <p class="text-danger" v-if="!$v.screen_name.required && $v.screen_name.$dirty">
+              <small>
+                Screen name is required.
+              </small>
+            </p>
+            <p class="text-danger" v-if="!$v.screen_name.minLength">
+              <small>
+                Screen name must have at least 4 characters.
+              </small>
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="registrationYourEmail"
+              v-bind:class="{'text-danger': errors && (!!errors.email || !!errors.username)}">Your
+              email</label>
+            <input type="email" v-bind:class="{'is-invalid': errors && (!!errors.email || !!errors.username)}"
+              class="form-control" v-model="email" id="registrationYourEmail">
+            <p class="text-danger" v-if="errors && (!!errors.email || !!errors.username)">
+              <small>[[ (errors.email ? errors.email[0] : errors.username[0]) ]]</small>
+            </p>
+            <p class="text-danger" v-if="!$v.email.required && $v.email.$dirty">
+              <small>
+                Email is required.
+              </small>
+            </p>
+            <p class="text-danger" v-if="!$v.email.email">
+              <small>
+                This email is invalid.
+              </small>
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="registrationPassword"
+              v-bind:class="{'text-danger': errors && !!errors.password1}">Password</label>
+            <input type="password" v-bind:class="{'is-invalid': errors && !!errors.password1}" class="form-control"
+              v-model="password1" autocomplete="new-password" id="registrationPassword">
+            <small class="form-text text-muted">
+              At least 8 characters long
+            </small>
+            <p class="text-danger" v-if="errors && !!errors.password1">
+              <small>[[ errors.password1[0] ]]</small>
+            </p>
+            <p class="text-danger" v-if="!$v.password1.required && $v.password1.$dirty">
+              <small>
+                Password is required.
+              </small>
+            </p>
+            <p class="text-danger" v-else-if="!$v.password1.minLength">
+              <small>
+                Password must have at least 8 characters.
+              </small>
+            </p>
+            <p class="text-danger" v-else-if="!$v.password1.strength && $v.password1.$dirty">
+              <small>
+                Your password must cannot contain only numbers
+              </small>
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="registrationPasswordConfirmation"
+              v-bind:class="{'text-danger': errors && !!errors.password2}">Password
+              confirmation</label>
+            <input type="password" v-bind:class="{'is-invalid': errors && !!errors.password2}" class="form-control"
+              autocomplete="new-password" v-model="password2" id="registrationPasswordConfirmation">
+            <p class="text-danger" v-if="errors && !!errors.password2">
+              <small>[[ errors.password2[0] ]]</small>
+            </p>
+            <p class="text-danger" v-if="!$v.password2.sameAsPassword">
+              <small>
+                Your password confirmation must match with password
+              </small>
+            </p>
+          </div>
+          <div class="form-group form-check pl-0">
+            <div class="pretty p-icon p-smooth mr0">
+              <input type="checkbox" class="form-check-input " v-model="terms" v-model.trim="terms"
+                id="registrationTerms" @change="$v.terms.$touch()" />
+              <div class="state p-success">
+                <i class="icon fa fa-check"></i>
+                <label class="form-check-label">
+                  By signing up you agree to our
+                </label>
+              </div>
+            </div>
+            <a target="_blank" href="{% url 'terms-of-use' %}">terms</a>
+            and
+            <a target="_blank" href="{% url 'privacy-policy' %}">privacy policy</a>
+
+            <p class="text-danger" v-if="errors && !!errors.terms">
+              <small>[[ errors.terms[0] ]]</small>
+            </p>
+            <p class="text-danger" v-if="!$v.terms.sameAs  && $v.terms.$dirty">
+              <small>You need to accept the terms</small>
+            </p>
+          </div>
+          <div v-if="serverError" class="alert alert-danger">
+            [[ serverError ]]
+          </div>
+          <button class="btn btn-green-primary mt-3" type="submit">
+            Register
+          </button>        
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

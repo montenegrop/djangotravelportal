@@ -1,0 +1,13 @@
+<div class="tour-tab tab clearfix">
+    <ul class="tabs">
+        <a class="about" href="{% url 'park' object.slug %}">
+            <li>About</li>
+        </a>
+        <a class="parks" href="{% url 'park_reviews' object.slug %}">
+            <li>Reviews</li>
+        </a>
+        <a class="touroperators" href="{% url 'park_getting_there' object.slug %}">
+            <li class="active">Getting there</li>
+        </a>
+    </ul>
+</div>

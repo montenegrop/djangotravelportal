@@ -1,0 +1,14 @@
+<div class="row pr-0 justify-content-between mr-1">
+    <h4 class="text-dark-grey col-md-8 col-12" data-trigger="hover" data-toggle="popover"
+        data-placement="bottom"
+        data-content="Safari suitability score is determined by weighing several factors. Parks with the big five, a higher quantity and variety of wildlife, and parks that are easier to access generally score higher. Safari suitability scores are revisited annually and, when necessary, adjusted accordingly."
+        data-original-title="" title="">
+        <strong>Safari suitability: <span
+                class="olive-green">{{ object.safari_suitability }}/10</span></strong>
+    </h4>
+    <a id="review-btn" class="btn btn-green-primary col-md-4 col-sm-4 col-5 mb-2 ml-3" href="{% url 'reviews:park' object.id %}"
+       role="button">Write a review</a>
+
+
+    <p class="col-12 col-md-8">{{ object.safari_suitability_text }}</p>
+</div>

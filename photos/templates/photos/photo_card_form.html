@@ -1,0 +1,177 @@
+{% load static %}
+<!--[% IF c.req.params.pt == photo.id %]
+<div id="ammended_text">
+    <em style="color:#73ae3a">Photo has been tagged</em>
+</div>
+[% END %] -->
+<div class="flex container-fluid">
+    <div class="row">
+        <input type="hidden" value="{{ object.id }}" name="photo_id_{{ object.id }}" />
+        <div class="wrap-img ml-3 pt-0">
+            <img id="photo_{{ object.id }}" src="{{ object.image.url }}" alt="{{ object.caption }}">
+        </div>
+        <div class="ml-3 pt-0">
+            <div class="d-block mb-4">
+                <span class="info-ico"><i class="icon-previews"></i> {{ object.visit_count }}</span>
+                <span class="info-ico"><i class="i-kudu"></i> {{ object.kudu_count }}</span>
+            </div>
+            <a id="delete_photo_{{ object.id }}" href="#" class="btn btn-green-secondary mt-4">
+                Delete photo
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 col-12">
+            <div class="count-chars" data-n_max=100>
+                <label class="group-title">Add a caption <span class="info">(<span class="n_chars">0</span> of <span
+                            class="n_max">100</span> characters used)</span> <span class="required">*</span></label>
+                <textarea id="caption_{{ object.id }}" name="caption_{{ object.id }}" class="textarea"
+                    rows="2">{% if object.caption is not None %}{{ object.caption }}{% endif %}</textarea>
+                <br />
+            </div>
+            <p id="response_{{ object.id }}" class="under-caption-message"></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div id="div_id_country_index" class="form-group mb-0"><label for="id_country_index"
+                    class="col-form-label ">
+                    Where was this picture taken? <span class="required">*</span>
+                </label>
+                <div class=""><select name="country_index_{{ object.id }}" class="country_index select form-control">
+                        <option value="" selected="">Select country</option>
+
+
+                        {% for country in country_indexes %}
+
+                        <option value="{{ country.id }}" {% if object.country_index.id == country.id %}
+                            selected="selected" {% endif %}>
+                            {{ country.name }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div id="div_id_park" class="form-group"><label for="id_park" class="col-form-label ">
+                </label>
+                <div class=""><select name="park_{{ object.id }}" class="select form-control park">
+
+                        <option value="" selected="">Select park/reserve</option>
+
+                        {% for park in object.country_index.parks.all %}
+
+                        <option value="{{ park.id }}" {% if object.park.id == park.id %} selected="selected"
+                            {% endif %}>{{ park.name }}</option>
+
+                        {% endfor %}
+
+                    </select></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div id="div_id_activity" class="form-group"><label for="id_activity" class="col-form-label">
+                    What were you doing?
+                </label>
+                <select name="activity_{{ object.id }}" class="select form-control" id="id_activity">
+                    <option value="" selected="">---------</option>
+                    {% for activity in activities %}
+                    <option value="{{ activity.id }}" {% if object.activity.id == activity.id %}selected="selected"
+                        {% endif %}>{{ activity.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    {{ animal_ids }}
+    <div class="row">
+        <div class="col-12">
+            <div id="div_id_animals" class="form-group"><label for="id_animals" class="col-form-label">
+                    What animals are in the picture? If the animal doesn't appear in the selection, please add it as a tag below
+                </label>
+                <select class="id_animals" name="animals_{{ object.id }}" multiple="multiple">
+                    {% for animal in animals %}
+                    <option value="{{ animal.id }}" {% if animal in object.animals.all %}selected="selected{% endif %}">
+                        {{ animal.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div id="div_id_tags" class="form-group">
+                <label for="tags_{{ object.id }}" class="col-form-label ">
+                    Additional tag (example: sunset, jeep) (Type 1)
+                </label>
+                <input name="tags_{{ object.id }}" id="tags" class="tagsinput"
+                    value="{% if object.tags.all.first %}{{ object.tags.all.first }}{% else %}{% endif %}"
+                    placeholder="Add a tag">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+    //<![CDATA[
+    jQuery(document).ready(function ($) {
+        $('.tagsinput').tagsInput({
+            minInputWidth: 145,
+            height: '40px',
+            width: '460px',
+            limit: 1,
+        });
+
+
+    });
+    //]]>
+</script>
+
+
+<script>
+    $(".country_index").change(function () {
+        var countryId = $(this).val();
+
+        $.ajax({
+            url: "{% url 'photos:ajax_load_parks' %}",
+            data: {
+                'country': countryId
+            },
+            success: function (data) {
+                $(".park").html(data);
+            }
+        });
+
+    });
+    $('#cancel_button').click(function () {
+        document.location.href = '{{ return_url }}';
+    });
+    $('select.id_animals').select2({
+        width: '100%',
+        maximumSelectionLength: 3,
+        multiple: true
+    });
+    $("select.country_index").select2()
+    $("select.park").select2()
+    $(document).on('focus', '.select2.select2-container', function (e) {
+        // only open on original attempt - close focus event should not fire open
+        if (e.originalEvent && $(this).find(".select2-selection--single").length > 0) {
+            $(this).siblings('select').select2('open');
+        }
+    });
+
+
+</script>
+
+<script src="{% static 'reviews/js/count_chars.js' %}"></script>

@@ -1,0 +1,73 @@
+{% extends 'backend/admin/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block backendcontent %}
+
+<div class="row max-width-admin">
+
+  <div class="col-12">
+    <div class="table-responsive">
+
+      <table class='table table-striped  table-sm'>
+        <thead>
+          <tr>
+            <th>
+              Name
+            </th>
+            <th>Subject</th>
+            <th>Description</th>
+            <th>Subject</th>
+            <th>Created</th>
+            <th>Updated</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        {% for t in templates %}
+        <tr>
+          <td>
+            {{ t.name}}
+          </td>
+          <td>
+            {{ t.subject }}
+          </td>
+          <td>
+            {{ t.description }}
+          </td>
+          <td>
+            {{ t.subject }}
+          </td>
+
+          <td>
+            {{ t.created }}
+          </td>
+
+          <td>
+            {{ t.last_updated }}
+          </td>
+          <td>
+            <a href="{% url 'backend:admin_email_templates_edit' pk=t.pk %}">
+              Edit
+            </a>
+            |
+            <a target='_blank' href="{% url 'backend:admin_email_templates_open' pk=t.pk %}">
+              Open
+            </a>
+          </td>
+        </tr>
+
+        {% endfor %}
+      </table>
+
+
+    </div>
+  </div>
+
+  <div class="row-12 center">
+    {% include 'search/paginator.html' %}
+  </div>
+
+</div>
+
+<script>
+  $(" .nav-link.tour_operators").addClass("active") </script>
+{% endblock %}

@@ -1,0 +1,95 @@
+/* v-select vue */
+.v-select .vs__search {
+  margin: 0 !important;
+  height: 30px !important;
+}
+.vs__actions .vs__open-indicator path {
+  transform: scale(0.6, 0.5) translate(4px, 21px) !important;
+}
+.vs__actions .vs__open-indicator {
+  height: 100%;
+}
+.v-select.error .vs__dropdown-toggle {
+  border: 1px solid #f91942;
+}
+.v-select.error .vs__dropdown-toggle .vs__selected {
+ color: #f91942 !important;
+}
+.v-select.error .vs__actions svg {
+ fill: rgba(240,16,64,.5) !important;
+}
+.vs__dropdown-option {
+  color: #888;
+  height: 29px;
+  display: flex;
+  align-items: center !important;
+}
+.vs__dropdown-option--highlight {
+  background-color: rgba(230, 230, 240, 0.2);
+}
+.vs__dropdown-option--selected {
+  background-color: rgba(230, 230, 235, 0.5) !important;
+  color: #f00 !important;
+  font-weight: normal !important;
+}
+.vs__dropdown-option:hover {
+  background-color: rgba(230, 230, 240, 0.4);
+  color: #c04;
+  font-weight: normal;
+}
+.vs__dropdown-menu {
+  max-height: 200px !important;
+}
+.v-select.vs--single {
+  margin: 0 0 16px 0;
+}
+.v-select .vs__selected {
+  color: #888;
+}
+
+.places-filter .vs__dropdown-option {
+  color: #888;
+  height: 39px;
+  display: flex;
+  align-items: center !important;
+}
+
+.place-item label, .place-item span {
+  display: block;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+}
+.place-item label {
+  font-weight: 600;
+}
+.place-item span {
+  font-size: 10px;
+}
+
+
+/* end v-select vue */
+
+/* mx-calendar vue */
+.mx-calendar-header .mx-btn {
+  line-height: 30px !important;
+  height: 30px;
+}
+/* end mx-calendar vue */
+
+
+/* Selected filters */
+.filter-border {
+  border: 1px solid #ced4da;
+  border-radius: 12px;
+  padding: 1px 10px;
+  max-height: 20px;
+  margin: 0px 5px 5px 0px;
+  cursor: pointer;
+}
+.filter-border:hover, .filter-border:hover a {
+  color: #DC7403;
+}
+.filter-border:hover {
+  border: 1px solid #DC7403;
+}

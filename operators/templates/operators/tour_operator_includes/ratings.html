@@ -1,0 +1,42 @@
+<div class="contentbg rhc-yasscore-border px-3 parks-rhc-max-width pb-2 d-none d-sm-block">
+    <div class="row">
+      <h5 class="border-bottom pt-2 col-12 text-center">{{ tour.name }}</h5>
+        <div id="operator-logo-container">
+            <img class="card-img-top rounded d-md-block d-inline mx-auto operator-logo"
+                 src="/media/{{ tour.logo }}" alt="company logo">
+        </div>
+        <div class="col-md-10 col px-0 offset-md-3 my-auto">
+            <div class="d-inline font-h4 font-weight-bold">Y<span class="orange">A</span>S score: {{ tour.yas_score }}/100
+            </div>
+            <i class="far fa-question-circle mr-1  d-inline" data-trigger="hover"
+               data-toggle="popover" data-placement="bottom"
+               data-content="YAScore is a weighted average of 20 metrics including years in business, quality and quantity of reviews, and how quickly tour operator responds to quote requests."></i>
+            <div class="d-block font-12">Based on {{ tour_reviews_count }} reviews</div>
+        </div>
+    </div>
+    <hr class="mx-3 mt-md-1 mt-2 border border-grey">
+    <span>Overall rating</span>
+    <span class="yellow font-h5 float-right">
+            {{ tour_reviews_average | star_rating | safe }}
+            </span><br>
+    <span>Caliber of guide</span>
+    <span class="yellow font-h5 float-right">
+            {{ tour_safari_quality_reviews_average | star_rating | safe }}
+            </span><br>
+    <span>Cleanliness of vehicle</span>
+    <span class="yellow font-h5 float-right">
+            {{ tour_vehicle_reviews_average | star_rating | safe }}
+            </span><br>
+    <span>Meet and greet team</span>
+    <span class="yellow font-h5 float-right">
+            {{ tour_meet_and_greet_reviews_average | star_rating | safe }}
+            </span><br>
+    <span>Quality of itinerary</span>
+    <span class="yellow font-h5 float-right">
+            {{ tour_itinerary_quality_reviews_average | star_rating | safe }}
+            </span><br>
+    <span>Responsiveness of staff</span>
+    <span class="yellow font-h5 float-right">
+            {{ tour_responsiveness_reviews_average | star_rating | safe }}
+            </span><br>
+</div>

@@ -1,0 +1,38 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Login {% endblock %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8">
+      <h2>Login</h2>
+      <form method="post" action="{% url 'login' %}?next={{ request.GET.next }}">
+        {% csrf_token %}
+        <div id="div_id_username" class="form-group"> <label for="id_username" class="col-form-label  requiredField">
+            Email
+            <span class="asteriskField">*</span> </label>
+          <div class="">
+            <input type="text" autocapitalize="off" name="username" value="" autofocus="" class="textinput textInput form-control"
+              required="" id="id_username">
+          </div>
+        </div>
+        <div id="div_id_password" class="form-group"> <label for="id_password" class="col-form-label  requiredField">
+            Password<span class="asteriskField">*</span> </label>
+          <div class=""> <input type="password" name="password" class="textinput textInput form-control" required=""
+              id="id_password"> </div>
+        </div>
+        <input type="hidden" name="next" value="{{ request.GET.next }}" />
+        <input type="submit" class="btn btn-green-primary" value="Login" />
+        <p>
+          <a href="{% url 'password_reset' %}">Lost password?</a>
+        </p>
+
+      </form>
+    </div>
+    <div class="col-sm-2">
+    </div>
+  </div>
+</div>
+
+</div>
+{% endblock %}

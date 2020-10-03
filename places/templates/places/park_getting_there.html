@@ -1,0 +1,106 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %} {{ object }}-getting-there {% endblock %}
+
+{% block extrahead %}
+
+{% include 'places/park_inserts/park_meta.html' %}
+
+<script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}"></script>
+<script src="{% static '@google/markerwithlabel/src/markerwithlabel_packed.js' %}"></script>
+<link href="{% static 'places/css/parks.css' %}" type="text/css" media="all" rel="stylesheet">
+<script src="{% static 'places/js/parks.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+{% include 'places/park_inserts/image.html' %}
+
+<div class="container-fluid px-lg-5 max-width mt-4 mx-auto">
+  <div class="row px-md-5 px-2 justify-content-between">
+    {% include 'places/park_inserts/rating.html' %}
+
+    {% include 'places/park_inserts/park_social_media.html' %}
+
+    <div class="row justify-content-between mt-3 mx-0">
+      <div class="col-xl-8 pr-xl-5 col-lg-12 admin-content">
+
+
+        {% include 'places/park_inserts/suitability.html' %}
+
+        {% include 'places/park_inserts/tabs_getting_there.html' %}
+
+        <!--THIS NEEDS TO BE THE "GETTING TO" DESCRIPTION-->
+        {% if object.getting_there %}
+        <p class="my-0">{{ object.getting_there | safe }}</p>
+        {% endif %}
+        <!--END COMMENT-->
+
+        {% if object.airline_set.all %}
+        <h4 class="text-dark-grey h4-sm py-2"><strong>Charters and airlines that service this destination.</strong></h4>
+        {% endif %}
+
+        {% for airline in object.airline_set.all %}
+        <div class="contentbg border-grey container-fluid mb-3">
+          <div class="d-flex justify-content-between my-1">
+            <!--THIS NEEDS TO BE EACH AIRLINES NAME-->
+            <h5 class="px-4 mt-2"><strong><a class="dark-brown" href="{{ airline.website }}"
+                  target="_blank">{{ airline.name }}</a></strong></h5>
+            <button class="btn btn-green-secondary mr-3" type="button" data-toggle="collapse"
+              data-target="#airline-collapse-{{ airline.id }}" aria-expanded="false"
+              aria-controls="airline-collapse-{{ airline.id }}">
+              +
+            </button>
+            <!--END COMMENT-->
+          </div>
+          <hr class="my-0">
+
+          <div class="row collapse" id="airline-collapse-{{ airline.id }}">
+            <a href="{{ airline.website }}" target="_blank" class="col-sm-3 col-12 mx-auto my-auto">
+              <img class="mx-auto d-block" src="{{ airline.image.url }}" alt="{{ airline }}" id="{{ airline.id }}">
+            </a>
+            <div class="col-sm-8 col-12 mb-2 px-4 mt-2">
+              <!--THIS NEEDS TO BE TRUNCATED TO 4 OR 5 LINES ONLY-->
+              <p>{{ airline.description|truncatechars:400 }} Visit website <a target="_blank" class="olive-green"
+                  href="{{ airline.website }}">Visit
+                  website</a></p>
+              <!--END COMMENT-->
+              <div class="font-12">
+                <p class="mb-0 pr-2 d-inline">Also flies to:</p>
+
+                {% for country in airline.country_indexes.all %}
+                {% if country.flag %}
+                <img class="flag-small d-inline" src="{{ country.flag.url }}" alt="{{ country }}" data-toggle="tooltip"
+                  data-placement="top" title="{{ country }}" data-original-title="{{ country }}">
+                {% endif %}
+                {% endfor %}
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <!--RHC-->
+      {% include 'places/park_inserts/park_right_hand_sidebar.html' %}
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+{% block afterfooter %}
+
+
+<script>
+  $(".navbar-places").addClass("active");
+</script>
+<script>
+  $(document).ready(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
+
+
+{% endblock %}

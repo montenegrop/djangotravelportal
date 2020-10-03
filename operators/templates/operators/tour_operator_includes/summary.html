@@ -1,0 +1,188 @@
+<div class="contentbg border-grey py-3 pl-3">
+  <div class="row pt-2">
+    <div class="col-12 col-md-6">
+      <div class="pb-2 row align-items-center">
+        <i class="col-1 far fa-comments"></i>
+        <span class="mr-2 ml-2">Reviews: </span>
+        <a class="disabled scroll-link" href="#reviews-anchor">{{ tour_reviews_count }}</a>
+      </div>
+      <div class="pb-2 row align-items-center">
+        <i class="col-1 fas fa-map"></i>
+        <span class="mr-2 ml-2">Tour packages: </span>
+        <a href="{% url 'all_tour_packages_operator' tour.slug %}">{{ tour_packages_count }}
+          tour{{ tour_packages_count | pluralize }}</a>
+      </div>
+      {% if tour.tailored_safari %}
+      <div class="pb-2 row align-items-center">
+        <i class="col-1 fas fa-user-tie"></i>
+        <span class="mr-2 ml-2">Private, custom tours</span>
+      </div>
+      {% endif %}
+      {% if tour.group_safari %}
+      <div class="pb-2 row align-items-center">
+        <i class="col-1 fas fa-user-friends"></i>
+        <span class="mr-2 ml-2">Group, set date tours</span>
+      </div>
+      {% endif %}
+      {% if tour_photos_count %}
+      <div class="pb-2 row align-items-center">
+        <i class="col-1 fas fa-camera"></i>
+        <span class="mr-2 ml-2">Photos:</span>
+        <a class="disabled" href="javascript:fresco_photos();">{{ tour_photos_count }}</a>
+      </div>
+      {% endif %}
+    </div>
+    <div class="col-12 col-md-6">
+      <div class="pb-2 row align-items-center">
+        <i class="col-1 far fa-check-square"></i>
+        <span class="mr-2 ml-2">Main focus:</span>
+        <span>{{ tour.get_luxury_level_display }}</span>
+      </div>
+      <div class="pb-2 row align-items-center">
+        <i class="col-1 far fa-calendar-alt"></i>
+        <span class="mr-2 ml-2">Established:</span>
+        <span> {{ tour.startup_date | date:"Y" }} </span>
+      </div>
+      <div class="pb-2 row align-items-center">
+        <i class="col-1 fas fa-flag"></i>
+        <span class="mr-2 ml-2">Headquarters:</span>
+        <span>{{ tour.headquarters }}</span>
+      </div>
+      <div class="pb-2 row align-items-center flex-nowrap">
+        <i class="col-1 fas fa-comment align-self-baseline"></i>
+        <span class="mr-2 ml-2 align-self-baseline">Languages:</span>
+        <span>{% for language in tour.languages.all %}
+          {{ language }}{% if not forloop.last %},{% endif %}
+          {% endfor %}
+        </span>
+      </div>
+    </div>
+  </div>
+  <hr class="mr-3 my-1">
+  <div class="row">
+    <div class="col-12">
+      <p class="pt-2">Offers tour in</p>
+      <div class="row pb-2">
+        {% for country in tour_countries %}
+        <div class="col-lg-4 col-6">
+          <a href="{% url 'country_index' slug=country.slug %}">
+            <img class="flag-small" src="{{ country.flag.url }}" alt="{{ country }}">
+            {{ country }}
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <hr class="mr-3 my-1">
+  <div>
+    <p class="pt-2">Contact info</p>
+    <div class="slide-social-wrapper mt-md-2 mt-2 d-flex">
+      {% if tour.website %}
+      <a target="_blank" href="{{ tour.website | external_url }}" class="slide-social-icon">
+        <span class="font-9">Web</span>
+      </a>
+      {% endif %}
+
+      {% if tour.facebook %}
+      <a class="slide-social-icon" target="_blank" href="{{ tour.facebook | external_url  }}">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+      {% endif %}
+      {% if tour.twitter %}
+      <a class="slide-social-icon" target="_blank" href="{{ tour.twitter | external_url  }}">
+        <i class="fab fa-twitter"></i>
+      </a>
+      {% endif %}
+      {% if tour.linkedin %}
+      <a class="slide-social-icon" target="_blank" href="{{ tour.linkedin | external_url  }}">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  <!--ONLY TO BE DISPLAYED LATER WHEN TOUR OPERATOR HAS ACCOLADES
+    <hr class="mr-3 my-1">
+    <div>
+      <p class="pt-2">Accolades:</p>
+    </div>
+  END OF COMMENT-->
+</div>
+<div class="contentbg rhc-yasscore-border my-4 px-3 pb-2 d-sm-none mx-auto">
+  <div class="row">
+    <div class="col-md-12 col-5 container mt-2">
+      <img class="card-img-top rounded d-md-block d-inline mx-auto"
+        src="/media/{{ tour.logo }}" alt="company logo" id="operator-logo">
+    </div>
+    <div class="col-md-10 col px-0 offset-md-2 my-auto">
+      <div class="d-inline font-h4 font-weight-bold">Y<span class="orange">A</span>S score: {{ tour_yas_score }}/100
+      </div>
+      <i class="far fa-question-circle mr-1 ml-md-3 d-inline" data-trigger="hover" data-toggle="popover"
+        data-placement="bottom"
+        data-content="YAScore is a weighted average of 20 metrics including years in business, quality and quantity of reviews, and how quickly tour operator responds to quote requests."></i>
+      <div class="d-block font-12">Based on {{ tour_reviews_count }} reviews</div>
+    </div>
+  </div>
+  <hr class="mx-3 mt-md-1 mt-2 border border-grey">
+  <span>Overall rating</span>
+  <span class="yellow font-h5 float-right">
+
+    {{ tour_reviews_average | star_rating | safe }}
+
+  </span><br>
+  <span>Cleanliness of vehicle</span>
+  <span class="yellow font-h5 float-right">
+
+    {{ tour_vehicle_reviews_average | star_rating | safe }}
+
+  </span><br>
+  <span>Meet and greet team</span>
+  <span class="yellow font-h5 float-right">
+
+    {{ tour_meet_and_greet_reviews_average | star_rating | safe }}
+
+  </span><br>
+  <span>Quality of itinerary</span>
+  <span class="yellow font-h5 float-right">
+
+    {{ tour_itinerary_quality_reviews_average | star_rating | safe }}
+
+  </span><br>
+  <span>Responsiveness of staff</span>
+  <span class="yellow font-h5 float-right">
+
+    {{ tour_responsiveness_reviews_average | star_rating | safe }}
+
+  </span><br>
+</div>
+
+<h4 class="dark-brown h4-sm pt-4"><strong>About {{ tour.name }}</strong></h4>
+
+{{ tour.description | safe }}
+
+
+<style>
+  html {
+  scroll-behavior: smooth;
+}
+</style>
+
+<!--  -->
+<script>
+  const scrollLink = document.querySelector(".scroll-link");
+  const navbar = document.querySelector(".fixed-top");
+  scrollLink.addEventListener("click", function(e){
+    // prevent default
+    e.preventDefault();
+    // navigate to start of reviews
+    const id = e.currentTarget.getAttribute("href").slice(1);
+    const element = document.getElementById(id);  
+    // calculate the heights
+    const navHeight = navbar.getBoundingClientRect().height;
+    let position = element.offsetTop + navHeight;
+    window.scrollTo({
+      left: 0,
+      top: position,
+    })
+  });
+</script>

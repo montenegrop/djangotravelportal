@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Tag photos{% endblock %}
+{% block content %}
+    <div class="body-content photo-tags-form">
+        <div class="acordeon-list">
+            <div class="item openned">
+                <div class="wrap-content">
+                    <div class="block-bordered">
+                        <img style="width:100%; " src="{{ photo.image.url }}" alt="">
+                    </div>
+
+                    <div class="block-bordered">
+                        <h2>Help other users find your photos by tagging them ...</h2>
+
+
+                        <form action="" class="form-model-3" id="photo_tag_form" method="post">
+                            {% csrf_token %}
+                            {% crispy form %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(".country_index").change(function () {
+            var countryId = $(this).val();
+
+            $.ajax({
+                url: "{% url 'photos:ajax_load_parks' %}",
+                data: {
+                    'country': countryId
+                },
+                success: function (data) {
+                    $("select.park").html(data);
+                }
+            });
+
+        });
+        $('#cancel_button').click(function () {
+            document.location.href = '{{ return_url }}';
+        });
+    </script>
+{% endblock %}

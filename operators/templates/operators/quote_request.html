@@ -1,0 +1,178 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}{% endblock %}
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <form id='request_form' action="." class="" id="touroperator_more_information_form" method="post">
+        {% csrf_token %}
+        <div class="card main mt-3">
+          <div class="card-body p-4">
+            <h4>
+              More information request
+            </h4>
+            <div class="row">
+              <div class="col-8">
+                {% for tour_operator in tour_operators %}
+                <div class="form-group form-check">
+                  <input checked='checked' type="checkbox" class="form-check-input" name='tour_operators'
+                    id="to_{{ tour_operator.pk }}" value='{{ tour_operator.pk }}'>
+                  <label class="form-check-label" for="to_{{ tour_operator.pk }}">
+                    {{ tour_operator }}
+                    <a href="{% url 'tour_operator' slug=tour_operator.slug %}" target="_blank">
+                      (more information <i class="fas fa-external-link-alt"></i>)
+                    </a>
+                  </label>
+                </div>
+                {% endfor %}
+                {% for itinerary in itineraries %}
+                <div class="form-group form-check">
+                  <input checked='checked' type="checkbox" class="form-check-input" name='itineraries'
+                    id="it_{{ itinerary.pk }}" value='{{ itinerary.pk }}'>
+                  <label class="form-check-label" for="it_{{ itinerary.pk }}">
+                    {{ itinerary }}
+                    <a href="{% url 'tour_package' slug=itinerary.slug pk=itinerary.pk %}" target="_blank">
+                      (more information <i class="fas fa-external-link-alt"></i>)
+                    </a>
+                  </label>
+                </div>
+                {% endfor %}
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                {{ form.name|as_crispy_field }}
+              </div>
+              <div class="col-lg-6">
+                {{ form.email|as_crispy_field }}
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                {{ form.date_trip|as_crispy_field}}
+              </div>
+              <div class="col-lg-6">
+                {{ form.days|as_crispy_field}}
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                {{ form.party_size|as_crispy_field}}
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                {{ form.country_indexes|as_crispy_field}}
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                {{ form.telephone|as_crispy_field }}
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-12">
+                {{ form.additional_information|as_crispy_field}}
+              </div>
+            </div>
+            <div>
+              <button name='save' type="submit" class="btn btn-green-primary submit">Submit</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<style>
+  select.form-control {
+    width: auto
+  }
+
+  label.error {
+    color: #7C3B3E;
+    font-size: 11px;
+  }
+
+  #div_id_country_indexes div {
+    padding-left: 0.75rem;
+  }
+
+
+  #div_id_country_indexes div .form-check {
+    list-style: none;
+    display: inline-block;
+    padding: 0;
+    width: 20%;
+  }
+
+  @media screen and (max-width: 576px) {
+    #div_id_country_indexes div .form-check {
+    width: 45%;
+  }
+  }
+
+
+  #div_id_country_indexes div {
+    padding-left: 1.25rem;
+  }
+
+
+
+</style>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('#cancel_button').click(function () {
+      history.back();
+    }
+    );
+  });
+
+  $.validator.addMethod("min_date", function (value, element, params) {
+    var month = $('select[name="' + params[0] + '"]').val(),
+      day = $('select[name="' + params[1] + '"]').val(),
+      year = $('select[name="' + params[2] + '"]').val();
+    const d = new Date(year, month - 1, day, 0, 0, 0, 0);
+    var now = new Date();
+    return d > now;
+  }, "Date must be in the future")
+
+  $("#request_form").validate({
+    rules: {
+      country_indexes: {
+        //required: true,
+        //minlength: 1
+        required: function (elem) {
+          return $("input[type=checkbox]:checked").length > 0;
+        }
+      },
+      date_trip_month: {
+        min_date: ['date_trip_month', 'date_trip_day', 'date_trip_year']
+      }
+    },
+    messages: {
+      country_indexes: "Please select at least a country",
+    },
+    errorPlacement: function (error, element) {
+      console.log(element.attr("name"))
+      if (element.attr("name") == "country_indexes") {
+        error.insertAfter("#div_id_country_indexes");
+      } else if (element.attr("name") == 'date_trip_month') {
+        error.insertAfter("#div_id_date_trip");
+      } else {
+        error.insertAfter(element);
+      }
+    },
+
+  }
+  )
+  $(".select2").select2()
+</script>
+{% endblock %}

@@ -1,0 +1,71 @@
+<div class="contentbg mt-3 border-grey container-fluid">
+  <div class="d-flex justify-content-between my-1 row">
+    <h5 class="px-4 mt-2">
+      <strong>
+        <a class="dark-brown" href="{% url 'tour_operator' slug=tour_operator.slug %}">
+          {{ tour_operator }}
+        </a>
+      </strong>
+    </h5>
+    <div class="pr-2 px-4 d-flex align-items-center">
+      {{ tour_operator.review_avg | star_rating| safe }}
+      <div class="font-11 text-light-grey pl-1">
+        {% if tour_operator.review_count == 1 %}
+        1 review
+        {% else %}
+        {{ tour_operator.review_count }} reviews
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+  <hr class="my-0 d-sm-block d-none">
+  <div class="row">
+    <div class="col-sm-3 col-12">
+      <a id="tour-operator-img" href="{% url 'tour_operator' slug=tour_operator.slug %}"
+        class="card-img-top mx-auto rounded border ml-2 my-2 row justify-content-center align-items-center">
+        <div id="search-result-img">
+           <img class="d-block mx-auto align-middle" src="{{ tour_operator.logo|thumbnail_url_:'search_card' }}" alt="company logo">
+        </div>
+      </a>
+    </div>
+    <div class="col-sm-9 col-12 pt-2">
+      <div class="row px-2 px-sm-0">
+        <div class="col-9">
+          <p class="my-0">Operating in:
+            {% if tour_operator.country_indexes.count > 1 %}
+            {% for country in tour_operator.country_indexes.all %}
+            <a class="font-12" href="{% url 'country_index' slug=country.slug %}">
+              <img class="flag-small" src="{{ country.flag.url }}" alt="{{ country }}" data-toggle="tooltip"
+                data-placement="top" title="{{ country }}" data-original-title="{{ country }}">
+            </a>
+            {% endfor %}
+            {% else %}
+            {% for country in tour_operator.country_indexes.all %}
+            <a class="font-12" href="{% url 'country_index' slug=country.slug %}">
+              <img class="flag-small" src="{{ country.flag.url }}" alt="{{ country }}" data-toggle="tooltip"
+                data-placement="top" title="{{ country }}" data-original-title="{{ country }}">{{ country }}
+            </a>
+            {% endfor %}
+            {% endif %}
+          </p>
+          <p>Tours: <a
+              href="{% url 'all_tour_packages_operator' operator=tour_operator.slug %}">{{ tour_operator.package_count  }}</a>
+          </p>
+        </div>
+        <div class="col-sm-1 px-0 rounded border border-grey ml-auto mr-4" id="yasscore-search">
+          <p class="small pt-1 text-center font-weight-light text-light-grey font-11" data-trigger="hover"
+            data-toggle="popover" data-placement="bottom"
+            data-content="YAScore is a weighted average of 20 metrics including years in business, quality and quantity of reviews, and how quickly tour operator responds to quote requests."
+            data-original-title="" title="">YAScore<br><span class="h4 font-weight-light dark-brown"
+              data-original-title="" title="">91</span></p>
+        </div>
+        <p class="col-12 col-sm-10">
+          {{tour_operator.description | truncatechars_html:100}}
+          <a class="olive-green" href="{% url 'tour_operator' slug=tour_operator.slug %}">read more</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>

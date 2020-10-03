@@ -1,0 +1,149 @@
+<script type="text/x-template" id="filter_component">
+  <form>
+    <p class="text-dark-grey">Where would you like to go?</p>
+    <places-filter 
+      ref="placesFilter"
+      :is_inited="is_inited"
+      :variants="filter_variants_country_and_park"
+      :excluded_slug="excluded_slug"
+      @selected="fillCustomFilters($event, ['country', 'park'], 'placesFilter');"
+      @remove-slug="removeSlug"
+      @change-slug="changeSlug"
+    ></places-filter>
+
+    <div class="accordion text-dark-grey" id="accordionExample">
+      <hr>
+      <p class="collapsed text-dark-grey">
+        When would you like to visit
+      </p>
+      <datepicker-filter
+        ref="datepickerFilter"
+        @selected="fillCustomFilters([$event], [$event.tag], 'datepickerFilter', $event.prefix)"
+      ></datepicker-filter>
+
+      {% comment %} TODO: to consider the return
+      <div class="form-group">
+        <label for="adultTravelerSelect">Adult travelers</label>
+        <select
+          v-model="adult_traveler"
+          @change="fillCustomFilters([{id: null, value: adult_traveler}], ['adult-travelers'], 'adult_traveler', 'Travelers: ')"
+          id="adultTravelerSelect"
+          style="min-width: 100px;"
+          class="ml-2"
+        >
+          <option value="">Any</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      {% endcomment %}
+      <a class="collapsed text-dark-grey">
+        Price per person
+      </a>
+      <price-filter
+        ref="priceFilter"
+        :min="{{min_price}}"
+        :max="{{max_price}}"
+        :interval="100"
+        tag="price"
+        min_label="min"
+        max_label="max"
+        @selected="fillCustomFilters([$event], [$event.tag], 'priceFilter', $event.prefix)"
+      ></price-filter>
+
+      <br>
+      <br>
+
+      <div class="card border-right-0 border-left-0 border-bottom-0 rounded-0 pointer">
+        <div class="py-3 background-white caret-toggle" id="headingOne" data-toggle="collapse" data-target="#collapseOne">
+          <a class="collapsed text-dark-grey" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false"
+            aria-controls="collapseOne">
+            Safari preference<i class="fas fa-angle-down caret-rotate caret float-right mr-1 "></i>
+          </a>
+        </div>
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <radio-filter
+            ref="preferenceFilter"
+            :items="itinerary_types"
+            value_property="name"
+            tag="safary-preference"
+            @selected="fillCustomFilters([$event], ['safary-preference'], 'preferenceFilter')"
+          ></radio-filter>
+        </div>
+      </div>
+
+      <div class="card border-right-0 border-left-0 border-bottom-0 rounded-0 pointer">
+        <div class="py-3 background-white caret-toggle" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo">
+          <a class="collapsed text-dark-grey" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+            aria-controls="collapseTwo">
+            My main focus is<i class="fas fa-angle-down caret-rotate caret float-right mr-1 "></i>
+          </a>
+        </div>
+        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
+          <radio-filter
+            ref="mainFocusFilter"
+            :items="main_focus_activities"
+            tag="main-focus"
+            value_property="name_short"
+            @selected="fillCustomFilters([$event], ['main-focus'], 'mainFocusFilter')"
+          ></radio-filter>
+        </div>
+      </div>
+
+      <div id="refine-popup"></div>
+      <div class="card border-right-0 border-left-0 rounded-0 pointer">
+        <div class="py-3 background-white caret-toggle" id="headingFive" data-toggle="collapse" data-target="#collapseThree">
+          <a class="collapsed text-dark-grey" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
+            aria-controls="collapseThree">
+            Refine your selection
+            <i class="fas fa-info-circle pl-1" data-toggle="popover" data-trigger="hover" data-placement="right"
+              data-popover-content="#refine-popup-text" data-container="#refine-popup"></i>
+            <div id="refine-popup-text" class="d-none">
+              <div class="popover-body">
+                <p class="text-left">Create your dream safari</br><span class="font-weight-light">Choose more
+                    activities and get exactly the safari you want. 3 max.</span></p>
+              </div>
+            </div>
+            <i class="fas fa-angle-down caret-rotate caret float-right mr-1 "></i>
+          </a>
+        </div>
+        <div id="collapseThree" class="collapse show" aria-labelledby="headingFive" data-parent="#accordionExample">
+          <checkboxes-filter
+            ref="secondActivitiesFilter"
+            :items="second_focus_activities"
+            tag="secondary-focus"
+            value_property="name_short"
+            @selected="fillCustomFilters($event, ['secondary-focus'], 'secondActivitiesFilter')"
+          ></checkboxes-filter>
+        </div>
+      </div>
+
+      <div class="card border-right-0 border-left-0 rounded-0 pointer">
+        <div class="py-3 background-white caret-toggle" id="headingSix" data-toggle="collapse" data-target="#collapseFour">
+          <a class="collapsed text-dark-grey" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false"
+            aria-controls="collapseFour">
+            Activity level<i class="fas fa-angle-down caret-rotate caret float-right mr-1 "></i>
+          </a>
+        </div>
+        <div id="collapseFour" class="collapse show" aria-labelledby="headingSix" data-parent="#accordionExample">
+          <checkboxes-filter
+            ref="activityLevelFilter"
+            :items="activity_levels"
+            tag="activity-level"
+            @selected="fillCustomFilters($event, ['activity-level'], 'activityLevelFilter')"
+          ></checkboxes-filter>
+        </div>
+      </div>
+
+    </div>
+    <div class="alert alert-custom alert-dismissible fade show p-12 mt-1 font-13">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <strong>Focus on what matters</strong></br> Use filters to only see what matters most.
+      Want someone who is quick to respond or who speaks French?
+      We can help.
+    </div>
+  </form>
+</script>

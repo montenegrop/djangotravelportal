@@ -1,0 +1,730 @@
+{% extends 'core/base.html' %}
+{% block title %} {{ object }} {% endblock %}
+{% block content %}
+    <div class="container-fluid px-lg-5 max-width mt-4 mx-auto ">
+      <div class="row px-md-5 px-2 justify-content-between ">
+        <div class="col">
+          <h1 class="h1-sm">
+            <strong>{{ object }}</strong>
+          </h1>
+          <div class="mb-2 mb-sm-0">
+            <span class="yellow font-h5" title="{{ park.parkreview_average|floatformat:2 }} / 5.00">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span>
+            <span class="font-weight-light font-11 text-light-grey pl-1 ">                       
+              <span>{{ park.parkreview_count }}</span>
+              reviews{{ park.parkreview_count | pluralize }}                          
+            </span>
+          </div>
+        </div>
+        <div class="mt-md-2 mt-2 d-flex justify-content-end mr-2 ml-2">
+           <!--IF TOUR OPERATOR IS NOT QUICK TO RESPOND THIS IS SHOWN-->
+          <!--<button class="btn btn-lg ml-auto btn-orange mr-4 d-none d-sm-inline" type="submit">Get quote</button>-->
+          <!--END COMMENT-->
+          <i onclick="heartChange(this)" class="far fa-heart card-heart " id="heart-TO-review"></i>           
+        </div>      
+      </div>
+      <!--IF TOUR OPERATOR IS NOT QUICK TO RESPOND THIS IS HIDDEN-->
+      <div class="row px-md-5 px-2 d-flex align-items-center">
+        <div id="quick-to-reply-banner" class="d-flex align-items-center">
+          <img class="d-inline" src="https://trello-attachments.s3.amazonaws.com/5d2292f37db95c2f90642b60/5d950d5c35744166bef8feb5/c063938e62be93c1e4d4b829e097c326/iconfinder_Animals_Mammals_Artboard_35_4601913.png">
+          <span class="col mr-xl-5">Quick to reply to quote requests!</span>
+        </div>
+        <button class="btn btn-lg ml-auto btn-orange mr-2 d-none d-sm-block" type="submit">Get quote</button>  
+      </div>
+      <!--END COMMENT-->
+      <button class="btn btn-lg mx-auto mt-2 btn-orange mr-4 d-sm-none d-block" type="submit">Get quote</button> 
+    
+      <div class="row justify-content-between mt-3 mx-md-4 mx-0">
+        <div class="col-xl-8 pr-5 col-lg-12">
+          <div class="contentbg border-grey py-3 pl-3">       
+            <div class="row pt-2">
+              <div class="col-12 col-md-6">
+                <div class="pb-2 row align-items-center">
+                  <i class="col-1 far fa-comments"></i>
+                  <span class="mr-2 ml-2">Reviews: </span>
+                  <a href="#">4</a>
+                </div>
+                <div class="pb-2 row align-items-center">
+                  <i class="col-1 fas fa-map"></i>
+                  <span class="mr-2 ml-2">Tour packages: </span>
+                  <a href="#">16 tours</a>   
+                </div>
+                <div class="pb-2 row align-items-center">
+                  <i class="col-1 fas fa-user-tie"></i>
+                  <span class="mr-2 ml-2">Private, custom tours</span>           
+                </div>
+                <div class="pb-2 row align-items-center">
+                  <i class="col-1 fas fa-user-friends"></i>
+                  <span class="mr-2 ml-2">Group, set date tours</span>    
+                </div>                
+                <div class="pb-2 row align-items-center">  
+                  <i class="col-1 fas fa-camera"></i>              
+                  <span class="mr-2 ml-2">Photos:</span>
+                  <a href="#">8</a>
+                </div>               
+              </div>
+              <div class="col-12 col-md-6">          
+                <div class="pb-2 row align-items-center"> 
+                  <i class="col-1 far fa-check-square"></i>                       
+                  <span class="mr-2 ml-2">Main focus:</span>
+                  <span>Ultra luxury</span>
+                </div>
+                <div class="pb-2 row align-items-center">    
+                  <i class="col-1 far fa-calendar-alt"></i>   
+                  <span class="mr-2 ml-2">Established:</span>
+                  <span>1988</span>
+                </div>  
+                <div class="pb-2 row align-items-center">  
+                  <i class="col-1 fas fa-flag"></i>                
+                  <span class="mr-2 ml-2">Headquarters:</span>
+                  <span>Tanzania</span>
+                </div>  
+                <div class="pb-2 row align-items-center">   
+                  <i class="col-1 fas fa-comment"></i>             
+                  <span class="mr-2 ml-2">Languages:</span>
+                  <span>English, French, Swahili</span>
+                </div>                                
+              </div>
+            </div>                                  
+          </div>
+          <div class="contentbg rhc-wide-border my-4 px-3 parks-rhc-max-width pb-2 d-sm-none mx-auto">
+            <div class="row">
+              <div class="col-md-12 col-5 container mt-2">
+                <img class="card-img-top rounded border border-featured d-md-block d-inline mx-auto" src="Icons/Africa natural tours.jpg" alt="company logo" id="operator-logo"> 
+              </div>  
+              <div class="col-md-10 col px-0 offset-md-2 my-auto">
+                <div class="d-inline font-h4 font-weight-bold">Y<span class="orange">A</span>S score: 69/100</div>
+                <i class="far fa-question-circle mr-1 ml-md-3 d-inline" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="YAScore is a weighted average of 20 metrics including years in business, quality and quantity of reviews, and how quickly tour operator responds to quote requests."></i>
+                <div class="d-block font-12">Based on 28 reviews</div>
+              </div>           
+            </div>
+            <hr class="mx-3 mt-md-1 mt-2 border border-grey">
+            <span>Overall rating</span> 
+            <span class="yellow font-h5 float-right">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span><br>
+            <span>Caliber of guide</span> 
+            <span class="yellow font-h5 float-right">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span><br>
+            <span>Cleanliness of vehicle</span> 
+            <span class="yellow font-h5 float-right">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span><br>
+            <span>Meet and greet team</span> 
+            <span class="yellow font-h5 float-right">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span><br>
+            <span>Quality of itinerary</span> 
+            <span class="yellow font-h5 float-right">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span><br>
+            <span>Quality of itinerary</span> 
+            <span class="yellow font-h5 float-right">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span><br>
+            <span>Responsiveness of staff</span> 
+            <span class="yellow font-h5 float-right">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span><br>
+          </div>
+          <button id="review-btn" class="btn btn-green-primary d-sm-none mx-auto d-block" type="button" >Write a review</button>
+          <div class="container-fluid mt-3">
+            <div class="row align-items-center">
+              <h4 class="dark-brown h4-sm"><strong>Reviews</strong></h4>   
+              <button id="review-btn" class="btn btn-green-primary d-sm-block d-none ml-sm-auto mx-auto mx-sm-0" type="button" >Write a review</button>
+            </div>
+          </div>
+          <div class="row">         
+            <div class="col-lg-4 col-sm-5 col-8 row align-items-center mx-1">
+              <p class="m-0 pr-2 text-right">Sort by:</p>
+              <select class="col custom-select pointer w-25">
+                <option selected value="2">Most recent</option>
+                <option value="2">Category name</option>
+                <option value="3">Oldest</option>
+                <option value="4">Most popular (based on views)</option>
+              </select>
+            </div>
+          </div>
+            
+          <!--THIS MUST SHOW A MAXIMUM OF 10 REVIEWS AND THEN THE SHOW MORE BUTTON BENEATH SHOWS ANOTHER 10-->
+          <div class="border rounded mb-4 mt-3">
+            <div class="border-bottom px-3 pt-2 container-fluid">
+              <div class="d-flex row">
+                <div class="col-sm-8 col-12">
+                  <h5 class="d-inline-block pr-2"><strong>"Incredible"</strong></h5>            
+                </div>                  
+                <div class="col-12 col-sm ml-auto pb-1">
+                  <div class="ob-rating text-nowrap">
+                    <div class="text-left text-sm-right">
+                      <span class="yellow font-h5" title="{{ park.parkreview_average|floatformat:2 }} / 5.00">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                      </span>
+                    </div>                    
+                  </div>
+                </div>
+              </div>             
+            </div>
+            <div class="d-sm-flex container-fluid">
+              <div class="row">
+                <div class="park-card-image mx-auto mx-sm-0 px-0 col-12 col-sm-3 d-sm-none">
+                  <a href="#">
+                    <img src="http://134.209.196.106/media/images/parks/2020/01/03/image_7.300x150_q85_crop.jpg" alt=""/>
+                  </a>
+                </div> 
+                <div class="d-none d-sm-block">
+                  <div class="park-card-image mx-auto mx-sm-0 px-0 col-12 col-sm-3">
+                    <a href="#">
+                      <img src="http://134.209.196.106/media/images/parks/2020/01/03/image_7.300x150_q85_crop.jpg" alt=""/>
+                    </a>
+                  </div> 
+                    <div class="col-6 col-sm-3 mt-2 mt-sm-0" id="reviewer-info">
+                      <div class="font-12 pb-2 mt-sm-1">
+                        <div>By: <a href="#">Stephanie</a></div>
+                        <div><i class="i-safari-enthusiast pr-1"></i>Safari enthusiast</div>
+                        <div class="collapse" id="collapseReviewCard"><i class="i-safari-guru pr-1"></i>Safari guru</div>
+                        <div class="collapse" id="collapseReviewCard"><i class="fas fa-binoculars pr-1"></i>Tour operator</div>
+                        <div class="collapse" id="collapseReviewCard"><i class="i-travel-agency pr-1"></i>Travel agency</div>                      
+                        <div class="collapse" id="collapseReviewCard"><i class="i-kudu pr-1"></i>26 kudus</div>
+                        <div class="collapse" id="collapseReviewCard"><i class="fas fa-camera pr-1"></i>Photo (1)</div>
+                        <div class="collapse" id="collapseReviewCard"><i class="far fa-comments pr-1"></i>Reviews (3)</div>
+                        <div><img class="pr-1" src="https://static3.yourafricansafari.com/images/flags-iso/16/nl.png">Netherlands</div>
+                      </div>
+                    </div>
+                </div>   
+                <div class="col pt-1">
+                  <div class="font-12 pb-2 d-none d-sm-inline">
+                    <span class="pr-3">Visited: Jan. 2020</span>
+                    <span class="pr-3">Reviewed: Jan. 27, 2020</span>
+                    <span class="d-inline-block">
+                      <span data-trigger="hover" data-toggle="popover" data-placement="top" data-content="This is the country from which the review was submitted.
+                        We want to give as much transparency in the reviews as possible.
+                        People do write safari reviews while they're still in Africa, but it's wise to look at the safari date vs the review date. " data-original-title="" title="">
+                        Submitted in:</span>
+                      <img src="https://static3.yourafricansafari.com/images/flags/16/Botswana.png" alt="country flag" data-toggle="tooltip" data-placement="top" title="Botswana">   
+                    </span>                                            
+                  </div>
+                  <p class="my-sm-0 mt-sm-2">
+                    This was one of our favorite trips. Maggie and her team did an amazing job in planning or safari. All the details were covered and we had a seamless trip. This was the best experience...
+                     <a data-toggle="collapse" href="#collapseReviewCard" role="button" aria-expanded="false" aria-controls="collapseReviewCard">read more</a>
+                     <span class="collapse" id="collapseReviewCard">
+                        I've ever had with a travel agent. Everything we requested was well addressed, details we didn't even think about were already handled and their suggestions were all spot-on. We stayed in beautiful tented camps, amazing food and fantastic staff. The guides showed not only their knowledge in spotting the animals but gave us incredible stories of their past experiences in the wild. 
+                        I have nothing but the best things to say about the work of this travel team, their planning was impeccable; they know the regions and services, and they stay with you through the ups and downs of planning and delivering on what was promised.                    
+                     </span><a data-toggle="collapse" href="#collapseReviewCard" role="button" aria-expanded="false" aria-controls="collapseReviewCard">Read less</a>
+                   </p>            
+                 <div class="row mt-2 collapse" id="collapseReviewCard">
+                    <div class="col-12 col-md-6 pr-md-0">
+                      <div class="d-flex justify-content-between pt-1">
+                        <div>Meet and greet team</div> 
+                        <div class="yellow font-h5 text-nowrap ml-1">
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                        </div>                        
+                      </div>                    
+                      <div class="d-flex justify-content-between pt-1">
+                        <div>Responsiveness of staff</div> 
+                        <div class="yellow font-h5 text-nowrap ml-1">
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                        </div>                        
+                      </div> 
+                      <div class="d-flex justify-content-between pt-1">
+                        <div>Quality of itinerary</div> 
+                        <div class="yellow font-h5 text-nowrap ml-1">
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                        </div>                        
+                      </div> 
+                    </div>
+                    <div class="col-12 col-md-6 ml-0">
+                      <div class="d-flex justify-content-between pt-1">
+                        <div>Quality of vehicles</div> 
+                        <div class="yellow font-h5 text-nowrap ml-1">
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                        </div>                        
+                      </div>                    
+                      <div class="d-flex justify-content-between pt-1">
+                        <div>Knowledge of guides</div> 
+                        <div class="yellow font-h5 text-nowrap ml-1">
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                        </div>                        
+                      </div> 
+                      <div class="d-flex justify-content-between pt-1">
+                        <div>Overall rating</div> 
+                        <div class="yellow font-h5 text-nowrap ml-1">
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                          <i class="fas fa-star"></i>
+                        </div>                        
+                      </div> 
+                    </div>
+                  </div>
+                  <hr class="my-sm-2 my-1 collapse d-sm-inline d-none" id="collapseReviewCard">             
+                  <div class="row d-sm-flex d-none align-items-center align-items-end mt-3 mb-1">
+                    <div class="font-12 col-8">Countries visited: 
+                      <img src="https://static3.yourafricansafari.com/images/flags/16/Botswana.png" alt="country flag" data-toggle="tooltip" data-placement="top" title="Botswana">
+                      <img src="https://static3.yourafricansafari.com/images/flags/16/Kenya.png" alt="country flag" data-toggle="tooltip" data-placement="top" title="Kenya">
+                      <img src="https://static3.yourafricansafari.com/images/flags/16/Namibia.png" alt="country flag" data-toggle="tooltip" data-placement="top" title="Namibia">
+                    </div>
+                    <div class="font-12 col-4 d-flex justify-content-end text-nowrap">
+                      <button class="btn mr-2" id="kudu-button">
+                        <i class="icon-tato font-h3"></i>
+                      </button>
+                      <span><span class="font-h4 pt-3 d-inline-block">0</span> kudus</span></div>
+                  </div>
+                </div>                
+                <div class="w-100"></div>                
+                <div class="col-6 col-sm-3 mt-2 mt-sm-0 d-sm-none" id="reviewer-info">
+                  <div class="font-12  mt-sm-1">
+                    <div>By: <a href="#">Stephanie</a></div>
+                    <div><i class="i-safari-enthusiast pr-1"></i>Safari enthusiast</div>
+                    <div><img class="pr-1" src="https://static3.yourafricansafari.com/images/flags-iso/16/nl.png">Netherlands</div>
+                  </div>
+                </div>
+                <div class="col-6 d-flex align-items-end d-sm-none">
+                  <div class="font-12">
+                    <div>Visited: Jan. 2020</div>
+                    <div>Reviewed: Jan. 27, 2020</div>
+                    <div>
+                      <span data-trigger="hover" data-toggle="popover" data-placement="top" data-content="This is the country from which the review was submitted.
+                        We want to give as much transparency in the reviews as possible.
+                        People do write safari reviews while they're still in Africa, but it's wise to look at the safari date vs the review date. " data-original-title="" title="">
+                        Submitted in:</span>
+                        <img src="https://static3.yourafricansafari.com/images/flags/16/Botswana.png" alt="country flag" data-toggle="tooltip" data-placement="top" title="Botswana">   </div>
+                  </div>
+                </div>
+                <div class="col-sm col-12 d-sm-none">
+                  <hr class="my-2">             
+                  <div class="row d-flex align-items-center">
+                    <div class="font-12 col-8">Countries visited: 
+                      <img src="https://static3.yourafricansafari.com/images/flags/16/Botswana.png" alt="country flag" data-toggle="tooltip" data-placement="top" title="Botswana">
+                      <img src="https://static3.yourafricansafari.com/images/flags/16/Kenya.png" alt="country flag" data-toggle="tooltip" data-placement="top" title="Kenya">
+                      <img src="https://static3.yourafricansafari.com/images/flags/16/Namibia.png" alt="country flag" data-toggle="tooltip" data-placement="top" title="Namibia">
+                    </div>
+                    <div class="font-12 col-4 d-flex justify-content-end text-nowrap">
+                      <button class="btn mr-2" id="kudu-button">
+                        <i class="icon-tato font-h3"></i>
+                      </button>
+                      <span><span class="font-h4 pt-3 d-inline-block">0</span> kudus</span></div>
+                  </div>
+                </div> 
+              </div>        
+            </div>
+            <div class="new-card-footer"></div>
+          </div>                       
+          <!--END COMMENT-->      
+          <a class="text-center d-block" href="#">Show more</a>
+        </div>
+
+
+
+
+        <!--RHC-->
+        <div class="col-xl-4 col-12">
+          <div class="contentbg rhc-wide-border px-3 parks-rhc-max-width pb-2 d-none d-sm-block">
+            <div class="row">
+              <div class="col-md-12 col-5 container mt-2">
+                <img class="card-img-top rounded border d-md-block d-inline mx-auto" src="Icons/Africa natural tours.jpg" alt="company logo" id="operator-logo"> 
+              </div>  
+              <div class="col-md-10 col px-0 offset-md-2 my-auto">
+                <div class="d-inline font-h4 font-weight-bold">Y<span class="orange">A</span>S score: 69/100</div>
+                <i class="far fa-question-circle mr-1 ml-md-3 d-inline" data-trigger="hover" data-toggle="popover" data-placement="bottom" data-content="YAScore is a weighted average of 20 metrics including years in business, quality and quantity of reviews, and how quickly tour operator responds to quote requests."></i>
+                <div class="d-block font-12">Based on 28 reviews</div>
+              </div>           
+            </div>
+            <hr class="mx-3 mt-md-1 mt-2 border border-grey">
+            <span>Overall rating</span> 
+            <span class="yellow font-h5 float-right">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span><br>
+            <span>Caliber of guide</span> 
+            <span class="yellow font-h5 float-right">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span><br>
+            <span>Cleanliness of vehicle</span> 
+            <span class="yellow font-h5 float-right">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span><br>
+            <span>Meet and greet team</span> 
+            <span class="yellow font-h5 float-right">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span><br>
+            <span>Quality of itinerary</span> 
+            <span class="yellow font-h5 float-right">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span><br>
+            <span>Quality of itinerary</span> 
+            <span class="yellow font-h5 float-right">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span><br>
+            <span>Responsiveness of staff</span> 
+            <span class="yellow font-h5 float-right">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </span><br>
+          </div>
+          
+          <div class="dropdown-divider d-xl-none"></div> 
+          <div class="contentbg rhc-wide-border px-0 px-sm-3 mt-4 parks-rhc-max-width">
+            <h5 class="pt-3 pb-2">
+              <strong>Latest articles</strong>
+            </h5>
+            <div class="articles">
+              {% for article in object.highlighted_articles %}
+              <a>
+                <div class="card reviews mb-3 px-2 pt-2 pb-1">
+                  <div class="row no-gutters pb-2">
+                    <div class="col-4">
+                      <div class="photo-container-reviews">
+                        <a href="{% url 'articles:view' article.slug %}">
+                          <img src="{{ article.image|thumbnail_url_:'crop_150' }}" alt="...">
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-8">
+                      <div class="card-body pr-0">
+                        <p class="card-title text-left text-truncate"><a href="{% url 'articles:view' article.slug %}">{{ article.title_short }}</a></p>
+                        <p class="mb-0 pt-2">
+                          <small class="text-light-grey pb-4">When: {{ article.date_created|date:"N j, Y" }}</small>
+                          <br>
+                          <small class="text-light-grey">By: {{ article.categories_string }}</small>
+                        </p>
+                      </div>
+                    </div>
+                  </div>                
+                </div>
+              </a>
+              {% endfor %}
+            </div>
+            <a class="my-2 d-block text-center" href="">See all articles (1)</a>
+          </div>
+          <div class="dropdown-divider d-xl-none"></div> 
+          <!--This needs to only be one review-->
+          <div class="contentbg rhc-wide-border mt-4 px-0 px-sm-3 parks-rhc-max-width">
+            <h5 class="pt-3 pb-2">
+              <strong>Park reviews written by {{ object }}</strong>
+            </h5>
+            <div class="articles">
+              {% for review in reviews %}
+              <a>
+                <div class="card reviews mb-3 px-2 pt-2 pb-1">
+                  <div class="row no-gutters pb-2">
+                    <div class="col-4">
+                      <div class="photo-container-reviews">
+                        <a href="{% url 'articles:view' article.slug %}">
+                          <img src="{{ article.image|thumbnail_url_:'crop_150' }}" alt="...">
+                        </a>
+                      </div>
+                    </div>
+                    <div class="col-8">
+                      <div class="card-body pr-0">
+                        <p class="card-title text-left text-truncate"><a href="{% url 'articles:view' article.slug %}">{{ review.title }}</a></p>
+                        <p class="mb-0 pt-2">
+                          <small class="text-light-grey pb-4">When: {{ review.date_created }}</small>
+                          <br>
+                          <span class="yellow font-h5">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>                
+                </div>
+              </a>
+              {% endfor %}
+            </div>
+            <a class="my-2 d-block text-center" href="">See all reviews (1)</a>
+          </div>
+           <!--End comment-->
+          <div class="dropdown-divider d-xl-none"></div>                                 
+          <div class="contentbg rhc-wide-border px-0 px-sm-3  mt-4 parks-rhc-max-width">
+            <h5 class="pt-3 pb-2">
+              <strong>Latest photos</strong>
+            </h5>
+            <a href="">
+              <img style="width:100%; max-width: 100% " src="http://134.209.196.106/media/images/photos/2019/11/image_27566.jpg" alt=""/>
+            </a>
+            <a class="my-2 d-block text-center" href="">See all photos ({{ object.photo_set.count }})</a>
+          </div>              
+        </div>  
+      </div>
+    </div>
+
+      
+
+
+
+
+    <style>
+      #quick-to-reply-banner img {
+        max-width: 100px;
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+      }
+      #quick-to-reply-banner {
+        background: rgb(255,255,255);
+        background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(241,239,216,1) 35%, rgba(241,239,216,1) 100%);
+        height: 40px;
+      }
+      /* Button heart */
+    #heart-TO-review{
+      top: -5px;
+      font-size: 2.2em !important; 
+      }
+    .fa-heart {
+      color: #DC7403;          
+      }
+      @media only screen and (max-width: 576px) {
+        #heart-TO-review {
+          top: 0px
+        }
+      }
+      .btn-orange {
+        background-color: #DC7403;
+        border-color: #DC7403;
+        color: #ffffff;
+        font-weight: 500; 
+        width: 148px;
+        height: 58px;
+      }
+      .btn-orange:hover {
+        background-color: #FB880A;
+        border-color: #FB880A;
+        color: #ffffff;
+      }
+      .btn-green-primary {
+        background-color: #6b6a24;
+        border-color: #6b6a24;
+        color: #fff;
+      }
+      .btn-green-primary:hover {
+        color: #fff;
+        background-color: #81802b;
+        border-color: #81802b;
+      }
+
+      #operator-logo {
+        width: 110px;
+      }
+      .orange {
+        color: #DC7403 !important;  
+      }
+
+      .park-card-image {
+        min-width: 170px;
+        max-width: 170px;
+        width: 170px;
+        overflow: hidden;
+      }
+
+      .park-card-image img {
+        display: block;
+        min-width: 100%;
+        max-width: initial;
+        height: 90px;
+      }
+
+      @media only screen and (max-width: 576px) {
+       .park-card-image {
+          min-width: 170px;
+          max-width: 100%;
+          width: 100%;
+          overflow: hidden;
+          height: 160px;
+        }
+        .park-card-image img {
+          height: 160px;
+        }
+      }    
+
+      #reviewer-info {
+        min-width: 170px;
+        max-width: 170px;
+        width: 170px;
+      }
+
+      @media only screen and (max-width: 576px) {
+        #reviewer-info {
+        min-width: 50%;
+        max-width: 50%;
+        width: 50%;
+        }
+      }
+
+      @media only screen and (min-width: 576px) {
+      .border-top-sm-0 {
+        border-top: 0 !important;
+      }
+    }
+
+    .slide-social-wrapper {
+    flex-direction: row;
+    display: flex;
+    }
+
+    .slide-social-icon {
+      width: 36px;
+      height: 36px;
+      border: 1px solid #999;
+      font-size: 20px;
+      display: flex;
+      border-radius: 18px;
+      justify-content: center;
+      align-items: center;
+      margin: 0 3px;
+      color: #666 !important;
+      opacity: .7;
+    }
+    
+    .slide-social-icon:hover {
+      color: #666 !important;
+      opacity: 1;
+    }
+    @media only screen and (max-width: 1200px) {
+    .parks-rhc-max-width {
+      max-width: 396px;
+    }
+  } 
+
+  #kudu-button {
+  background-color: none;
+  border: 1px solid #6B6A24;
+  }
+  #kudu-button:hover {
+    background-color: none;
+    border: 1px solid #4B5320;
+  }
+  #kudu-button:active {
+    background-color: #4B5320;
+  }
+  .icon-tato:active {
+    color: white
+  }
+
+    </style>
+
+    <script>
+      function heartChange(x) {
+        x.classList.toggle("fas");
+      }
+    </script>
+
+    <script>
+      $(function(){
+      $("[data-toggle=popover]").popover({
+              html : true,
+      content: function() {
+      var content = $(this).attr("data-popover-content");
+      return $(content).children(".popover-body").html();
+              },
+          });
+      });
+    </script>
+    <script>
+      $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip(); 
+      });
+    </script>
+
+<script>
+  $(function () {
+    $("[data-toggle=popover]").popover({
+      html: true,
+      content: function () {
+        var content = $(this).attr("data-popover-content");
+        return $(content).children(".popover-body").html();
+      },
+    });
+  });
+</script>
+{% endblock %}
+

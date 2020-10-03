@@ -1,0 +1,86 @@
+<style>
+    .border-sm-left {
+    border-left: 1px solid #dee2e6 !important;
+  }
+
+  @media screen and (max-width: 576px) {
+    .border-sm-left {
+      border-left: none !important;
+    }
+  }
+</style>
+<div class="contentbg border-grey container-fluid mt-3">
+    <div class="d-flex justify-content-between my-1 row">
+        <h5 class="dark-brown px-4 mt-2">
+            <strong>
+                <a class="dark-brown" href="{% url 'tour_package' slug=package.slug pk=package.id %}">
+                    {{ package }}
+                </a>
+            </strong>
+        </h5>
+    </div>
+    <hr class="my-0 d-sm-block d-none">
+    <div class="row pb-sm-0 pb-2">
+        <a  href="{% url 'tour_package' slug=package.slug pk=package.pk %}" class="col-sm-3 col-12 my-auto">
+          {% if package.image %}
+          <div id="search-result-img">
+             <img class="d-block mx-auto" src="{{ package.image.url }}"
+                 alt="{{ package.tour_operator }}">
+          </div>           
+          {% else %}
+          <div id="search-result-img">
+            <img class="d-block mx-auto" src="{{ package.tour_operator.logo.url }}"
+                 alt="{{ package.tour_operator }}">
+          </div>            
+          {% endif %}
+        </a>
+        <div class="col-sm-6 col-12 px-4 mt-2">
+            <div>Tour by: <a class="olive-green" href="{% url 'tour_operator' slug=package.tour_operator.slug %}">
+                    {{ package.tour_operator }}
+
+                </a></div>
+            <div>
+                Countries visited:
+                {% if package.country_indexes.count > 1 %}
+                {% for country in package.country_indexes.all %}
+                <a class="font-12" href="{% url 'country_index' slug=country.slug %}">
+                    <img class="flag-small" src="{{ country.flag.url }}" alt="{{ country }}" data-toggle="tooltip"
+                        data-placement="top" title="{{ country }}" data-original-title="{{ country }}">
+                </a>
+                {% endfor %}
+                {% else %}
+                {% for country in package.country_indexes.all %}
+                <a class="font-12" href="{% url 'country_index' slug=country.slug %}">
+                    <img class="flag-small" src="{{ country.flag.url }}" alt="{{ country }}" data-toggle="tooltip"
+                        data-placement="top" title="{{ country }}" data-original-title="{{ country }}">{{ country }}
+                </a>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <div>Safari type: {{ package.itinerary_type }}</div>
+            <div>Parks visited:</div>
+            <div class="row">
+                {% for park in package.parks.all %}
+                <div class="col-6">
+                    <a href="{% url 'park' slug=park.slug %}">
+                        {{park.name_short}}
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <hr class="my-0 col-10 mt-2 d-sm-none">
+        <div class="col-sm-3 col-12 border-sm-left pl-0 mt-2 mb-2 d-sm-inline d-flex justify-content-center">
+            <div class='text-center mr-3 mr-sm-0'>From <br>
+                <h5 class="mb-0"><strong>
+                        {{ package.currency }}
+                        {{ package.min_price }}
+                    </strong></h5>per person
+            </div>
+            <a class="btn btn-orange get-quote-btn mx-sm-auto mr-2 mt-3 d-inline d-sm-block text-nowrap"
+                href="{% url 'package_quote' slug=package.slug itinerary_pk=package.id %}">
+                Get quote
+            </a>
+        </div>
+    </div>
+</div>

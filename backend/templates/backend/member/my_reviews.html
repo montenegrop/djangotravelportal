@@ -1,0 +1,64 @@
+{% extends 'backend/member/base.html' %}
+{% load static %}
+{% block backendcontent %}
+  <div class="row max-width-admin">
+    <div class="col-12">
+      <div class="card main container-fluid">
+        <div class="card-header">
+          <div class="row d-flex justify-content-between px-2">
+            <h4>Manage your reviews</h4>
+            <a href="{% url 'reviews:create' %}" type="submit" role="button"
+               class="btn btn-green-secondary">Write a review</a>
+          </div>
+        </div>
+        <div class="card-body table-full-width table-responsive table-borderless">
+          <table class="table table-striped mb-0">
+            <thead>
+            <th>Date</th>
+            <th>Title</th>
+            <th>Reviewed</th>
+            <th>Views</th>
+            <th>Published</th>
+            </thead>
+            <tbody>
+            {% for review in reviews %}
+              <tr>
+                <td class="text-nowrap">{{ review.date_created|date:"M d, Y" }}</td>
+                {% if review.park %}
+                  <td>
+                    <a target='_blank'
+                       href="{% url 'park_reviews' review.park.slug %}?review={{ review.id }}">{{ review.title|truncatechars:100 }}</a>
+                  </td>
+                {% else %}
+                  <td class="text-nowrap">
+                    <a target='_blank'
+                       href="{% url 'tour_operator_review' slug=user.profile.tour_operator.slug review=review.id %}">
+                      {{ review.title|truncatechars:100 }}
+                    </a>
+                  </td>
+                {% endif %}
+                {% if review.park %}
+                  <td>{{ review.park.name }}</td>
+                {% else %}
+                  <td>{{ review.tour_operator.name }}</td>
+                {% endif %}
+
+                {% if review.views_count %}
+                  <td>{{ review.views_count }}</td>
+                {% else %}
+                  <td>0</td>
+                {% endif %}
+                <td class="text-nowrap">{{ review.date_created|date:"M d, Y" }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+      $(".nav-link.widgets").addClass("active")
+  </script>
+{% endblock %}

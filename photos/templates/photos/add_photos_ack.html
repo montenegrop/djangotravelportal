@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+{% load fullurl %}
+{% block content %}
+<div class="spanning">
+    <div>
+        <div class="wrap mw-780">
+            <div class="block-bordered ugc rounded">
+                <h3 class="h3-sm">
+                    Thank you for uploading your photos
+                </h3>
+                <p>
+                    <a href='{{ cancel_url }}' class='btn btn-green-secondary mr-2'>
+                        Back
+                    </a>
+                </p>
+                <p>
+                    You will be redirected in
+                    <strong>
+                        <span id='countdown'>10</span>
+                    </strong> seconds
+                </p>
+
+            </div><!-- /.block-bordered -->
+        </div><!-- /.wrap -->
+    </div><!-- /.item-content -->
+</div><!-- /.spanning-columns -->
+<script type="text/javascript">
+
+    // Total seconds to wait
+    var seconds = 10;
+
+    function countdown() {
+        seconds = seconds - 1;
+        if (seconds < 0) {
+            // Chnage your redirection link here
+            window.location = "{{ cancel_url }}";
+        } else {
+            // Update remaining seconds
+            document.getElementById("countdown").innerHTML = seconds;
+            // Count down using javascript
+            window.setTimeout("countdown()", 1000);
+        }
+    }
+    // Run countdown function
+    countdown();
+</script>
+    {% endblock %}

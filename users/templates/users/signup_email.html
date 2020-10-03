@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{% load fullurl %}
+{% load static %}
+{% block title %}
+Activate your account
+{% endblock %}
+{% block content %}
+<div class="container-fluid px-md-5 max-width">
+  <div class="row mt-5 px-md-5 px-2 justify-content-between admin-content">
+    <div class=" mx-auto mw-780 mt-lg-0 mt-4 px-3">
+      <div class="border-grey p-3">
+        <h3 class="h3-sm pb-2">
+          Thank you for being a part of Your African Safari.
+          <br>We’re glad to have you.
+        </h3>
+
+        <h4 class="h4-sm">Verify your account</h4>
+        <p>
+          You’ll receive an email to verify your account. Please click on the link in the email provided to
+          activate your account.
+        </p>
+        <a class="btn btn-green-primary" href="{% url 'home' %}">
+          Back to home page
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

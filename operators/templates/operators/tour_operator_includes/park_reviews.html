@@ -1,0 +1,82 @@
+<!--This needs to only be one review-->
+<div class="contentbg rhc-wide-border mt-4 px-0 px-sm-3 parks-rhc-max-width d-none">
+  <div class="dropdown-divider d-xl-none"></div>
+    <h5 class="pt-3 pb-2">
+        <strong>Park reviews written by {{ tour.name_short }}</strong>
+    </h5>
+    <div class="articles">
+
+        <a>
+            <div class="card reviews mb-3 px-2 pt-2 pb-1">
+                <div class="row no-gutters pb-2">
+                    <div class="col-4">
+                        <div class="photo-container-reviews">
+                            <a href="">
+                                <img src="{{ tour_park_reviews.0.user.profile.avatar.url }}" alt="...">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="card-body pr-0">
+                            <p class="card-title text-left text-truncate"><a
+                                    href="">{{ tour_park_reviews.0.title }}</a></p>
+                            <p class="mb-0 pt-2">
+                                <small class="text-light-grey pb-4">When: {{ tour_park_reviews.0.date_created }}</small>
+                                <br>
+                                {{ tour_park_reviews.0.overall_rating | star_rating | safe }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <div class="collapse" id="collapseParkReviews">
+            {% for review in tour_park_reviews|slice:"1:" %}
+
+                <a>
+                    <div class="card reviews mb-3 px-2 pt-2 pb-1">
+                        <div class="row no-gutters pb-2">
+                            <div class="col-4">
+                                <div class="photo-container-reviews">
+                                    <a href="">
+                                        <img src="{{ review.user.profile.avatar.url }}" alt="...">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div class="card-body pr-0">
+                                    <p class="card-title text-left text-truncate"><a
+                                            href="">{{ review.title }}</a></p>
+                                    <p class="mb-0 pt-2">
+                                        <small class="text-light-grey pb-4">When: {{ review.date_created }}</small>
+                                        <br>
+                                        {{ review.overall_rating | star_rating | safe }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+            {% endfor %}
+
+
+        </div>
+
+    </div>
+    {% if tour_park_reviews > 1 %}
+        <a href="#collapseParkReviews" data-toggle="collapse" role="button"
+           class="my-2 d-block text-center park-reviews-show-more">
+            See all reviews ({{ tour_articles_total }})
+        </a>
+
+        <a href="#collapseParkReviews" data-toggle="collapse" role="button"
+           class="my-2 text-center park-reviews-show-more d-none">
+            See less
+        </a>
+    {% endif %}
+
+
+</div>
+<!--End comment-->

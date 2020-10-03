@@ -1,0 +1,138 @@
+.widget_container {
+    background-repeat: no-repeat;
+    max-width: 180px;
+    height: 130px;
+    background-color: #fff;
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+    -moz-box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+    -webkit-box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
+    background-color: #fff;
+    border: 1px solid #EFEFEF;
+    border-radius: 5px;
+    padding: 6px 6px 0px 6px;
+    margin: 0px auto 0px auto;  
+}
+
+.tour_operator_name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    height: 50px;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 16px;
+    padding: 0px 0px 4px 0px;
+}
+
+.stars_symbol {
+    padding: 5px 0 3px 0;
+}
+
+.stars_text {
+    clear: both;
+    font-size: 12px;    
+    padding: 3px 0 4px 0;
+    text-align: center;
+}
+.stars_text a {
+  color: #676767 !important;
+}
+
+/* .logo {
+    border-top: 1px solid #73ae3a;
+    top: 0px;
+    left: 0px;
+    color: #77b143;
+    width: 140px;
+    height: 30px;
+    padding: 4px 0px 0px 0px;
+} */
+
+.logo img{ 
+  width: 100%;
+}
+
+.review_stars {
+    text-align-last: center;
+    height: 40px;
+    /* padding: 8px 0 8px 0; */
+}
+
+/* .nostars {
+    background-image: url(//static3.yourafricansafari.com/images/widget/nostars_small.png);
+    background-repeat: no-repeat;
+    width: 120px;
+    height: 30px;
+    float: left;
+} */
+
+.widget_container_4{
+    width: 200px;
+    margin: auto;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+    border: 1px solid #fff;
+    padding: 10px 10px 0px 10px;
+}
+
+.logo_container_4 {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.tour_operator_name_4 {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 18px;
+    padding: 0px 0px 4px 0px;
+}
+
+.review_items_4 {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #73ae3a;
+}
+
+.review_image_container_4 {
+    display: block;
+    float: left;
+    width: 45px;
+    height: 50px;
+}
+
+.avatar_image_4 {
+    max-width: 35px;
+    max-height: 35px;
+}
+
+.review_body_4 {
+    
+}
+
+.clear {
+    clear: both;
+}
+
+.stars_4 {
+    height: 20px;
+}
+
+.write_a_review_4 {
+    text-decoration: none;
+    display: block;
+    font-size: 11pt;
+    font-weight: 600;
+    padding: 15px 0px;
+    margin: 0px 0px 5px 0px;
+    border: 0;
+    width: 100%;
+    color: #73ae3a;
+}
+
+.write_a_review_4 span {
+    display: block;
+    float: right;
+    color: #73ae3a;
+}

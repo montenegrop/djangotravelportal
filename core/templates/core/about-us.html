@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+{% block title %}{{ object.title }}{% endblock %}
+{% block meta_description %}{{ object.meta_description }}{% endblock %}
+{% block meta_keywords %}{{ object.meta_keywords }}{% endblock %}
+{% block meta_title %}{{ object.meta_title }}{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="contentbg admin-content">
+    {{ object.content | safe }}
+</div>
+</div>
+{% endblock %}

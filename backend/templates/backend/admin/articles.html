@@ -1,0 +1,104 @@
+{% extends 'backend/admin/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block backendcontent %}
+<style>
+    .table-sm.table>thead>tr>th {
+        font-size: 0.7em;
+    }
+
+    .table-sm td {
+        font-size: 0.8em;
+    }
+
+    .photo img {
+        width: 30px;
+        height: auto;
+    }
+</style>
+<div class="row max-width-admin">
+
+    <div class="col-12">
+        <div class="table-responsive">
+
+            <table class='table table-striped  table-sm'>
+                <thead>
+                    <tr>
+                        <th>
+                            Title
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                {% for article in articles %}
+                <tr>
+                    <td>
+                        {{article.title}}
+                    </td>
+                    <td>
+                        <a target='_blank' href="{% url 'backend:admin_article_change' slug=article.slug %}">Edit</a>
+                        <br>
+                        <a target='_blank' href="{% url 'backend:admin_article_delete' slug=article.slug %}">Remove</a>
+                        <br>
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </table>
+
+
+        </div>
+    </div>
+
+    <div class="row-12 center">
+
+        {% if articles.has_other_pages %}
+
+        <nav aria-label="Page navigation example">
+
+            <ul class="pagination">
+
+                {% if articles.has_previous %}
+                <li class='pagination'><a class="page-link" href="?page={{ articles.previous_page_number }}"><i
+                            class="fa fa-chevron-left" aria-hidden="true"></i></a></li>
+                {% else %}
+                <li class="disabled"><span><i class="fa fa-chevron-left" aria-hidden="true"></i></span></li>
+                {% endif %}
+
+                {% if articles.number|add:'-4' > 1 %}
+                <li class='pagination'><a class="page-link" href="?page={{ articles.number|add:'-5' }}">&hellip;</a>
+                </li>
+                {% endif %}
+
+                {% for i in articles.paginator.page_range %}
+                {% if articles.number == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                {% elif i > articles.number|add:'-5' and i < articles.number|add:'5' %}
+                <li class='pagination'><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+                {% endfor %}
+
+                {% if articles.paginator.num_pages > articles.number|add:'4' %}
+                <li class='pagination'><a class="page-link" href="?page={{ articles.number|add:'5' }}">&hellip;</a></li>
+                {% endif %}
+
+                {% if articles.has_next %}
+                <li class='pagination'><a class="page-link" href="?page={{ articles.next_page_number }}"><i
+                            class="fa fa-chevron-right" aria-hidden="true"></i></a></li>
+                {% else %}
+                <li class="disabled"><span><i class="fa fa-chevron-right" aria-hidden="true"></i></span></li>
+                {% endif %}
+
+            </ul>
+
+        </nav>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+<script>
+    $(" .nav-link.articles").addClass("active") </script>
+{% endblock %}

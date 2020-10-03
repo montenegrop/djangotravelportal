@@ -1,0 +1,228 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load thumbnail %}
+{% block title %} {{object}} - African Wildlife - Your African Safari {% endblock %}
+
+{% block meta_name %}Your African Safari - {{object.name}}{% endblock %}
+{% block meta_itemprop_description %}{{object.description|striptags|safe}}{% endblock %}
+{% block meta_description %}{{object.description|striptags|safe}}{% endblock %}
+{% block meta_title %}Your African Safari - {{object.name}}{% endblock %}
+{% block meta_keywords %}Your African Safari, wildlife, {{object.name}}{% endblock %}
+{% block extrahead %}
+<script src="{% static '@robertorodriguez/yasfresco/dist/js/fresco.js' %}"></script>
+<link rel="stylesheet" href="{% static '@robertorodriguez/yasfresco/dist/css/fresco.css' %}" />
+{% endblock %}
+{% block content %}
+{% if object.image_header %}
+
+<div class="hero-container">
+  <div class="hero-text-container">
+    {% if object.header_link %}
+    <a class="text-dark-grey hero-text" href="{{ object.header_link }}" target="_blank">
+      {{ object.header_caption }}
+    </a>
+    {% else %}
+    <a class="text-dark-grey hero-text">
+      {{ object.header_caption }}
+    </a>
+    {% endif %}
+  </div>
+  <div class="hero-image-container">
+    <img class="{{ object.header_class }}" src="{{ object.image_header.url }}" alt="{{ object.header_alt }}">
+  </div>
+</div>
+{% endif %}
+
+
+
+<div class="container-fluid px-lg-5 max-width mt-4 mx-auto">
+
+  <div class="row px-md-5 px-2 justify-content-between">
+
+
+    <div class="col-xl-8 pr-xl-5 col-lg-12">
+      <h1 class="h1-sm">
+        <strong>{{ object }}</strong>
+      </h1>
+      <h4 class="text-dark-grey h4-sm">
+        <!--This needs to be changed to scientific animal name. e.g. Felis Caracal caracal-->
+        <strong><i>{{ object.latin_name|default_if_none:"" }}</i></strong>
+      </h4>
+      <h5 class="h5-sm">
+        {{ object.sub_heading|default_if_none:"" }}
+      </h5>
+      <div class="contentbg">
+        <h2 class="dark-brown h2-sm pt-3"><strong>Behavior and diet</strong></h2>
+        <!--Scientific name needs to be removed from the description-->
+        {{ object.description | safe }}
+        {% if object.highlights %}
+        <div class="contentbg wildlife-list">
+          <h4 class="text-dark-grey h4-sm pt-3"><strong>Did you know?</strong></h4>
+          <div class="pl-2">
+            {{object.highlights | safe}}
+          </div>
+        </div>
+        {% endif %}
+        {% if parks_1 or parks_2 %}
+        <div class="contentbg wildlife-list">
+          <h4 class="text-dark-grey h4-sm pt-3">
+            <strong>
+              Found in these top parks and game reserves
+            </strong>
+          </h4>
+          <div class="row pl-2">
+            <!--The two divs below need to contain the parks and game reserves that score 9 or higher and has the animal in-->
+            <div class="col-lg-6 col-12">
+              {% if parks_1 %}
+              <ul>
+                {% for park in parks_1 %}
+                <li>
+                  <a href="{% url 'park' slug=park.slug %}">{{park}}</a>
+                </li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
+            <div class="col-lg-6 col-12">
+              {% if parks_2 %}
+              <ul>
+                {% for park in parks_2 %}
+                <li>
+                  <a href="{% url 'park' slug=park.slug %}">{{park}}</a>
+                </li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+
+
+      {% if photos.all %}
+      <div class="mt-4">
+        <div class="contentbg">
+          <h2 class="dark-brown h2-sm">
+            <strong>{{ animal }} photos</strong>
+          </h2>
+          <div id="gallery" class="gallery" itemscope itemtype="http://schema.org/ImageGallery">
+
+            <div class="row">
+              <!--Maximum of 9 photos to be displayed-->
+              {% for photo in photos %}
+              <div class="col-lg-4 col-sm-6 col-12">
+                <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                  <a data-width="{{ photo.image|width }}" data-height="{{ photo.image|height }}"
+                    class="gallery_a fresco" href="{{ photo.image.url }}" data-caption="{{ photo.get_description }}"
+                    data-index="{{forloop.counter0}}" class="gallery_a fresco"
+                    data-fresco-caption="{{ photo.get_description }}" data-fresco-id="{{ photo.id }}"
+                    data-fresco-photo-url="{{ photo.photo_url }}" data-fresco-title="{{ photo.title }}"
+                    data-fresco-kudu-count="{{ photo.kudu_count }}" data-fresco-options="ui: 'inside'"
+                    data-caption="{{ photo.get_description }}" data-index="{{ forloop.counter }}"
+                    data-fresco-group="unique_name">
+                    <div id="animal-img-wrapper">
+                      <div style="background-image: url('{{ photo.image|thumbnail_url_:'crop_250' }}');"
+                        class="animal-photo img__wrap mx-auto" data-href='{{ photo.image.url }}'
+                        data-caption='{{photo.get_description}}'>
+                        <div class="img__description">
+                          {% if photo.get_caption_excerpt %}
+                          <strong>{{ photo.get_caption_excerpt }} </strong>
+                          {% endif %}
+                          <p>
+                            {% autoescape off %}
+                            {{photo.get_description}}
+                            {% endautoescape %}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </figure>
+              </div>
+              {% endfor %}
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="row pb-4">
+        <a href="/photos?animal={{animal.slug}}" class="mx-auto lower">
+          See all {{ animal.get_cased_name }} ({{total_photos}}) photos
+        </a>
+      </div>
+      {% endif %}
+
+    </div>
+
+
+    <!--RHC-->
+    <div class="col-xl-4 col-12">
+      <div class="dropdown-divider d-xl-none"></div>
+      <div class="rhc-wide-border parks-rhc-max-width px-4 p-3">
+        <h5><strong>Found in these countries:</strong></h5>
+        <div class="row">
+          {% for country in object.country_indexes.all %}
+          <div class="col-6">
+            <a href="{% url 'country_index' slug=country.slug %}">
+              <img class="flag-small" src="{{ country.flag.url }}" alt="{{ country }}">
+              {{ country }}
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% if animal.international_day %}
+      <div class="dropdown-divider d-xl-none"></div>
+      <div class="rhc-wide-border parks-rhc-max-width px-3 py-2 mt-4">
+        <h5>International {{animal}} day is celebrated on {{animal.international_day| date:"d"}}
+          {{animal.international_day| date:"F"}}.</h5>
+      </div>
+      {% endif %}
+      <div class="dropdown-divider d-xl-none"></div>
+      <!--NEEDS TO LINK TO PAGE WITH SWAHILI ANIMAL NAMES, EACH PAGE NEEDS ItS OWN ANIMAL PIC-->
+      <div class=" mt-4 rhc-wide-border parks-rhc-max-width">
+        <h5 class="light-brown-background text-white text-center my-0 py-1">What's my name in Swahili?</h5>
+        <a href="{% url 'swahili' %}">
+          <img style="width:100%; max-width: 100% " src="{% static 'core/img/chitabe_male_lion.jpg' %}" />
+        </a>
+      </div>
+      <!--END COMMENT-->
+      <div class="dropdown-divider d-xl-none"></div>
+      <div class="rhc-wide-border parks-rhc-max-width px-3 pt-3 mt-4 max-width-300">
+        <h5><strong>Related articles</strong></h5>
+        <div class="articles">
+          {% for article in articles %}
+          <a href="{% url 'articles:view' slug=article.slug %}">
+            <div class="card mb-3">
+              <div class="row no-gutters">
+                <div class="col-12">
+                  <img src="{{ article.image|thumbnail_url_:'crop_300_150' }}" class="card-img-top p-2" alt="...">
+                </div>
+                <div class="col-12">
+                  <div class="card-body px-2 pb-2 text-dark-grey">
+                    <p class="card-title text-left">{{ article }}</p>
+                    <p class="card-text">
+                      <small class="text-light-grey">{{ article.date_created|date:"M d Y" }}</small>
+                      <br>
+                      <small class="text-light-grey">By: {{ article.user.profile.screen_name }}</small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block afterfooter %}
+<script>
+  $(".navbar-wildlife").addClass("active");
+</script>
+<script src="{% static 'places/js/animal.js' %}"></script>
+{% endblock%}
