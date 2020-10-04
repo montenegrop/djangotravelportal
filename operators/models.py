@@ -485,21 +485,6 @@ class ItineraryFocusType(models.Model):
         return self.name
 
 
-class ItineraryActivity(models.Model):
-    name = models.CharField(max_length=300)
-    name_short = models.CharField(max_length=300)
-    description = models.TextField(blank=True, null=True)
-    activity_level = models.IntegerField()
-    focus_type = models.ManyToManyField(ItineraryFocusType, blank=True, related_name='itinerary_activities')
-    date_modified = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = "Itinerary activities"
-
-
 class ItineraryInclusion(models.Model):
     name = models.CharField(max_length=300)
     explanation = models.CharField(max_length=400, blank=True, null=True)

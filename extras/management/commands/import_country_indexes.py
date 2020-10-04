@@ -103,7 +103,7 @@ class Command(BaseCommand):
 
             # add activities
             SQL = """
-            select countryindex.country_name, activity.activity_name 
+            select countryindex.country_name, activity.activity_name
             FROM
             countryindex_activity, activity, countryindex 
             WHERE
@@ -114,7 +114,7 @@ class Command(BaseCommand):
             cursor.execute(SQL % c['id'])
             result_ = cursor.fetchall()
             for c_ in result_:
-                activity = Activity.objects.get(name=c_['activity_name'])
+                activity = Activity.objects.get(name_old=c_['activity_name'])
                 obj.activities.add(activity)
 
             # add languages

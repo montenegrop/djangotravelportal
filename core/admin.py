@@ -21,7 +21,8 @@ class PageAdmin(admin.ModelAdmin):
 class MediaFileAdmin(admin.ModelAdmin):
     list_display = ['pk','name', 'date_created', 'date_modified','user', 'image_tag','image_link']
     exclude = ['user']
-    
+    prepopulated_fields = {'slug': ('name',)}
+
     def image_link(self, obj):
         return "{}{}".format(settings.BASE_URL,obj.image.url)    
 

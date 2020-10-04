@@ -25,7 +25,7 @@ from places.models import CountryIndex, Park, Country, Language, Animal, Activit
 from places.models import Currency
 from django.contrib import messages
 from backend.forms import TourOperatorFilterForm
-from operators.models import ItineraryType, ItineraryActivity, ItineraryDayDescription
+from operators.models import ItineraryType, ItineraryDayDescription
 import requests
 from core.models import EmailLog
 from yas.settings import BASE_URL

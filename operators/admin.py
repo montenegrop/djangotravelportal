@@ -1,6 +1,6 @@
 from django.contrib import admin
 from operators.models import TourOperator, Itinerary, QuoteRequest
-from operators.models import ItineraryActivity,ItineraryFocusType
+from operators.models import ItineraryFocusType
 from import_export.admin import ImportExportModelAdmin
 from operators.models import ItineraryInclusion, ItineraryExclusion, YASScore
 
@@ -54,13 +54,3 @@ class ItineraryExclusionAdmin(ImportExportModelAdmin):
     list_display = ['name','explanation','date_modified']
     search_fields = ['name', 'explanation']
     ordering = ('name',)
-
-
-#@admin.register(ItineraryActivity)
-#class ItineraryActivityAdmin(ImportExportModelAdmin):
-#    list_display = ['name','name_short','activity_level','get_focus_type','date_modified']
-#    search_fields = ['name', 'name_short', 'activity_level']
-#    ordering = ('name',)
-#    def get_focus_type(self, obj):
-#        return "\n".join([p.name     for p in obj.focus_type.all()])
-

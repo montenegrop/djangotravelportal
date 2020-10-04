@@ -83,9 +83,6 @@ class Command(BaseCommand):
             
             user_id = c.pop('id')
             c['date_created'] = make_aware(c.pop('date_created'))
-            #obj, is_created = UserProfile.objects.update_or_create(
-            #    user=obj_user
-            #)
             if c['blog']:
                 c['blog'] = c['blog'][:1500]
             obj, is_created = UserProfile.objects.update_or_create(
@@ -145,7 +142,7 @@ class Command(BaseCommand):
             cursor.execute(SQL % user_id)
             result_ = cursor.fetchall()
             for c_ in result_:
-                activity = Activity.objects.get(name=c_['activity_name'])
+                activity = Activity.objects.get(name_old=c_['activity_name'])
                 obj.activities_enjoy.add(activity)
             obj.save()
 

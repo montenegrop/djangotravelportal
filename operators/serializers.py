@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from operators.models import TourOperator, Itinerary, Month
-from operators.models import ItineraryActivity, ItineraryType
+from operators.models import ItineraryType
 
 from places.models import Activity
 from places.serializers import CountryIndexSimpleSerializer, ActivitySimpleSerializer, CountrySerializer
@@ -135,11 +135,6 @@ class ItinerarySerializer(serializers.ModelSerializer):
         'tour_operator', 'operator_name', 'flags', 'focus_activities', 'image', 'thumbnail', 
         'is_featured', 'main_features', 'is_fav','yas_score' ]
     
-
-class ItineraryActivitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ItineraryActivity
-        fields = ['id', 'name' ]
 
 class ItineraryTypeSerializer(serializers.ModelSerializer):
     class Meta:

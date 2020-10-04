@@ -21,10 +21,12 @@ class EmailLog(models.Model):
 
 class MediaFile(models.Model):
     name = models.CharField(max_length=1000)
+    alt_text = models.CharField(max_length=1500)
     date_created = models.DateTimeField(default=timezone.now)
     date_modified = models.DateTimeField(auto_now=True, blank=True, null=True)
     image = models.ImageField(upload_to='images/mediafiles/%Y/%m/%d')
     user = models.ForeignKey(User, blank=True, null=True, on_delete=models.PROTECT)
+    slug = models.SlugField(unique=True)
 
     def __str__(self):
         return self.name

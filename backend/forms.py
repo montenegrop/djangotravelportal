@@ -183,8 +183,6 @@ class TourPackageForm(forms.ModelForm):
         queryset=None,
         label='Safari: what is the secondary focus?')
 
-
-    # add this in queryset if theres a migration error. ItineraryActivity.objects.all(),#
     secondary_focus_activity = forms.ModelMultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
