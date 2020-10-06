@@ -18,7 +18,7 @@ from post_office import mail
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=300)
+    name = models.CharField(max_length=1000)
 
     def __str__(self):
         return self.name
@@ -27,7 +27,7 @@ class Tag(models.Model):
 class Photo(models.Model):
     image = models.ImageField(upload_to='images/photos/%Y/%m/%d')
     caption = models.CharField(max_length=1500, blank=True, null=True)
-    uuid = models.CharField(max_length=100)
+    uuid_value = models.CharField(max_length=100)
     tags = models.ManyToManyField(Tag, blank=True)
     animals = models.ManyToManyField('places.Animal', blank=True)
     tour_operator = models.ForeignKey(

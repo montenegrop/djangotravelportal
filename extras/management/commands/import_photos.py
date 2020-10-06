@@ -79,10 +79,9 @@ class Command(BaseCommand):
             except ObjectDoesNotExist:
                 user = None
                 pass
-
             newdict = {}
-            newdict['uuid'] = c.pop('uuid')
-            if not newdict['uuid']:
+            newdict['uuid_value'] = c.pop('uuid')
+            if not newdict['uuid_value']:
                 print("UUID is null", c.pop("id"))
                 continue
             newdict['caption'] = c.pop('caption')
@@ -102,10 +101,11 @@ class Command(BaseCommand):
                     name=c.pop('park'))
             if c['activity']:
                 newdict['activity'] = Activity.objects.get(
-                    name=c.pop('activity'))
-
+                    name_old=c.pop('activity'))
+            uuid = newdict.pop('uuid_value')
+            print(uuid)
             obj, is_created = Photo.objects.update_or_create(
-                uuid=newdict['uuid'], defaults=newdict
+                uuid_value=uuid, defaults=newdict
             )
             if is_created:
                 created += 1
@@ -113,13 +113,14 @@ class Command(BaseCommand):
                 # obj.image.delete(save=True)
                 print('updated')
                 updated += 1
-
+            #idk why uuid is changed
+            obj.uuid_value = uuid
             tags = c['tags']
             if tags != None and tags != '':
                 tags = tags.split(',')
                 for tag in tags:
                     if tag != '':
-                        o_tag, _ = Tag.objects.update_or_create(name=tag)
+                        o_tag, _ = Tag.objects.update_or_create(name=tag[:999])
                         obj.tags.add(o_tag)
 
             if c['gallery_path']:
@@ -134,7 +135,7 @@ class Command(BaseCommand):
                     md5Hashed = md5Hash.hexdigest()
                     if md5Hashed in hashes:
                         skipped += 1
-                        print('uuid duplicated file ' + obj.uuid)
+                        print('uuid duplicated file ' + str(obj.uuid_value))
                         obj.date_deleted = timezone.now()
                     hashes[md5Hashed] = 1
 
@@ -168,19 +169,6 @@ class Command(BaseCommand):
                 obj.animals.add(animal)
 
 
-            SQL = """
-            select animal.animal_name
-            FROM
-            photo_animal, animal
-            WHERE
-            photo_animal.animal_id = animal.id AND
-            photo_animal.photo_id = '%i'
-             """
-            cursor.execute(SQL % c['id'])
-            result_ = cursor.fetchall()
-            for c_ in result_:
-                animal = Animal.objects.get(name=c_['animal_name'])
-                obj.animals.add(animal)
 
             # comments
             cursor.execute("""
@@ -244,7 +232,7 @@ class Command(BaseCommand):
                 photovisit.photo_id = photo.id
                 AND photo.uuid = '%s'
             """
-            cursor.execute(SQL % newdict['uuid'])
+            cursor.execute(SQL % uuid)
             result_ = cursor.fetchall()
             for c_ in result_:
                 analytic = Analytic()

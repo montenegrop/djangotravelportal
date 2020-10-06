@@ -130,7 +130,7 @@ class Command(BaseCommand):
             cursor.execute(SQL % c['id'])
             result_ = cursor.fetchall()
             for c_ in result_:
-                animal = Activity.objects.get(name=c_['activity_name'])
+                animal = Activity.objects.get(name_old=c_['activity_name'])
                 obj.activities.add(animal)
 
 

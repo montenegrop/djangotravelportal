@@ -121,7 +121,7 @@ class Command(BaseCommand):
             cursor.execute(SQL % c['id'])
             result_ = cursor.fetchall()
             for c_ in result_:
-                park = Activity.objects.get(name=c_['activity_name'])
+                park = Activity.objects.get(name_old=c_['activity_name'])
                 obj.activities.add(park)
             SQL = """
             select animal.animal_name

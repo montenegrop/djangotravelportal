@@ -2,8 +2,8 @@ from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from lodges.models import *
 from django.db import connections
-from places.models import Country, Currency, Continent
-from operators.models import TourOperator
+from places.models import Country, Currency, Continent, Language
+from operators.models import TourOperator, Package
 from django.utils.timezone import make_aware
 import MySQLdb
 from django.core.files import File
@@ -63,7 +63,6 @@ class Command(BaseCommand):
                     'website': c['website'],
                     'description': c['description'],
                     'vehicle_description': c['vehicle_description'],
-                    'awards': c['awards'],
                     'projects': c['projects'],
                     'contact': c['contact'],
                     'email': c['email'],
@@ -73,7 +72,7 @@ class Command(BaseCommand):
                     'linkedin': c['linkedin'],
                     'twitter': c['twitter'],
                     'pinterest': c['pinterest'],
-                    'yas_modifier': c['yas_modifier'],
+                    'yas_modifier': c['yas_modifier'] or 0,
                     'facebook': c['facebook'],
                     'date_deleted': date_deleted,
                     'date_created': date_created,
@@ -113,7 +112,7 @@ class Command(BaseCommand):
 
             # add languages
             SQL = """
-            select touroperator.name, language.name 
+            select touroperator.name, language.name as lang 
             FROM
             touroperator_language, language, touroperator 
             WHERE
@@ -124,7 +123,10 @@ class Command(BaseCommand):
             cursor.execute(SQL % c['id'])
             result_ = cursor.fetchall()
             for c_ in result_:
-                language = Language.objects.get(name=c_['name'])
+                if not c_['lang']:
+                    continue
+                #print(c_['lang'])
+                language = Language.objects.get(name=c_['lang'])
                 obj.languages.add(language)
 
             # touroperator_countryindex

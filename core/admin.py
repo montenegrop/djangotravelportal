@@ -19,7 +19,7 @@ class PageAdmin(admin.ModelAdmin):
 
 @admin.register(MediaFile)
 class MediaFileAdmin(admin.ModelAdmin):
-    list_display = ['pk','name', 'date_created', 'date_modified','user', 'image_tag','image_link']
+    list_display = ['pk','name', 'slug', 'date_created', 'date_modified','user', 'image_tag','image_link']
     exclude = ['user']
     prepopulated_fields = {'slug': ('name',)}
 

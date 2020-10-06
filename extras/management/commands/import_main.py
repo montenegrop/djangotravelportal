@@ -53,7 +53,7 @@ class Command(BaseCommand):
         #             db_user=options['db_user'],
         #             db_pass=options['db_pass'],
         #             base_location=options['base_location'])
-        """
+        
         call_command('import_parks', db_host=options['db_host'],
                      db_name=options['db_name'],
                      db_user=options['db_user'],
@@ -69,6 +69,7 @@ class Command(BaseCommand):
                      db_user=options['db_user'],
                      db_pass=options['db_pass'],
                      base_location=options['base_location'])
+        
         call_command('import_airlines', db_host=options['db_host'],
                      db_name=options['db_name'],
                      db_user=options['db_user'],
@@ -78,12 +79,13 @@ class Command(BaseCommand):
                      db_name=options['db_name'],
                      db_user=options['db_user'],
                      db_pass=options['db_pass'])
-        """
+        
         call_command('import_users', db_host=options['db_host'],
                      db_name=options['db_name'],
                      db_user=options['db_user'],
                      db_pass=options['db_pass'],
                      base_location=options['base_location'])
+        
         call_command('import_articles', db_host=options['db_host'],
                      db_name=options['db_name'],
                      db_user=options['db_user'],
@@ -99,6 +101,7 @@ class Command(BaseCommand):
                      db_name=options['db_name'],
                      db_user=options['db_user'],
                      db_pass=options['db_pass'])
+        
         call_command('import_tour_operators', db_host=options['db_host'],
                      db_name=options['db_name'],
                      db_user=options['db_user'],
@@ -115,13 +118,14 @@ class Command(BaseCommand):
                 db_user=options['db_user'],
                 db_pass=options['db_pass'],
                 base_location=options['base_location'])
+        """
 
         call_command('import_tour_itineraries', db_host=options['db_host'],
                      db_name=options['db_name'],
                      db_user=options['db_user'],
                      db_pass=options['db_pass'])
 
-        call_command('associate_itinieraries_activities')
+        #call_command('associate_itinieraries_activities')
         call_command('import_ads', db_host=options['db_host'],
                      db_name=options['db_name'],
                      db_user=options['db_user'],
@@ -144,16 +148,15 @@ class Command(BaseCommand):
                      base_location=options['base_location'])
         
         call_command('import_email_logs', db_host=options['db_host'],
-                     db_name=options['db_name'],
-                db_user=options['db_user'],
-                db_pass=options['db_pass'])
-        
+                    db_name=options['db_name'],
+                    db_user=options['db_user'],
+                    db_pass=options['db_pass'])
+            
         call_command('import_analytics', db_host=options['db_host'],
                      db_name=options['db_name'],
                      db_user=options['db_user'],
                      db_pass=options['db_pass'])
-        call_command('updates')
+        #call_command('updates')
         #call_command('update_visit_count')
-        """
         message = 'End'
         self.stdout.write(self.style.SUCCESS(message))

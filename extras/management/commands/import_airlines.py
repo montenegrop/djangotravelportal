@@ -32,11 +32,11 @@ class Command(BaseCommand):
             newdict['website'] = c.pop('website')
             newdict['description'] = c.pop('description')
 
-            cursor.execute("select * from country where id = ?")
+            SQL = "select * from country where id = %s"
             cursor.execute(SQL % c.pop('headquarters'))
             result = cursor.fetchall()
             for c__ in result:    
-                newdict['headquarters'], _ = Country.objects.get(name=c__['country'])
+                newdict['headquarters'] = Country.objects.get(name=c__['country'])
 
 
             obj, is_created = Airline.objects.update_or_create(

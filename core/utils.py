@@ -16,7 +16,7 @@ import datetime
 from num2words import num2words
 from django import template
 import os
-
+from core.models import MediaFile
 import datetime
 import calendar
 
@@ -48,6 +48,11 @@ def external_url(url):
     else:
         return 'http://{}'.format(url)
 
+
+@register.filter(is_safe=True)
+def get_media_img(slug):
+    media_file = MediaFile.objects.get(slug=slug)
+    return "<img src='{}' alt='{}'>".format(media_file.image.url, media_file.alt_text)
 
 @register.filter(name='template_num2words')
 def template_num2words(num):

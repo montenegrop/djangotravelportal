@@ -4,7 +4,7 @@ from photos.models import Photo
 from core.utils import get_thumbnailer_
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
-    list_display = ['pk','image_tag', 'caption', 'uuid','user', 'date_created', 'date_modified', 'date_deleted']
+    list_display = ['pk','image_tag', 'caption', 'uuid_value','user', 'date_created', 'date_modified', 'date_deleted']
     
     def image_tag(self, obj):
         from django.utils.html import escape

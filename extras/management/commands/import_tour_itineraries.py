@@ -10,8 +10,9 @@ from django.core.files import File
 from django.core.exceptions import ObjectDoesNotExist
 from ads.models import AdType, AdLocation, Ad, AdBanner
 from analytics.models import Analytic
-from operators.models import Itinerary, ItineraryExtra, ItineraryType
+from operators.models import Itinerary, ItineraryType
 from blog.models import Article
+from photos.models import Photo
 
 
 class Command(BaseCommand):
@@ -66,7 +67,7 @@ class Command(BaseCommand):
                     'header': c['itinerary_header'],
                     'title_short': c['itinerary_title_short'],
                     'summary': c['itinerary_summary'],
-                    'flight': c['itinerary_flight']
+                    'flight': c['itinerary_flight'],
                     'accomodation': c['itinerary_accomodation'],
                     'currency': Currency.objects.get(code=c['itinerary_currency']),
                     'min_price': c['itinerary_min_price'],
@@ -78,7 +79,7 @@ class Command(BaseCommand):
                     'date_modified': make_aware(c['date_modified']),
                 }
             )
-            #TODO update duplicated slugs
+            # TODO update duplicated slugs
             if is_created:
                 created += 1
             else:
@@ -94,11 +95,15 @@ class Command(BaseCommand):
              """
             cursor.execute(SQL % c['id'])
             result_ = cursor.fetchall()
-            # obj.activities.all().clear()
             for c_ in result_:
-                other = Activity.objects.get(name=c_['activity_name'])
-                obj.activities.add(other)
-
+                other = Activity.objects.get(name_old=c_['activity_name'])
+                if other.focus_type.name == 'Primary':
+                    obj.safari_focus_activity = other
+                if other.focus_type.name == 'Secondary':
+                    obj.secondary_focus_activity.add(other)
+                if other.focus_type.name == 'Non safari':
+                    obj.non_safari_focus_activity = other
+            obj.save()
             # add animals
             SQL = """
             select animal.animal_name
@@ -115,9 +120,9 @@ class Command(BaseCommand):
                 other = Animal.objects.get(name=c_['animal_name'])
                 obj.animals.add(other)
 
-            #photos
+            # photos
             SQL = """
-            select photo.uuid
+            select photo.uuid_value
             FROM
             photo, album
             WHERE
@@ -127,16 +132,19 @@ class Command(BaseCommand):
             cursor.execute(SQL % c['album_id'])
             result_ = cursor.fetchall()
             for c_ in result_:
-                photo = Photo.objects.get(uuid=c_['uuid'])
+                try:
+                    photo = Photo.objects.get(uuid_value=c_['uuid_value'])
+                except Photo.DoesNotExist:
+                    print('photo', c_['uuid_value'], 'does not exists')
+                    continue
                 photo.itinerary = obj
                 photo.save()
                 ###
-                ### find the one that matches the aspect ratio
-                itinerary.image = photo.image
-                break
-                ### 
+                # find the one that matches the aspect ratio
+                obj.image = photo.image
                 ###
-            itinerary.save()
+                ###
+            obj.save()
             # add countryindex
             SQL = """
             select countryindex.country_name

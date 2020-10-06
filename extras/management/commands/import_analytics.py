@@ -41,6 +41,8 @@ class Command(BaseCommand):
             LEFT JOIN user ON user.id = articlevisit.user_id
         WHERE
             articlevisit.article_id = article.id
+        ORDER BY
+            articlevisit.id DESC LIMIT 10000
         """)
         result = cursor.fetchall()
         for c in result:
