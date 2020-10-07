@@ -6,12 +6,11 @@ from contextlib import contextmanager
 
 env.use_ssh_config = True
 env.activate = 'source venv/bin/activate'
-env.user = 'root'
 
 STAGES = {
     'production': {
-        'hosts': ['IP'],
-        'code_dir': '/home/juan/yas',
+        'hosts': ['51.81.47.208'],
+        'code_dir': '/home/ubuntu/yas',
         'code_branch': 'master',
     },
     'test': {
@@ -31,12 +30,12 @@ def stage_set(stage_name='test'):
 @task
 def production():
     stage_set('production')
-
+    env.user = 'ubuntu'
 
 @task
 def test():
     stage_set('test')
-
+    env.user = 'root'
 
 @task
 def makemigrations():
