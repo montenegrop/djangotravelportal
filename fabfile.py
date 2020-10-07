@@ -6,11 +6,12 @@ from contextlib import contextmanager
 
 env.use_ssh_config = True
 env.activate = 'source venv/bin/activate'
+env.user = 'root'
 
 STAGES = {
     'production': {
         'hosts': ['51.81.47.208'],
-        'code_dir': '/home/ubuntu/yas',
+        'code_dir': '/home/ubu/yas',
         'code_branch': 'master',
     },
     'test': {
@@ -30,12 +31,12 @@ def stage_set(stage_name='test'):
 @task
 def production():
     stage_set('production')
-    env.user = 'ubuntu'
+
 
 @task
 def test():
     stage_set('test')
-    env.user = 'root'
+
 
 @task
 def makemigrations():
@@ -134,6 +135,12 @@ def restart_nginx():
     """
     run('systemctl restart nginx')
 
+
+
+@task
+def restart_nginx():
+    run('systemctl restart nginx')
+
 @task
 def restart_apache():
     """
@@ -157,9 +164,6 @@ def fix_media_permissions():
     run('chown -R juan:www-data media')
     run('chmod -R 770 media')
     
-
-
-
 
 @task
 def update():
@@ -192,7 +196,10 @@ def deploy():
             migrate()
             collect_static()
             restart_gunicorn()
-        restart_apache()
+        if env.stage == 'test':
+            restart_apache()
+        if env.stage == 'production':
+            restart_nginx()
         fix_static_permissions()
         fix_media_permissions()
     puts("               |    |    |               ")

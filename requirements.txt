@@ -27,3 +27,4 @@ django-post-office==3.4.1
 django-ses==1.0.3
 requests==2.22.0
 django-htmlmin==0.11.0
+Fabric3==1.14.post1
