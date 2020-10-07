@@ -66,7 +66,7 @@ class Command(BaseCommand):
                 pass
             try:
                 uuid = c.pop('photo_uuid')
-                newdict['photo'] = Photo.objects.get(uuid=uuid)
+                newdict['photo'] = Photo.objects.get(uuid_value=uuid)
             except ObjectDoesNotExist:
                 pass
             date_modified = c.pop('date_modified')

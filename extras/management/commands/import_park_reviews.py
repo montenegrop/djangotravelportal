@@ -105,7 +105,7 @@ class Command(BaseCommand):
             result_ = cursor.fetchall()
             for c_ in result_:
                 try:
-                    photo = Photo.objects.get(uuid=c_['uuid'])
+                    photo = Photo.objects.get(uuid_value=c_['uuid'])
                     photo.park_review = obj
                     photo.save()
                 except Photo.DoesNotExist:
@@ -157,7 +157,7 @@ class Command(BaseCommand):
                 newdict['date_created'] = make_aware(c_.pop('timestamp'))
                 newdict['ip_address'] = c_.pop('ip_address')
                 newdict['referer'] = c_.pop('referer')
-                newdict['country_code'] = c_.pop('country_code')
+                newdict['country_short'] = c_.pop('country_code')
                 newdict['content_object'] = obj
                 newdict['activity_type'] = 'CLICK'
                 email_add = c_.pop('email_address')

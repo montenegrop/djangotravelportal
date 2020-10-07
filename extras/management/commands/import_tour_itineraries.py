@@ -122,7 +122,7 @@ class Command(BaseCommand):
 
             # photos
             SQL = """
-            select photo.uuid_value
+            select photo.uuid
             FROM
             photo, album
             WHERE
@@ -133,9 +133,9 @@ class Command(BaseCommand):
             result_ = cursor.fetchall()
             for c_ in result_:
                 try:
-                    photo = Photo.objects.get(uuid_value=c_['uuid_value'])
+                    photo = Photo.objects.get(uuid_value=c_['uuid'])
                 except Photo.DoesNotExist:
-                    print('photo', c_['uuid_value'], 'does not exists')
+                    print('photo', c_['uuid'], 'does not exists')
                     continue
                 photo.itinerary = obj
                 photo.save()

@@ -40,24 +40,6 @@ class FieldType(models.Model):
         return self.name
 
 
-class DynamicFieldPark(models.Model):
-    name = models.CharField(max_length=200)
-    field_type = models.ForeignKey(FieldType, on_delete=models.PROTECT)
-    parks = models.ManyToManyField(Park, blank=True)
-
-    def __str__(self):
-        return self.name
-
-
-class DynamicFieldParkValue(models.Model):
-    dynamic_field = models.ForeignKey(
-        DynamicFieldPark, on_delete=models.PROTECT)
-    value = models.CharField(max_length=1000, null=True, blank=True)
-
-    def __str__(self):
-        return self.name
-
-
 class AbstractReview(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     title = models.CharField(max_length=300)
@@ -75,9 +57,7 @@ class AbstractReview(models.Model):
     
     friend_recommend = models.BooleanField()
     overall_rating = models.IntegerField()
-    
-    dynamic_field_values = models.ManyToManyField(
-        DynamicFieldParkValue, blank=True)
+
     activities = models.ManyToManyField(Activity, blank=True)
     animals = models.ManyToManyField(Animal, blank=True)
     PENDING = 'PE'
