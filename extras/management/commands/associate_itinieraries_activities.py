@@ -20,7 +20,6 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR("DEBUG is off"))
             return
         itineraries = Itinerary.objects.filter(date_deleted__isnull=True)
-        itineraries = itineraries.filter(pk=6547)
         photography = Activity.objects.get(name_short='Photography')
         for i in itineraries:
             parks = []
