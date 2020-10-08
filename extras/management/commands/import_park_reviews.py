@@ -139,32 +139,32 @@ class Command(BaseCommand):
             for c_ in result_:
                 animal = Animal.objects.get(name=c_['animal_name'])
                 obj.animals.add(animal)
-
+            
             #parkreviewvisit
-            cursor.execute("""
-            SELECT 
-                parkreviewvisit.*, 
-                user.email_address as email_address
-            FROM
-                parkreviewvisit 
-                LEFT JOIN user ON user.id = parkreviewvisit.user_id
-            WHERE
-                parkreviewvisit.parkreview_id = %s
-            """ % c['id'])
-            result = cursor.fetchall()
-            for c_ in result:
-                newdict = {}
-                newdict['date_created'] = make_aware(c_.pop('timestamp'))
-                newdict['ip_address'] = c_.pop('ip_address')
-                newdict['referer'] = c_.pop('referer')
-                newdict['country_short'] = c_.pop('country_code')
-                newdict['content_object'] = obj
-                newdict['activity_type'] = 'CLICK'
-                email_add = c_.pop('email_address')
-                if email_add != None:
-                    newdict['user'] = User.objects.get(username=email_add)
-                obj_analitics = Analytic(**newdict)   
-                obj_analitics.save()
+            #cursor.execute("""
+            #SELECT 
+            #    parkreviewvisit.*, 
+            #    user.email_address as email_address
+            #FROM
+            #    parkreviewvisit 
+            #    LEFT JOIN user ON user.id = parkreviewvisit.user_id
+            #WHERE
+            #    parkreviewvisit.parkreview_id = %s
+            #""" % c['id'])
+            #result = cursor.fetchall()
+            #for c_ in result:
+            #    newdict = {}
+            #    newdict['date_created'] = make_aware(c_.pop('timestamp'))
+            #    newdict['ip_address'] = c_.pop('ip_address')
+            #    newdict['referer'] = c_.pop('referer')
+            #    newdict['country_short'] = c_.pop('country_code')
+            #    newdict['content_object'] = obj
+            #    newdict['activity_type'] = 'CLICK'
+            #    email_add = c_.pop('email_address')
+            #    if email_add != None:
+            #        newdict['user'] = User.objects.get(username=email_add)
+            #    obj_analitics = Analytic(**newdict)   
+            #    obj_analitics.save()
 
             #parkreviewhelpful
             cursor.execute("""

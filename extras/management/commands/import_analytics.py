@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from analytics.models import Analytic
-from operators.models import Itinerary, ItineraryExtra, ItineraryType, TourOperator
+from operators.models import Itinerary, ItineraryType, TourOperator
 from blog.models import Article
 from django.contrib.auth.models import User
 from django.core.files import File
@@ -42,7 +42,7 @@ class Command(BaseCommand):
         WHERE
             articlevisit.article_id = article.id
         ORDER BY
-            articlevisit.id DESC LIMIT 10000
+            articlevisit.id DESC LIMIT 5000
         """)
         result = cursor.fetchall()
         for c in result:
@@ -51,8 +51,9 @@ class Command(BaseCommand):
             analytic.ip_address = c.pop('ip_address')
             analytic.referer = c.pop('referer')
             analytic.country_short = c.pop('country_code')
-            analytic.content_object = Article.objects.get(
-                title=c.pop('title'))
+            title = c.pop('title')
+            print(title)
+            analytic.content_object = Article.objects.get(title=title)
             analytic.activity_type = 'VISIT'
             email_add = c.pop('email_address')
             if email_add != None:
@@ -71,7 +72,7 @@ class Command(BaseCommand):
         WHERE
             countryindexvisit.countryindex_id = countryindex.id
         ORDER BY
-            countryindexvisit.id DESC LIMIT 10000
+            countryindexvisit.id DESC LIMIT 5000
         """)
         result = cursor.fetchall()
         for c in result:
@@ -104,7 +105,7 @@ class Command(BaseCommand):
         WHERE
             pagesponsorvisit.pagesponsor_id = pagesponsor.id
         ORDER BY
-            pagesponsorvisit.id DESC LIMIT 10000
+            pagesponsorvisit.id DESC LIMIT 5000
         """)
         result = cursor.fetchall()
         for c in result:
@@ -143,7 +144,7 @@ class Command(BaseCommand):
         WHERE
             pagesponsorclick.pagesponsor_id = pagesponsor.id
         ORDER BY
-            pagesponsorclick.id DESC LIMIT 10000
+            pagesponsorclick.id DESC LIMIT 5000
         """)
         result = cursor.fetchall()
         for c in result:
@@ -172,7 +173,7 @@ class Command(BaseCommand):
         WHERE
             parkvisit.park_id = park.id
         ORDER BY
-            parkvisit.id DESC LIMIT 10000
+            parkvisit.id DESC LIMIT 5000
         """)
         result = cursor.fetchall()
         for c in result:
@@ -201,7 +202,7 @@ class Command(BaseCommand):
         WHERE
             touroperatoritineraryvisit.touroperatoritinerary_id = touroperatoritinerary.id
         ORDER BY
-            touroperatoritineraryvisit.id DESC LIMIT 10000
+            touroperatoritineraryvisit.id DESC LIMIT 5000
         """)
         result = cursor.fetchall()
         for c in result:
@@ -229,7 +230,7 @@ class Command(BaseCommand):
         WHERE
             touroperatorvisit.touroperator_id = touroperator.id
         ORDER BY
-            touroperatorvisit.id DESC LIMIT 10000
+            touroperatorvisit.id DESC LIMIT 5000
         """)
         result = cursor.fetchall()
         for c in result:
@@ -258,7 +259,7 @@ class Command(BaseCommand):
             LEFT JOIN (SELECT id, email_address FROM user) as u ON u.id = uservisit.user_id
             LEFT JOIN (SELECT id, email_address FROM user) as u2 ON u2.id = uservisit.realuser_id
         ORDER BY
-            uservisit.id DESC LIMIT 10000
+            uservisit.id DESC LIMIT 5000
         """)
         result = cursor.fetchall()
         for c in result:

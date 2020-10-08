@@ -131,7 +131,7 @@ class Command(BaseCommand):
                      db_user=options['db_user'],
                      db_pass=options['db_pass'],
                      base_location=options['base_location'])
-        """
+        
         call_command('import_park_reviews', db_host=options['db_host'],
                      db_name=options['db_name'],
                      db_user=options['db_user'],
@@ -152,12 +152,14 @@ class Command(BaseCommand):
                     db_name=options['db_name'],
                     db_user=options['db_user'],
                     db_pass=options['db_pass'])
-            
+        """    
         call_command('import_analytics', db_host=options['db_host'],
                      db_name=options['db_name'],
                      db_user=options['db_user'],
                      db_pass=options['db_pass'])
-        #call_command('updates')
-        #call_command('update_visit_count')
+        call_command('updates')
+        call_command('associate_park_activity', csv='dev/activities_by_park.csv')
+        call_command('analyze_itineraries')
+        call_command('associate_itinieraries_activities')
         message = 'End'
         self.stdout.write(self.style.SUCCESS(message))
