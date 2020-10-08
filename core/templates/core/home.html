@@ -380,15 +380,9 @@
         </div>
         <div class="hero-home-container">
           <picture>
-            <source media="(max-width: 576px)" srcset="{% static 'core/img/home/max_576px' %}/{{ masthead_number }}.jpg">
-            <source media="(max-width: 768px)" srcset="{% static 'core/img/home/max_768px' %}/{{ masthead_number }}.jpg">
-            <source media="(max-width: 1440px)" srcset="{% static 'core/img/home/max_1440px' %}/{{ masthead_number }}.jpg">
-            <source media="(max-width: 1920px)" srcset="{% static 'core/img/home/max_1920px' %}/{{ masthead_number_lg }}.jpg">
-            <source media="(min-width: 1920px)" srcset="{% static 'core/img/home/min_1920px' %}/{{ masthead_number_lg }}.jpg"> 
-            <img class="hero-home" src="{% static 'core/img/home/min_1920px/2.jpg' %}" alt="..."> 
+            {{ picture|get_source_img|safe }}
           </picture> 
-        </div>        
-        
+        </div>
       </header>
       <div class="row mx-0">
         <div class="container-fluid px-0">

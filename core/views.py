@@ -166,6 +166,7 @@ class HomeView(TemplateView):
         context['featured_tour_operators'] = featured_tour_operators
         context['alert_success_activation'] = not not self.request.GET.get('success_activation')
         context['alert_error_activation'] = not not self.request.GET.get('error_activation')
+        context['picture'] = 'home-1,(max-width: 576px),4185x1395'
         log_action(self.request)
         return context
 

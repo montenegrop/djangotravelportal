@@ -87,17 +87,6 @@ class UserProfile(models.Model):
     youtube = models.CharField(max_length=1000, blank=True, null=True)
     twitter = models.CharField(max_length=1000, blank=True, null=True)
 
-    def has_social_media(self):
-        if self.whatsapp or self.skype or self.linkedin or self.facebook or self.pinterest or self.instagram or self.youtube or self.twitter:
-            return True
-        else:
-            return False
-
-    def has_website_or_blog(self):
-        if self.blog or self.website:
-            return True
-        else:
-            return False
 
     LODGE_OWNER = "LO"
     NON_PROFIT = "NP"
@@ -122,6 +111,18 @@ class UserProfile(models.Model):
     #calculated fields
     reviews_count = models.IntegerField(default=0)
     kudus_count = models.IntegerField(default=0)
+
+    def has_social_media(self):
+        if self.whatsapp or self.skype or self.linkedin or self.facebook or self.pinterest or self.instagram or self.youtube or self.twitter:
+            return True
+        else:
+            return False
+
+    def has_website_or_blog(self):
+        if self.blog or self.website:
+            return True
+        else:
+            return False
 
     def __str__(self):
         return self.screen_name or self.user.email

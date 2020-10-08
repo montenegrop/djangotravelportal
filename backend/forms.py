@@ -418,7 +418,7 @@ class MemberInfoProfileForm(forms.ModelForm):
         fields = '__all__'
         exclude = (
             'slug', 'date_created', 'gender', 'user', 'tour_operator', 'luxury_level', 'user_type', 'animals_seen',
-            'activities_enjoy', 'countries_visited')
+            'activities_enjoy', 'countries_visited', 'reviews_count', 'kudus_count')
         labels = {'country': 'Residence', 'description': ''}
 
 

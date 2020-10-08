@@ -242,6 +242,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 THUMBNAIL_ALIASES = {
     '': {
         'crop_50': {'size': (50, 50), 'crop': True},
+        '4185x1395':{'size': (4185, 1395), 'crop': True},
         'crop_150': {'size': (150, 150), 'crop': True},
         'crop_200': {'size': (200, 200), 'crop': True},
         'crop_500x400': {'size': (500, 400), 'crop': True},

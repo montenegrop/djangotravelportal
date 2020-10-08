@@ -26,7 +26,9 @@ class Command(BaseCommand):
         if not settings.DEBUG:
             self.stdout.write(self.style.ERROR("DEBUG is off"))
         db = MySQLdb.connect(
-            host=options['db_host'], db=options['db_name'], user=options['db_user'], password=options['db_pass'])
+            host=options['db_host'], d
+            charset='utf8',
+            use_unicode=True,db=options['db_name'], user=options['db_user'], password=options['db_pass'])
         cursor = db.cursor(MySQLdb.cursors.DictCursor)
         created, updated = 0, 0
         cursor.execute("""
