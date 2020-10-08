@@ -7,7 +7,7 @@ from operators.models import TourOperator
 from django.utils.timezone import make_aware
 import MySQLdb
 from django.core.files import File
-from operators.models import QuoteRequest, TourOperator, Itinerary, ItineraryExtra, ItineraryType
+from operators.models import QuoteRequest, TourOperator, Itinerary, ItineraryType
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
