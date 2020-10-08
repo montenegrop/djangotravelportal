@@ -31,12 +31,14 @@ def stage_set(stage_name='test'):
 def production():
     stage_set('production')
     env.user = 'ubuntu'
+    env.group = ':www-data'
 
 
 @task
 def test():
     stage_set('test')
     env.user = 'root'
+    env.group = 'juan:www-data'
 
 @task
 def makemigrations():
@@ -153,16 +155,16 @@ def fix_static_permissions():
     """
     Fix static permissions
     """
-    run('chown -R juan:www-data static')
-    run('chmod -R 770 static')
+    run('sudo chown -R {} static'.format(env.group))
+    run('sudo chmod -R 770 static')
 
 @task
 def fix_media_permissions():
     """
     Fix media permissions
     """
-    run('chown -R juan:www-data media')
-    run('chmod -R 770 media')
+    run('sudo chown -R {} media'.format(env.group))
+    run('sudo chmod -R 770 media')
     
 
 @task
