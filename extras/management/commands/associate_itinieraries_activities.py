@@ -20,6 +20,7 @@ class Command(BaseCommand):
             self.stdout.write(self.style.ERROR("DEBUG is off"))
             return
         itineraries = Itinerary.objects.filter(date_deleted__isnull=True)
+        itineraries = itineraries.filter(pk=6547)
         photography = Activity.objects.get(name_short='Photography')
         for i in itineraries:
             parks = []
@@ -46,7 +47,9 @@ class Command(BaseCommand):
             #print('{} has {} activities'.format(i.title, count))
             if count > 3:
                 act = ','.join([x.name_short for x in i.secondary_focus_activity.all()])
-                print('---- {} has {} activities - {}'.format(i.title, count, act))
+                print('---- {} has {} activities WARNING - {}'.format(i.title, count, act))
+            act = ','.join([x.name_short for x in i.secondary_focus_activity.all()])
+            print('---- {} primary: {} secondary: {}'.format(i.title,i.safari_focus_activity, act))
             i.save()
             #parks = set(parks)
             #primaries = set(primaries)

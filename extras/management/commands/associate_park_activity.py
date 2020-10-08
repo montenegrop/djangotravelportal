@@ -42,12 +42,14 @@ class Command(BaseCommand):
             print(v['secondary'],v['secondary.1'],v['secondary.2'],)
             if not nan_equal(v['secondary'], np.nan):
                 print(v['secondary'])
-                park.secondary_focus_activity.add(Activity.objects.get(name_short=v['secondary']))
+                #park.secondary_focus_activity.add(Activity.objects.get(name_short=v['secondary']))
             if not nan_equal(v['secondary.1'], np.nan) :
-                park.secondary_focus_activity.add(Activity.objects.get(name_short=v['secondary.1']))
+                #park.secondary_focus_activity.add(Activity.objects.get(name_short=v['secondary.1']))
+                pass
             if not nan_equal(v['secondary.2'], np.nan) :
-                park.secondary_focus_activity.add(Activity.objects.get(name_short=v['secondary.2']))
-            park.save()
+                #park.secondary_focus_activity.add(Activity.objects.get(name_short=v['secondary.2']))
+                pass
+            #park.save()
             print(park, park.safari_focus_activity, park.secondary_focus_activity.count())
         
         self.stdout.write(self.style.SUCCESS("DONE"))

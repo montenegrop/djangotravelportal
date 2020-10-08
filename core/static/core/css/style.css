@@ -276,6 +276,34 @@ article:after,
   object-position: right;
 }
 
+
+
+
+.hero-bg-image {
+	margin-top: -34px;
+	background-position: center;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	-webkit-background-size: cover;
+	background-size: cover;
+	height: 400px;
+	position: relative;
+	-moz-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+@media only screen and (max-width: 992px) {
+	.hero-bg-image {
+		height: 300px;
+	}
+}
+
+@media only screen and (max-width: 576px) {
+	.hero-bg-image {
+		height: 250px;
+	}
+}
+
 .hero-heading {
 	text-align: left;
 	background-color: white;

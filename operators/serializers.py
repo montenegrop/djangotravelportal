@@ -126,6 +126,13 @@ class ItinerarySerializer(serializers.ModelSerializer):
 
     def get_thumbnail(self, obj):
         from core.utils import get_thumbnailer_
+        try:
+            obj.image.url
+        except ValueError:
+            return ""
+        from django.core.files.storage import default_storage
+        if not default_storage.exists(obj.image.path):
+            return ""
         return get_thumbnailer_(obj.image, 'card')
 
     class Meta:

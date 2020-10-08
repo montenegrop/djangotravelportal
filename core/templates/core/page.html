@@ -6,7 +6,7 @@
 {% block content %}
 
 {% if page.image %}
-<div class="hero-image-container" style="background-image: url({{ page.image.url }});">
+<div class="hero-bg-image" style="background-image: url({{ page.image.url }});">
   <div class="hero-text-container">
     {% if object.image_title %}
     <a class="text-dark-grey hero-text" target='_blank' href="{{ object.header_caption_link  }}">
@@ -20,7 +20,7 @@
   <div class="row mt-5 px-md-5 px-2 justify-content-between admin-content">
     <div class="col-12">
       <h1 class="h1-sm">
-        {{ page.title}}
+        {{ page.title}}
       </h1>
     </div>
     <p class="col-12">
