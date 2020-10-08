@@ -50,9 +50,10 @@ def external_url(url):
 
 
 @register.filter(is_safe=True)
-def get_media_img(slug):
+def get_media_img(slug, alias):
     media_file = MediaFile.objects.get(slug=slug)
-    return "<img src='{}' alt='{}'>".format(media_file.image.url, media_file.alt_text)
+    thumbnailer = get_thumbnailer(media_file.image).get_thumbnail(settings.THUMBNAIL_ALIASES[''][alias])
+    return "<img src='{}' alt='{}'>".format(thumbnailer.url, media_file.alt_text)
 
 @register.filter(name='template_num2words')
 def template_num2words(num):

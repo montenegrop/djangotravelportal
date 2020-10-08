@@ -33,12 +33,12 @@ admin.site.site_title = "YAS Admin Portal"
 admin.site.index_title = "YAS Administration"
 
 if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
-    urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+    #import debug_toolbar
+    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+    #urlpatterns = [
+    #    path('__debug__/', include(debug_toolbar.urls)),
+    #] + urlpatterns
+    pass
 
 if settings.DEBUG:
     urlpatterns = [

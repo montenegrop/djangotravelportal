@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'rest_framework',
-    'debug_toolbar',
+#    'debug_toolbar',
     'easy_thumbnails',
     'easy_thumbnails.optimize',
     'social_django',
@@ -85,7 +85,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
-    #'operators.SetLastVisitMiddleware.SetLastVisitMiddleware'
+    'operators.SetLastVisitMiddleware.SetLastVisitMiddleware',
     'htmlmin.middleware.HtmlMinifyMiddleware',
     'htmlmin.middleware.MarkRequestMiddleware',
 ]
@@ -233,14 +233,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'operators'),
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = env.str('MEDIA_URL', '/media/')
-REMOTE_PHOTOS = env.bool('REMOTE_PHOTOS', False)
-if REMOTE_PHOTOS:
-    MEDIA_URL = env.str('MEDIA_URL', '/media/')
-else:
-    MEDIA_URL = '/media/'
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+print(MEDIA_ROOT)
+MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -285,13 +280,6 @@ if not DEBUG:
 
 RECAPTCHA_SECRET_KEY = env.str('RECAPTCHA_SECRET_KEY')
 RECAPTCHA_SITE_KEY = env.str('RECAPTCHA_SITE_KEY')
-
-EMAIL_USE_TLS = env.str('EMAIL_USE_TLS')
-EMAIL_HOST = env.str('EMAIL_HOST')
-EMAIL_HOST_USER = env.str('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = env.str('EMAIL_PORT')
-EMAIL_BACKEND = 'post_office.EmailBackend'
 
 GOOGLE_MAPS_API_KEY = env.str('GOOGLE_MAPS_API_KEY')
 BASE_URL = env.str('BASE_URL')
@@ -339,6 +327,12 @@ POST_OFFICE = {
         'default': 'django_ses.SESBackend',
     }
 }
+
+EMAIL_USE_TLS = env.str('EMAIL_USE_TLS')
+EMAIL_HOST = env.str('EMAIL_HOST')
+EMAIL_HOST_USER = env.str('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = env.str('EMAIL_PORT')
 EMAIL_BACKEND = 'django_ses.SESBackend'
 # These are optional -- if they're set as environment variables they won't
 # need to be set here as well
