@@ -52,7 +52,10 @@ def external_url(url):
 @register.filter(is_safe=True)
 def get_media_img(args):
     slug, alias = args.split(',')
-    media_file = MediaFile.objects.get(slug=slug)
+    try:
+        media_file = MediaFile.objects.get(slug=slug)
+    except MediaFile.DoesNotExist:
+        return ""
     thumbnailer = get_thumbnailer(media_file.image).get_thumbnail(settings.THUMBNAIL_ALIASES[''][alias])
     return "<img src='{}' alt='{}'>".format(thumbnailer.url, media_file.alt_text)
 
