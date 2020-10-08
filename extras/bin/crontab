@@ -1,0 +1,13 @@
+# m h  dom mon dow   command
+* * * * * (/home/juan/yas/venv/bin/python /home/juan/yas/manage.py send_queued_mail >> /home/juan/yas/logs/send_mail.log 2>&1)
+0 0 * * * (/home/juan/yas/venv/bin/python /home/juan/yas/manage.py updates  >> /home/juan/yas/logs/updates.log 2>&1)
+0 */5 * * * (/home/juan/yas/venv/bin/python /home/juan/yas/manage.py send_welcome_email  >> /home/juan/yas/logs/update_currencies.log 2>&1)
+30 0 * * * (/home/juan/yas/venv/bin/python /home/juan/yas/manage.py update_currencies  >> /home/juan/yas/logs/update_currencies.log 2>&1)
+
+
+
+# m h  dom mon dow   command
+* * * * * (/home/ubuntu/yas/venv/bin/python /home/ubuntu/yas/manage.py send_queued_mail >> /home/ubuntu/yas/logs/send_mail.log 2>&1)
+0 0 * * * (/home/ubuntu/yas/venv/bin/python /home/ubuntu/yas/manage.py updates  >> /home/ubuntu/yas/logs/updates.log 2>&1)
+0 */5 * * * (/home/ubuntu/yas/venv/bin/python /home/ubuntu/yas/manage.py send_welcome_email  >> /home/ubuntu/yas/logs/update_currencies.log 2>&1)
+30 0 * * * (/home/ubuntu/yas/venv/bin/python /home/ubuntu/yas/manage.py update_currencies  >> /home/ubuntu/yas/logs/update_currencies.log 2>&1)
