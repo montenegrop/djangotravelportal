@@ -234,7 +234,6 @@ STATICFILES_DIRS = [
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-print(MEDIA_ROOT)
 MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -253,6 +252,11 @@ THUMBNAIL_ALIASES = {
         'card': {'size': (340, 255), 'crop': True},
         'search_card': {'size': (188, 108), 'crop': True},
         'crop_790_400': {'size': (790, 400), 'crop': True},
+        '579x381': {'size': (579, 381), 'crop': True},
+        '770x383': {'size': (770, 383), 'crop': True},
+        '1441x577': {'size': (1441, 577), 'crop': True},
+        '1920x640': {'size': (1920, 640), 'crop': True},
+        '3851x1155': {'size': (3851, 1155), 'crop': True},
         'default': {},
     },
 }

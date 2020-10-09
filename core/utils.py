@@ -50,8 +50,7 @@ def external_url(url):
 
 
 @register.filter(is_safe=True)
-def get_media_img(args):
-    slug, alias = args.split(',')
+def get_media_img(slug, alias):
     try:
         media_file = MediaFile.objects.get(slug=slug)
     except MediaFile.DoesNotExist:

@@ -380,12 +380,14 @@
         </div>
         <div class="hero-home-container">
           <picture>
-            <source media="(max-width: 576px)" srcset="{% static 'core/img/home/max_576px' %}/{{ masthead_number }}.jpg">
-            <source media="(max-width: 768px)" srcset="{% static 'core/img/home/max_768px' %}/{{ masthead_number }}.jpg">
-            <source media="(max-width: 1440px)" srcset="{% static 'core/img/home/max_1440px' %}/{{ masthead_number }}.jpg">
-            <source media="(max-width: 1920px)" srcset="{% static 'core/img/home/max_1920px' %}/{{ masthead_number_lg }}.jpg">
-            <source media="(min-width: 1920px)" srcset="{% static 'core/img/home/min_1920px' %}/{{ masthead_number_lg }}.jpg"> 
-            <img class="hero-home" src="{% static 'core/img/home/min_1920px/2.jpg' %}" alt="..."> 
+            <!-- masthead_number 1/6 -->
+            <!-- masthead_number_lg 1/3 -->
+            <source media="(max-width: 576px)" srcset="{{ max576px|get_media_img:'579x381' }}">
+            <source media="(max-width: 768px)" srcset="{{ max768px|get_media_img:'770x383' }}">
+            <source media="(max-width: 1440px)" srcset="{{ max1440px|get_media_img:'1441x577' }}">
+            <source media="(max-width: 1920px)" srcset="{{ max1920px|get_media_img:'1920x640' }}">
+            <source media="(min-width: 1920px)" srcset="{{ min1920px|get_media_img:'3851x1155' }}">
+            <img class="hero-home" src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/2-min1920px.jpg" alt="...">
           </picture> 
         </div>        
         
