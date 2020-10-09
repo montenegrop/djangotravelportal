@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.template import loader
 from places.models import CountryIndex
 from django.contrib import messages
+from blog.models import Article
 from django.views.generic import TemplateView, FormView
 from django.views.generic.detail import DetailView
 from core.models import Page
@@ -160,7 +161,13 @@ class HomeView(TemplateView):
         featured_tour_operators = TourOperator.objects.all()
         featured_tour_operators = featured_tour_operators.exclude(slug=None)
         featured_tour_operators = featured_tour_operators.exclude(slug='')
+        featured_tour_operators = featured_tour_operators.exclude(draft=True)
+        featured_tour_operators = featured_tour_operators.filter(date_deleted__isnull=True)
         featured_tour_operators = featured_tour_operators.order_by('-date_created')[:4]        
+
+        featured_articles = Article.objects.filter(article_status=Article.STATUS_PUBLISHED)
+        featured_articles = featured_articles.order_by('-date_created')[:3]
+
         masthead_number = random.randint(1, 6)
         masthead_number_lg = random.randint(1, 3)
         context['max576px'] = '{}-max576px'.format(masthead_number)
@@ -171,6 +178,7 @@ class HomeView(TemplateView):
         context['min1920px'] = '{}-min1920px'.format(masthead_number_lg)
         
         context['featured_tour_operators'] = featured_tour_operators
+        context['featured_articles'] = featured_articles
         context['alert_success_activation'] = not not self.request.GET.get('success_activation')
         context['alert_error_activation'] = not not self.request.GET.get('error_activation')
         log_action(self.request)

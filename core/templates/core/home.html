@@ -728,63 +728,28 @@
       </div>
       <div class="scrolling-wrapper-flexbox">
         <div class="row justify-content-around no-wrap mx-2">
+          
+          {% for article in featured_articles %}
           <div class="card blog-articles-home px-0 col-4 mx-3 mx-md-0 mb-4 pb-0 opacity">
             <a class="army-green"
-              href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
-              <img src="https://yastest.crescente.com.ar/media/images/articles/2020/05/22/image_49"
-                class="card-img-top blog-img" alt="...">
+              href="{% url 'articles:view' article.slug %}">
+              <img src="{{ article.image.url }}" class="card-img-top blog-img" alt="{{article}}">
             </a>
             <div class="card-body pt-1 pb-2 px-2">
               <div class="d-flex justify-content-between">
-                <div class="date font-12 text-light-grey">April 2020</div>
-                <div class="font-12 text-light-grey">10 views</div>
+                <div class="date font-12 text-light-grey">{{ article.date_created|date:"F Y" }}</div>
+                <div class="font-12 text-light-grey">{{ article.views_count }} view|{{ article.views_count|pluralize }}</div>
               </div>
               <h5 class="card-title d-flex align-items-center my-1">
                 <a class="army-green"
-                  href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
-                  COVID-19 and safaris
+                  href="{% url 'articles:view' article.slug %}">
+                  {{article}}
                 </a>
               </h5>
             </div>
           </div>
-          <div class="card blog-articles-home px-0 col-4 mx-3 mx-md-0 mb-4 pb-0 opacity">
-            <a class="army-green"
-              href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
-              <img src="https://yastest.crescente.com.ar/media/images/articles/2020/05/22/image_202"
-                class="card-img-top blog-img" alt="...">
-            </a>
-            <div class="card-body pt-1 pb-2 px-2">
-              <div class="d-flex justify-content-between">
-                <div class="date font-12 text-light-grey">April 2020</div>
-                <div class="font-12 text-light-grey">2 views</div>
-              </div>
-              <h5 class="card-title d-flex align-items-center my-1">
-                <a class="army-green"
-                  href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
-                  Helping Rwanda's children
-                </a>
-              </h5>
-            </div>
-          </div>
-          <div class="card blog-articles-home px-0 col-4 mx-3 mx-md-0 mb-4 pb-0 opacity">
-            <a class="army-green"
-              href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
-              <img src="https://yastest.crescente.com.ar/media/images/articles/2020/05/22/image_201"
-                class="card-img-top blog-img" alt="...">
-            </a>
-            <div class="card-body pt-1 pb-2 px-2">
-              <div class="d-flex justify-content-between">
-                <div class="date font-12 text-light-grey">April 2020</div>
-                <div class="font-12 text-light-grey">23 views</div>
-              </div>
-              <h5 class="card-title d-flex align-items-center my-1">
-                <a class="army-green"
-                  href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
-                  Volunteering on safari
-                </a>
-              </h5>
-            </div>
-          </div>
+          {% endfor %}
+
         </div>
       </div>
     </div>
@@ -839,35 +804,11 @@
         {% for op in featured_tour_operators %}
         <div class="company py-2 py-sm-0  px-3 mx-auto text-center">
           <div class="company-img-container">
-            <img src="https://www.yourafricansafari.com/images/touroperator/logo/kilipeak-adventure-1597505769.jpg"
-              alt="">
+            <img src="{{op.logo.url}}" alt="{{op}}">
           </div>
-          <p class="font-12px">Kilipeak Adventure</p>
+          <p class="font-12px">{{op}}</p>
         </div>
         {% endfor %}
-        <div class="company py-2 py-sm-0 px-3 mx-auto text-center">
-          <div class="company-img-container">
-            <img
-              src="https://www.yourafricansafari.com/images/touroperator/logo/top-cream-tours-and-safaris-1518096000.jpg"
-              alt="">
-          </div>
-          <p class="font-12px">Top Cream Tours and Safaris</p>
-        </div>
-        <div class="company py-2 py-sm-0 px-3 mx-auto text-center">
-          <div class="company-img-container">
-            <img src="https://www.yourafricansafari.com/images/touroperator/logo/chaz-tours-and-travel-1581508149.jpg"
-              alt="">
-          </div>
-          <p class="font-12px">Chaz Tours and Travel</p>
-        </div>
-        <div class="company py-2 py-sm-0 px-3 mx-auto text-center">
-          <div class="company-img-container">
-            <img
-              src="https://www.yourafricansafari.com/images/touroperator/logo/silver-spark-africa-safaris-1586528509.jpg"
-              alt="">
-          </div>
-          <p class="font-12px">Silver Spark Africa Safaris</p>
-        </div>
       </div>
     </div>
     <!-- end yas welcomes-->
