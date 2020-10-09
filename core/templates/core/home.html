@@ -23,7 +23,7 @@
 
   #hero-text {
     padding: 0px 60px;
-    top: -10px;  
+    top: -10px;
   }
 
   #mission-statement {
@@ -70,9 +70,11 @@
     .mail-signup {
       width: 90%;
     }
+
     #mission-statement {
-    position: relative;
+      position: relative;
     }
+
     #hero-text {
       top: 40px;
     }
@@ -91,7 +93,16 @@
   }
 
   .company-img-container {
-    height: 100px;
+    height: 150px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  .company-img-container img {
+    height: auto;
+    width: 100%;
+    object-fit: cover;
   }
 
   .mali-font {
@@ -241,7 +252,7 @@
     }
   }
 
-  @media screen and (min-width: 992px) {  
+  @media screen and (min-width: 992px) {
     #big-five-card1 {
       height: 480px;
       max-width: 100%;
@@ -299,57 +310,47 @@
   }
 
   @media screen and (max-width: 576px) {
-      .company-img-container {
-        height: auto;
-      }
-
-      .form-control::placeholder {
-        font-size: 12px;
-      }
+    .company-img-container {
+      height: auto;
     }
 
+    .form-control::placeholder {
+      font-size: 12px;
+    }
+  }
+
   .carousel {
-    height: 200px;
-  }
-
-  .carousel-indicators {
-   position: relative;
-  }
-
-  .carousel-indicators li {
-    background-color: #6b6a24;
+    height: 100px;
   }
 
   .carousel-item {
-  text-align: center;
-  background-color: white;
+    text-align: center;
+    background-color: white;
   }
 
 
-.hero-home-container {
-  width: 100%;
-  height: 400px;
-  position: absolute;
-  top: 0;
-  z-index: -1;
-  overflow: hidden;
-  display: flex;
-}
+  .hero-home-container {
+    width: 100%;
+    height: 400px;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+    overflow: hidden;
+    display: flex;
+  }
 
-@media only screen and (max-width: 992px) {
-	.hero-home-container {
-		height: 350px;
-	}
-}
+  @media only screen and (max-width: 992px) {
+    .hero-home-container {
+      height: 350px;
+    }
+  }
 
-.hero-home {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  align-self: end;
-}
-
-
+  .hero-home {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    align-self: end;
+  }
 </style>
 {% endblock %}
 {% block content %}
@@ -357,7 +358,7 @@
 <div class="container-fluid px-0 mx-0">
   <div class="row mx-0">
     <div class="col-12 px-0">
-      <header class="masthead" >        
+      <header class="masthead">
         <div class="container-fluid h-100">
           <div class="row h-100 align-items-center">
             <div class="col-12 pb-4 pb-sm-0 max-width" id="hero-text">
@@ -375,35 +376,40 @@
                   </div>
                 </div>
               </form>
-            </div>          
+            </div>
           </div>
         </div>
         <div class="hero-home-container">
           <picture>
-            <source media="(max-width: 576px)" srcset="{% static 'core/img/home/max_576px' %}/{{ masthead_number }}.jpg">
-            <source media="(max-width: 768px)" srcset="{% static 'core/img/home/max_768px' %}/{{ masthead_number }}.jpg">
-            <source media="(max-width: 1440px)" srcset="{% static 'core/img/home/max_1440px' %}/{{ masthead_number }}.jpg">
-            <source media="(max-width: 1920px)" srcset="{% static 'core/img/home/max_1920px' %}/{{ masthead_number_lg }}.jpg">
-            <source media="(min-width: 1920px)" srcset="{% static 'core/img/home/min_1920px' %}/{{ masthead_number_lg }}.jpg"> 
-            <img class="hero-home" src="{% static 'core/img/home/min_1920px/2.jpg' %}" alt="..."> 
-          </picture> 
-        </div>        
-        
+            <source media="(max-width: 576px)"
+              srcset="{% static 'core/img/home/max_576px' %}/{{ masthead_number }}.jpg">
+            <source media="(max-width: 768px)"
+              srcset="{% static 'core/img/home/max_768px' %}/{{ masthead_number }}.jpg">
+            <source media="(max-width: 1440px)"
+              srcset="{% static 'core/img/home/max_1440px' %}/{{ masthead_number }}.jpg">
+            <source media="(max-width: 1920px)"
+              srcset="{% static 'core/img/home/max_1920px' %}/{{ masthead_number_lg }}.jpg">
+            <source media="(min-width: 1920px)"
+              srcset="{% static 'core/img/home/min_1920px' %}/{{ masthead_number_lg }}.jpg">
+            <img class="hero-home" src="{% static 'core/img/home/min_1920px/2.jpg' %}" alt="...">
+          </picture>
+        </div>
+
       </header>
       <div class="row mx-0">
         <div class="container-fluid px-0">
           <div class="col-12 text-left py-2 py-sm-1" id="mission-statement">
-          <div>
-            <span>
-              <span class="font-weight-bold text-white">
-                About Your African Safari</span>&mdash;YAS was created to help support, grow and nourish a healthy
-              African wildlife population. We only allow tours that do not exploit wildlife. 
-              <a href="#" class="text-white"><u>Read more</u></a>   
-           </span>
+            <div>
+              <span>
+                <span class="font-weight-bold text-white">
+                  About Your African Safari</span>&mdash;YAS was created to help support, grow and nourish a healthy
+                African wildlife population. We only allow tours that do not exploit wildlife.
+                <a href="#" class="text-white"><u>Read more</u></a>
+              </span>
+            </div>
           </div>
         </div>
-        </div>
-        
+
       </div>
     </div>
   </div>
@@ -586,6 +592,66 @@
     </div>
     <!-- end featured tours-->
 
+    <!-- featured articles-->
+    <div class="col-lg-12 yas-welcomes my-4 px-0">
+      <h3 class="mt-2 h3-sm text-center">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt quisquam
+        aspernatur vel dicta maxime sapiente.</h3>
+      <h5 class="text-center h5-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis similique officiis
+        sed, fuga eaque tempore! In, quam fuga. Sapiente, numquam?</h5>
+      <div class="col-12 mx-auto d-sm-flex  justify-content-around">
+        <div class="company py-2 py-sm-0  px-3 mx-auto text-center">
+          <div class="company-img-container">
+            <a class="opacity" href="https://www.yourafricansafari.com/articles/yas-interview-with-blood-lions">
+              <img
+                src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Blood_Lions_Logos.png"
+                alt="Blood lions logo">
+            </a>
+          </div>
+        </div>
+        <div class="company py-2 py-sm-0 px-3 mx-auto text-center">
+          <div class="company-img-container">
+            <a class="opacity"
+              href="https://yasprod.crescente.com.ar/articles/interview-with-captured-in-africa-foundation-ensuring-big-cats-are-protected/">
+              <img
+                src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/CIAF-Logos-Complete.png"
+                alt="Captured in Africa logo">
+            </a>
+          </div>
+        </div>
+        <div class="company py-2 py-sm-0 px-3 mx-auto text-center">
+          <div class="company-img-container">
+            <a class="opacity"
+              href="https://yasprod.crescente.com.ar/articles/interview-with-captured-in-africa-foundation-ensuring-big-cats-are-protected/">
+              <img
+                src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/PitTrack-brand-full-colour.png"
+                alt="Pit Track logo">
+            </a>
+          </div>
+        </div>
+        <div class="company py-2 py-sm-0 px-3 mx-auto text-center">
+          <div class="company-img-container">
+            <a class="opacity"
+              href="https://yasprod.crescente.com.ar/articles/toursafe-africasafe-travel-amid-the-covid-19-coronavirus-and-beyond/">
+              <img
+                src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/TourSafe_logo.png"
+                alt="Tour safe logo">
+            </a>
+          </div>
+        </div>
+        <div class="company py-2 py-sm-0 px-3 mx-auto text-center">
+          <div class="company-img-container">
+            <a class="opacity" href="#">
+              <img
+                src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/PitTrack-brand-full-colour.png"
+                alt="...">
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- featured articles-->
+
     <!-- big five -->
     <div class="col-lg-12 big-five text-center my-1 px-0">
       <h3 class="mt-2 mb-4 h3-sm">
@@ -608,54 +674,50 @@
             <div class="row flex-nowrap flex-lg-wrap big-five-row">
               <div class="col-4 col-lg-6 px-2 px-lg-3 opacity">
                 <a href="https://yastest.crescente.com.ar/parks/akagera/">
-                <div class="card big-five-cards">
-                  <img
-                    src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Lion.jpg"
-                    class="card-img-top" alt="Lion">
-                  <h5 class="p-1 my-auto olive-green">
-                    Akagera National Park
-                  </h5>
-                </div>
+                  <div class="card big-five-cards">
+                    <img src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Lion.jpg"
+                      class="card-img-top" alt="Lion">
+                    <h5 class="p-1 my-auto olive-green">
+                      Akagera National Park
+                    </h5>
+                  </div>
                 </a>
               </div>
               <div class="col-4 col-lg-6 px-2 px-lg-3 opacity">
                 <a href="https://yastest.crescente.com.ar/parks/kruger/">
-                <div class="card big-five-cards">
-                  <img
-                    src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Rhinoceros.jpg"
-                    class="card-img-top" alt="Rhinoceros">
-                  <h5 class="p-1 my-auto olive-green">
-                    Kruger National Park
-                  </h5>
-                </div>
+                  <div class="card big-five-cards">
+                    <img src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Rhinoceros.jpg"
+                      class="card-img-top" alt="Rhinoceros">
+                    <h5 class="p-1 my-auto olive-green">
+                      Kruger National Park
+                    </h5>
+                  </div>
                 </a>
-              </div>             
+              </div>
               <div class="col-4 col-lg-6 px-2 px-lg-3 opacity">
                 <a href="https://yastest.crescente.com.ar/parks/masai-mara/">
-                <div class="card big-five-cards">
-                  <img
-                    src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Elephant.jpg"
-                    class="card-img-top" alt="Elephant">
-                  <h5 class="p-1 my-auto olive-green text-truncate">
-                    Masai Mara National Reserve
-                  </h5>
-                </div>
+                  <div class="card big-five-cards">
+                    <img src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Elephant.jpg"
+                      class="card-img-top" alt="Elephant">
+                    <h5 class="p-1 my-auto olive-green text-truncate">
+                      Masai Mara National Reserve
+                    </h5>
+                  </div>
                 </a>
               </div>
               <div class="col-4 col-lg-6 px-2 px-lg-3 opacity">
                 <a href="https://yastest.crescente.com.ar/parks/serengeti/">
-                <div class="card big-five-cards">
-                  <img
-                    src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/African_buffalo.jpg"
-                    class="card-img-top" alt="Buffalo">
-                  <h5 class="p-1 my-auto olive-green">
-                    Serengeti National Park
-                  </h5>
-                </div>
+                  <div class="card big-five-cards">
+                    <img src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/African_buffalo.jpg"
+                      class="card-img-top" alt="Buffalo">
+                    <h5 class="p-1 my-auto olive-green">
+                      Serengeti National Park
+                    </h5>
+                  </div>
                 </a>
               </div>
-             
-             
+
+
             </div>
           </div>
         </div>
@@ -663,34 +725,37 @@
     </div>
     <!-- end big five -->
 
+
+
     <!-- testimonials -->
-    <div class="col-lg-10 offset-lg-1 col-12 my-1 px-0">
-      <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">       
+    <div class="col-lg-10 offset-lg-1 col-12 px-0 my-4 py-4">
+      <h3 class="mt-2 h3-sm text-center">Use us to find your ideal safari company</h3>
+      <h5 class="text-center h5-sm">See what some of our members are saying about their experience</h5>
+      <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <h6 class="d-flex justify-content-center align-items-center h-75 my-0 font-italic">"I contacted several tour operator in Tanzania. They all responded immediately with a wealth of wonderful information. All are professional, responsive, knowledgeable, and ready to help. You ought to be proud of such fine group of operators."</h6>    
-            <p>Regards, Aaron 2019</p>            
+            <h6 class="d-flex justify-content-center align-items-center h-75 my-0 font-italic dark-brown">"I contacted
+              several tour operator in Tanzania. They all responded immediately with a wealth of wonderful information.
+              All are professional, responsive, knowledgeable, and ready to help. You ought to be proud of such fine
+              group of operators."</h6>
+            <p>Aaron</p>
           </div>
           <div class="carousel-item">
-            <h5 class="d-flex justify-content-center align-items-center h-75 my-0 h5-sm font-italic">
+            <h5 class="d-flex justify-content-center align-items-center h-75 my-0 h5-sm font-italic dark-brown">
               "I had a very rapid and useful reply."
             </h5>
-            <p>Jeremy North Vancouver, BC 2019</p>
-          </div>      
+            <p>Jeremy, North Vancouver</p>
+          </div>
         </div>
-        <ol class="carousel-indicators">
-          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>         
-        </ol>
-      </div> 
-    </div>   
+      </div>
+    </div>
 
     <!-- end testimonials-->
 
     <!-- featured country-->
     <div class="col-lg-12 featured-country mt-3 px-0">
       <h3 class="mt-5 mb-4 h3-sm d-sm-none text-center">
-        South Africa
+        Zimbabwe
       </h3>
       <div class="row mx-2">
         <div class="col d-sm-none">
@@ -699,12 +764,12 @@
         </div>
         <div class="col-12 col-sm-5" id="map-image">
           <img
-            src="https://trello-attachments.s3.amazonaws.com/5d2292f37db95c2f90642b60/5d312816dae9783ae08401f6/3c8aa849a80026b20ccc7ae6d441f041/Map-SouthAfrica.png"
-            alt="">
+            src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Zimbabwe_Map_M5049Yp.png"
+            alt="Zimbabwe map">
         </div>
-        <div class="col d-none d-sm-block">
+        <div class="col d-none d-sm-block d-flex align-self-center">
           <h3 class="mt-5 mb-4 h3-sm">
-            South Africa
+            Zimbabwe
           </h3>
           <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt ducimus distinctio placeat consequatur
             expedita, mollitia ipsam est! Doloribus praesentium explicabo magnam facere, blanditiis ipsam consequuntur
@@ -718,11 +783,11 @@
     <!-- end featured country-->
 
     <!-- blog posts-->
-    <div class="col-lg-12 blog-posts my-1 px-0">
+    <div class="col-lg-12 blog-posts my-1 pt-3 px-0">
       <div class="mb-2 text-center">
         <h3 class="mt-5 mb-4 h3-sm">
           Latest safari blog posts
-        </h3>        
+        </h3>
       </div>
       <div class="scrolling-wrapper-flexbox">
         <div class="row justify-content-around no-wrap mx-2">
@@ -929,7 +994,9 @@
 </script> -->
 
 <script>
-$('.carousel').carousel()
+  $('.carousel').carousel({
+    interval: 10000
+  })
 </script>
 
 {% endblock %}
