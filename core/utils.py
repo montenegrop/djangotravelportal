@@ -111,13 +111,6 @@ def get_thumbnailer_(source, alias):
 
 
 @register.filter
-def remote_photo(source):
-    if settings.REMOTE_PHOTOS:
-        return settings.MEDIA_URL + source.url
-    return source.url
-
-
-@register.filter
 def hash(h, key):
     if not key in h:
         return None
@@ -218,8 +211,6 @@ def image_(image):
 
 @register.filter
 def height(source):
-    if settings.REMOTE_PHOTOS:
-        return 0
     if os.path.exists(source.url):
         return source.height
     return 0
@@ -227,8 +218,6 @@ def height(source):
 
 @register.filter
 def width(source):
-    if settings.REMOTE_PHOTOS:
-        return 0
     if os.path.exists(source.url):
         return source.height
     return 0
