@@ -836,6 +836,7 @@
         YAS welcomes the following companies
       </h3>
       <div class="col-12 mx-auto d-sm-flex  justify-content-around">
+        {% for op in featured_tour_operators %}
         <div class="company py-2 py-sm-0  px-3 mx-auto text-center">
           <div class="company-img-container">
             <img src="https://www.yourafricansafari.com/images/touroperator/logo/kilipeak-adventure-1597505769.jpg"
@@ -843,6 +844,7 @@
           </div>
           <p class="font-12px">Kilipeak Adventure</p>
         </div>
+        {% endfor %}
         <div class="company py-2 py-sm-0 px-3 mx-auto text-center">
           <div class="company-img-container">
             <img

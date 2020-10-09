@@ -278,6 +278,18 @@ if not DEBUG:
     # importing logger settings
     try:
         from logger_settings import *
+        import sentry_sdk
+        from sentry_sdk.integrations.django import DjangoIntegration
+
+        sentry_sdk.init(
+            dsn="https://c221035eefa14a37949b7ebcafaacd6e@o459524.ingest.sentry.io/5458806",
+            integrations=[DjangoIntegration()],
+            traces_sample_rate=1.0,
+
+            # If you wish to associate users to errors (assuming you are using
+            # django.contrib.auth) you may enable sending PII data.
+            send_default_pii=True
+        )
     except Exception as e:
         # in case of any error, pass silently.
         pass
@@ -363,17 +375,3 @@ INTERNAL_IPS = [
     '127.0.0.1',
     # ...
 ]
-
-
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-
-sentry_sdk.init(
-    dsn="https://c221035eefa14a37949b7ebcafaacd6e@o459524.ingest.sentry.io/5458806",
-    integrations=[DjangoIntegration()],
-    traces_sample_rate=1.0,
-
-    # If you wish to associate users to errors (assuming you are using
-    # django.contrib.auth) you may enable sending PII data.
-    send_default_pii=True
-)
