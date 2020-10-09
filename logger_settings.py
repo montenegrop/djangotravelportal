@@ -15,7 +15,7 @@ LOGGING = {
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'when': 'midnight',
             'interval': 1,
-            'filename': 'logs/errors.log',
+            'filename': '/home/ubuntu/yas/logs/django.errors.log',
                         'formatter': 'large',
         },
         'info_file': {
@@ -23,7 +23,7 @@ LOGGING = {
             'class': 'logging.handlers.TimedRotatingFileHandler',
             'when': 'midnight',
             'interval': 1,
-            'filename': 'logs/info.log',
+            'filename': '/home/ubuntu/yas/logs/django.info.log',
                         'formatter': 'large',
         },
     },
