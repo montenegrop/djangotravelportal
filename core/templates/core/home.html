@@ -380,9 +380,15 @@
         </div>
         <div class="hero-home-container">
           <picture>
-              
+            <source media="(max-width: 576px)" srcset="{% static 'core/img/home/max_576px' %}/{{ masthead_number }}.jpg">
+            <source media="(max-width: 768px)" srcset="{% static 'core/img/home/max_768px' %}/{{ masthead_number }}.jpg">
+            <source media="(max-width: 1440px)" srcset="{% static 'core/img/home/max_1440px' %}/{{ masthead_number }}.jpg">
+            <source media="(max-width: 1920px)" srcset="{% static 'core/img/home/max_1920px' %}/{{ masthead_number_lg }}.jpg">
+            <source media="(min-width: 1920px)" srcset="{% static 'core/img/home/min_1920px' %}/{{ masthead_number_lg }}.jpg"> 
+            <img class="hero-home" src="{% static 'core/img/home/min_1920px/2.jpg' %}" alt="..."> 
           </picture> 
-        </div>
+        </div>        
+        
       </header>
       <div class="row mx-0">
         <div class="container-fluid px-0">
@@ -590,7 +596,7 @@
           <div class="col-3 col-lg-5 pr-4 mr-1 opacity">
             <a href="https://yastest.crescente.com.ar/parks/moremi/">
               <div class="card" id="big-five-card1">
-                <img src="https://trello-attachments.s3.amazonaws.com/5d2292f37db95c2f90642b60/5d312816dae9783ae08401f6/1e564ed11e8e7ded9adc14a5a70f0329/Leopard.jpg"
+                <img src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Leopard.jpg"
                   class="card-img-top" alt="Leopard">
                 <h5 class="p-1 my-auto olive-green">
                   Moremi Game Reserve
@@ -604,7 +610,7 @@
                 <a href="https://yastest.crescente.com.ar/parks/akagera/">
                 <div class="card big-five-cards">
                   <img
-                    src="https://trello-attachments.s3.amazonaws.com/5d312816dae9783ae08401f6/1000x581/5a440ee4c1d4b202c3ed73fdbe92bf5a/Lion.jpg"
+                    src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Lion.jpg"
                     class="card-img-top" alt="Lion">
                   <h5 class="p-1 my-auto olive-green">
                     Akagera National Park
@@ -616,7 +622,7 @@
                 <a href="https://yastest.crescente.com.ar/parks/kruger/">
                 <div class="card big-five-cards">
                   <img
-                    src="https://trello-attachments.s3.amazonaws.com/5d312816dae9783ae08401f6/800x404/6b46a379c446c7f5ea0664c5cfcadbf8/Rhinoceros_in_Africa.jpg"
+                    src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Rhinoceros.jpg"
                     class="card-img-top" alt="Rhinoceros">
                   <h5 class="p-1 my-auto olive-green">
                     Kruger National Park
@@ -628,7 +634,7 @@
                 <a href="https://yastest.crescente.com.ar/parks/masai-mara/">
                 <div class="card big-five-cards">
                   <img
-                    src="https://trello-attachments.s3.amazonaws.com/5d312816dae9783ae08401f6/800x408/c394362a56b4300abb0f69ba03cd6efa/Elephant_babies_touching_trunks.jpg"
+                    src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Elephant.jpg"
                     class="card-img-top" alt="Elephant">
                   <h5 class="p-1 my-auto olive-green text-truncate">
                     Masai Mara National Reserve
@@ -640,7 +646,7 @@
                 <a href="https://yastest.crescente.com.ar/parks/serengeti/">
                 <div class="card big-five-cards">
                   <img
-                    src="https://trello-attachments.s3.amazonaws.com/5d312816dae9783ae08401f6/800x400/c3b0fa6ba33eb75ae73554192561b2a1/African_buffalo_in_group.jpg"
+                    src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/African_buffalo.jpg"
                     class="card-img-top" alt="Buffalo">
                   <h5 class="p-1 my-auto olive-green">
                     Serengeti National Park
