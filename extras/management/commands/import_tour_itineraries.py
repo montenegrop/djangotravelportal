@@ -55,7 +55,6 @@ class Command(BaseCommand):
             it_type_obj, dummy = ItineraryType.objects.update_or_create(
                 name=c['itinerary_type']
             )
-            c.pop('date_deleted')
 
             obj, is_created = Itinerary.objects.update_or_create(
                 slug=c.pop('itinerary_title_slugged'),
@@ -79,6 +78,7 @@ class Command(BaseCommand):
                     'days': c['itinerary_days'],
                     'date_created': make_aware(c['date_created']),
                     'date_modified': make_aware(c['date_modified']),
+                    'date_deleted': c.pop('date_deleted')
                 }
             )
             # TODO update duplicated slugs

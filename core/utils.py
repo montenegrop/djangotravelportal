@@ -50,8 +50,7 @@ def external_url(url):
 
 
 @register.filter(is_safe=True)
-def get_media_img(args):
-    slug, alias = args.split(',')
+def get_media_img(slug, alias):
     try:
         media_file = MediaFile.objects.get(slug=slug)
     except MediaFile.DoesNotExist:
@@ -109,13 +108,6 @@ def get_thumbnailer_(source, alias):
     thumbnailer = get_thumbnailer(source).get_thumbnail(
         settings.THUMBNAIL_ALIASES[''][alias])
     return thumbnailer.url
-
-
-@register.filter
-def remote_photo(source):
-    if settings.REMOTE_PHOTOS:
-        return settings.MEDIA_URL + source.url
-    return source.url
 
 
 @register.filter
@@ -219,8 +211,6 @@ def image_(image):
 
 @register.filter
 def height(source):
-    if settings.REMOTE_PHOTOS:
-        return 0
     if os.path.exists(source.url):
         return source.height
     return 0
@@ -228,8 +218,6 @@ def height(source):
 
 @register.filter
 def width(source):
-    if settings.REMOTE_PHOTOS:
-        return 0
     if os.path.exists(source.url):
         return source.height
     return 0

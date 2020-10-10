@@ -381,20 +381,16 @@
         </div>
         <div class="hero-home-container">
           <picture>
-            <source media="(max-width: 576px)"
-              srcset="{% static 'core/img/home/max_576px' %}/{{ masthead_number }}.jpg">
-            <source media="(max-width: 768px)"
-              srcset="{% static 'core/img/home/max_768px' %}/{{ masthead_number }}.jpg">
-            <source media="(max-width: 1440px)"
-              srcset="{% static 'core/img/home/max_1440px' %}/{{ masthead_number }}.jpg">
-            <source media="(max-width: 1920px)"
-              srcset="{% static 'core/img/home/max_1920px' %}/{{ masthead_number_lg }}.jpg">
-            <source media="(min-width: 1920px)"
-              srcset="{% static 'core/img/home/min_1920px' %}/{{ masthead_number_lg }}.jpg">
-            <img class="hero-home" src="{% static 'core/img/home/min_1920px/2.jpg' %}" alt="...">
-          </picture>
-        </div>
-
+            <!-- masthead_number 1/6 -->
+            <!-- masthead_number_lg 1/3 -->
+            <source media="(max-width: 576px)" srcset="{{ max576px|get_media_img:'579x381' }}">
+            <source media="(max-width: 768px)" srcset="{{ max768px|get_media_img:'770x383' }}">
+            <source media="(max-width: 1440px)" srcset="{{ max1440px|get_media_img:'1441x577' }}">
+            <source media="(max-width: 1920px)" srcset="{{ max1920px|get_media_img:'1920x640' }}">
+            <source media="(min-width: 1920px)" srcset="{{ min1920px|get_media_img:'3851x1155' }}">
+            <img class="hero-home" src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/2-min1920px.jpg" alt="...">
+          </picture> 
+        </div>        
       </header>
       <div class="row mx-0">
         <div class="container-fluid px-0">
@@ -791,63 +787,28 @@
       </div>
       <div class="scrolling-wrapper-flexbox">
         <div class="row justify-content-around no-wrap mx-2">
+          
+          {% for article in featured_articles %}
           <div class="card blog-articles-home px-0 col-4 mx-3 mx-md-0 mb-4 pb-0 opacity">
             <a class="army-green"
-              href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
-              <img src="https://yastest.crescente.com.ar/media/images/articles/2020/05/22/image_49"
-                class="card-img-top blog-img" alt="...">
+              href="{% url 'articles:view' article.slug %}">
+              <img src="{{ article.image.url }}" class="card-img-top blog-img" alt="{{article}}">
             </a>
             <div class="card-body pt-1 pb-2 px-2">
               <div class="d-flex justify-content-between">
-                <div class="date font-12 text-light-grey">April 2020</div>
-                <div class="font-12 text-light-grey">10 views</div>
+                <div class="date font-12 text-light-grey">{{ article.date_created|date:"F Y" }}</div>
+                <div class="font-12 text-light-grey">{{ article.views_count }} view|{{ article.views_count|pluralize }}</div>
               </div>
               <h5 class="card-title d-flex align-items-center my-1">
                 <a class="army-green"
-                  href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
-                  COVID-19 and safaris
+                  href="{% url 'articles:view' article.slug %}">
+                  {{article}}
                 </a>
               </h5>
             </div>
           </div>
-          <div class="card blog-articles-home px-0 col-4 mx-3 mx-md-0 mb-4 pb-0 opacity">
-            <a class="army-green"
-              href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
-              <img src="https://yastest.crescente.com.ar/media/images/articles/2020/05/22/image_202"
-                class="card-img-top blog-img" alt="...">
-            </a>
-            <div class="card-body pt-1 pb-2 px-2">
-              <div class="d-flex justify-content-between">
-                <div class="date font-12 text-light-grey">April 2020</div>
-                <div class="font-12 text-light-grey">2 views</div>
-              </div>
-              <h5 class="card-title d-flex align-items-center my-1">
-                <a class="army-green"
-                  href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
-                  Helping Rwanda's children
-                </a>
-              </h5>
-            </div>
-          </div>
-          <div class="card blog-articles-home px-0 col-4 mx-3 mx-md-0 mb-4 pb-0 opacity">
-            <a class="army-green"
-              href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
-              <img src="https://yastest.crescente.com.ar/media/images/articles/2020/05/22/image_201"
-                class="card-img-top blog-img" alt="...">
-            </a>
-            <div class="card-body pt-1 pb-2 px-2">
-              <div class="d-flex justify-content-between">
-                <div class="date font-12 text-light-grey">April 2020</div>
-                <div class="font-12 text-light-grey">23 views</div>
-              </div>
-              <h5 class="card-title d-flex align-items-center my-1">
-                <a class="army-green"
-                  href="/articles/why-now-is-a-good-time-to-plan-your-african-safariby-rescheduling-or-booking/">
-                  Volunteering on safari
-                </a>
-              </h5>
-            </div>
-          </div>
+          {% endfor %}
+
         </div>
       </div>
     </div>
@@ -899,36 +860,14 @@
         YAS welcomes the following companies
       </h3>
       <div class="col-12 mx-auto d-sm-flex  justify-content-around">
+        {% for op in featured_tour_operators %}
         <div class="company py-2 py-sm-0  px-3 mx-auto text-center">
           <div class="company-img-container">
-            <img src="https://www.yourafricansafari.com/images/touroperator/logo/kilipeak-adventure-1597505769.jpg"
-              alt="">
+            <img src="{{op.logo.url}}" alt="{{op}}">
           </div>
-          <p class="font-12px">Kilipeak Adventure</p>
+          <p class="font-12px">{{op}}</p>
         </div>
-        <div class="company py-2 py-sm-0 px-3 mx-auto text-center">
-          <div class="company-img-container">
-            <img
-              src="https://www.yourafricansafari.com/images/touroperator/logo/top-cream-tours-and-safaris-1518096000.jpg"
-              alt="">
-          </div>
-          <p class="font-12px">Top Cream Tours and Safaris</p>
-        </div>
-        <div class="company py-2 py-sm-0 px-3 mx-auto text-center">
-          <div class="company-img-container">
-            <img src="https://www.yourafricansafari.com/images/touroperator/logo/chaz-tours-and-travel-1581508149.jpg"
-              alt="">
-          </div>
-          <p class="font-12px">Chaz Tours and Travel</p>
-        </div>
-        <div class="company py-2 py-sm-0 px-3 mx-auto text-center">
-          <div class="company-img-container">
-            <img
-              src="https://www.yourafricansafari.com/images/touroperator/logo/silver-spark-africa-safaris-1586528509.jpg"
-              alt="">
-          </div>
-          <p class="font-12px">Silver Spark Africa Safaris</p>
-        </div>
+        {% endfor %}
       </div>
     </div>
     <!-- end yas welcomes-->
