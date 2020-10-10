@@ -655,7 +655,7 @@ class Itinerary(models.Model):
 
 
 class ItineraryDayDescription(models.Model):
-    itinerary = models.ForeignKey(Itinerary, models.PROTECT, related_name='day_descriptions')
+    itinerary = models.ForeignKey(Itinerary, models.CASCADE, related_name='day_descriptions')
     day_number = models.IntegerField()
     title = models.CharField(max_length=300)
     description = models.CharField(max_length=5000)

@@ -25,5 +25,5 @@ class Command(BaseCommand):
         itineraries = itineraries.filter(image='')
         for i in itineraries:
             parks = ' '.join([x.name_short for x in i.parks.all()])
-            print("\"{}\",{},{}".format(i, i.safari_focus_activity, parks))
+            print("\"{}\",{},{},{}".format(i,i.tour_operator.name, i.safari_focus_activity, parks))
         self.stdout.write(self.style.SUCCESS("DONE"))

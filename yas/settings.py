@@ -334,7 +334,7 @@ FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o755
 FILE_UPLOAD_PERMISSIONS = 0o644
 
 #mailing
-TESTING_EMAILS = ['neilmackay01@gmail.com', 'juan.crescente@gmail.com']
+TESTING_EMAILS = ['neilmackay01@gmail.com', 'juan.crescente@gmail.com', 'yas@yourafricansafari.com']
 import datetime 
 POST_OFFICE = {
     'MAX_RETRIES': 2,

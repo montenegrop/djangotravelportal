@@ -46,6 +46,7 @@ class Command(BaseCommand):
         """)
         dones = {}
         result = cursor.fetchall()
+        #Itinerary.objects.all().delete()
         for c in result:
             try:
                 tour_operator_obj = TourOperator.objects.get(name=c['t_name'])
@@ -55,7 +56,9 @@ class Command(BaseCommand):
             it_type_obj, dummy = ItineraryType.objects.update_or_create(
                 name=c['itinerary_type']
             )
-
+            date_deleted = c.pop('date_deleted')
+            if date_deleted:
+                date_deleted = make_aware(date_deleted)
             obj, is_created = Itinerary.objects.update_or_create(
                 slug=c.pop('itinerary_title_slugged'),
                 title=c['itinerary_title'],
@@ -78,7 +81,7 @@ class Command(BaseCommand):
                     'days': c['itinerary_days'],
                     'date_created': make_aware(c['date_created']),
                     'date_modified': make_aware(c['date_modified']),
-                    'date_deleted': c.pop('date_deleted')
+                    'date_deleted': date_deleted
                 }
             )
             # TODO update duplicated slugs
