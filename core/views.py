@@ -162,6 +162,7 @@ class HomeView(TemplateView):
         featured_tour_operators = featured_tour_operators.exclude(slug=None)
         featured_tour_operators = featured_tour_operators.exclude(slug='')
         featured_tour_operators = featured_tour_operators.exclude(draft=True)
+        featured_tour_operators = featured_tour_operators.exclude(logo__isnull=True)
         featured_tour_operators = featured_tour_operators.filter(date_deleted__isnull=True)
         featured_tour_operators = featured_tour_operators.order_by('-date_created')[:4]        
 
