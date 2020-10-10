@@ -111,11 +111,21 @@ class TourOperator(models.Model):
     reviews_count = models.IntegerField(blank=True, null=True)
     average_rating = models.IntegerField(blank=True, null=True)
     packages_count = models.IntegerField(blank=True, null=True)
+    photos_count = models.IntegerField(blank=True, null=True)
     quote_request_count = models.IntegerField(blank=True, null=True)
     parks_count = models.IntegerField(blank=True, null=True)
     is_featured = models.BooleanField(default=False)
     last_review_date = models.DateField(blank=True, null=True)
     
+    def update_photos_count(self):
+        from photos.models import Photo
+        photos = Photo.objects.filter(date_deleted__isnull=True)
+        photos = photos.filter(draft=False)
+        photos = photos.filter(tour_operator=self)
+        photos = photos.filter(image__isnull=False)
+        photos = photos.exclude(image__exact='')
+        self.photos_count = photos.count() or 0
+        self.save()
 
     def has_owner(self):
         return self.profiles.all().exists()
@@ -387,8 +397,7 @@ class TourOperator(models.Model):
         self.save()
 
     def update_average_rating(self):
-        average_rating = self.tour_operator_reviews.all().aggregate(
-            avg=Coalesce(Avg('overall_rating'), 0))
+        average_rating = self.tour_operator_reviews.filter(overall_rating__isnull=False).aggregate(avg=Avg('overall_rating'))
         self.average_rating = average_rating['avg']
         self.save()
 

@@ -4,13 +4,13 @@
       <div class="pb-2 row align-items-center">
         <i class="col-1 far fa-comments"></i>
         <span class="mr-2 ml-2">Reviews: </span>
-        <a class="disabled scroll-link" href="#reviews-anchor">{{ tour_reviews_count }}</a>
+        <a class="disabled scroll-link" href="#reviews-anchor">{{ tour.reviews_count }}</a>
       </div>
       <div class="pb-2 row align-items-center">
         <i class="col-1 fas fa-map"></i>
         <span class="mr-2 ml-2">Tour packages: </span>
-        <a href="{% url 'all_tour_packages_operator' tour.slug %}">{{ tour_packages_count }}
-          tour{{ tour_packages_count | pluralize }}</a>
+        <a href="{% url 'all_tour_packages_operator' tour.slug %}">{{ tour.packages_count }}
+          tour{{ tour.packages_count | pluralize }}</a>
       </div>
       {% if tour.tailored_safari %}
       <div class="pb-2 row align-items-center">
@@ -24,11 +24,11 @@
         <span class="mr-2 ml-2">Group, set date tours</span>
       </div>
       {% endif %}
-      {% if tour_photos_count %}
+      {% if tour.photos_count %}
       <div class="pb-2 row align-items-center">
         <i class="col-1 fas fa-camera"></i>
         <span class="mr-2 ml-2">Photos:</span>
-        <a class="disabled" href="javascript:fresco_photos();">{{ tour_photos_count }}</a>
+        <a class="disabled" href="javascript:fresco_photos();">{{ tour.photos_count }}</a>
       </div>
       {% endif %}
     </div>

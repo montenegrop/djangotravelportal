@@ -419,10 +419,6 @@ class TourOperatorDetailView(TemplateView):
             from django.http import Http404
             raise Http404("No tour operator")
         tour.annotated = TourOperator.objects.filter(id=tour.id).annotate(
-            review_avg=Avg('tour_operator_reviews__overall_rating')).annotate(
-            review_count=Count('tour_operator_reviews', distinct=True)).annotate(
-            photo_count=Count('photos', distinct=True)).annotate(
-            package_count=Count('itineraries', distinct=True)).annotate(
             vehicle_avg=Avg('tour_operator_reviews__vehicle_rating')).annotate(
             meet_and_greet_avg=Avg('tour_operator_reviews__meet_and_greet_rating')).annotate(
             responsiveness_avg=Avg('tour_operator_reviews__responsiveness_rating')).annotate(
@@ -446,9 +442,6 @@ class TourOperatorDetailView(TemplateView):
         context['tour_countries'] = CountryIndex.objects.filter(itineraries__tour_operator=tour).distinct()
         # context['tour_countries'] = CountryIndex.objects.filter(parks__in=tour.parks.all())
 
-        context['tour_reviews_average'] = tour.annotated.review_avg
-        context['tour_reviews_count'] = tour.annotated.review_count
-        context['tour_packages_count'] = tour.annotated.package_count
 
         context['tour_reviews'] = TourOperatorReview.objects.filter(tour_operator=tour, status="AC").order_by(
             '-date_modified')[:10]
@@ -464,10 +457,7 @@ class TourOperatorDetailView(TemplateView):
         context['tour_photos'] = Photo.objects.filter(draft=False, tour_operator=tour, image__isnull=False).exclude(
             image__exact='').order_by(
             '-date_modified')[:20]
-        context['tour_photos_count'] = Photo.objects.filter(draft=False, tour_operator=tour,
-                                                            image__isnull=False).exclude(
-            image__exact='').order_by(
-            '-date_modified')[:20].count()
+
         if context['tour_photos']:
             context['tour_photos_first_id'] = context['tour_photos'].first().id
 

@@ -15,6 +15,21 @@ class Command(BaseCommand):
     help = ''
 
     def handle(self, *args, **options):
+
+        # update tour operators
+        tour_operators = TourOperator.objects.all()
+        for tour_operator in tour_operators:
+            tour_operator.update_reviews_count()
+            tour_operator.update_average_rating()
+            tour_operator.update_parks_count()
+            tour_operator.update_packages_count()
+            tour_operator.update_quote_request_count()
+            tour_operator.update_photos_count()
+            tour_operator.update_yas_score()
+            for country in tour_operator.country_indexes.all():
+                tour_operator.update_yas_score(country)
+
+        print('Updated', tour_operators.count(), 'tour_operators')
         #activity_level
         itineraries = Itinerary.objects.filter(date_deleted=None) 
         for itinerary in itineraries:
@@ -48,6 +63,7 @@ class Command(BaseCommand):
             tour_operator.update_parks_count()
             tour_operator.update_packages_count()
             tour_operator.update_quote_request_count()
+            tour_operator.update_photos_count()
             tour_operator.update_yas_score()
             for country in tour_operator.country_indexes.all():
                 tour_operator.update_yas_score(country)

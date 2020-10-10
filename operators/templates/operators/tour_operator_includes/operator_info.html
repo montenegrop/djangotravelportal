@@ -5,11 +5,11 @@
             <strong>{{ tour.name }}</strong>
         </h1>
         <div class="mb-2 mb-sm-0">
-          <span data-toggle="popover" data-trigger="hover" data-content="{{ tour_reviews_average | floatformat:2 }} / 5.00" data-placement="bottom">
-            {{ tour_reviews_average | star_rating | safe }}
+          <span data-toggle="popover" data-trigger="hover" data-content="{{ tour.average_rating | floatformat:2 }} / 5.00" data-placement="bottom">
+            {{ tour.average_rating | star_rating | safe }}
             <span class="font-weight-light font-11 text-light-grey pl-1 ">
-                <span>{{ tour_reviews_count }}</span>
-                review{{ tour_reviews_count | pluralize }}
+                <span>{{ tour.reviews_count }}</span>
+                review{{ tour.reviews_count | pluralize }}
             </span>
           </span>
         </div>
