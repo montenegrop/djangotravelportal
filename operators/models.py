@@ -359,8 +359,7 @@ class TourOperator(models.Model):
         return self.name
 
     def latest_added(tail=4):
-        operators = TourOperator.objects.filter(draft=False).filter(date_deleted__isnull=True).order_by(
-            '-date_created')[:4]
+        operators = TourOperator.objects.filter(draft=False).exclude(logo='').filter(logo__isnull=False).filter(date_deleted__isnull=True).order_by('-date_created')[:4]
         return operators
 
     def email_recipient_list(self):

@@ -115,8 +115,12 @@ class GuidesView(TemplateView):
         operators_by_country_count = {}
         countries = CountryIndex.objects.all()
         for country in countries:
-            operators = TourOperator.objects.filter(draft=False).filter(date_deleted__isnull=True).filter(
-                country_indexes__pk=country.pk).count()
+            operators = TourOperator.objects \
+                .exclude(logo='') \
+                .filter(logo__isnull=False) \
+                .filter(date_deleted__isnull=True) \
+                .filter(draft=False) \
+                .filter(country_indexes__pk=country.pk).count()
             operators_by_country_count[country.pk] = operators
         context['operators_by_country_count'] = operators_by_country_count
         # reviews
