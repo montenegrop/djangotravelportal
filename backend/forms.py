@@ -327,6 +327,7 @@ class TourPackageForm(forms.ModelForm):
 
 class CompanyInfoForm(forms.ModelForm):
     name = forms.CharField(
+        label='Company name',
         widget=forms.TextInput(attrs={'readonly': True,'data-rule-required':"true"}), 
         required=True)
     website = forms.CharField(widget=forms.TextInput(attrs={'readonly': True,'class':'validUrl', 'placeholder':'yourwebsite.com'}),required=True)

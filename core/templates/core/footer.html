@@ -39,7 +39,7 @@
                             data-target="#registrationModal">Join us</a>
                         {% endif %}
                         {% if user.is_authenticated and not user.profile.is_tour_operator %}
-                        <a class="btn btn-outline-light text-nowrap" target='_blank' href="{% url 'add-my-company' %}">
+                        <a class="btn btn-outline-light text-nowrap" target='_blank' href="{% url 'join' %}">
                             Add my company to YAS
                         </a>
                         {% endif %}
