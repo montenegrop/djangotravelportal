@@ -874,10 +874,12 @@
       <div class="col-12 mx-auto d-sm-flex  justify-content-around">
         {% for op in featured_tour_operators %}
         <div class="company py-2 py-sm-0  px-3 mx-auto text-center">
-          <div class="company-img-container">
-            <img src="{{op.logo.url}}" alt="{{op}}">
-          </div>
-          <p class="font-12px">{{op}}</p>
+          <a href="#">
+            <div class="company-img-container">
+              <img src="{{op.logo.url}}" alt="{{op}}">
+            </div>
+            <p class="font-12px">{{op}}</p>
+          </a>
         </div>
         {% endfor %}
       </div>
