@@ -321,6 +321,19 @@
 
   .carousel {
     height: 100px;
+    z-index: 0;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .carousel {
+      height: 150px;
+    }
+  }
+
+  @media only screen and (max-width: 576px) {
+    .carousel {
+      height: 200px;
+    }
   }
 
   .carousel-item {
@@ -388,9 +401,10 @@
             <source media="(max-width: 1440px)" srcset="{{ max1440px|get_media_img:'1441x577' }}">
             <source media="(max-width: 1920px)" srcset="{{ max1920px|get_media_img:'1920x640' }}">
             <source media="(min-width: 1920px)" srcset="{{ min1920px|get_media_img:'3851x1155' }}">
-            <img class="hero-home" src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/2-min1920px.jpg" alt="...">
-          </picture> 
-        </div>        
+            <img class="hero-home"
+              src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/2-min1920px.jpg" alt="...">
+          </picture>
+        </div>
       </header>
       <div class="row mx-0">
         <div class="container-fluid px-0">
@@ -589,7 +603,7 @@
     <!-- end featured tours-->
 
     <!-- featured articles-->
-    <div class="col-lg-12 yas-welcomes my-4 px-0">
+    <div class="col-lg-12 yas-welcomes my-4 px-4">
       <h3 class="mt-2 h3-sm text-center">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deserunt quisquam
         aspernatur vel dicta maxime sapiente.</h3>
       <h5 class="text-center h5-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis similique officiis
@@ -598,8 +612,7 @@
         <div class="company py-2 py-sm-0  px-3 mx-auto text-center">
           <div class="company-img-container">
             <a class="opacity" href="https://www.yourafricansafari.com/articles/yas-interview-with-blood-lions">
-              <img
-                src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Blood_Lions_Logos.png"
+              <img src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Blood_Lions_Logos.png"
                 alt="Blood lions logo">
             </a>
           </div>
@@ -608,8 +621,7 @@
           <div class="company-img-container">
             <a class="opacity"
               href="https://yasprod.crescente.com.ar/articles/interview-with-captured-in-africa-foundation-ensuring-big-cats-are-protected/">
-              <img
-                src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/CIAF-Logos-Complete.png"
+              <img src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/CIAF-Logos-Complete.png"
                 alt="Captured in Africa logo">
             </a>
           </div>
@@ -628,8 +640,7 @@
           <div class="company-img-container">
             <a class="opacity"
               href="https://yasprod.crescente.com.ar/articles/toursafe-africasafe-travel-amid-the-covid-19-coronavirus-and-beyond/">
-              <img
-                src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/TourSafe_logo.png"
+              <img src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/TourSafe_logo.png"
                 alt="Tour safe logo">
             </a>
           </div>
@@ -650,7 +661,7 @@
 
     <!-- big five -->
     <div class="col-lg-12 big-five text-center my-1 px-0">
-      <h3 class="mt-2 mb-4 h3-sm">
+      <h3 class="mt-2 mb-4 h3-sm px-3">
         Where to see the big five on safari
       </h3>
       <div class="scrolling-wrapper-flexbox">
@@ -724,10 +735,10 @@
 
 
     <!-- testimonials -->
-    <div class="col-lg-10 offset-lg-1 col-12 px-0 my-4 py-4">
+    <div class="col-lg-10 offset-lg-1 col-12 px-4 my-4 py-4">
       <h3 class="mt-2 h3-sm text-center">Use us to find your ideal safari company</h3>
       <h5 class="text-center h5-sm">See what some of our members are saying about their experience</h5>
-      <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
+      <div id="carouselExampleIndicators" class="carousel slide carousel-fade " data-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
             <h6 class="d-flex justify-content-center align-items-center h-75 my-0 font-italic dark-brown">"I contacted
@@ -754,16 +765,18 @@
         Zimbabwe
       </h3>
       <div class="row mx-2">
-        <div class="col d-sm-none">
+        <div class="col d-sm-none text-center">
           <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Omnis ut commodi molestias repellat, illo error
             at assumenda eaque veritatis quisquam, accusantium optio, culpa esse sunt id ad quos in consectetur.</p>
+          <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Deserunt ducimus distinctio placeat consequatur
+            expedita, mollitia ipsam est! Doloribus praesentium explicabo magnam facere, blanditiis ipsam consequuntur
+            natus. Fugiat adipisci magnam totam?</p>
         </div>
         <div class="col-12 col-sm-5" id="map-image">
-          <img
-            src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Zimbabwe_Map_M5049Yp.png"
+          <img src="https://yasprod.crescente.com.ar/media/images/mediafiles/2020/10/09/Zimbabwe_Map_M5049Yp.png"
             alt="Zimbabwe map">
         </div>
-        <div class="col d-none d-sm-block d-flex align-self-center">
+        <div class="col d-none d-sm-block align-self-center">
           <h3 class="mt-5 mb-4 h3-sm">
             Zimbabwe
           </h3>
@@ -787,21 +800,20 @@
       </div>
       <div class="scrolling-wrapper-flexbox">
         <div class="row justify-content-around no-wrap mx-2">
-          
+
           {% for article in featured_articles %}
           <div class="card blog-articles-home px-0 col-4 mx-3 mx-md-0 mb-4 pb-0 opacity">
-            <a class="army-green"
-              href="{% url 'articles:view' article.slug %}">
+            <a class="army-green" href="{% url 'articles:view' article.slug %}">
               <img src="{{ article.image.url }}" class="card-img-top blog-img" alt="{{article}}">
             </a>
             <div class="card-body pt-1 pb-2 px-2">
               <div class="d-flex justify-content-between">
                 <div class="date font-12 text-light-grey">{{ article.date_created|date:"F Y" }}</div>
-                <div class="font-12 text-light-grey">{{ article.views_count }} view|{{ article.views_count|pluralize }}</div>
+                <div class="font-12 text-light-grey">{{ article.views_count }} view|{{ article.views_count|pluralize }}
+                </div>
               </div>
               <h5 class="card-title d-flex align-items-center my-1">
-                <a class="army-green"
-                  href="{% url 'articles:view' article.slug %}">
+                <a class="army-green" href="{% url 'articles:view' article.slug %}">
                   {{article}}
                 </a>
               </h5>
@@ -862,10 +874,12 @@
       <div class="col-12 mx-auto d-sm-flex  justify-content-around">
         {% for op in featured_tour_operators %}
         <div class="company py-2 py-sm-0  px-3 mx-auto text-center">
-          <div class="company-img-container">
-            <img src="{{op.logo.url}}" alt="{{op}}">
-          </div>
-          <p class="font-12px">{{op}}</p>
+          <a href="#">
+            <div class="company-img-container">
+              <img src="{{op.logo.url}}" alt="{{op}}">
+            </div>
+            <p class="font-12px">{{op}}</p>
+          </a>
         </div>
         {% endfor %}
       </div>
