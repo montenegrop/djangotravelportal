@@ -121,7 +121,7 @@ def signup(request):
             token = account_activation_token.make_token(user)
             link = settings.BASE_URL + reverse('activate', kwargs={'uidb64': uid, 'token': token})
             context['link'] = link
-            if settings.DEBUG:
+            if not settings.REAL_EMAILS:
                 to_email = settings.TESTING_EMAILS
             try:
                 res = mail.send(

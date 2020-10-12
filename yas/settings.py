@@ -17,6 +17,7 @@ base = environ.Path(__file__) - 2
 env = environ.Env()
 environ.Env.read_env(env_file=base('.env'))
 DEBUG = env.bool('DEBUG', default=False)
+REAL_EMAILS = env.bool('REAL_EMAILS', default=False)
 HTML_MINIFY = env.bool('HTML_MINIFY', default=False)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

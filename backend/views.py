@@ -392,7 +392,7 @@ class AdminDashboardView(AdminRequiredLoginView, TemplateView):
 
     def send_tour_operator_welcome_email(self, tour_operator):
         email_to = tour_operator.email
-        if settings.DEBUG:
+        if not settings.REAL_EMAILS:
             email_to = settings.TESTING_EMAILS
         from post_office import mail
         URL = settings.BASE_URL
@@ -416,7 +416,7 @@ class AdminDashboardView(AdminRequiredLoginView, TemplateView):
 
     def send_tour_operator_reject_email(self, tour_operator):
         email_to = tour_operator.email
-        if settings.DEBUG:
+        if not settings.REAL_EMAILS:
             email_to = settings.TESTING_EMAILS
         from post_office import mail
         URL = settings.BASE_URL
@@ -521,7 +521,7 @@ class AdminOpenReviewView(AdminRequiredLoginView, TemplateView):
     
     def send_review_tour_operator_email(self, review):
         email_to = review.user.email
-        if settings.DEBUG:
+        if not settings.REAL_EMAILS:
             email_to = settings.TESTING_EMAILS
         from post_office import mail
         
@@ -543,7 +543,7 @@ class AdminOpenReviewView(AdminRequiredLoginView, TemplateView):
     
     def send_review_reject_email(self, review):
         email_to = review.user.email
-        if settings.DEBUG:
+        if not settings.REAL_EMAILS:
             email_to = settings.TESTING_EMAILS
         from post_office import mail
         URL = settings.BASE_URL
@@ -572,7 +572,7 @@ class AdminOpenReviewView(AdminRequiredLoginView, TemplateView):
         
     def send_review_approve_email(self, review):
         email_to = review.user.email
-        if settings.DEBUG:
+        if not settings.REAL_EMAILS:
             email_to = settings.TESTING_EMAILS
         from post_office import mail
         
@@ -924,7 +924,7 @@ class TourOperatorClientReviewView(BackendTourOperatorRequiredLoginView, Templat
         from django.conf import settings
         context['link'] = settings.BASE_URL + reverse('tour_operator_review',
                                                      kwargs={'slug': review.tour_operator.slug, 'review': review.pk})
-        if settings.DEBUG:
+        if not settings.REAL_EMAILS:
             to_email = settings.TESTING_EMAILS
         try:
             res = mail.send(

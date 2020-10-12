@@ -62,7 +62,7 @@ class RequestInfoView(TemplateView):
     def send_tour_operator_email(self, quote_request):
         from post_office import mail
         email_to = quote_request.tour_operator.email
-        if settings.DEBUG:
+        if not settings.REAL_EMAILS:
             email_to = settings.TESTING_EMAILS
         link = reverse('backend:tour_operator_quotes')
         link = settings.BASE_URL +  link
@@ -82,7 +82,7 @@ class RequestInfoView(TemplateView):
     def send_member_email(self, quote_request, details):
         from post_office import mail
         email_to = quote_request.email
-        if settings.DEBUG:
+        if not settings.REAL_EMAILS:
             email_to = settings.TESTING_EMAILS
         context = {}
         context['member'] = quote_request.name
@@ -105,7 +105,7 @@ class RequestInfoView(TemplateView):
     def send_member_follow_up_email(self, quote_request):
         from post_office import mail
         email_to = quote_request.email
-        if settings.DEBUG:
+        if not settings.REAL_EMAILS:
             email_to = settings.TESTING_EMAILS
         link = settings.BASE_URL
         from datetime import datetime, timedelta

@@ -360,7 +360,7 @@ def save_review_park_kilimanjaro(request, pk):
 
 def send_review_thank_you_email(request, item):
     email_to = request.user.email
-    if settings.DEBUG:
+    if not settings.REAL_EMAILS:
         email_to = settings.TESTING_EMAILS
     from post_office import mail
     context = {}

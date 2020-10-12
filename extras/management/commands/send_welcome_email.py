@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
     def send_welcome_email(self, profile):
         email_to = profile.user.email
-        if settings.DEBUG:
+        if not settings.REAL_EMAILS:
             email_to = settings.TESTING_EMAILS
         from post_office import mail
         link = settings.BASE_URL
