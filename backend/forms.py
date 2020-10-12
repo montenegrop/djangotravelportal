@@ -341,7 +341,7 @@ class CompanyInfoForm(forms.ModelForm):
 
     startup_date = forms.DateField(required=True,
         initial=timezone.now(),
-        widget=forms.SelectDateWidget(years=range(1980, now.year + 1),
+        widget=forms.SelectDateWidget(years=range(1900, now.year + 1),
         #empty_label=(u'month', u'day',u'year'),
         attrs={'style': 'display: inline-block; width: 33%;'}))
     description = forms.CharField(

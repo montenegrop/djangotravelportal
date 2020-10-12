@@ -88,7 +88,7 @@ class JoinUsView(MemberRequiredLoginView, TemplateView):
         context['form'] = form
         if form.is_valid():
             instance = form.save(commit=False)
-            existent = TourOperator.objects.filter(website=instance.website)
+            existent = TourOperator.objects.filter(date_deleted__isnull=True).filter(website=instance.website)
             if existent:
                 messages.error(self.request, 'This company is already listed on YAS. If you work for this company and would like access, please contact us to yas@yourafricansafari.com')
             else:
@@ -123,6 +123,9 @@ class JoinUsView(MemberRequiredLoginView, TemplateView):
         context['form'].fields['name'].widget.attrs['readonly'] = False
         context['form'].fields['website'].widget.attrs['readonly'] = False
         context['form'].fields['email'].widget.attrs['readonly'] = False
+
+        if self.request.user.is_authenticated:
+            context['form'].fields['email'].initial = self.request.user.email
         countries = CountryIndex.objects.all().order_by('name').prefetch_related('parks')
         context['countries'] = countries
         parks = Park.objects.all().order_by('name')
