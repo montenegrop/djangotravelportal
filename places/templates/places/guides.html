@@ -129,7 +129,7 @@
               <a href="{% url 'tour_operator' slug=operator.slug %}">
                 <div class="card reviews mb-3 px-2 py-1">
                   <div class="photo-container-welcomes">
-                    <img src="{{ operator.logo.url }}" alt="...">
+                    <img src="{{ operator.logo|thumbnail_url_:'crop_140' }}" alt="...">
                   </div>
                 </div>
               </a>
