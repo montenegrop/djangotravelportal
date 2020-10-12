@@ -149,11 +149,10 @@
                   By signing up you agree to our
                 </label>
               </div>
-            </div>
-            <a target="_blank" href="{% url 'terms-of-use' %}">terms</a>
+            </div>           
+            <a target="_blank" href="{% url 'privacy-policy' %}">Privacy Policy</a>
             and
-            <a target="_blank" href="{% url 'privacy-policy' %}">privacy policy</a>
-
+            <a target="_blank" href="{% url 'terms-of-use' %}"> Terms of Use</a>           
             <p class="text-danger" v-if="errors && !!errors.terms">
               <small>[[ errors.terms[0] ]]</small>
             </p>
