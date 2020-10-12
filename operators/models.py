@@ -359,7 +359,7 @@ class TourOperator(models.Model):
         return self.name
 
     def latest_added(tail=4):
-        operators = TourOperator.objects.all().order_by(
+        operators = TourOperator.objects.filter(draft=False).filter(date_deleted__isnull=True).order_by(
             '-date_created')[:4]
         return operators
 
