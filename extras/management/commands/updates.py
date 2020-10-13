@@ -112,7 +112,7 @@ class Command(BaseCommand):
             obj.update_kudus_count()
         print('Updated', objs.count(), 'users reviews and kudus')
 
-        objs = Photo.objects.all()
+        objs = Photo.objects.filter(date_deleted__isnull=False)
         for obj in objs:
             obj.update_kudu_count()
         print('Updated', objs.count(), 'photos')
