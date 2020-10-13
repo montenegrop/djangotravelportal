@@ -376,14 +376,15 @@ class TourOperator(models.Model):
             return res
 
     def update_reviews_count(self):
-        self.reviews_count = self.tour_operator_reviews.all().count()
+        from reviews.models import TourOperatorReview
+        self.reviews_count = self.tour_operator_reviews.filter(status=TourOperatorReview.ACTIVE).count()
         self.save()
 
     def update_park_reviews_count(self):
         from reviews.models import ParkReview
         profiles = self.profiles.all()
         users = [profile.user for profile in profiles]
-        park_reviews_count = ParkReview.objects.filter(user__in=users).count()
+        park_reviews_count = ParkReview.objects.filter(status=ParkReview.ACTIVE).filter(user__in=users).count()
         self.park_reviews_count = park_reviews_count
         self.save()
 
@@ -396,7 +397,8 @@ class TourOperator(models.Model):
         self.save()
 
     def update_average_rating(self):
-        average_rating = self.tour_operator_reviews.filter(overall_rating__isnull=False).aggregate(avg=Avg('overall_rating'))
+        from reviews.models import TourOperatorReview
+        average_rating = self.tour_operator_reviews.filter(status=TourOperatorReview.ACTIVE).filter(overall_rating__isnull=False).aggregate(avg=Avg('overall_rating'))
         self.average_rating = average_rating['avg']
         self.save()
 

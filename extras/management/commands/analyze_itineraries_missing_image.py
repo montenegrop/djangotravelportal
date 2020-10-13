@@ -75,6 +75,6 @@ class Command(BaseCommand):
         for i in itineraries:
             #give the itinerary a suitable image
             result_pic = self.assign_itinerary_pic(i, pics)
-            parks = ' '.join([x.name_short for x in i.parks.all()])
-            print("\"{}\",{},{},{},{}".format(i,i.tour_operator.name, i.safari_focus_activity, parks, result_pic))
+            parks = ','.join([x.name_short for x in i.parks.all()])
+            print("\"{}\",{},{},{},{}".format(i,i.tour_operator.name, i.safari_focus_activity, result_pic, parks))
         self.stdout.write(self.style.SUCCESS("DONE"))

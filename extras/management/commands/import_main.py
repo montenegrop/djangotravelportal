@@ -130,8 +130,7 @@ class Command(BaseCommand):
                      db_user=options['db_user'],
                      db_pass=options['db_pass'],
                      base_location=options['base_location'])
-                """    
-
+        
         call_command('import_park_reviews', db_host=options['db_host'],
                      db_name=options['db_name'],
                      db_user=options['db_user'],
@@ -141,20 +140,19 @@ class Command(BaseCommand):
                      db_name=options['db_name'],
                      db_user=options['db_user'],
                      db_pass=options['db_pass'])
-                """    
+        
 
         call_command('import_quote_requests', db_host=options['db_host'],
                      db_name=options['db_name'],
                      db_user=options['db_user'],
                      db_pass=options['db_pass'],
                      base_location=options['base_location'])
-                """    
-
+        
         call_command('import_email_logs', db_host=options['db_host'],
                     db_name=options['db_name'],
                     db_user=options['db_user'],
                     db_pass=options['db_pass'])
-        
+        """    
         #call_command('import_analytics', db_host=options['db_host'],
         #             db_name=options['db_name'],
         #             db_user=options['db_user'],
