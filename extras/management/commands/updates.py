@@ -6,6 +6,7 @@ import MySQLdb
 from django.db.models import Count
 from django.contrib.auth.models import User
 from places.models import Park, CountryIndex
+from photos.models import Photo
 from blog.models import Article
 from reviews.models import ParkReview, KilimanjaroParkReview, TourOperatorReview
 from analytics.models import Analytic
@@ -110,5 +111,10 @@ class Command(BaseCommand):
             obj.update_review_count()
             obj.update_kudus_count()
         print('Updated', objs.count(), 'users reviews and kudus')
+
+        objs = Photo.objects.all()
+        for obj in objs:
+            obj.update_kudu_count()
+        print('Updated', objs.count(), 'photos')
 
         self.stdout.write(self.style.SUCCESS("DONE"))

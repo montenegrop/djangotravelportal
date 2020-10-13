@@ -44,19 +44,39 @@ class Command(BaseCommand):
     def assign_itinerary_pic(self, itinerary, pics):
         random.seed(42)
         random.shuffle(pics)
-
+        selected = []
+        #place and activity
         for pic in pics:
             if self.match_place(itinerary, pic) and self.primary_match(itinerary, pic):
-                return pic
+                selected.append(pic)
+        if len(selected) > 0:
+            #print('1',itinerary,selected)
+            random.choice(selected)
+            return random.choice(selected)
+        #place
         for pic in pics:
             if self.match_place(itinerary, pic):
-                return pic
+                selected.append(pic)
+        if len(selected) > 0:
+            #print('2',itinerary,selected)
+            random.seed(itinerary.pk)
+            return random.choice(selected)
+        #primary focus
         for pic in pics:
             if self.primary_match(itinerary, pic):
-                return pic
+                selected.append(pic)
+        if len(selected) > 0:
+            #print('3',itinerary,selected)
+            random.seed(itinerary.pk)
+            return random.choice(selected)
+        #secondary focus
         for pic in pics:
             if self.secondary_match(itinerary, pic):
-                return pic
+                selected.append(pic)
+        if len(selected) > 0:
+            #print('4',itinerary,selected)
+            random.seed(itinerary.pk)
+            return random.choice(selected)
         return 'NO IMAGE FOUND'
 
     def handle(self, *args, **options):
