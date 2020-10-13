@@ -321,9 +321,10 @@ class TourPackageForm(forms.ModelForm):
             self.fields['country_indexes'].queryset = tour_operator.country_indexes.all()
         usd, _ = Currency.objects.get_or_create(code='USD')
         self.fields['currency'].initial = usd
-        self.fields['safari_focus_activity'].queryset = ItineraryFocusType.objects.get_or_create(name='Primary').activities.filter(enabled=True).order_by('name'),
-        self.fields['non_safari_focus_activity'].queryset = ItineraryFocusType.objects.get_or_create(name='Non safari').activities.filter(enabled=True).order_by('name')
-        self.fields['secondary_focus_activity'].queryset = ItineraryFocusType.objects.get_or_create(name='Secondary').activities.filter(enabled=True).order_by('name')
+        primary = ItineraryFocusType.objects.get(name='Primary')
+        self.fields['safari_focus_activity'].queryset = primary.activities.filter(enabled=True).order_by('name')
+        self.fields['non_safari_focus_activity'].queryset = ItineraryFocusType.objects.get(name='Non safari').activities.filter(enabled=True).order_by('name')
+        self.fields['secondary_focus_activity'].queryset = ItineraryFocusType.objects.get(name='Secondary').activities.filter(enabled=True).order_by('name')
 
 class CompanyInfoForm(forms.ModelForm):
     name = forms.CharField(
