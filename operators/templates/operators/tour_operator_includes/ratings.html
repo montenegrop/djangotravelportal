@@ -1,10 +1,12 @@
 <div class="contentbg rhc-yasscore-border px-3 parks-rhc-max-width pb-2 d-none d-sm-block">
     <div class="row">
       <h5 class="border-bottom pt-2 col-12 text-center">{{ tour.name }}</h5>
+      {% if tour.logo|exists_img %}
         <div id="operator-logo-container">
             <img class="card-img-top rounded d-md-block d-inline mx-auto operator-logo"
-                 src="/media/{{ tour.logo }}" alt="company logo">
+                 src="{{ tour.logo|thumbnail_url_:'crop_140' }}" alt="company logo">
         </div>
+        {% endif %}
         <div class="col-md-10 col px-0 offset-md-3 my-auto">
             <div class="d-inline font-h4 font-weight-bold">Y<span class="orange">A</span>S score: {{ tour.yas_score }}/100
             </div>

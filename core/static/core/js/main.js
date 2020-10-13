@@ -293,4 +293,3 @@ function add_tour_package_fav(element, idTP) {
   add_fav(element, idTP, 'package');
   return false
 }
-

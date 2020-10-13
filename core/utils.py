@@ -161,6 +161,17 @@ def star_rating(value):
     return ret
 
 
+
+@register.filter
+def exists_img(image):
+    try:
+        from django.core.files.storage import default_storage
+        if image and hasattr(image, 'path') and default_storage.exists(image.path):
+            return True
+        return False
+    except ValueError:
+        return False
+
 @register.filter
 def thumbnail_url_(source, alias):
     alias_data = settings.THUMBNAIL_ALIASES[''][alias]
@@ -171,9 +182,11 @@ def thumbnail_url_(source, alias):
         if source and hasattr(source, 'path') and default_storage.exists(source.path):
             return thumbnail_url(source, alias)
         else:
-            return "https://via.placeholder.com/{}x{}".format(height, width)
+            #return "https://via.placeholder.com/{}x{}".format(height, width)
+            return " "
     except ValueError:
-        return "https://via.placeholder.com/{}x{}".format(height, width)
+        return " "
+        #return "https://via.placeholder.com/{}x{}".format(height, width)
 
 
 

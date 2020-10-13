@@ -801,7 +801,7 @@
             <div class="card-body pt-1 pb-2 px-2">
               <div class="d-flex justify-content-between">
                 <div class="date font-12 text-light-grey">{{ article.date_created|date:"F Y" }}</div>
-                <div class="font-12 text-light-grey">{{ article.views_count }} view|{{ article.views_count|pluralize }}
+                <div class="font-12 text-light-grey">{{ article.visit_count }} view{{ article.visit_count|pluralize }}
                 </div>
               </div>
               <h5 class="card-title d-flex align-items-center my-1">
@@ -866,7 +866,7 @@
       <div class="col-12 mx-auto d-sm-flex  justify-content-around">
         {% for op in featured_tour_operators %}
         <div class="company py-2 py-sm-0  px-3 mx-auto text-center">
-          <a href="#">
+          <a href="{% url 'tour_operator' slug=op.slug %}">
             <div class="company-img-container">
               <img src="{{op.logo|thumbnail_url_:'crop_140'}}" alt="{{op}}">
             </div>
