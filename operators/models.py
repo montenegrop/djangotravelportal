@@ -633,9 +633,9 @@ class Itinerary(models.Model):
 
     def price_display(self):
         if self.max_price and self.min_price:
-            return "{}-{} {}".format(round(self.min_price), round(self.max_price), self.currency.symbol)
+            return "{}-{} {}".format(round(self.min_price), round(self.max_price), self.currency.code)
         if self.min_price:
-            return "{} {}".format(round(self.min_price), self.currency.symbol)
+            return "{} {}".format(round(self.min_price), self.currency.code)
         return ''
             
     def has_price(self):
