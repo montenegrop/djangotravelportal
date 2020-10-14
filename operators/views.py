@@ -69,6 +69,8 @@ class RequestInfoView(TemplateView):
         countries = ', '.join(quote_request.country_indexes.all().values_list('name_short',flat=True))
         context = {}
         context['member'] = quote_request.name
+        context['sent_on'] = quote_request.date_created.strftime('%d %B, %Y')
+        context['date_of_trip'] = quote_request.date_trip.strftime('%d %B, %Y')
         context['tour_operator'] = quote_request.tour_operator.name
         context['countries'] = countries
         context['link'] = link
@@ -87,9 +89,9 @@ class RequestInfoView(TemplateView):
         context = {}
         context['member'] = quote_request.name
         context['tour_operator'] = quote_request.tour_operator.name
-        context['sent_on'] = quote_request.date_created.strftime('%d %B')
+        context['sent_on'] = quote_request.date_created.strftime('%d %B, %Y')
         context['countries'] = ', '.join(quote_request.country_indexes.all().values_list('name_short',flat=True))
-        context['date_of_trip'] = quote_request.date_trip.strftime('%d %B')
+        context['date_of_trip'] = quote_request.date_trip.strftime('%d %B, %Y')
         context['days'] = quote_request.days
         context['size'] = quote_request.party_size
         context['comments'] = quote_request.additional_information
