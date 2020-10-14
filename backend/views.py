@@ -309,11 +309,18 @@ class AdminEmailTemplatesEditView(AdminRequiredLoginView, TemplateView):
             form.save()
             messages.success(self.request, 'Email template updated')
             return redirect('backend:admin_email_templates')
+        else:
+            messages.error(self.request, 'There was an error with your submission {}'.format(form.errors))
+            return self.render_to_response(self.get_context_data(form=form))
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         template = EmailTemplate.objects.get(pk=self.kwargs.get('pk'))
-        context['form'] = EmailTemplateForm(instance=template)
+        if self.kwargs.get('form'):
+            context['form'] = self.kwargs.get('form')
+        else:
+            context['form'] = EmailTemplateForm(instance=template)
         return context
 
 
