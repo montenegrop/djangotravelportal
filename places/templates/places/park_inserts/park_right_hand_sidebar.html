@@ -210,8 +210,9 @@
         <h5 class="pt-3 pb-2">
             <strong>Latest photos</strong>
         </h5>
-        <img style="width:100%; max-width: 100% " src="{{ sidebar.latest_photo.image.url }}" />
-
+        <div class="latest-photo">
+          <img style="width:100%; max-width: 100% " src="{{ sidebar.latest_photo.image.url }}" />
+        </div>
         <a class="my-2 d-block text-center" href="{% url 'photos:index' %}?park={{ object.slug }}">See all photos
             ({{ sidebar.photos_count }})</a>
     </div>

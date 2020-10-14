@@ -79,7 +79,10 @@
         <h5 class="pt-3 pb-2">
             <strong>Latest photos</strong>
         </h5>
-        <img style="width:100%; max-width: 100% " src="{{ latest_photos.first.image.url }}"/>
+        <div class="latest-photo">
+          <img style="width:100%; max-width: 100% " src="{{ latest_photos.first.image.url }}"/>
+        </div>
+       
 
         <a class="my-2 d-block text-center" href="{% url 'photos:index' %}?country={{ object.slug }}">See all photos
             ({{ latest_photos_count }})</a>
