@@ -358,6 +358,8 @@ var app = new Vue({
             if (!filters.length && !server_slug) {
                 // TODO: This is a very very strange decision. I want to remove it.
                 // Instead, we should sort the search result.
+                /*
+                This sets game drives as a default selected activity
                 let activity = main_focus_activities.find(x => x.name_short == 'Game drives')
                 if (activity) {
                     let filter = {
@@ -367,6 +369,7 @@ var app = new Vue({
                     }
                     filters.push(filter)
                 }
+                */
             }
 
             for (let i = 0; i < filters.length; i++) {
