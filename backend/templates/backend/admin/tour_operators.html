@@ -156,8 +156,9 @@
             <a target='_blank'
               href="{% url 'admin:operators_touroperator_change' object_id=tour_operator.pk %}">Edit</a>
             <br>
-            <a target='_blank'
-              href="{% url 'admin:operators_touroperator_delete' object_id=tour_operator.pk %}">Remove</a> <br>
+            <a data-what='Are you sure?' class="ask" data-href="?delete_tour_operator={{ tour_operator.pk }}">
+              Delete
+            </a>
           </td>
         </tr>
 
@@ -167,7 +168,7 @@
 
     </div>
   </div>
-  
+
   <div class="row-12 center">
     {% include 'search/paginator.html' %}
   </div>
