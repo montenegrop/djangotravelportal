@@ -13,10 +13,10 @@
               More information request
             </h4>
             <div class="row">
-              <div class="col-8">
+              <div class="col-8 main-container">
                 {% for tour_operator in tour_operators %}
                 <div class="form-group form-check">
-                  <input checked='checked' type="checkbox" class="form-check-input" name='tour_operators'
+                  <input checked='checked' type="checkbox" class="form-check-input tour_operators required" name='tour_operators'
                     id="to_{{ tour_operator.pk }}" value='{{ tour_operator.pk }}'>
                   <label class="form-check-label" for="to_{{ tour_operator.pk }}">
                     {{ tour_operator }}
@@ -28,7 +28,7 @@
                 {% endfor %}
                 {% for itinerary in itineraries %}
                 <div class="form-group form-check">
-                  <input checked='checked' type="checkbox" class="form-check-input" name='itineraries'
+                  <input checked='checked' type="checkbox" class="form-check-input itineraries required" name='itineraries'
                     id="it_{{ itinerary.pk }}" value='{{ itinerary.pk }}'>
                   <label class="form-check-label" for="it_{{ itinerary.pk }}">
                     {{ itinerary }}
@@ -115,17 +115,14 @@
 
   @media screen and (max-width: 576px) {
     #div_id_country_indexes div .form-check {
-    width: 45%;
-  }
+      width: 45%;
+    }
   }
 
 
   #div_id_country_indexes div {
     padding-left: 1.25rem;
   }
-
-
-
 </style>
 <script type="text/javascript">
   $(document).ready(function () {
@@ -146,12 +143,26 @@
 
   $("#request_form").validate({
     rules: {
-      country_indexes: {
-        //required: true,
+      tour_operators: {
+        required: true,
         //minlength: 1
-        required: function (elem) {
-          return $("input[type=checkbox]:checked").length > 0;
-        }
+        //required: function (elem) {
+        //  return $("input.tour_operators[type=checkbox]:checked").length > 0;
+       // }
+      },
+      itineraries: {
+        required: true,
+        //minlength: 1
+        //required: function (elem) {
+         // return $("input.itineraries[type=checkbox]:checked").length > 0;
+       // }
+      },
+      country_indexes: {
+        required: true,
+        //minlength: 1
+        //required: function (elem) {
+         // return $("input[type=checkbox]:checked").length > 0;
+       // }
       },
       date_trip_month: {
         min_date: ['date_trip_month', 'date_trip_day', 'date_trip_year']
@@ -159,11 +170,17 @@
     },
     messages: {
       country_indexes: "Please select at least a country",
+      itineraries: "Please select at least one itinerary",
+      tour_operator: "Please select at least one tour operator",
     },
     errorPlacement: function (error, element) {
       console.log(element.attr("name"))
       if (element.attr("name") == "country_indexes") {
         error.insertAfter("#div_id_country_indexes");
+      } else if (element.attr("name") == 'itineraries') {
+        error.appendTo(".main-container");
+      } else if (element.attr("name") == 'tour_operators') {
+        error.appendTo(".main-container");
       } else if (element.attr("name") == 'date_trip_month') {
         error.insertAfter("#div_id_date_trip");
       } else {
