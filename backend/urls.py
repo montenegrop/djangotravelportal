@@ -7,6 +7,7 @@ urlpatterns = [
     #admin
     path('admin/', AdminDashboardView.as_view(), name='admin'),
     path('admin_tour_operator/', AdminTourOperatorView.as_view(), name='admin_tour_operator'),
+    path('admin_members/', AdminMembersView.as_view(), name='admin_members'),
     path('admin_open_park_review/<int:park_review_pk>/', AdminOpenReviewView.as_view(), name='admin_open_park_review'),
     path('admin_open_tour_operator_review/<int:tour_operator_review_pk>/', AdminOpenReviewView.as_view(), name='admin_open_tour_operator_review'),
     path('admin_open_tour_operator/<int:pk>/', AdminOpenTourOperatorView.as_view(), name='admin_open_tour_operator'),

@@ -73,6 +73,7 @@ class UserProfile(models.Model):
         'places.Activity', blank=True, related_name="activities_enjoy")
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    date_deleted = models.DateTimeField(auto_now=True)
 
 
     # social media

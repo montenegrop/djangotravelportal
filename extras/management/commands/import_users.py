@@ -79,7 +79,6 @@ class Command(BaseCommand):
             del c['password']
             del c['uuid']
             del c['validated']
-            del c['date_deleted']
             
             user_id = c.pop('id')
             c['date_created'] = make_aware(c.pop('date_created'))
@@ -89,6 +88,9 @@ class Command(BaseCommand):
                 user=obj_user,
                 defaults=c
             )
+            #todo check!
+            if c['date_deleted']:
+                obj_user.active = False
             obj.first_kudu_email = c['first_kudu_email']
             obj.suppress_email = c['suppress_email']
             if is_created:

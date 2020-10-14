@@ -1,0 +1,125 @@
+{% extends 'backend/admin/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block backendcontent %}
+<style>
+  .table-sm.table>thead>tr>th {
+    font-size: 0.7em;
+  }
+
+  .table-sm td {
+    font-size: 0.8em;
+  }
+
+  .photo img {
+    width: 30px;
+    height: auto;
+  }
+</style>
+<div class="row max-width-admin">
+  <div class="col-12">
+    <div class="filters card">
+      <div class="card-body">
+        <form novalidate class="form" action='.' method="GET">
+          {% csrf_token %}
+          <div class="row">
+
+            <div class="col">
+              {{ form.username | as_crispy_field}}
+            </div>
+            <div class="col">
+              {{ form.order_by | as_crispy_field}}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+            </div>
+
+            <div class="col">
+            </div>
+          </div>
+
+          <!-- Button -->
+          <div class="row">
+            <div class="col-10">
+            </div>
+            <div class="col-2">
+              <div class="form-group">
+                <input value='Filter' type="submit" class="btn btn-success" id="submit">
+              </div>
+            </div>
+          </div>
+          <!-- End Button -->
+
+        </form>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="col-12">
+    <div class="table-responsive">
+
+      <table class='table table-striped  table-sm'>
+        <thead>
+          <tr>
+            <th>
+              PK
+            </th>
+            <th>
+              Name
+            </th>
+            <th>Created</th>
+            <th>Email</th>
+            <th>Screen name</th>
+            <th>TO</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        {% for obj in paginator %}
+        <tr>
+          <td>
+              {{ obj.pk }}
+          </td>
+          <td>
+              {{ obj }}
+          </td>
+          <td>
+            {{ obj.date_created|date:"d.M.Y" }}
+          </td>
+          <td>
+            {{ obj.email }}
+          </td>
+          <td>
+            {{ obj.profile }}
+          </td>
+          <td>
+            {{ obj.profile.tour_operator }}
+          </td>
+          <td>
+            <a target='_blank'
+              href="{% url 'admin:auth_user_change' object_id=obj.pk %}">Edit</a>
+            <br>
+            <a data-what='Are you sure?' class="ask" data-href="?delete={{ obj.pk }}">
+              Delete
+            </a>
+          </td>
+        </tr>
+
+        {% endfor %}
+      </table>
+
+
+    </div>
+  </div>
+
+  <div class="row-12 center">
+    {% include 'search/paginator.html' %}
+  </div>
+
+</div>
+
+<script>
+  $(" .nav-link.tour_operators").addClass("active") </script>
+{% endblock %}

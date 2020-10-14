@@ -24,7 +24,6 @@ from backend.forms import CompanyInfoForm, TourPackageForm, MemberInfoProfileFor
 from places.models import CountryIndex, Park, Country, Language, Animal, Activity
 from places.models import Currency
 from django.contrib import messages
-from backend.forms import TourOperatorFilterForm
 from operators.models import ItineraryType, ItineraryDayDescription
 import requests
 from core.models import EmailLog
@@ -39,7 +38,6 @@ from backend.forms import CompanyInfoForm, TourPackageForm
 from places.models import CountryIndex, Park, Country, Activity
 from places.models import Currency
 from django.contrib import messages
-from backend.forms import TourOperatorFilterForm
 from operators.models import ItineraryType, ItineraryDayDescription
 from core.utils import formatted_decimal_plain
 from django.template.defaultfilters import slugify
