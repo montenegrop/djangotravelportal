@@ -148,7 +148,7 @@ class RequestInfoView(TemplateView):
                     #add details for member email
                     link = reverse('tour_package', kwargs={'slug': itinerary.slug, 'pk': itinerary.pk})
                     link = settings.BASE_URL + link
-                    details.append('<a href="{}" target="_blank">{}</a>'.format(link,itinerary.title))
+                    details.append('<a href="{}" target="_blank">{}</a>'.format(link,itinerary.tour_operator.name))
                     self.send_tour_operator_email(instance)
             to = self.request.POST.getlist('tour_operators')
             if to:
