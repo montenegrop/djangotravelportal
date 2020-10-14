@@ -115,6 +115,7 @@ class ArticleDetailView(DetailView):
 
         context['comments'] = article.comments()
         log_action(self.request, hit_object=self.object)
+        self.object.update_visit_count()
         return context
 
 

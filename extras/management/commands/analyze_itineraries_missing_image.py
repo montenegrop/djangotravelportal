@@ -20,6 +20,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument('-pics', required=True, type=str)
+        parser.add_argument('-pics_non', required=True, type=str)
 
     def match_park(self, itinerary, pic):
         for park in itinerary.parks.all():
@@ -47,7 +48,7 @@ class Command(BaseCommand):
                 return True
         return False
 
-    def assign_itinerary_pic(self, itinerary, pics, pics_non):
+    def assign_itinerary_pic(self, itinerary, pics):
         random.seed(42)
         random.shuffle(pics)
         selected = []
@@ -89,8 +90,7 @@ class Command(BaseCommand):
             #print('4',itinerary,selected)
             random.seed(itinerary.pk)
             return random.choice(selected)
-        random.seed(itinerary.pk)
-        return random.choice(pics_non)
+        return False
 
     def handle(self, *args, **options):
         if not settings.DEBUG:
@@ -104,16 +104,22 @@ class Command(BaseCommand):
         itineraries = itineraries.filter(image='')
         pics = []
         pics_dir = options['pics']
+        pics_non_dir = options['pics_non']
         for root, dirs, files in os.walk(pics_dir):
             for file in files:
                 pics.append(os.path.join(root, file).lower())
         pics_non = []        
-        for root, dirs, files in os.walk(pics_dir + "/Non-safari/"):
+        for root, dirs, files in os.walk(pics_non_dir):
             for file in files:
                 pics_non.append(os.path.join(root, file).lower())
         for i in itineraries:
             #give the itinerary a suitable image
-            result_pic = "\"{}\"".format(self.assign_itinerary_pic(i, pics, pics_non))
+            result_pic = self.assign_itinerary_pic(i, pics)
+            if not result_pic:
+                result_pic = self.assign_itinerary_pic(i, pics_non)
+            if not result_pic:
+                result_pic = 'No pic'
+            result_pic = "\"{}\"".format(result_pic)
             parks = ','.join([x.name_short for x in i.parks.all()])
             print("\"{}\",{},{},{},{}".format(i,i.tour_operator.name, i.safari_focus_activity, result_pic, parks))
         self.stdout.write(self.style.SUCCESS("DONE"))

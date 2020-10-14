@@ -18,7 +18,6 @@ def log_action(request, hit_object=False, activity_type=Analytic.VISIT):
     existent = existent.filter(date_created__gte=minutes_ago)
     if existent.exists():
         return
-
     analytic = Analytic(**data)
     if request.user.is_authenticated:
         analytic.user = request.user
