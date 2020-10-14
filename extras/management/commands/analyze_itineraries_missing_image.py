@@ -21,36 +21,48 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('-pics', required=True, type=str)
 
+    def match_park(self, itinerary, pic):
+        for park in itinerary.parks.all():
+            if (park.name_short.lower() in pic or park.name.lower() in pic):
+                return True
+        return False
+
     def match_place(self, itinerary, pic):
         for park in itinerary.parks.all():
-            if (park.name_short in pic or park.name in pic):
+            if (park.name_short.lower() in pic or park.name.lower() in pic):
                 return True
         for country_index in itinerary.country_indexes.all():
-            if (country_index.name_short in pic or country_index.name in pic):
+            if (country_index.name_short.lower() in pic or country_index.name.lower() in pic):
                 return True
         return False
 
     def primary_match(self, itinerary, pic):
         if not itinerary.safari_focus_activity:
             return False
-        return itinerary.safari_focus_activity.name in pic or itinerary.safari_focus_activity.name_short in pic
+        return itinerary.safari_focus_activity.name.lower() in pic or itinerary.safari_focus_activity.name_short.lower() in pic
 
     def secondary_match(self, itinerary, pic):
         for act in itinerary.secondary_focus_activity.all():
-            if act.name in pic or act.name_short in pic:
+            if act.name.lower() in pic or act.name_short.lower() in pic:
                 return True
         return False
 
-    def assign_itinerary_pic(self, itinerary, pics):
+    def assign_itinerary_pic(self, itinerary, pics, pics_non):
         random.seed(42)
         random.shuffle(pics)
         selected = []
+        #park and activity
+        for pic in pics:
+            if self.match_park(itinerary, pic) and self.primary_match(itinerary, pic):
+                selected.append(pic)
+        if len(selected) > 0:
+            random.choice(selected)
+            return random.choice(selected)
         #place and activity
         for pic in pics:
             if self.match_place(itinerary, pic) and self.primary_match(itinerary, pic):
                 selected.append(pic)
         if len(selected) > 0:
-            #print('1',itinerary,selected)
             random.choice(selected)
             return random.choice(selected)
         #place
@@ -77,7 +89,8 @@ class Command(BaseCommand):
             #print('4',itinerary,selected)
             random.seed(itinerary.pk)
             return random.choice(selected)
-        return 'NO IMAGE FOUND'
+        random.seed(itinerary.pk)
+        return random.choice(pics_non)
 
     def handle(self, *args, **options):
         if not settings.DEBUG:
@@ -85,16 +98,22 @@ class Command(BaseCommand):
             return
         from operators.models import Itinerary, ItineraryDayDescription
         from places.models import Park
-        itineraries = Itinerary.objects.filter(date_deleted__isnull=True)        
+        itineraries = Itinerary.objects.all()
+        itineraries = itineraries.filter(date_deleted__isnull=True)
+        #itineraries = itineraries.filter(title__contains='Murchison Falls National Park Safari')
         itineraries = itineraries.filter(image='')
         pics = []
         pics_dir = options['pics']
         for root, dirs, files in os.walk(pics_dir):
             for file in files:
-                pics.append(os.path.join(root, file))
+                pics.append(os.path.join(root, file).lower())
+        pics_non = []        
+        for root, dirs, files in os.walk(pics_dir + "/Non-safari/"):
+            for file in files:
+                pics_non.append(os.path.join(root, file).lower())
         for i in itineraries:
             #give the itinerary a suitable image
-            result_pic = self.assign_itinerary_pic(i, pics)
+            result_pic = "\"{}\"".format(self.assign_itinerary_pic(i, pics, pics_non))
             parks = ','.join([x.name_short for x in i.parks.all()])
             print("\"{}\",{},{},{},{}".format(i,i.tour_operator.name, i.safari_focus_activity, result_pic, parks))
         self.stdout.write(self.style.SUCCESS("DONE"))
