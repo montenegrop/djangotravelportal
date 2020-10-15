@@ -145,12 +145,12 @@
                 id="registrationTerms" @change="$v.terms.$touch()" />
               <div class="state p-success">
                 <i class="icon fa fa-check"></i>
-                <label class="form-check-label">
+                <label class="form-check-label pr-1">
                   By signing up you agree to our
                 </label>
               </div>
             </div>           
-            <a target="_blank" href="{% url 'privacy-policy' %}"> Privacy Policy</a>
+            <a target="_blank" href="{% url 'privacy-policy' %}">Privacy Policy</a>
             and
             <a target="_blank" href="{% url 'terms-of-use' %}"> Terms of Use</a>           
             <p class="text-danger" v-if="errors && !!errors.terms">
