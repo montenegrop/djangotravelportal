@@ -51,9 +51,9 @@ class AdminMembersView(AdminRequiredLoginView, TemplateView):
         objs = User.objects.filter(is_active=True)
         # filter logic
         if 'form' in kwargs and kwargs['form']:
-            name = kwargs['form'].cleaned_data.get('name')
-            if name:
-                objs = objs.filter(name__lower__icontains=name.lower())
+            username = kwargs['form'].cleaned_data.get('username')
+            if username:
+                objs = objs.filter(username__lower__icontains=username.lower())
             order_by = kwargs['form'].cleaned_data.get('order_by')
             if order_by:
                 objs = objs.order_by(order_by)
