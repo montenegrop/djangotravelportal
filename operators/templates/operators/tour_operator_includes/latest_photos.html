@@ -6,7 +6,7 @@
 
     {% for photo in tour_photos %}
     
-        <div>
+        <div class="latest-photo">
                 <figure class="{% if forloop.counter > 1 %}d-none{% endif %}" itemprop="associatedMedia" itemscope
                         itemtype="http://schema.org/ImageObject">
                     <a data-width="{{ photo.image|width }}" data-height="{{ photo.image|height }}"

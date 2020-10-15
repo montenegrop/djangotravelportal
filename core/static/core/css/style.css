@@ -1386,6 +1386,12 @@ h2.title-3 {
 	}
 }
 
+.latest-photo {
+  max-height: 350px;
+  overflow: hidden;
+}
+
+
 /* Social links */
 .social-links-imgs a .img-color {
 	display: none;
