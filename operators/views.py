@@ -150,7 +150,7 @@ class RequestInfoView(TemplateView):
                     #add details for member email
                     link = reverse('tour_package', kwargs={'slug': itinerary.slug, 'pk': itinerary.pk})
                     link = settings.BASE_URL + link
-                    details.append('<a href="{}" target="_blank">{}</a>'.format(link,itinerary.tour_operator.name))
+                    details.append('<a style="color:#4B5320;" href="{}" target="_blank">{}</a>'.format(link,itinerary.tour_operator.name))
                     self.send_tour_operator_email(instance)
             to = self.request.POST.getlist('tour_operators')
             if to:
@@ -166,7 +166,7 @@ class RequestInfoView(TemplateView):
                     #add details for member email
                     link = reverse('tour_operator', kwargs={'slug': tour_operator.slug})
                     link = settings.BASE_URL + link
-                    details.append('<a href="{}" target="_blank">{}</a>'.format(link,tour_operator.name))
+                    details.append('<a style="color:#4B5320;" href="{}" target="_blank">{}</a>'.format(link,tour_operator.name))
 
                     self.send_tour_operator_email(instance)
         else:
