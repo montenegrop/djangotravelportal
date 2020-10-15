@@ -60,7 +60,7 @@ Vue.component('operator', {
     },
     computed: {
         card_size_classes() {
-            let classes = ' card p-3 mb-5 bg-white rounded col-l'
+            let classes = ' card p-3 mb-5 bg-white rounded col-l d-inline-block'
             if (this.operator) {
                 if (this.operator.is_featured) {
                     return 'shadow-featured border-featured mx-2' + classes

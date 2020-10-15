@@ -72,7 +72,12 @@
 }
 
 #operator-name {
-	height: 55px;
+	height: 60px;
+}
+
+.to-flags {
+  min-height: 30px;
+  height: 30px;
 }
 
 .fa-hiking {
