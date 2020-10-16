@@ -19,6 +19,7 @@ class Command(BaseCommand):
 
         # update tour operators
         tour_operators = TourOperator.objects.all()
+        #tour_operators = tour_operators.filter(slug='africaventure')
         for tour_operator in tour_operators:
             tour_operator.update_reviews_count()
             tour_operator.update_average_rating()
@@ -27,10 +28,17 @@ class Command(BaseCommand):
             tour_operator.update_quote_request_count()
             tour_operator.update_photos_count()
             tour_operator.update_yas_score()
+            tour_operator.update_vehicle_rating()
+            tour_operator.update_meet_and_greet_rating()
+            tour_operator.update_responsiveness()
+            tour_operator.update_safari_quality()
+            tour_operator.update_itinerary_quality()
+            tour_operator.update_packages_count()
             for country in tour_operator.country_indexes.all():
                 tour_operator.update_yas_score(country)
-
         print('Updated', tour_operators.count(), 'tour_operators')
+
+
         #activity_level
         itineraries = Itinerary.objects.filter(date_deleted=None) 
         for itinerary in itineraries:
@@ -55,26 +63,6 @@ class Command(BaseCommand):
             article.update_visit_count()
             article.update_comments_count()
         print('Updated', articles.count(), 'articles')
-
-        # update tour operators
-        tour_operators = TourOperator.objects.all()
-        for tour_operator in tour_operators:
-            tour_operator.update_reviews_count()
-            tour_operator.update_average_rating()
-            tour_operator.update_parks_count()
-            tour_operator.update_packages_count()
-            tour_operator.update_quote_request_count()
-            tour_operator.update_photos_count()
-            tour_operator.update_yas_score()
-            tour_operator.update_vehicle_rating()
-            tour_operator.update_meet_and_greet_rating()
-            tour_operator.update_responsiveness()
-            tour_operator.update_safari_quality()
-            tour_operator.update_itinerary_quality()
-            tour_operator.update_packages_count()
-            for country in tour_operator.country_indexes.all():
-                tour_operator.update_yas_score(country)
-        print('Updated', tour_operators.count(), 'tour_operators')
 
         #parks
         parks = Park.objects.all()

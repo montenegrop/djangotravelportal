@@ -465,6 +465,7 @@ class TourOperatorDetailView(TemplateView):
 
         tour.is_fav_ = tour.is_fav(self.request)
         context['tour'] = tour
+        context['tour_operator'] = tour
 
         log_action(self.request, hit_object=tour)
 
@@ -673,26 +674,9 @@ class TourPackageView(TemplateView):
 
         tour = itinerary.tour_operator
 
-        tour.annotated = TourOperator.objects.filter(id=tour.id).annotate(
-            review_avg=Avg('tour_operator_reviews__overall_rating')).annotate(
-            review_count=Count('tour_operator_reviews', distinct=True)).annotate(
-            photo_count=Count('photos', distinct=True)).annotate(
-            package_count=Count('itineraries', distinct=True)).annotate(
-            vehicle_avg=Avg('tour_operator_reviews__vehicle_rating')).annotate(
-            meet_and_greet_avg=Avg('tour_operator_reviews__meet_and_greet_rating')).annotate(
-            responsiveness_avg=Avg('tour_operator_reviews__responsiveness_rating')).annotate(
-            safari_quality_avg=Avg('tour_operator_reviews__safari_quality_rating')).annotate(
-            itinerary_quality_avg=Avg('tour_operator_reviews__itinerary_quality_rating')).first()
-
-
-        context['tour_vehicle_reviews_average'] = tour.annotated.vehicle_avg
-        context['tour_meet_and_greet_reviews_average'] = tour.annotated.meet_and_greet_avg
-        context['tour_responsiveness_reviews_average'] = tour.annotated.responsiveness_avg
-        context['tour_safari_quality_reviews_average'] = tour.annotated.safari_quality_avg
-        context['tour_itinerary_quality_reviews_average'] = tour.annotated.itinerary_quality_avg
-        context['tour_reviews_average'] = tour.annotated.review_avg
-
         context['operator'] = tour
+        context['tour_operator'] = tour
+        context['offered_by'] = True
         serializer = ItinerarySerializer()
 
         all_tours = Itinerary.objects.filter(date_deleted__isnull=True).filter(tour_operator=tour).exclude(id=itinerary.id).order_by('-date_modified')

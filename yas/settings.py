@@ -243,6 +243,7 @@ THUMBNAIL_ALIASES = {
     '': {
         'crop_50': {'size': (50, 50), 'crop': True},
         'crop_140': {'size': (140, 140), 'crop': True},
+        '140': {'size': (140, 140)},
         '4185x1395':{'size': (4185, 1395), 'crop': True},
         'crop_150': {'size': (150, 150), 'crop': True},
         'crop_200': {'size': (200, 200), 'crop': True},

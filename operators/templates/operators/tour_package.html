@@ -618,7 +618,6 @@
                       <p class="font-weight-bold d-inline my-2">Countries:</p>
                       <div class="d-inline">
                         {% for country in tour.country_indexes.all %}
-                        {#                              Neil I added class="list-flag mb-1" to Img below#}
                         <img class="list-flag mb-1" src="{{ country.flag.url }}" alt="{{ country.name }} flag"
                           data-toggle="tooltip" data-placement="top" title="{{ country.name }}">
                         {% endfor %}
@@ -649,49 +648,7 @@
     <!-- rhc-->
     <div class="col-xl-4 col-12 pt-4 pt-sm-0 mt-2">
       <div class="dropdown-divider d-xl-none parks-rhc-max-width"></div>
-      <div class="contentbg rhc-yasscore-border px-3 parks-rhc-max-width pb-2 ">
-        <div class="row">
-          <h5 class="border-bottom pt-2 col-12 text-center">Tour offered by:</h5>
-          <div class="col-12 container mt-2">
-            <div id="operator-logo-container">
-              <a href="{% url 'tour_operator' slug=operator.slug %}">
-                <img class="card-img-top rounded operator-logo mx-auto" src="{{ operator.logo.url }}"
-                  alt="{{ operator.name_short }}" id="operator-logo">
-              </a>
-            </div>
-          </div>
-          <div class="col-10 px-0 offset-3 my-auto">
-            <div class="d-inline font-h4 font-weight-bold">Y<span class="orange">A</span>S score:
-              {{ operator.yas_score }}/100
-            </div>
-            <i class="far fa-question-circle mr-1  d-inline" data-trigger="hover" data-toggle="popover"
-              data-placement="bottom"
-              data-content="YAScore is a weighted average of 20 metrics including years in business, quality and quantity of reviews, and how quickly tour operator responds to quote requests."></i>
-            <div class="d-block font-12">Based on {{ operator.reviews_count }} review{{ operator.reviews_count|pluralize }}</div>
-          </div>
-        </div>
-        <hr class="mx-3 mt-md-1 mt-2 border border-grey">
-        <span>Overall rating</span>
-        <span class="yellow font-h5 float-right">
-          {{ operator.average_rating | star_rating | safe }}
-        </span><br>
-        <span>Cleanliness of vehicle</span>
-        <span class="yellow font-h5 float-right">
-          {{ operator.vehicle_rating | star_rating | safe }}
-        </span><br>
-        <span>Meet and greet team</span>
-        <span class="yellow font-h5 float-right">
-          {{ operator.meet_and_greet_rating | star_rating | safe }}
-        </span><br>
-        <span>Quality of itinerary</span>
-        <span class="yellow font-h5 float-right">
-          {{ operator.itinerary_quality | star_rating | safe }}
-        </span><br>
-        <span>Responsiveness of staff</span>
-        <span class="yellow font-h5 float-right">
-          {{ operator.responsiveness | star_rating | safe }}
-        </span><br>
-      </div>
+      {% include "operators/tour_operator_includes/ratings.html" %}
     </div>
     <!-- end rhc-->
   </div>
