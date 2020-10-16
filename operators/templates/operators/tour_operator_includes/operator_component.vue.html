@@ -8,7 +8,7 @@
             id="heart-TP-card"
         ></i>
       </div>
-      <div class="row pb-2 d-flex justify-content-between" style="min-height: 80px;">
+      <div class="row d-flex justify-content-between" style="min-height: 80px;">
         
         <div class="col-3">          
           <div v-if="operator.is_featured" class="shadow-featured-banner" id="featured">
@@ -20,10 +20,12 @@
         
 
         <div class="featured-operator-logo-container col-5">
-          <img class="card-img-top rounded mx-auto operator-logo"
-            :src="operator.logo"
-            {% comment %} src="https://static3.yourafricansafari.com/images/touroperator/logo/chaz-tours-and-travel-1581508149.jpg" {% endcomment %}
-            alt="company logo">
+          <a :href="getTourUrl(operator)">
+            <img class="card-img-top rounded mx-auto operator-logo"
+              :src="operator.logo"
+              {% comment %} src="https://static3.yourafricansafari.com/images/touroperator/logo/chaz-tours-and-travel-1581508149.jpg" {% endcomment %}
+              alt="company logo">
+          </a>
         </div>
 
         <div class="col-3">
@@ -42,7 +44,9 @@
     </div>
     <div class="row align-items-center" id="operator-name">
       <h5 class="mt-2 card-title col text-center font-weight-bold olive-green h5-sm">
+        <a :href="getTourUrl(operator)">
         [[ operator.name ]]
+        </a>
       </h5>
     </div>
     <div class="text-center">
@@ -74,7 +78,7 @@
           >
         </span></p>
     </div>
-    <div class="d-flex justify-content-center pb-2">
+    <div class="d-flex justify-content-center pb-2 flex-wrap to-flags">
       <img v-for="flag in operator.flags" :key="flag.id" 
         :src="flag.flag_url" 
         :alt="flag.name_short" 
