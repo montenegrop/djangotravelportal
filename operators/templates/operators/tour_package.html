@@ -673,27 +673,23 @@
         <hr class="mx-3 mt-md-1 mt-2 border border-grey">
         <span>Overall rating</span>
         <span class="yellow font-h5 float-right">
-          {{ tour_reviews_average | star_rating | safe }}
-        </span><br>
-        <span>Caliber of guide</span>
-        <span class="yellow font-h5 float-right">
-          {{ tour_safari_quality_reviews_average | star_rating | safe }}
+          {{ operator.average_rating | star_rating | safe }}
         </span><br>
         <span>Cleanliness of vehicle</span>
         <span class="yellow font-h5 float-right">
-          {{ tour_vehicle_reviews_average | star_rating | safe }}
+          {{ operator.vehicle_rating | star_rating | safe }}
         </span><br>
         <span>Meet and greet team</span>
         <span class="yellow font-h5 float-right">
-          {{ tour_meet_and_greet_reviews_average | star_rating | safe }}
+          {{ operator.meet_and_greet_rating | star_rating | safe }}
         </span><br>
         <span>Quality of itinerary</span>
         <span class="yellow font-h5 float-right">
-          {{ tour_itinerary_quality_reviews_average | star_rating | safe }}
+          {{ operator.itinerary_quality | star_rating | safe }}
         </span><br>
         <span>Responsiveness of staff</span>
         <span class="yellow font-h5 float-right">
-          {{ tour_responsiveness_reviews_average | star_rating | safe }}
+          {{ operator.responsiveness | star_rating | safe }}
         </span><br>
       </div>
     </div>
