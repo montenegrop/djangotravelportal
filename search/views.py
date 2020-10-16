@@ -23,15 +23,7 @@ def search_tour_operators(query):
             Q(name_short__lower__icontains=bit.lower())
         )
 
-    tour_operators = TourOperator.objects.filter(any_name).annotate(review_avg=Avg('tour_operator_reviews__overall_rating'))
-    tour_operators = tour_operators.annotate(review_count=Coalesce(Count('tour_operator_reviews', distinct=True),0))
-    tour_operators = tour_operators.annotate(photo_count=Count('photos', distinct=True))
-    tour_operators = tour_operators.annotate(package_count=Count('itineraries', distinct=True))
-    tour_operators = tour_operators.annotate(vehicle_avg=Avg('tour_operator_reviews__vehicle_rating'))
-    tour_operators = tour_operators.annotate(meet_and_greet_avg=Avg('tour_operator_reviews__meet_and_greet_rating'))
-    tour_operators = tour_operators.annotate(responsiveness_avg=Avg('tour_operator_reviews__responsiveness_rating'))
-    tour_operators = tour_operators.annotate(safari_quality_avg=Avg('tour_operator_reviews__safari_quality_rating'))
-    tour_operators = tour_operators.annotate(itinerary_quality_avg=Avg('tour_operator_reviews__itinerary_quality_rating'))
+    tour_operators = TourOperator.objects.filter(any_name)
     return tour_operators
 
 def search_tour_packages(query):

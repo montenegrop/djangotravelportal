@@ -336,7 +336,7 @@ FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o755
 FILE_UPLOAD_PERMISSIONS = 0o644
 
 #mailing
-TESTING_EMAILS = ['neilmackay01@gmail.com', 'juan.crescente@gmail.com', 'support@yourafricansafari.com']
+TESTING_EMAILS = ['neilmackay01@gmail.com', 'juan.crescente@gmail.com', 'simba@yourafricansafari.com']
 import datetime 
 POST_OFFICE = {
     'MAX_RETRIES': 2,
@@ -359,7 +359,7 @@ AWS_SES_ACCESS_KEY_ID=env.str('AWS_SES_ACCESS_KEY_ID')
 AWS_SES_SECRET_ACCESS_KEY=env.str('AWS_SES_SECRET_ACCESS_KEY')
 AWS_SES_REGION_NAME = 'us-west-2'
 AWS_SES_REGION_ENDPOINT = 'email.us-west-2.amazonaws.com'
-
+DEFAULT_FROM_EMAIL = 'Your African Safari <support@yourafricansafari.com>'
 #ckeditor
 CKEDITOR_CONFIGS = {
 'default': {

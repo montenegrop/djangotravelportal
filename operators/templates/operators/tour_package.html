@@ -667,7 +667,7 @@
             <i class="far fa-question-circle mr-1  d-inline" data-trigger="hover" data-toggle="popover"
               data-placement="bottom"
               data-content="YAScore is a weighted average of 20 metrics including years in business, quality and quantity of reviews, and how quickly tour operator responds to quote requests."></i>
-            <div class="d-block font-12">Based on {{ operator.reviews_count }} reviews</div>
+            <div class="d-block font-12">Based on {{ operator.reviews_count }} review{{ operator.reviews_count|pluralize }}</div>
           </div>
         </div>
         <hr class="mx-3 mt-md-1 mt-2 border border-grey">

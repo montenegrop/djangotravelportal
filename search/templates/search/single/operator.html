@@ -8,12 +8,12 @@
       </strong>
     </h5>
     <div class="pr-2 px-4 d-flex align-items-center">
-      {{ tour_operator.review_avg | star_rating| safe }}
+      {{ tour_operator.average_rating | star_rating| safe }}
       <div class="font-11 text-light-grey pl-1">
-        {% if tour_operator.review_count == 1 %}
+        {% if tour_operator.reviews_count == 1 %}
         1 review
         {% else %}
-        {{ tour_operator.review_count }} reviews
+        {{ tour_operator.reviews_count }} reviews
         {% endif %}
 
       </div>

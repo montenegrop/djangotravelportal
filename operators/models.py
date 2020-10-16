@@ -116,6 +116,11 @@ class TourOperator(models.Model):
     parks_count = models.IntegerField(blank=True, null=True)
     is_featured = models.BooleanField(default=False)
     last_review_date = models.DateField(blank=True, null=True)
+    vehicle_rating = models.IntegerField(blank=True, null=True)
+    meet_and_greet_rating = models.IntegerField(blank=True, null=True)
+    responsiveness = models.IntegerField(blank=True, null=True)
+    safari_quality = models.IntegerField(blank=True, null=True)
+    itinerary_quality = models.IntegerField(blank=True, null=True)
     
     def update_photos_count(self):
         from photos.models import Photo
@@ -402,6 +407,37 @@ class TourOperator(models.Model):
         self.average_rating = average_rating['avg']
         self.save()
 
+    def update_vehicle_rating(self):
+        from reviews.models import TourOperatorReview
+        vehicle_rating = self.tour_operator_reviews.filter(status=TourOperatorReview.ACTIVE).filter(vehicle_rating__isnull=False).aggregate(avg=Avg('vehicle_rating'))
+        self.vehicle_rating = vehicle_rating['avg']
+        self.save()
+
+    def update_meet_and_greet_rating(self):
+        from reviews.models import TourOperatorReview
+        meet_and_greet_rating = self.tour_operator_reviews.filter(status=TourOperatorReview.ACTIVE).filter(meet_and_greet_rating__isnull=False).aggregate(avg=Avg('meet_and_greet_rating'))
+        self.meet_and_greet_rating = meet_and_greet_rating['avg']
+        self.save()
+
+    def update_responsiveness(self):
+        from reviews.models import TourOperatorReview
+        responsiveness = self.tour_operator_reviews.filter(status=TourOperatorReview.ACTIVE).filter(responsiveness__isnull=False).aggregate(avg=Avg('responsiveness'))
+        self.responsiveness = responsiveness['avg']
+        self.save()
+
+
+    def update_safari_quality(self):
+        from reviews.models import TourOperatorReview
+        safari_quality = self.tour_operator_reviews.filter(status=TourOperatorReview.ACTIVE).filter(safari_quality__isnull=False).aggregate(avg=Avg('safari_quality'))
+        self.safari_quality = safari_quality['avg']
+        self.save()
+
+    def update_itinerary_quality(self):
+        from reviews.models import TourOperatorReview
+        itinerary_quality = self.tour_operator_reviews.filter(status=TourOperatorReview.ACTIVE).filter(itinerary_quality__isnull=False).aggregate(avg=Avg('itinerary_quality'))
+        self.itinerary_quality = itinerary_quality['avg']
+        self.save()
+        
     def update_packages_count(self):
         self.packages_count = self.itineraries.all().count()
         self.save()

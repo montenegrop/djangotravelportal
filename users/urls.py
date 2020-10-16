@@ -5,8 +5,17 @@ from django.urls import include, path
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from . import views
+from django.urls import reverse_lazy
 
 urlpatterns = [
+
+    path('accounts/password_reset/',
+        auth_views.PasswordResetView.as_view(
+            html_email_template_name='registration/password_reset_email.html'
+        ),
+        name='password_reset'
+    ),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('/', include('django.contrib.auth.urls')),
     path('accounts/', include('django.contrib.auth.urls')), # new
     path('profile/', views.ChangeProfileView.as_view()),
@@ -32,3 +41,4 @@ urlpatterns = [
     path('delete_operator_fav/<int:operator_pk>/', views.DeleteOperatorFavAPIView.as_view(), name='delete_operator_fav'),
     path('delete_operator_fav_multiple/', views.DeleteOperatorFavAPIView.as_view(), name='delete_operator_fav_multiple'),
 ]
+

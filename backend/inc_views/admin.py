@@ -31,9 +31,10 @@ class AdminMembersView(AdminRequiredLoginView, TemplateView):
             obj.profile.date_deleted = datetime.today()
             obj.is_active = False
             obj.save()
+            #remove associated stuff with member TODO
+            Photo.objects.filter(user=obj).delete()
             messages.success(self.request, 'Member deleted')
-            return redirect('backend:admin_members')
-
+            return redirect('backend:admin_members')    
         #PAGINATION
         form = MemberFilterForm(self.request.GET or None)
         if form.is_valid():
@@ -89,6 +90,7 @@ class AdminTourOperatorView(AdminRequiredLoginView, TemplateView):
             operator = TourOperator.objects.get(pk=pk)
             operator.date_deleted = datetime.today()
             operator.save()
+            #remove associated stuff with TO TODO
             messages.success(self.request, 'Tour operator deleted')
             return redirect('backend:admin_tour_operator')
 

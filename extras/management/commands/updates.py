@@ -66,6 +66,12 @@ class Command(BaseCommand):
             tour_operator.update_quote_request_count()
             tour_operator.update_photos_count()
             tour_operator.update_yas_score()
+            tour_operator.update_vehicle_rating()
+            tour_operator.update_meet_and_greet_rating()
+            tour_operator.update_responsiveness()
+            tour_operator.update_safari_quality()
+            tour_operator.update_itinerary_quality()
+            tour_operator.update_packages_count()
             for country in tour_operator.country_indexes.all():
                 tour_operator.update_yas_score(country)
         print('Updated', tour_operators.count(), 'tour_operators')
@@ -92,6 +98,7 @@ class Command(BaseCommand):
         for review in reviews:
             review.update_views_count()
             review.update_kudu_count()
+            
         print('Updated', reviews.count(), 'tour op reviews')
 
         # update kilimanjaro reviews
