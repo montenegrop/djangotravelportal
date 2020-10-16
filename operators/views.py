@@ -420,12 +420,6 @@ class TourOperatorDetailView(TemplateView):
         else:
             from django.http import Http404
             raise Http404("No tour operator")
-        tour.annotated = TourOperator.objects.filter(id=tour.id).annotate(
-            vehicle_avg=Avg('tour_operator_reviews__vehicle_rating')).annotate(
-            meet_and_greet_avg=Avg('tour_operator_reviews__meet_and_greet_rating')).annotate(
-            responsiveness_avg=Avg('tour_operator_reviews__responsiveness_rating')).annotate(
-            safari_quality_avg=Avg('tour_operator_reviews__safari_quality_rating')).annotate(
-            itinerary_quality_avg=Avg('tour_operator_reviews__itinerary_quality_rating')).first()
 
         # focused review
         if 'review' in kwargs:
@@ -434,12 +428,6 @@ class TourOperatorDetailView(TemplateView):
             result = temp.render({'tour_reviews': [o_review], 'tour': tour, 'focused': True})
             context['review_focus'] = result
 
-        # first of three
-        context['tour_vehicle_reviews_average'] = tour.annotated.vehicle_avg
-        context['tour_meet_and_greet_reviews_average'] = tour.annotated.meet_and_greet_avg
-        context['tour_responsiveness_reviews_average'] = tour.annotated.responsiveness_avg
-        context['tour_safari_quality_reviews_average'] = tour.annotated.safari_quality_avg
-        context['tour_itinerary_quality_reviews_average'] = tour.annotated.itinerary_quality_avg
         # sencond of three
         context['tour_countries'] = CountryIndex.objects.filter(itineraries__tour_operator=tour).distinct()
         # context['tour_countries'] = CountryIndex.objects.filter(parks__in=tour.parks.all())
