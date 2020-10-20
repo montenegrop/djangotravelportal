@@ -854,7 +854,8 @@ class TourOperatorClientReviewView(BackendTourOperatorRequiredLoginView, Templat
     def post(self, request, *args, **kwargs):
         review_id = int(request.POST['review_id'])
         response = request.POST['response']
-        review = TourOperatorReview.objects.get(id=review_id)
+        tour_operator = self.request.user.profile.tour_operator
+        review = TourOperatorReview.objects.get(id=review_id, tour_operator=tour_operator)
         if not review.response:
             review.response = response
             review.response_date = datetime.now()
