@@ -24,7 +24,7 @@ class Command(BaseCommand):
     help = 'Analyze itineraries'
 
     def handle(self, *args, **options):
-        users = User.objects.filter(is_active=True).filter(profile__avatar='')[:20]
+        users = User.objects.filter(is_active=True).filter(profile__avatar='')
         pics = MediaFile.objects.filter(name__contains='avatar')
         for user in users:
             if pics.exists():
