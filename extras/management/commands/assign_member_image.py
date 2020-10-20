@@ -30,6 +30,7 @@ class Command(BaseCommand):
         for user in users:
             if pics.exists():
                 pic = pics.order_by('?')[0]
+                print(user, pic.image)
                 user.profile.avatar = pic.image 
                 user.profile.save()
         self.stdout.write(self.style.SUCCESS("UPDATED {}".format(users.count())))
