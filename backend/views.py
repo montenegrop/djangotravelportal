@@ -840,9 +840,8 @@ class TourOperatorClientReviewView(BackendTourOperatorRequiredLoginView, Templat
         page = self.request.GET.get('page', 1)
         tour_operator = self.request.user.profile.tour_operator
         context['to'] = tour_operator
-        total_tour_operator_reviews = TourOperatorReview.objects.filter(tour_operator=tour_operator,status=TourOperatorReview.ACTIVE).order_by('-date_created').count()
-        context['total_tour_operator_reviews'] = total_tour_operator_reviews
-        tour_operator_reviews = TourOperatorReview.objects.all().order_by('-date_created')
+        tour_operator_reviews = TourOperatorReview.objects.filter(tour_operator=tour_operator,status=TourOperatorReview.ACTIVE).order_by('-date_created')
+        context['total_tour_operator_reviews'] = tour_operator_reviews.count()
         paginator = Paginator(tour_operator_reviews, 10)
         try:
             context['paginator'] = paginator.page(page)
