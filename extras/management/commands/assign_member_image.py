@@ -12,7 +12,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.utils.timezone import make_aware
 from datetime import datetime
 from places.models import CountryIndex
-import numpy as np
 
 def nan_equal(a,b):
     try:
