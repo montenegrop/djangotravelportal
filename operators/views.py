@@ -641,9 +641,9 @@ class TourPackageView(TemplateView):
         for park in parks:
             lat += park.latitude
             lon += park.longitude
-
-        lat = str(lat/len(parks))
-        lon = str(lon/len(parks))
+        if len(parks) > 0:
+            lat = str(lat/len(parks))
+            lon = str(lon/len(parks))
 
         context['parks_data'] = serializers.serialize('json', itinerary.parks.all(),
                                                       fields=('name', 'name_short', 'latitude', 'longitude', 'slug'))
