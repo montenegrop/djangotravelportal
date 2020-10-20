@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.views.decorators.csrf import csrf_exempt
+
 
 app_name = "photos"
 
@@ -18,8 +20,8 @@ urlpatterns = [
     path('add-photos/<int:pk>/ack', views.PhotoAddAckView.as_view(), name='photos_ack'),
     path('add-photos/ack/<str:itinerary_slug>/', views.PhotoAddAckView.as_view(), name='photos_ack_itinerary'),
 
-    path('manage-photos/create', views.UserCreatePhotoView.as_view(), name='user_create_photo'),
-    path('manage-tp-photos/create/<slug:itinerary_slug>', views.UserCreatePhotoView.as_view(), name='tp_create_photo'),
+    path('manage-photos/create', csrf_exempt(views.UserCreatePhotoView.as_view()), name='user_create_photo', ),
+    #path('manage-tp-photos/create/<slug:itinerary_slug>', views.UserCreatePhotoView.as_view(), name='tp_create_photo'),
 
     path('load-ajax/<int:pk>/', views.PhotoLoadAjax.as_view(), name='photo_load_ajax'),
     path('animal/<slug:animal_slug>', views.PhotosView.as_view(), name='photos_animal'),

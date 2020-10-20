@@ -337,12 +337,12 @@ class PhotoAddView(TemplateView):
         return context
 
 
-@method_decorator(csrf_exempt, name='dispatch')
 @method_decorator(login_required, name='dispatch')
-class UserCreatePhotoView(TemplateView):
+@method_decorator(csrf_exempt, name='dispatch')
+class UserCreatePhotoView(APIView):
     template_name = "photos/add_photos.html"
 
-    def get_context_data(self, **kwargs):
+    def get(self, **kwargs):
         if 'pk' in kwargs:
             itinerary = Itinerary.objects.filter(pk=self.kwargs.get('pk'))
             itinerary = itinerary.filter(tour_operator=self.request.user.profile.tour_operator)
@@ -350,8 +350,7 @@ class UserCreatePhotoView(TemplateView):
 
         context = super().get_context_data(**kwargs)
         context['max_photo_count'] = 10
-
-        return context
+        render(request, self.template_name, context=context)
 
     def post(self, request, **kwargs):
         im = Image.open(request.FILES.get('file'))
@@ -391,7 +390,7 @@ class UserCreatePhotoView(TemplateView):
 
             photo.uuid = uuid4().hex
             photo.save()
-            return HttpResponse(photo.id)
+            return Response(photo.id)
 
 
 class PhotoAddAckView(TemplateView):

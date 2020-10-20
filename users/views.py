@@ -29,6 +29,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.http import Http404
 from django.db.models import Value
+from core.models import MediaFile
 import requests
 from django.utils.translation import ugettext as _
 from operators.models import TourOperator, Itinerary
@@ -95,7 +96,7 @@ def signup(request):
                         'serverError': 'Screen name cannot contain spaces'}
                 return JsonResponse(data)
 
-            if User.objects.filter(username=screen_name).exists():
+            if User.objects.filter(is_active=True).filter(username=screen_name).exists():
                 data = {'status': 'danger',
                         'serverError': 'Screen name already exists'}
                 return JsonResponse(data)
@@ -112,6 +113,11 @@ def signup(request):
             # user = authenticate(username=user.username, password=password)
             # login(request, user)
             user.profile.screen_name = screen_name
+
+            pics = MediaFile.objects.filter(name__contains='avatar')
+            if pics.exists():
+                pic = pics.order_by('?')[0]
+                user.profile.avatar = pic.image 
             user.profile.save()
 
             to_email = form.cleaned_data.get('email')

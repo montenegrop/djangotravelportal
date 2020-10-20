@@ -79,16 +79,18 @@ def photos_for_edit(self, context, tour_operator=None):
     else:
         page = 1
     user = self.request.user
-    photo_api_request = requests.post(self.request.build_absolute_uri(reverse('photos:api_photos')),
-                                      data={'username': user.username})
-
+    
     if tour_operator:
         photos = Photo.objects.filter(draft=False, date_deleted__isnull=True, tour_operator=tour_operator)
     else:
         photos = Photo.objects.filter(draft=False, date_deleted__isnull=True, user=user)
-    response = photo_api_request.json()
-    if 'photos_json' in response:
-        context['photos_json'] = response['photos_json']
+    
+    #photo_api_request = requests.post(self.request.build_absolute_uri(reverse('photos:api_photos')),
+    #                                  data={'username': user.username})#
+    
+    #response = photo_api_request.json()
+    #if 'photos_json' in response:
+    #    context['photos_json'] = response['photos_json']
 
     limit_1 = ((page - 1) * 21)
     limit_2 = limit_1 + 21
@@ -953,7 +955,7 @@ class TourOperatorRemovePackagesView(BackendTourOperatorRequiredLoginView, View)
 
 
 class TourOperatorPhotosView(BackendTourOperatorRequiredLoginView, TemplateView):
-    template_name = "backend"
+    template_name = "backend/tour_operator/photos.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
