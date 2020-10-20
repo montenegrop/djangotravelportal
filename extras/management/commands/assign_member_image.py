@@ -25,9 +25,6 @@ class Command(BaseCommand):
     help = 'Analyze itineraries'
 
     def handle(self, *args, **options):
-        if not settings.DEBUG:
-            self.stdout.write(self.style.ERROR("DEBUG is off"))
-            return
         users = User.objects.filter(is_active=True).filter(profile__avatar='')[:20]
         pics = MediaFile.objects.filter(name__contains='avatar')
         for user in users:
