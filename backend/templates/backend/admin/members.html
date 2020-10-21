@@ -25,7 +25,7 @@
           <div class="row">
 
             <div class="col">
-              {{ form.username | as_crispy_field}}
+              {{ form.search_by | as_crispy_field}}
             </div>
             <div class="col">
               {{ form.order_by | as_crispy_field}}
@@ -70,11 +70,30 @@
             <th>
               Username
             </th>
-            <th>Created</th>
-            <th>Email</th>
-            <th>Screen name</th>
-            <th>TO</th>
-            <th>Actions</th>
+            <th>
+              Email
+            </th>
+            <th>
+              Screen name
+            </th>
+            <th>
+              TO
+            </th>
+            <th>
+              Created
+            </th>
+            <th>
+              Active
+            </th>
+            <th>
+              Admin
+            </th>
+            <th>
+              Last seen
+            </th>
+            <th>
+              Actions
+            </th>
           </tr>
         </thead>
         {% for obj in paginator %}
@@ -86,9 +105,6 @@
               {{ obj.username }}
           </td>
           <td>
-            {{ obj.date_created|date:"d.M.Y" }}
-          </td>
-          <td>
             {{ obj.email }}
           </td>
           <td>
@@ -96,6 +112,18 @@
           </td>
           <td>
             {{ obj.profile.tour_operator }}
+          </td>
+          <td>
+            {{ obj.profile.date_created|date:"d.M.Y" }}
+          </td>
+          <td>
+            {{ obj.profile.date_deleted|yesno }}
+          </td>
+          <td>
+            {{ obj.is_staff|yesno }}
+          </td>
+          <td>
+            {{ obj.profile.last_seen|date:"d.M.Y" }}
           </td>
           <td>
             <a target='_blank'

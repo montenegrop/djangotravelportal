@@ -71,6 +71,7 @@ class UserProfile(models.Model):
     animals_seen = models.ManyToManyField('places.Animal', blank=True)
     activities_enjoy = models.ManyToManyField(
         'places.Activity', blank=True, related_name="activities_enjoy")
+    last_seen = models.DateTimeField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     date_deleted = models.DateTimeField(auto_now=True)
@@ -182,6 +183,8 @@ class UserProfile(models.Model):
 def set_last_seen(sender, user, request, **kwargs):
     if user.profile.is_tour_operator() and not len(request.session.get("exit_users_pk", default=[])):
         user.profile.tour_operator.last_seen = timezone.now()
+        user.profile.last_seen = timezone.now()
+        user.profile.save()
         user.profile.tour_operator.save()
 
 user_logged_in.connect(set_last_seen)

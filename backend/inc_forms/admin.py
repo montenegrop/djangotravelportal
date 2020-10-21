@@ -19,10 +19,10 @@ class TourOperatorFilterForm(forms.Form):
 
 class MemberFilterForm(forms.Form):
     ORDER_BY_CHOICES = (
-        ('-username', 'Name'),
-        ('username', 'Name reverse'),
+        ('-username', 'Username'),
+        ('username', 'Username reverse'),
     )
-    username = forms.CharField(widget=forms.TextInput(), required=False)
+    search_by = forms.CharField(widget=forms.TextInput(), required=False)
     order_by = forms.ChoiceField(
         choices=ORDER_BY_CHOICES,
         label='Order by',

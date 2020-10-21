@@ -7,6 +7,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
+from photos.models import Photo
+from django.db.models import Q
 
 class AdminRequiredLoginView(UserPassesTestMixin, LoginRequiredMixin):
 
@@ -52,9 +54,10 @@ class AdminMembersView(AdminRequiredLoginView, TemplateView):
         objs = User.objects.filter(is_active=True)
         # filter logic
         if 'form' in kwargs and kwargs['form']:
-            username = kwargs['form'].cleaned_data.get('username')
-            if username:
-                objs = objs.filter(username__lower__icontains=username.lower())
+            search_by = kwargs['form'].cleaned_data.get('search_by')
+            if search_by:
+
+                objs = objs.filter(Q(username__contains=search_by) | Q(email__contains=search_by) | Q(profile__screen_name__contains=search_by))
             order_by = kwargs['form'].cleaned_data.get('order_by')
             if order_by:
                 objs = objs.order_by(order_by)
