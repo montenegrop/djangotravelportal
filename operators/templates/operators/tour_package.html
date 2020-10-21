@@ -381,7 +381,7 @@
         <div>
           <h5 class="d-inline h5-sm">
             {% if not itinerary.max_price %}From{% endif %}
-            <h3 class="font-weight-bold d-inline h3-sm">{{ itinerary.price_display }}</h3>pp
+            <h3 class="d-inline h3-sm">{{ itinerary.price_display }}</h3>pp
           </h5>
         </div>
         {% endif %}
@@ -580,7 +580,7 @@
               <div class="card shadow-sm bg-white rounded mx-3 col-l mb-5" id="tourpackage-card-size">
                 <div>
                   <div class="container-fluid px-0 position-relative">
-                    <div class="row mb-n4">
+                    <div class="row mb-1">
                       <div id="tour-package-image" class="col-12">
                         <img src="{{ tour.image|thumbnail_url_:'card' }}" alt="Tour package image">
                       </div>
@@ -626,7 +626,7 @@
                         {{ tour.safari_focus_activity }}</p>
                     </div>
                   </div>
-                  <div class="row justify-content-center mt-3 mb-2">
+                  <div class="row justify-content-center mt-2">
                     <a class="btn btn-orange-secondary font-14 py-1 mb-3" role="button"
                       href="{% url 'tour_package' pk=tour.id slug=tour.id %}">Learn
                       more
