@@ -1,6 +1,6 @@
 Vue.component('star-rating', VueStarRating.default);
 Vue.use(window.vuelidate.default);
-const {required, minLength, email, sameAs, alphaNum, helpers, requiredIf, minValue, maxLength} = window.validators;
+const { required, minLength, email, sameAs, alphaNum, helpers, requiredIf, minValue, maxLength } = window.validators;
 
 var reviews_create_app = new Vue({
     delimiters: ['[[', ']]'],
@@ -118,11 +118,11 @@ var reviews_create_app = new Vue({
                 .then(response => {
                     this.serverError = null;
                     if (response.data.status === 'success') {
-			if (this.like_upload_photos) {
-                            document.location.href = "/reviews/park/manage-photos/" + response.data.review_park;
-			} else {
-			    document.location.href = "/reviews/create/park/" + response.data.review_park + "/ack";
-			}
+                        if (this.like_upload_photos) {
+                            document.location.href = "/photos/add-photos/?to=0&park=" + response.data.review_park;
+                        } else {
+                            document.location.href = "/reviews/create/park/" + response.data.review_park + "/ack";
+                        }
                     } else {
                         this.isLoading = false;
                         if (response.data.serverError) {

@@ -19,6 +19,7 @@ from datetime import datetime
 from django.contrib.contenttypes.models import ContentType
 import random
 import json
+from reviews.models import ParkReview, TourOperatorReview
 from django.forms.models import model_to_dict
 from django.shortcuts import render, get_object_or_404
 from core.utils import get_thumbnailer_
@@ -291,6 +292,13 @@ class PhotoSaveView(TemplateView):
         for photoId in photos:
             photo = Photo.objects.get(id=photoId)
             photo.draft = False
+               
+            if 'park' in data:
+                park_review = ParkReview.objects.get(pk=data.__getitem__('park_review'))
+                photo.park_review = park_review
+            if 'tour_operator' in data:
+                tour_operator_review = TourOperatorReview.objects.get(pk=data.__getitem__('tour_operator_review'))
+                photo.tour_operator_review = tour_operator_review
             photo.caption = data.__getitem__('caption_' + photoId)
             photo.country_index = CountryIndex.objects.get(
                 id=int(data.__getitem__('country_index_' + photoId))) if data.__getitem__(
@@ -324,6 +332,13 @@ class PhotoAddView(TemplateView):
         context = super().get_context_data(**kwargs)
         if self.request.GET.get('to', ''):
             context['is_to'] = int(self.request.GET.get('to', ''))
+        
+        if 'park' in self.request.GET:
+            park_review = ParkReview.objects.get(pk=self.request.GET.get('park'))
+            context['park_review'] = park_review
+        if 'tour_operator' in self.request.GET:
+            tour_operator_review = TourOperatorReview.objects.get(pk=self.request.GET.get('tour_operator'))
+            context['tour_operator_review'] = tour_operator_review
 
         context['country_indexes'] = CountryIndex.objects.all()
         context['activities'] = Activity.objects.filter(activity_type="SAFARI")
@@ -343,12 +358,12 @@ class UserCreatePhotoView(APIView):
     template_name = "photos/add_photos.html"
 
     def get(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         if 'pk' in kwargs:
             itinerary = Itinerary.objects.filter(pk=self.kwargs.get('pk'))
             itinerary = itinerary.filter(tour_operator=self.request.user.profile.tour_operator)
             itinerary = itinerary.first()
 
-        context = super().get_context_data(**kwargs)
         context['max_photo_count'] = 10
         render(request, self.template_name, context=context)
 

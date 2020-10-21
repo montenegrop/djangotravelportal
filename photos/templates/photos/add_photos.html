@@ -114,6 +114,9 @@
 
               <form id="form_send_photos">
                 {% csrf_token %}
+                <input type="hidden" name="park_review" value="{{park_review.pk}}">
+                <input type="hidden" name="tour_operator_review" value="{{tour_operator_review.pk}}">
+                
                 <div id="photo_card_anchor"></div>
 
                 {% if edit_photo_id == 0 %}
@@ -531,6 +534,7 @@ $.ajaxSetup({
         $("#mandatory-fields").show();
       }
     } else {
+        
       $.ajax({
         url: "/photos/save-photos/",
         method: 'POST',
@@ -539,7 +543,7 @@ $.ajaxSetup({
           {% if is_to %}
           window.location.href = "{% url 'photos:photos_ack' pk=user.id  %}?to=1";
           {% else %}
-                            window.location.href = "{% url 'photos:photos_ack' pk=user.id %}?to=0";
+          window.location.href = "{% url 'photos:photos_ack' pk=user.id %}?to=0";
       {% endif %}
 
     }

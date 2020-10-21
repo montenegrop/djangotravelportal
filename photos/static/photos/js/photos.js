@@ -94,7 +94,6 @@ var photos_app = new Vue({
                 this.no_results = false;
             }
             this.photos_json = response.data.photos_json;
-            console.log(this.photos_json)
             this.page_count = response.data.page_count;
             this.photos_count = response.data.photos_count;
             this.isLoading = false;

@@ -86,6 +86,7 @@ class EmailTemplateForm(forms.ModelForm):
 class TourOperatorReviewForm(forms.ModelForm):
     parks = ParksMultipleChoiceField(
         queryset=Park.objects.all().order_by('name_short'),
+        required=False,
         widget=forms.CheckboxSelectMultiple)
     animals = forms.ModelMultipleChoiceField(
         queryset=Animal.objects.all().order_by('name'),
@@ -96,7 +97,8 @@ class TourOperatorReviewForm(forms.ModelForm):
         widget=forms.CheckboxSelectMultiple,
         required=False)
     content = forms.CharField(widget=forms.Textarea(attrs={'rows': '20'}),required=True)
-
+    pearls_of_wisdom = forms.CharField(required=True)
+    did_not_go = forms.BooleanField(required=False)
     friend_recommend = forms.BooleanField(required=False)
     overall_rating = forms.IntegerField()
     meet_and_greet_rating = forms.IntegerField()
@@ -109,19 +111,7 @@ class TourOperatorReviewForm(forms.ModelForm):
 
     class Meta:
         model = TourOperatorReview
-        fields = ('title','content','animals',
-        'activities','parks',
-        'friend_recommend', 
-        'overall_rating',
-        'meet_and_greet_rating','responsiveness_rating',
-        'safari_quality_rating','itinerary_quality_rating',
-        'overall_rating','vehicle_rating',
-        'status', 'reject_reason',)
-
-
-
-
-
+        fields = '__all__'
 
 
 class QuoteRequestFilterForm(forms.Form):

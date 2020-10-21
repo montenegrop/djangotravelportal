@@ -34,6 +34,70 @@
             class="textinput textInput form-control" required="" id="id_park">
         </div>
       </div>
+
+      <div id="div_id_park" class="form-group">
+        <label for="id_park" class="requiredField">
+          Date created
+        </label>
+        <div class="">
+          <input type="text" name="nothing" value="{{ review.date_created }}" readonly="readonly"
+            class="textinput textInput form-control" required="" id="id_park">
+        </div>
+      </div>
+
+      <div id="div_id_park" class="form-group">
+        <label for="id_park" class="requiredField">
+          User
+        </label>
+        <div class="">
+          <input type="text" name="nothing" value="{{ review.user }}" readonly="readonly"
+            class="textinput textInput form-control" required="" id="id_park">
+        </div>
+      </div>
+      <div id="div_id_park" class="form-group">
+        <label for="id_park" class="requiredField">
+          IP
+        </label>
+        <div class="">
+          <input type="text" name="nothing" value="{{ review.ip_address }}" readonly="readonly"
+            class="textinput textInput form-control" required="" id="id_park">
+        </div>
+      </div>
+      <div id="div_id_park" class="form-group">
+        <label for="id_park" class="requiredField">
+          Country written
+        </label>
+        <div class="">
+          <input type="text" name="nothing" value="{{ review.country_written }}" readonly="readonly"
+            class="textinput textInput form-control" required="" id="id_park">
+        </div>
+      </div>
+      <div id="div_id_park" class="form-group">
+        <label for="id_park" class="requiredField">
+          Did not go
+        </label>
+        <div class="">
+          <input type="text" name="nothing" value="{{ review.did_not_go|yesno }}" readonly="readonly"
+            class="textinput textInput form-control" required="" id="id_park">
+        </div>
+      </div>
+      
+      {{ form.title|as_crispy_field }}
+      {{ form.slug|as_crispy_field }}
+      {{ form.content|as_crispy_field }}
+      {{ form.summary|as_crispy_field }}
+      {{ form.friend_recommend|as_crispy_field }}
+      {{ form.overall_rating|as_crispy_field }}
+      
+      {% if not review.did_not_go %}
+        {{ form.pearls_of_wisdom|as_crispy_field }}
+      {% endif %}
+      
+
+      
+      {{ form.rejection_text|as_crispy_field }}
+      {{ form.status|as_crispy_field }}
+
       {{ form|crispy }}
 
       <hr>

@@ -232,7 +232,7 @@ var reviews_create_app = new Vue({
                     this.serverError = null;
                     if (response.data.status === 'success') {
                         if (this.like_upload_photos) {
-                            document.location.href = "/reviews/tour-operator/manage-photos/" + response.data.review_tour_operator;
+                            document.location.href = "/photos/add-photos/?to=0&tour_operator=" + response.data.review_tour_operator;
                         } else {
                             document.location.href = "/reviews/create/tour-operator/" + response.data.review_tour_operator + "/ack";
                         }
