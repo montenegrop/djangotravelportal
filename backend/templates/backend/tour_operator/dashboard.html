@@ -59,7 +59,7 @@
  {% include  'backend/tour_operator/widgets/visits.html' %} 
 </div>-->
 
-{% if worldtable|length != 0 %}
+{% comment %} {% if worldtable|length != 0 %} {% endcomment %}
 <div class="row max-width-admin" style="right:0;">
   <div class="col-md-12">
     <div class="card ">
@@ -68,14 +68,17 @@
       </div>
       <div class="card-body ">
         <div class="row">
+
           {% include  'backend/tour_operator/widgets/geo_breakdown.html' %}
+          {% comment %} {% include  'backend/tour_operator/widgets/geo_breakdown.html' %} {% endcomment %}
           {% include  'backend/tour_operator/widgets/worldmap.html' %}
+
         </div>
       </div>
     </div>
   </div>
 </div>
-{% endif %}
+{% comment %} {% endif %} {% endcomment %}
 <script>
   $(".nav-link.dashboard").addClass("active")
 </script>
