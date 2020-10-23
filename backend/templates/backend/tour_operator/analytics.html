@@ -160,7 +160,6 @@
     </div>
   </div>
 </div>
-{% if worldtable %}
 <div class="row max-width-admin">
   <div class="col-12" id="top-county-anchor">
     <div class="card ">
@@ -179,6 +178,8 @@
                 </thead>
                 <tbody>
 
+                {% if worldtable %}
+
                   {% for country in worldtable %}
                   <tr>
                     <td class="py-1">
@@ -196,6 +197,25 @@
                   </tr>
                   {% endfor %}
 
+                {% else %}
+                  <tr>
+                    <td>
+                      <div>
+                        <img class="flag-big">
+                      </div>
+                    </td>
+                    <td>
+                      no data
+                    </td>
+                    <td class="text-right">
+                      0
+                    </td>
+                    <td class="text-right">
+                      100%
+                    </td>
+                  </tr>
+                {% endif %}
+
                 </tbody>
               </table>             
             </div>
@@ -208,7 +228,6 @@
     </div>
   </div>
 </div>
-{% endif %}
 <div class="row max-width-admin" id="top-package-anchor">
   <div class="col-md-6">
     <div class="card table-striped">
