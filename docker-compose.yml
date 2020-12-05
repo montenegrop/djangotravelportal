@@ -9,15 +9,15 @@ services:
       - 3306:3306
     volumes:
       - mysql_db_data_container:/var/lib/mysql
-  phpmyadmin_container:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: mysql_db_container
-      MYSQL_ROOT_PASSWORD: rootpassword
-      UPLOAD_LIMIT: 3000000000
-    ports:
-      - 8080:80
-    restart: always
+  # phpmyadmin_container:
+  #   image: phpmyadmin/phpmyadmin
+  #   environment:
+  #     PMA_HOST: mysql_db_container
+  #     MYSQL_ROOT_PASSWORD: rootpassword
+  #     UPLOAD_LIMIT: 3000000000
+  #   ports:
+  #     - 8080:80
+  #   restart: always
 
 volumes:
   mysql_db_data_container:
